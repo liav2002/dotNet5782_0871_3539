@@ -8,7 +8,8 @@ namespace Targil0
         {
             Welcome0871();
         }
-        
+
+        static partial void Welcome3539();
         private static void Welcome0871()
         {
             Console.Write("Enter your name: ");
