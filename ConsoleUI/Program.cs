@@ -17,7 +17,8 @@ namespace ConsoleUI
         BaseStation = '1',
         Drone,
         Costumer,
-        Paracel
+        Paracel,
+        Back
     }
 
     enum UpdateOptionsE
@@ -26,7 +27,8 @@ namespace ConsoleUI
         ParacelCollection,
         ParacelDelivered,
         SendDroneToCharge,
-        ReleaseDroneFromCharge
+        ReleaseDroneFromCharge,
+        Back
     }
 
     enum DisplayOptionsE
@@ -34,7 +36,8 @@ namespace ConsoleUI
         BaseStation = '1',
         Drone,
         Costumer,
-        Paracel
+        Paracel,
+        Back
     }
 
     enum ListViewOptionsE
@@ -44,7 +47,8 @@ namespace ConsoleUI
         Costumers,
         Paracels,
         UnassignParacels,
-        AvaliableBaseStations
+        AvaliableBaseStations,
+        Back
     }
 
     class Program
@@ -100,6 +104,7 @@ namespace ConsoleUI
                     default:
                         {
                             Console.WriteLine("ERROR: Invalid Choice.\n");
+                            pause();
                             break;
                         }
                 }
@@ -264,9 +269,15 @@ namespace ConsoleUI
                         break;
                     }
 
+                case InsertOptionsE.Back:
+                    {
+                        break;
+                    }
+
                 default:
                     {
                         Console.WriteLine("ERROR: Invalid Choice.\n");
+                        pause();
                         break;
                     }
             }
@@ -405,9 +416,15 @@ namespace ConsoleUI
                         break;
                     }
 
+                case UpdateOptionsE.Back:
+                    {
+                        break;
+                    }
+
                 default:
                     {
                         Console.WriteLine("ERROR: Invalid Choice.\n");
+                        pause();
                         break;
                     }
             }
@@ -531,9 +548,15 @@ namespace ConsoleUI
                         break;
                     }
 
+                case DisplayOptionsE.Back:
+                    {
+                        break;
+                    }
+
                 default:
                     {
                         Console.WriteLine("ERROR: Invalid Choice.\n");
+                        pause();
                         break;
                     }
             }
@@ -698,9 +721,15 @@ namespace ConsoleUI
                         break;
                     }
 
+                case ListViewOptionsE.Back:
+                    {
+                        break;
+                    }
+
                 default:
                     {
                         Console.WriteLine("ERROR: Invalid Choice.\n");
+                        pause();
                         break;
                     }
             }
@@ -745,6 +774,7 @@ namespace ConsoleUI
             Console.WriteLine("2. Add new drone.");
             Console.WriteLine("3. Add new costumer.");
             Console.WriteLine("4. Add new paracel.");
+            Console.WriteLine("5. Back.");
 
             userChoice = Console.ReadLine()[0];
 
@@ -768,6 +798,7 @@ namespace ConsoleUI
             Console.WriteLine("3. Delivery paracel to Costumer.");
             Console.WriteLine("4. Sending a drone for charging at a base station.");
             Console.WriteLine("5. Release drone from charging at base station.");
+            Console.WriteLine("6. Back.");
 
             userChoice = Console.ReadLine()[0];
 
@@ -790,6 +821,7 @@ namespace ConsoleUI
             Console.WriteLine("2. Drone view. (by unique id).");
             Console.WriteLine("3. Costumer view. (by unique id).");
             Console.WriteLine("4. Paracel view. (by unique id).");
+            Console.WriteLine("5. Back.");
 
             userChoice = Console.ReadLine()[0];
 
@@ -814,6 +846,7 @@ namespace ConsoleUI
             Console.WriteLine("4. Display a list of paracels.");
             Console.WriteLine("5. Displays a list of paracels that have not yet been assigned to a drone.");
             Console.WriteLine("6. Display of base stations with available charging stations.");
+            Console.WriteLine("7. Back.");
 
 
             userChoice = Console.ReadLine()[0];
