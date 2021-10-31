@@ -18,16 +18,9 @@ namespace DalObject
         */
         public bool AddStation(int id, string name, double longitude, double latitude, int charge_solts)
         {
-            IDAL.DO.Station station = new IDAL.DO.Station(id, name, longitude, latitude, charge_solts);
-
-            if (DataSource.Config.indexStation >= DataSource.stations.Length) return false;
-
-            for (int i = 0; i < DataSource.Config.indexStation; ++i)
+            foreach (var station in DataSource.stations)
             {
-                if (DataSource.stations[i].Id == id)
-                {
-                    return false;
-                }
+                if (station.Id == id) { return false; }
             }
 
             if (id < 0 || charge_solts < 0)
@@ -35,7 +28,7 @@ namespace DalObject
                 return false;
             }
 
-            DataSource.stations[DataSource.Config.indexStation++] = station;
+            DataSource.stations.Add(new IDAL.DO.Station(id, name, longitude, latitude, charge_solts));
 
             return true;
         }
@@ -47,26 +40,20 @@ namespace DalObject
         */
         public bool AddDrone(int id, string model, int maxWeight, int status, double battery)
         {
-            IDAL.DO.Drone drone = new IDAL.DO.Drone(id, model, (IDAL.DO.WeightCategories)maxWeight,
-                (IDAL.DO.DroneStatuses)status, battery);
-
-            if (DataSource.Config.indexDrone >= DataSource.drones.Length) return false;
-
-            for (int i = 0; i < DataSource.Config.indexDrone; ++i)
+            foreach (var drone in DataSource.drones)
             {
-                if (DataSource.drones[i].Id == id)
-                {
-                    return false;
-                }
+                if (drone.Id == id) { return false; }
             }
 
-            if (id < 0 || battery < 0 || battery > 100) return false;
+            if (id < 0 || battery < 0 || battery > 100) { return false; }
 
-            if (maxWeight < 0 || maxWeight > 2) return false;
+            if (maxWeight < 0 || maxWeight > 2) { return false; }
 
             if (status < 0 || status > 2) return false;
 
-            DataSource.drones[DataSource.Config.indexDrone++] = drone;
+            DataSource.drones.Add(new IDAL.DO.Drone(id, model, (IDAL.DO.WeightCategories)maxWeight,
+                (IDAL.DO.DroneStatuses)status, battery));
+
             return true;
         }
 
@@ -77,21 +64,14 @@ namespace DalObject
         */
         public bool AddCostumer(int id, string name, string phone, double longitude, double latitude)
         {
-            IDAL.DO.Costumer costumer = new IDAL.DO.Costumer(id, name, phone, longitude, latitude);
-
-            if (DataSource.Config.indexCostumer >= DataSource.costumers.Length) return false;
-
-            for (int i = 0; i < DataSource.Config.indexCostumer; ++i)
+            foreach (var costumer in DataSource.costumers)
             {
-                if (DataSource.costumers[i].Id == id)
-                {
-                    return false;
-                }
+                if (costumer.Id == id) { return false; }
             }
 
-            if (id < 0) return false;
+            if (id < 0) { return false; }
 
-            DataSource.costumers[DataSource.Config.indexCostumer++] = costumer;
+            DataSource.costumers.Add(new IDAL.DO.Costumer(id, name, phone, longitude, latitude));
 
             return true;
         }
@@ -104,12 +84,13 @@ namespace DalObject
         public bool AddParcel(int id, int senderId, int targetId, int weight, int priority, DateTime requested,
             int droneId, DateTime scheduled, DateTime pickedUp, DateTime delivered)
         {
-            IDAL.DO.Parcel parcel = new IDAL.DO.Parcel(id, senderId, targetId, (IDAL.DO.WeightCategories)weight,
-                (IDAL.DO.Priorities)priority, requested,
-                droneId, scheduled, pickedUp, delivered);
+            foreach (var parcel in DataSource.parcels)
+            {
+                if (parcel.Id == id) { return false; }
+            }
 
-            if (DataSource.Config.indexParcel >= DataSource.parcels.Length) return false;
             if (targetId == senderId) return false;
+
             if (0 > targetId || 0 > senderId) return false;
 
             try
@@ -117,22 +98,17 @@ namespace DalObject
                 _getCostumerById(senderId);
                 _getCostumerById(targetId);
             }
+
             catch (Exception e)
             {
                 return false;
             }
 
-            for (int i = 0; i < DataSource.Config.indexParcel; ++i)
-            {
-                if (DataSource.parcels[i].Id == id)
-                {
-                    return false;
-                }
-            }
-
             if (id < 0) return false;
 
-            DataSource.parcels[DataSource.Config.indexParcel++] = parcel;
+            DataSource.parcels.Add(new IDAL.DO.Parcel(id, senderId, targetId, (IDAL.DO.WeightCategories)weight,
+                (IDAL.DO.Priorities)priority, requested,
+                droneId, scheduled, pickedUp, delivered));
 
             return true;
         }
@@ -146,24 +122,26 @@ namespace DalObject
         public bool AssignParcelToDrone(int id)
         {
             IDAL.DO.Parcel parcel;
+
             try
             {
                 parcel = _getParcelById(id);
             }
+
             catch (ArgumentException e)
             {
                 return false;
             }
 
-            for (int i = 0; i < DataSource.Config.indexDrone; i++)
+            foreach (var drone in DataSource.drones)
             {
-                if (DataSource.drones[i].Status == IDAL.DO.DroneStatuses.Available && // if the drone its avalible
-                    (int)DataSource.drones[i].MaxWeight >=
+                if (drone.Status == IDAL.DO.DroneStatuses.Available && // if the drone its avalible
+                    (int)drone.MaxWeight >=
                     (int)parcel.Weight) // and the drone maxWeight is qual or bigger to the parcel weight
                 {
                     parcel.Scheduled = DateTime.Now;
-                    parcel.DroneId = DataSource.drones[i].Id;
-                    DataSource.drones[i].Status = IDAL.DO.DroneStatuses.Shipping;
+                    parcel.DroneId = drone.Id;
+                    drone.Status = IDAL.DO.DroneStatuses.Shipping;
                     return true;
                 }
             }
@@ -181,6 +159,7 @@ namespace DalObject
         public bool ParcelCollection(int id)
         {
             IDAL.DO.Parcel parcel;
+
             try
             {
                 parcel = _getParcelById(id);
@@ -191,6 +170,7 @@ namespace DalObject
             }
 
             parcel.PickedUp = DateTime.Now;
+
             return true;
         }
 
@@ -203,6 +183,7 @@ namespace DalObject
         {
             IDAL.DO.Parcel parcel;
             IDAL.DO.Drone drone;
+
             try
             {
                 parcel = _getParcelById(id);
@@ -235,6 +216,7 @@ namespace DalObject
         {
             IDAL.DO.Drone drone;
             IDAL.DO.Station station;
+
             try
             {
                 station = _getStationById(stationId);
@@ -245,7 +227,7 @@ namespace DalObject
                 return false;
             }
 
-            if (station.ChargeSolts <= 0) return false;
+            if (station.ChargeSolts <= 0) { return false; }
 
             station.ChargeSolts--;
             IDAL.DO.DroneCharge dc = new IDAL.DO.DroneCharge(drone.Id, station.Id);
@@ -265,6 +247,7 @@ namespace DalObject
             IDAL.DO.DroneCharge dc;
             IDAL.DO.Drone drone;
             IDAL.DO.Station station;
+
             try
             {
                 dc = _getDroneChargeByDroneId(droneId);
@@ -294,79 +277,71 @@ namespace DalObject
 
         public IDAL.DO.Parcel _getParcelById(int id)
         {
-            for (int i = 0; i < DataSource.Config.indexParcel; i++)
-                if (DataSource.parcels[i].Id == id)
-                    return DataSource.parcels[i];
+            foreach (var parcel in DataSource.parcels)
+                if (parcel.Id == id) { return parcel; }
             throw new ArgumentException("Id not found");
         }
 
         public IDAL.DO.Costumer _getCostumerById(int id)
         {
-            for (int i = 0; i < DataSource.Config.indexCostumer; i++)
-                if (DataSource.costumers[i].Id == id)
-                    return DataSource.costumers[i];
+            foreach (var costumer in DataSource.costumers)
+                if (costumer.Id == id) { return costumer; }
             throw new ArgumentException("Id not found");
         }
 
         public IDAL.DO.Station _getStationById(int id)
         {
-            for (int i = 0; i < DataSource.Config.indexStation; i++)
-                if (DataSource.stations[i].Id == id)
-                    return DataSource.stations[i];
+            foreach (var station in DataSource.stations)
+                if (station.Id == id) { return station; }
             throw new ArgumentException("Id not found");
         }
 
         public IDAL.DO.Drone _getDroneById(int id)
         {
-            for (int i = 0; i < DataSource.Config.indexDrone; i++)
-                if (DataSource.drones[i].Id == id)
-                    return DataSource.drones[i];
+            foreach (var drone in DataSource.drones)
+                if (drone.Id == id) { return drone; }
             throw new ArgumentException("Id not found");
         }
 
         public IDAL.DO.DroneCharge _getDroneChargeByDroneId(int id)
         {
-            foreach (IDAL.DO.DroneCharge dc in DataSource.droneCharge)
-            {
-                if (dc.DroneId == id)
-                    return dc;
-            }
-
+            foreach (var dc in DataSource.droneCharge)
+                if (dc.DroneId == id) { return dc; }
             throw new ArgumentException("Id not found");
         }
 
-        public IDAL.DO.Station _getStationByIndex(int i)
-        {
-            if (i < 0 || i >= DataSource.Config.indexStation) { throw new ArgumentException("Wrong index."); } 
-            return DataSource.stations[i];
-        }
+        //public IDAL.DO.Station _getStationByIndex(int i)
+        //{
+        //    if (i < 0 || i >= DataSource.stations.Count) { throw new ArgumentException("Wrong index."); } 
+        //    return DataSource.stations[i];
+        //}
 
-        public IDAL.DO.Costumer _getCostumerByIndex(int i)
-        {
-            if (i < 0 || i >= DataSource.Config.indexCostumer) { throw new ArgumentException("Wrong index."); }
-            return DataSource.costumers[i];
-        }
+        //public IDAL.DO.Costumer _getCostumerByIndex(int i)
+        //{
+        //    if (i < 0 || i >= DataSource.costumers.Count) { throw new ArgumentException("Wrong index."); }
+        //    return DataSource.costumers[i];
+        //}
 
-        public IDAL.DO.Parcel _getParcelByIndex(int i)
-        {
-            if (i < 0 || i >= DataSource.Config.indexParcel) { throw new ArgumentException("Wrong index."); }
-            return DataSource.parcels[i];
-        }
+        //public IDAL.DO.Parcel _getParcelByIndex(int i)
+        //{
+        //    if (i < 0 || i >= DataSource.parcels.Count) { throw new ArgumentException("Wrong index."); }
+        //    return DataSource.parcels[i];
+        //}
 
-        public IDAL.DO.Drone _getDroneByIndex(int i)
-        {
-            if (i < 0 || i >= DataSource.Config.indexDrone) { throw new ArgumentException("Wrong index."); }
-            return DataSource.drones[i];
-        }
+        //public IDAL.DO.Drone _getDroneByIndex(int i)
+        //{
+        //    if (i < 0 || i >= DataSource.drones.Count) { throw new ArgumentException("Wrong index."); }
+        //    return DataSource.drones[i];
+        //}
 
-        public int _getIndexStaion() { return DataSource.Config.indexStation; }
+        public List<IDAL.DO.Station> _getStationList() { return DataSource.stations; }
 
-        public int _getIndexCostumer() { return DataSource.Config.indexCostumer; }
+        public List<IDAL.DO.Costumer> _getCostumerList() { return DataSource.costumers; }
 
-        public int _getIndexParcel() { return DataSource.Config.indexParcel; }
+        public List<IDAL.DO.Parcel> _getParceList() { return DataSource.parcels; }
 
-        public int _getIndexDrone() { return DataSource.Config.indexDrone; }
+        public List<IDAL.DO.Drone> _getDroneList() { return DataSource.drones; }
 
-        public Queue<IDAL.DO.Parcel> _getWaitingParcels(){ return DataSource.waitingParcels; }
+        public Queue<IDAL.DO.Parcel> _getWaitingParcels() { return DataSource.waitingParcels; }
     }
 }

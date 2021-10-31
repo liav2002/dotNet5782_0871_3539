@@ -6,7 +6,7 @@ namespace IDAL
 {
     namespace DO
     {
-        public struct Drone
+        public class Drone
         {
             public DateTime RandomDay()
             {

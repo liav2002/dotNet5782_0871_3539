@@ -531,9 +531,9 @@ namespace ConsoleUI
                     {
                         try
                         {
-                            for (int i = 0; i < dalObj._getIndexStaion(); i++)
+                            foreach(var station in dalObj._getStationList())
                             {
-                                Console.WriteLine(dalObj._getStationByIndex(i));
+                                Console.WriteLine(station);
                             }
 
                             Console.WriteLine("Success.\n");
@@ -553,9 +553,9 @@ namespace ConsoleUI
                     {
                         try
                         {
-                            for (int i = 0; i < dalObj._getIndexDrone(); i++)
+                            foreach(var drone in dalObj._getDroneList())
                             {
-                                Console.WriteLine(dalObj._getDroneByIndex(i));
+                                Console.WriteLine(drone);
                             }
 
                             Console.WriteLine("Success.\n");
@@ -575,9 +575,9 @@ namespace ConsoleUI
                     {
                         try
                         {
-                            for (int i = 0; i < dalObj._getIndexCostumer(); i++)
+                            foreach(var costumer in dalObj._getCostumerList())
                             {
-                                Console.WriteLine(dalObj._getCostumerByIndex(i));
+                                Console.WriteLine(costumer);
                             }
 
                             Console.WriteLine("Success.\n");
@@ -597,9 +597,9 @@ namespace ConsoleUI
                     {
                         try
                         {
-                            for (int i = 0; i < dalObj._getIndexParcel(); i++)
+                            foreach(var parcel in dalObj._getParceList())
                             {
-                                Console.WriteLine(dalObj._getParcelByIndex(i));
+                                Console.WriteLine(parcel);
                             }
 
                             Console.WriteLine("Success.\n");
@@ -652,10 +652,9 @@ namespace ConsoleUI
                     {
                         try
                         {
-                            for (int i = 0; i < dalObj._getIndexStaion(); i++)
+                            foreach(var station in dalObj._getStationList())
                             {
-                                if (dalObj._getStationByIndex(i).ChargeSolts >= 1)
-                                    Console.WriteLine(dalObj._getStationByIndex(i));
+                                if (station.ChargeSolts >= 1) { Console.WriteLine(station); }
                             }
 
                             Console.WriteLine("Success.\n");

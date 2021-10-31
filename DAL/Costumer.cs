@@ -4,7 +4,7 @@ namespace IDAL
 {
     namespace DO
     {
-        public struct Costumer 
+        public class Costumer 
         { 
             private int _id;
             private string _name;   

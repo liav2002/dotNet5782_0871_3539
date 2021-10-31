@@ -6,7 +6,7 @@ namespace IDAL
 {
     namespace DO
     {
-        public struct Parcel
+        public class Parcel
         {
             private int _id;
             private int _senderId;
