@@ -136,15 +136,17 @@ namespace ConsoleUI
                         Console.WriteLine("Charge's Slots: ");
                         chargeSlots = Convert.ToInt32(Console.ReadLine());
 
-                        if (dalObj.AddStation(id, name, longitude, lattitude, chargeSlots))
+                        try
                         {
+                            dalObj.AddStation(id, name, longitude, lattitude, chargeSlots);
                             Console.WriteLine("Success.\n");
                             pause();
                         }
 
-                        else
+                        catch(Exception e)
                         {
                             Console.WriteLine("Failed.\n");
+                            Console.WriteLine(e.Message);
                             pause();
                         }
 
@@ -172,15 +174,17 @@ namespace ConsoleUI
                         Console.WriteLine("Battery: ");
                         battery = Convert.ToDouble(Console.ReadLine());
 
-                        if (dalObj.AddDrone(id, model, maxWeight, status, battery))
+                        try
                         {
+                            dalObj.AddDrone(id, model, maxWeight, status, battery);
                             Console.WriteLine("Success.\n");
                             pause();
                         }
 
-                        else
+                        catch(Exception e)
                         {
                             Console.WriteLine("Failed.\n");
+                            Console.WriteLine(e.Message);
                             pause();
                         }
 
@@ -208,15 +212,17 @@ namespace ConsoleUI
                         Console.WriteLine("Lattitude: ");
                         lattitude = Convert.ToDouble(Console.ReadLine());
 
-                        if (dalObj.AddCostumer(id, name, phone, longitude, lattitude))
+                        try
                         {
+                            dalObj.AddCostumer(id, name, phone, longitude, lattitude);
                             Console.WriteLine("Success.\n");
                             pause();
                         }
 
-                        else
+                        catch(Exception e)
                         {
                             Console.WriteLine("Failed.\n");
+                            Console.WriteLine(e.Message);
                             pause();
                         }
 
@@ -241,15 +247,17 @@ namespace ConsoleUI
                         Console.WriteLine("Priority (0 - Regular, 1 - Fast, 2 - Emergency): ");
                         priority = Convert.ToInt32(Console.ReadLine());
 
-                        if (dalObj.AddParcel(id, senderId, targetId, weight, priority, requested, droneId, scheduled, pickedUp, delivered))
+                        try
                         {
+                            dalObj.AddParcel(id, senderId, targetId, weight, priority, requested, droneId, scheduled, pickedUp, delivered);
                             Console.WriteLine("Success.\n");
                             pause();
                         }
 
-                        else
+                        catch(Exception e)
                         {
                             Console.WriteLine("Failed.\n");
+                            Console.WriteLine(e.Message);
                             pause();
                         }
 
@@ -281,15 +289,17 @@ namespace ConsoleUI
                         Console.WriteLine("Enter paracel's id: ");
                         paracelId = Convert.ToInt32(Console.ReadLine());
 
-                        if (dalObj.AssignParcelToDrone(paracelId))
+                        try
                         {
+                            dalObj.AssignParcelToDrone(paracelId);
                             Console.WriteLine("Success.\n");
                             pause();
                         }
 
-                        else
+                        catch(Exception e)
                         {
                             Console.WriteLine("Failed.\n");
+                            Console.WriteLine(e.Message);
                             pause();
                         }
 
@@ -303,15 +313,17 @@ namespace ConsoleUI
                         Console.WriteLine("Enter paracel's id: ");
                         paracelId = Convert.ToInt32(Console.ReadLine());
 
-                        if (dalObj.ParcelCollection(paracelId))
+                        try
                         {
+                            dalObj.ParcelCollection(paracelId);
                             Console.WriteLine("Success.\n");
                             pause();
                         }
 
-                        else
+                        catch(Exception e)
                         {
                             Console.WriteLine("Failed.\n");
+                            Console.WriteLine(e.Message);
                             pause();
                         }
 
@@ -325,15 +337,17 @@ namespace ConsoleUI
                         Console.WriteLine("Enter paracel's id: ");
                         paracelId = Convert.ToInt32(Console.ReadLine());
 
-                        if (dalObj.ParcelDelivered(paracelId))
+                        try
                         {
+                            dalObj.ParcelDelivered(paracelId);
                             Console.WriteLine("Success.\n");
                             pause();
                         }
 
-                        else
+                        catch(Exception e)
                         {
                             Console.WriteLine("Failed.\n");
+                            Console.WriteLine(e.Message);
                             pause();
                         }
 
@@ -350,15 +364,17 @@ namespace ConsoleUI
                         Console.WriteLine("Enter station's id: ");
                         stationId = Convert.ToInt32(Console.ReadLine());
 
-                        if (dalObj.SendDroneToCharge(droneId, stationId))
+                        try
                         {
+                            dalObj.SendDroneToCharge(droneId, stationId);
                             Console.WriteLine("Success.\n");
                             pause();
                         }
 
-                        else
+                        catch(Exception e)
                         {
                             Console.WriteLine("Failed.\n");
+                            Console.WriteLine(e.Message);
                             pause();
                         }
 
@@ -372,15 +388,17 @@ namespace ConsoleUI
                         Console.WriteLine("Enter drone's id: ");
                         droneId = Convert.ToInt32(Console.ReadLine());
 
-                        if (dalObj.DroneRelease(droneId))
+                        try
                         {
+                            dalObj.DroneRelease(droneId);
                             Console.WriteLine("Success.\n");
                             pause();
                         }
 
-                        else
+                        catch(Exception e)
                         {
                             Console.WriteLine("Failed.\n");
+                            Console.WriteLine(e.Message);
                             pause();
                         }
 
@@ -425,6 +443,7 @@ namespace ConsoleUI
                         catch (ArgumentException e)
                         {
                             Console.WriteLine("Failed.\n");
+                            Console.WriteLine(e.Message);
                             pause();
                         }
 
@@ -451,6 +470,7 @@ namespace ConsoleUI
                         catch (ArgumentException e)
                         {
                             Console.WriteLine("Failed.\n");
+                            Console.WriteLine(e.Message);
                             pause();
                         }
 
@@ -477,6 +497,7 @@ namespace ConsoleUI
                         catch (ArgumentException e)
                         {
                             Console.WriteLine("Failed.\n");
+                            Console.WriteLine(e.Message);
                             pause();
                         }
 
@@ -503,6 +524,7 @@ namespace ConsoleUI
                         catch (ArgumentException e)
                         {
                             Console.WriteLine("Failed.\n");
+                            Console.WriteLine(e.Message);
                             pause();
                         }
 
@@ -543,6 +565,7 @@ namespace ConsoleUI
                         catch (Exception e)
                         {
                             Console.WriteLine("Failed.\n");
+                            Console.WriteLine(e.Message);
                             pause();
                         }
 
@@ -565,6 +588,7 @@ namespace ConsoleUI
                         catch (Exception e)
                         {
                             Console.WriteLine("Failed.\n");
+                            Console.WriteLine(e.Message);
                             pause();
                         }
 
@@ -587,6 +611,7 @@ namespace ConsoleUI
                         catch (Exception e)
                         {
                             Console.WriteLine("Failed.\n");
+                            Console.WriteLine(e.Message);
                             pause();
                         }
 
@@ -609,6 +634,7 @@ namespace ConsoleUI
                         catch (Exception e)
                         {
                             Console.WriteLine("Failed.\n");
+                            Console.WriteLine(e.Message);
                             pause();
                         }
 
@@ -642,6 +668,7 @@ namespace ConsoleUI
                         catch (Exception e)
                         {
                             Console.WriteLine("Failed.\n");
+                            Console.WriteLine(e.Message);
                             pause();
                         }
 
@@ -664,6 +691,7 @@ namespace ConsoleUI
                         catch(Exception e)
                         {
                             Console.WriteLine("Failed.\n");
+                            Console.WriteLine(e.Message);
                             pause();
                         }
 
