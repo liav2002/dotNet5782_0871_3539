@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DalObject
 {
-    public class DalObject
+    public class DalObject : IDAL.IDAL
     {
         public DalObject()
         {
@@ -241,6 +241,11 @@ namespace DalObject
             }
         }
 
+        public double[] PowerRequest() //TODO: Implement this method
+        {
+            double[] arr = new double[] { 0, 0, 0, 0, 0 };
+            return arr;
+        }
 
         public IDAL.DO.Parcel _getParcelById(int id)
         {
