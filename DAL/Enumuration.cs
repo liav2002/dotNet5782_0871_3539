@@ -27,7 +27,5 @@ namespace IDAL
             Fast,
             Emergency
         }
-
-
     }
 }
