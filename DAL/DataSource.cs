@@ -34,8 +34,7 @@ namespace DalObject
         {
             for (int i = 0; i < 5; i++)
             {
-                drones.Add(new IDAL.DO.Drone(rand.Next(1000, 10001), "Model-X", (IDAL.DO.WeightCategories)rand.Next(3), 
-                    (IDAL.DO.DroneStatuses)rand.Next(3), rand.Next(101)));
+                drones.Add(new IDAL.DO.Drone(rand.Next(1000, 10001), "Model-X", (IDAL.DO.WeightCategories)rand.Next(3)));
             }
         }
 

@@ -17,7 +17,8 @@ namespace IDAL
         {
             Available,
             Maintenance,
-            Shipping
+            Shipping,
+            Undefined
         };
 
         public enum Priorities
