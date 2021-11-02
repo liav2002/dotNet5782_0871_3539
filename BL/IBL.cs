@@ -4,7 +4,7 @@ using System.Text;
 
 namespace IBL
 {
-    interface IBL 
+    interface IBL
     {
     }
 }

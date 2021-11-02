@@ -35,7 +35,7 @@ namespace DalObject
        	*Parameters: drone's details.	
        	*Return: true - if added successfully, false - else.
         */
-        public void AddDrone(int id, string model, int maxWeight, int status, double battery)
+        public void AddDrone(int id, string model, int maxWeight, int status = (int)IDAL.DO.DroneStatuses.Undefined, double battery = -1)
         {
             foreach (var drone in DataSource.drones)
             {
@@ -44,11 +44,11 @@ namespace DalObject
 
             if (id < 0) { throw new Exception("ERROR: Id must be positive.\n"); }
 
-            if (battery < 0 || battery > 100) { throw new Exception("ERROR: Battery must be between 0-100.\n"); }
+            if ((battery < 0 || battery > 100) && (battery != -1)) { throw new Exception("ERROR: Battery must be between 0-100.\n"); }
 
             if (maxWeight < 0 || maxWeight > 2) { throw new Exception("ERROR: maxWeight(type: Enumorator) have only 0-2 values.\n"); }
 
-            if (status < 0 || status > 2) { throw new Exception("ERROR: status(type: Enumorator) have only 0-2 values.\n"); }
+            if ((status < 0 || status > 2) && (status != (int)(IDAL.DO.DroneStatuses.Undefined))) { throw new Exception("ERROR: status(type: Enumorator) have only 0-2 values.\n"); }
 
             DataSource.drones.Add(new IDAL.DO.Drone(id, model, (IDAL.DO.WeightCategories)maxWeight,
                 (IDAL.DO.DroneStatuses)status, battery));
@@ -277,13 +277,13 @@ namespace DalObject
             throw new ArgumentException("ERROR: Id not found.\n");
         }
 
-        public List<IDAL.DO.Station> _getStationList() { return DataSource.stations; }
+        public IEnumerable<IDAL.DO.Station> _getStationList() { return DataSource.stations; }
 
-        public List<IDAL.DO.Costumer> _getCostumerList() { return DataSource.costumers; }
+        public IEnumerable<IDAL.DO.Costumer> _getCostumerList() { return DataSource.costumers; }
 
-        public List<IDAL.DO.Parcel> _getParceList() { return DataSource.parcels; }
+        public IEnumerable<IDAL.DO.Parcel> _getParceList() { return DataSource.parcels; }
 
-        public List<IDAL.DO.Drone> _getDroneList() { return DataSource.drones; }
+        public IEnumerable<IDAL.DO.Drone> _getDroneList() { return DataSource.drones; }
 
         public Queue<IDAL.DO.Parcel> _getWaitingParcels() { return DataSource.waitingParcels; }
     }

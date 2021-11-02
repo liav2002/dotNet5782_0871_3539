@@ -8,7 +8,8 @@ namespace IBL
         {
             Available,
             Maintenance,
-            Shipping
+            Shipping,
+            Undefined
         };
     }
 }
