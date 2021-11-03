@@ -23,10 +23,42 @@ namespace IDAL
             private double _longitude;
             private double _latitude;
 
+            private double _chargeRate;
+
+            public double ChargeRate
+            {
+                get => _chargeRate;
+                set => _chargeRate = value;
+            }
+
             public int Id
             {
                 get => _id;
                 set => _id = value;
+            }
+
+            public string Model
+            {
+                get => _model;
+                set => _model = value;
+            }
+
+            public WeightCategories MaxWeight
+            {
+                get => (WeightCategories)_maxWeight;
+                set => _maxWeight = (WeightCategories)value;
+            }
+
+            public DO.DroneStatuses Status
+            {
+                get => (DO.DroneStatuses)_status;
+                set => _status = (DO.DroneStatuses)value;
+            }
+
+            public double Battery
+            {
+                get => _battery;
+                set => _battery = value;
             }
 
             public double Longitube
@@ -41,30 +73,6 @@ namespace IDAL
                 set => _latitude = value;
             }
 
-            public string Model
-            {
-                get => _model;
-                set => _model = value;
-            }
-
-            public WeightCategories MaxWeight
-            {
-                get => (WeightCategories) _maxWeight;
-                set => _maxWeight = (WeightCategories) value;
-            }
-
-            public DO.DroneStatuses Status
-            {
-                get => (DO.DroneStatuses) _status;
-                set => _status = (DO.DroneStatuses) value;
-            }
-
-            public double Battery
-            {
-                get => _battery;
-                set => _battery = value;
-            }
-
             public override string ToString()
             {
                 return string.Format("the id is: {0}\nthe model is: {1}\nthe maxWegiht is: {2}\n" +
@@ -73,15 +81,19 @@ namespace IDAL
             }
 
             public Drone(int id, string model, WeightCategories maxWeight,
-                    DroneStatuses status = DO.DroneStatuses.Undefined, double battery = -1)
-                // the default for status and battery is set to be uninitialized.
-                // to avoid runing problems I initialzed it with unreal values.
+                    DroneStatuses status = DO.DroneStatuses.Available, double battery = -1)
+            // the default for status and battery is set to be uninitialized.
+            // to avoid runing problems I initialzed it with unreal values.
             {
                 this._id = id;
                 this._model = model;
                 this._maxWeight = maxWeight;
                 this._status = status;
                 this._battery = battery;
+
+                this._chargeRate = 0;
+                this._longitude = 0;
+                this._latitude = 0;
             }
         }
     }

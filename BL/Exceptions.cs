@@ -1,24 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace IBL
+namespace IDAL
 {
-    namespace BO
+    namespace DO
     {
-        public class CustomException : Exception
+        public class NonUniqueID : Exception
         {
-            public CustomException()
-            {
-            }
-
-            public CustomException(string message)
-                : base(message)
-            {
-            }
-
-            public CustomException(string message, Exception inner)
-                : base(message, inner)
+            public NonUniqueID(string item) : base("ERROR: " + item + " must be unique.\n")
             {
             }
         }
+
+
+
+
+
     }
 }

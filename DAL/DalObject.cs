@@ -35,7 +35,7 @@ namespace DalObject
        	*Parameters: drone's details.	
        	*Return: true - if added successfully, false - else.
         */
-        public void AddDrone(int id, string model, int maxWeight, int status = (int)IDAL.DO.DroneStatuses.Undefined, double battery = -1)
+        public void AddDrone(int id, string model, int maxWeight, int status = (int)IDAL.DO.DroneStatuses.Available, double battery = -1)
         {
             foreach (var drone in DataSource.drones)
             {
