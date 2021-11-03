@@ -19,7 +19,14 @@ namespace DalObject
 
         internal class Config
         {
-            internal static Random rand = new Random();
+            //TODO: Find out what the power consumption is on all cases and initail accordingly.
+            internal static double avilablePPK = 0; // PPK - Power consumprion Per Kilometer. for avilble drone.
+            internal static double lightPPK = 0; // for drone who carried a light weight.
+            internal static double mediumPPK = 0; // for drone who carried a medium weight.
+            internal static double heavyWeight = 0; // for drone who carried a heavy weight.
+
+            //TODO: Find out what the charge rate is, and initailze accordingly.
+            internal static double chargeRatePH = 0; // drone charging rate per hour.
         }
 
         internal static void Initialize()
