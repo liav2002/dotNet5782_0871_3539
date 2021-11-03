@@ -6,5 +6,6 @@ namespace IBL
 {
     interface IBL
     {
+        // methods for the Main
     }
 }

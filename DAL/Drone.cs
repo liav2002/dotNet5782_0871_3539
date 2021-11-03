@@ -20,11 +20,25 @@ namespace IDAL
             private WeightCategories _maxWeight;
             private DroneStatuses _status;
             private double _battery;
+            private double _longitude;
+            private double _latitude;
 
             public int Id
             {
                 get => _id;
                 set => _id = value;
+            }
+
+            public double Longitube
+            {
+                get => _longitude;
+                set => _longitude = value;
+            }
+
+            public double Latitude
+            {
+                get => _latitude;
+                set => _latitude = value;
             }
 
             public string Model
@@ -58,7 +72,8 @@ namespace IDAL
                     , Id, Model, MaxWeight, Status, Battery);
             }
 
-            public Drone(int id, string model, WeightCategories maxWeight, DroneStatuses status = DO.DroneStatuses.Undefined, double battery = -1) 
+            public Drone(int id, string model, WeightCategories maxWeight,
+                    DroneStatuses status = DO.DroneStatuses.Undefined, double battery = -1)
                 // the default for status and battery is set to be uninitialized.
                 // to avoid runing problems I initialzed it with unreal values.
             {

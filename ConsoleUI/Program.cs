@@ -64,51 +64,50 @@ namespace ConsoleUI
             char ch = '0';
             MenuOptionsE op;
 
-            while ((MenuOptionsE)ch != MenuOptionsE.Exit)
+            while ((MenuOptionsE) ch != MenuOptionsE.Exit)
             {
                 ch = PrintMenu();
-                op = (MenuOptionsE)ch;
+                op = (MenuOptionsE) ch;
 
                 switch (op)
                 {
                     case MenuOptionsE.Insert:
-                        {
-                            InsertOptionsWindowHandle(dalObj);
-                            break;
-                        }
+                    {
+                        InsertOptionsWindowHandle(dalObj);
+                        break;
+                    }
 
                     case MenuOptionsE.Update:
-                        {
-                            UpdateOptionsWindowHandle(dalObj);
-                            break;
-                        }
+                    {
+                        UpdateOptionsWindowHandle(dalObj);
+                        break;
+                    }
 
                     case MenuOptionsE.Display:
-                        {
-                            DisplayOptionsWindowHandle(dalObj);
-                            break;
-                        }
+                    {
+                        DisplayOptionsWindowHandle(dalObj);
+                        break;
+                    }
 
                     case MenuOptionsE.ListView:
-                        {
-                            ListViewOptionsWindowHandle(dalObj);
-                            break;
-                        }
+                    {
+                        ListViewOptionsWindowHandle(dalObj);
+                        break;
+                    }
 
                     case MenuOptionsE.Exit:
-                        {
-                            Console.WriteLine("Good bye !!\n");
-                            break;
-                        }
+                    {
+                        Console.WriteLine("Good bye !!\n");
+                        break;
+                    }
 
                     default:
-                        {
-                            Console.WriteLine("ERROR: Invalid Choice.\n");
-                            pause();
-                            break;
-                        }
+                    {
+                        Console.WriteLine("ERROR: Invalid Choice.\n");
+                        pause();
+                        break;
+                    }
                 }
-
             }
         }
 
@@ -118,168 +117,172 @@ namespace ConsoleUI
             InsertOptionsE op;
 
             ch = InsertOptions();
-            op = (InsertOptionsE)ch;
+            op = (InsertOptionsE) ch;
 
             switch (op)
             {
                 case InsertOptionsE.BaseStation:
+                {
+                    int id = 0, chargeSlots = 0;
+                    string name = "";
+                    double longitude = 0, lattitude = 0;
+
+                    Console.WriteLine("Base station's details:\n");
+
+                    Console.WriteLine("Id: ");
+                    id = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Name: ");
+                    name = Console.ReadLine();
+                    Console.WriteLine("Longitude: ");
+                    longitude = Convert.ToDouble(Console.ReadLine());
+                    Console.WriteLine("Lattiude: ");
+                    lattitude = Convert.ToDouble(Console.ReadLine());
+                    Console.WriteLine("Charge's Slots: ");
+                    chargeSlots = Convert.ToInt32(Console.ReadLine());
+
+                    try
                     {
-                        int id = 0, chargeSlots = 0;
-                        string name = "";
-                        double longitude = 0, lattitude = 0;
-
-                        Console.WriteLine("Base station's details:\n");
-
-                        Console.WriteLine("Id: ");
-                        id = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("Name: ");
-                        name = Console.ReadLine();
-                        Console.WriteLine("Longitude: ");
-                        longitude = Convert.ToDouble(Console.ReadLine());
-                        Console.WriteLine("Lattiude: ");
-                        lattitude = Convert.ToDouble(Console.ReadLine());
-                        Console.WriteLine("Charge's Slots: ");
-                        chargeSlots = Convert.ToInt32(Console.ReadLine());
-
-                        try
-                        {
-                            dalObj.AddStation(id, name, longitude, lattitude, chargeSlots);
-                            Console.WriteLine("Success.\n");
-                            pause();
-                        }
-
-                        catch(Exception e)
-                        {
-                            Console.WriteLine("Failed.\n");
-                            Console.WriteLine(e.Message);
-                            pause();
-                        }
-
-                        break;
+                        dalObj.AddStation(id, name, longitude, lattitude, chargeSlots);
+                        Console.WriteLine("Success.\n");
+                        pause();
                     }
+
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
 
                 case InsertOptionsE.Drone:
+                {
+                    int id = 0;
+                    string model = "";
+                    int maxWeight = 0;
+                    int status = 0;
+                    double battery = 0;
+
+                    Console.WriteLine("Drone's details:\n");
+
+                    Console.WriteLine("Id: ");
+                    id = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Model: ");
+                    model = Console.ReadLine();
+                    Console.WriteLine("Maximum weight to drag (0 - Light, 1 - Medium, 2 - Heavy): ");
+                    maxWeight = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Status (0 - Avilable, 1 - Maintenance, 2 - Shipping): ");
+                    status = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Battery: ");
+                    battery = Convert.ToDouble(Console.ReadLine());
+
+                    try
                     {
-                        int id = 0;
-                        string model = "";
-                        int maxWeight = 0;
-                        int status = 0;
-                        double battery = 0;
-
-                        Console.WriteLine("Drone's details:\n");
-
-                        Console.WriteLine("Id: ");
-                        id = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("Model: ");
-                        model = Console.ReadLine();
-                        Console.WriteLine("Maximum weight to drag (0 - Light, 1 - Medium, 2 - Heavy): ");
-                        maxWeight = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("Status (0 - Avilable, 1 - Maintenance, 2 - Shipping): ");
-                        status = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("Battery: ");
-                        battery = Convert.ToDouble(Console.ReadLine());
-
-                        try
-                        {
-                            dalObj.AddDrone(id, model, maxWeight, status, battery);
-                            Console.WriteLine("Success.\n");
-                            pause();
-                        }
-
-                        catch(Exception e)
-                        {
-                            Console.WriteLine("Failed.\n");
-                            Console.WriteLine(e.Message);
-                            pause();
-                        }
-
-                        break;
+                        dalObj.AddDrone(id, model, maxWeight, status, battery);
+                        Console.WriteLine("Success.\n");
+                        pause();
                     }
+
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
 
                 case InsertOptionsE.Costumer:
+                {
+                    int id = 0;
+                    string name = "";
+                    string phone = "";
+                    double longitude = 0;
+                    double lattitude = 0;
+
+                    Console.WriteLine("Costumer's details:\n");
+
+                    Console.WriteLine("Id: ");
+                    id = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Name: ");
+                    name = Console.ReadLine();
+                    Console.WriteLine("Phone: ");
+                    phone = Console.ReadLine();
+                    Console.WriteLine("Longitude: ");
+                    longitude = Convert.ToDouble(Console.ReadLine());
+                    Console.WriteLine("Lattitude: ");
+                    lattitude = Convert.ToDouble(Console.ReadLine());
+
+                    try
                     {
-                        int id = 0;
-                        string name = "";
-                        string phone = "";
-                        double longitude = 0;
-                        double lattitude = 0;
-
-                        Console.WriteLine("Costumer's details:\n");
-
-                        Console.WriteLine("Id: ");
-                        id = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("Name: ");
-                        name = Console.ReadLine();
-                        Console.WriteLine("Phone: ");
-                        phone = Console.ReadLine();
-                        Console.WriteLine("Longitude: ");
-                        longitude = Convert.ToDouble(Console.ReadLine());
-                        Console.WriteLine("Lattitude: ");
-                        lattitude = Convert.ToDouble(Console.ReadLine());
-
-                        try
-                        {
-                            dalObj.AddCostumer(id, name, phone, longitude, lattitude);
-                            Console.WriteLine("Success.\n");
-                            pause();
-                        }
-
-                        catch(Exception e)
-                        {
-                            Console.WriteLine("Failed.\n");
-                            Console.WriteLine(e.Message);
-                            pause();
-                        }
-
-                        break;
+                        dalObj.AddCostumer(id, name, phone, longitude, lattitude);
+                        Console.WriteLine("Success.\n");
+                        pause();
                     }
+
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
 
                 case InsertOptionsE.Paracel:
+                {
+                    int id = 0, senderId = 0, targetId = 0, weight = 0, priority = 0, droneId = 0;
+                    DateTime requested = DateTime.Now,
+                        scheduled = default(DateTime),
+                        pickedUp = default(DateTime),
+                        delivered = default(DateTime); //TODO: make sure the default DateTime is ok.
+
+                    Console.WriteLine("Paracel's details:\n");
+
+                    Console.WriteLine("Id: ");
+                    id = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Sender's id: ");
+                    senderId = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Target's id: ");
+                    targetId = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Weight (0 - Light, 1 - Medium, 2 - Heavy): ");
+                    weight = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Priority (0 - Regular, 1 - Fast, 2 - Emergency): ");
+                    priority = Convert.ToInt32(Console.ReadLine());
+
+                    try
                     {
-                        int id = 0, senderId = 0, targetId = 0, weight = 0, priority = 0, droneId = 0;
-                        DateTime requested = DateTime.Now, scheduled = default(DateTime), pickedUp = default(DateTime), delivered = default(DateTime); //TODO: make sure the default DateTime is ok.
-
-                        Console.WriteLine("Paracel's details:\n");
-
-                        Console.WriteLine("Id: ");
-                        id = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("Sender's id: ");
-                        senderId = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("Target's id: ");
-                        targetId = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("Weight (0 - Light, 1 - Medium, 2 - Heavy): ");
-                        weight = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("Priority (0 - Regular, 1 - Fast, 2 - Emergency): ");
-                        priority = Convert.ToInt32(Console.ReadLine());
-
-                        try
-                        {
-                            dalObj.AddParcel(id, senderId, targetId, weight, priority, requested, droneId, scheduled, pickedUp, delivered);
-                            Console.WriteLine("Success.\n");
-                            pause();
-                        }
-
-                        catch(Exception e)
-                        {
-                            Console.WriteLine("Failed.\n");
-                            Console.WriteLine(e.Message);
-                            pause();
-                        }
-
-                        break;
+                        dalObj.AddParcel(id, senderId, targetId, weight, priority, requested, droneId, scheduled,
+                            pickedUp, delivered);
+                        Console.WriteLine("Success.\n");
+                        pause();
                     }
+
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
 
                 case InsertOptionsE.Back:
-                    {
-                        break;
-                    }
+                {
+                    break;
+                }
 
                 default:
-                    {
-                        Console.WriteLine("ERROR: Invalid Choice.\n");
-                        pause();
-                        break;
-                    }
+                {
+                    Console.WriteLine("ERROR: Invalid Choice.\n");
+                    pause();
+                    break;
+                }
             }
         }
 
@@ -289,144 +292,144 @@ namespace ConsoleUI
             UpdateOptionsE op;
 
             ch = UpdateOptions();
-            op = (UpdateOptionsE)ch;
+            op = (UpdateOptionsE) ch;
 
             switch (op)
             {
                 case UpdateOptionsE.AssignParacelToDrone:
+                {
+                    int paracelId = 0;
+
+                    Console.WriteLine("Enter paracel's id: ");
+                    paracelId = Convert.ToInt32(Console.ReadLine());
+
+                    try
                     {
-                        int paracelId = 0;
-
-                        Console.WriteLine("Enter paracel's id: ");
-                        paracelId = Convert.ToInt32(Console.ReadLine());
-
-                        try
-                        {
-                            dalObj.AssignParcelToDrone(paracelId);
-                            Console.WriteLine("Success.\n");
-                            pause();
-                        }
-
-                        catch(Exception e)
-                        {
-                            Console.WriteLine("Failed.\n");
-                            Console.WriteLine(e.Message);
-                            pause();
-                        }
-
-                        break;
+                        dalObj.AssignParcelToDrone(paracelId);
+                        Console.WriteLine("Success.\n");
+                        pause();
                     }
+
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
 
                 case UpdateOptionsE.ParacelCollection:
+                {
+                    int paracelId = 0;
+
+                    Console.WriteLine("Enter paracel's id: ");
+                    paracelId = Convert.ToInt32(Console.ReadLine());
+
+                    try
                     {
-                        int paracelId = 0;
-
-                        Console.WriteLine("Enter paracel's id: ");
-                        paracelId = Convert.ToInt32(Console.ReadLine());
-
-                        try
-                        {
-                            dalObj.ParcelCollection(paracelId);
-                            Console.WriteLine("Success.\n");
-                            pause();
-                        }
-
-                        catch(Exception e)
-                        {
-                            Console.WriteLine("Failed.\n");
-                            Console.WriteLine(e.Message);
-                            pause();
-                        }
-
-                        break;
+                        dalObj.ParcelCollection(paracelId);
+                        Console.WriteLine("Success.\n");
+                        pause();
                     }
+
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
 
                 case UpdateOptionsE.ParacelDelivered:
+                {
+                    int paracelId = 0;
+
+                    Console.WriteLine("Enter paracel's id: ");
+                    paracelId = Convert.ToInt32(Console.ReadLine());
+
+                    try
                     {
-                        int paracelId = 0;
-
-                        Console.WriteLine("Enter paracel's id: ");
-                        paracelId = Convert.ToInt32(Console.ReadLine());
-
-                        try
-                        {
-                            dalObj.ParcelDelivered(paracelId);
-                            Console.WriteLine("Success.\n");
-                            pause();
-                        }
-
-                        catch(Exception e)
-                        {
-                            Console.WriteLine("Failed.\n");
-                            Console.WriteLine(e.Message);
-                            pause();
-                        }
-
-                        break;
+                        dalObj.ParcelDelivered(paracelId);
+                        Console.WriteLine("Success.\n");
+                        pause();
                     }
+
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
 
                 case UpdateOptionsE.SendDroneToCharge:
+                {
+                    int droneId = 0;
+                    int stationId = 0;
+
+                    Console.WriteLine("Enter drone's id: ");
+                    droneId = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter station's id: ");
+                    stationId = Convert.ToInt32(Console.ReadLine());
+
+                    try
                     {
-                        int droneId = 0;
-                        int stationId = 0;
-
-                        Console.WriteLine("Enter drone's id: ");
-                        droneId = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("Enter station's id: ");
-                        stationId = Convert.ToInt32(Console.ReadLine());
-
-                        try
-                        {
-                            dalObj.SendDroneToCharge(droneId, stationId);
-                            Console.WriteLine("Success.\n");
-                            pause();
-                        }
-
-                        catch(Exception e)
-                        {
-                            Console.WriteLine("Failed.\n");
-                            Console.WriteLine(e.Message);
-                            pause();
-                        }
-
-                        break;
+                        dalObj.SendDroneToCharge(droneId, stationId);
+                        Console.WriteLine("Success.\n");
+                        pause();
                     }
+
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
 
                 case UpdateOptionsE.ReleaseDroneFromCharge:
+                {
+                    int droneId = 0;
+
+                    Console.WriteLine("Enter drone's id: ");
+                    droneId = Convert.ToInt32(Console.ReadLine());
+
+                    try
                     {
-                        int droneId = 0;
-
-                        Console.WriteLine("Enter drone's id: ");
-                        droneId = Convert.ToInt32(Console.ReadLine());
-
-                        try
-                        {
-                            dalObj.DroneRelease(droneId);
-                            Console.WriteLine("Success.\n");
-                            pause();
-                        }
-
-                        catch(Exception e)
-                        {
-                            Console.WriteLine("Failed.\n");
-                            Console.WriteLine(e.Message);
-                            pause();
-                        }
-
-                        break;
+                        dalObj.DroneRelease(droneId);
+                        Console.WriteLine("Success.\n");
+                        pause();
                     }
+
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
 
                 case UpdateOptionsE.Back:
-                    {
-                        break;
-                    }
+                {
+                    break;
+                }
 
                 default:
-                    {
-                        Console.WriteLine("ERROR: Invalid Choice.\n");
-                        pause();
-                        break;
-                    }
+                {
+                    Console.WriteLine("ERROR: Invalid Choice.\n");
+                    pause();
+                    break;
+                }
             }
         }
 
@@ -436,129 +439,130 @@ namespace ConsoleUI
             DisplayOptionsE op;
 
             ch = DisplayOptions();
-            op = (DisplayOptionsE)ch;
+            op = (DisplayOptionsE) ch;
 
             switch (op)
             {
                 case DisplayOptionsE.BaseStation:
+                {
+                    int stationId = 0;
+                    IDAL.DO.Station station;
+
+                    Console.Write("Enter station's Id: ");
+                    stationId = Convert.ToInt32(Console.ReadLine());
+
+                    try
                     {
-                        int stationId = 0;
-                        IDAL.DO.Station station;
+                        station = dalObj._getStationById(stationId);
 
-                        Console.Write("Enter station's Id: ");
-                        stationId = Convert.ToInt32(Console.ReadLine()); 
-
-                        try
-                        {
-                            station = dalObj._getStationById(stationId);
-
-                            Console.WriteLine(station);
-                            Console.WriteLine("Success.\n");
-                            pause();
-                        }
-
-                        catch (ArgumentException e)
-                        {
-                            Console.WriteLine("Failed.\n");
-                            Console.WriteLine(e.Message);
-                            pause();
-                        }
-
-                        break;
+                        Console.WriteLine(station);
+                        Console.WriteLine("Success.\n");
+                        pause();
                     }
+
+                    catch (ArgumentException e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
 
                 case DisplayOptionsE.Drone:
+                {
+                    int droneId = 0;
+                    IDAL.DO.Drone drone;
+
+                    Console.Write("Enter drone's Id: ");
+                    droneId = Convert.ToInt32(Console.ReadLine());
+                    ;
+
+                    try
                     {
-                        int droneId = 0;
-                        IDAL.DO.Drone drone;
+                        drone = dalObj._getDroneById(droneId);
 
-                        Console.Write("Enter drone's Id: ");
-                        droneId = Convert.ToInt32(Console.ReadLine()); ;
-
-                        try
-                        {
-                            drone = dalObj._getDroneById(droneId);
-
-                            Console.WriteLine(drone);
-                            Console.WriteLine("Success.\n");
-                            pause();
-                        }
-
-                        catch (ArgumentException e)
-                        {
-                            Console.WriteLine("Failed.\n");
-                            Console.WriteLine(e.Message);
-                            pause();
-                        }
-
-                        break;
+                        Console.WriteLine(drone);
+                        Console.WriteLine("Success.\n");
+                        pause();
                     }
+
+                    catch (ArgumentException e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
 
                 case DisplayOptionsE.Costumer:
+                {
+                    int costumerId = 0;
+                    IDAL.DO.Costumer costumer;
+
+                    Console.Write("Enter costumer's Id: ");
+                    costumerId = Convert.ToInt32(Console.ReadLine());
+
+                    try
                     {
-                        int costumerId = 0;
-                        IDAL.DO.Costumer costumer;
+                        costumer = dalObj._getCostumerById(costumerId);
 
-                        Console.Write("Enter costumer's Id: ");
-                        costumerId = Convert.ToInt32(Console.ReadLine());
-
-                        try
-                        {
-                            costumer = dalObj._getCostumerById(costumerId);
-
-                            Console.WriteLine(costumer);
-                            Console.WriteLine("Success.\n");
-                            pause();
-                        }
-
-                        catch (ArgumentException e)
-                        {
-                            Console.WriteLine("Failed.\n");
-                            Console.WriteLine(e.Message);
-                            pause();
-                        }
-
-                        break;
+                        Console.WriteLine(costumer);
+                        Console.WriteLine("Success.\n");
+                        pause();
                     }
+
+                    catch (ArgumentException e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
 
                 case DisplayOptionsE.Paracel:
+                {
+                    int paracelId = 0;
+                    IDAL.DO.Parcel parcel;
+
+                    Console.Write("Enter paracel's Id: ");
+                    paracelId = Convert.ToInt32(Console.ReadLine());
+
+                    try
                     {
-                        int paracelId = 0;
-                        IDAL.DO.Parcel parcel;
+                        parcel = dalObj._getParcelById(paracelId);
 
-                        Console.Write("Enter paracel's Id: ");
-                        paracelId = Convert.ToInt32(Console.ReadLine());
-
-                        try
-                        {
-                            parcel = dalObj._getParcelById(paracelId);
-
-                            Console.WriteLine(parcel);
-                            Console.WriteLine("Success.\n");
-                            pause();
-                        }
-
-                        catch (ArgumentException e)
-                        {
-                            Console.WriteLine("Failed.\n");
-                            Console.WriteLine(e.Message);
-                            pause();
-                        }
-
-                        break;
+                        Console.WriteLine(parcel);
+                        Console.WriteLine("Success.\n");
+                        pause();
                     }
+
+                    catch (ArgumentException e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
 
                 case DisplayOptionsE.Back:
-                    {
-                        break;
-                    }
+                {
+                    break;
+                }
 
                 default:
-                    {
-                        Console.WriteLine("ERROR: Invalid Choice.\n");
-                        pause();
-                        break;
-                    }
+                {
+                    Console.WriteLine("ERROR: Invalid Choice.\n");
+                    pause();
+                    break;
+                }
             }
         }
 
@@ -568,170 +572,173 @@ namespace ConsoleUI
             ListViewOptionsE op;
 
             ch = ListViewOptions();
-            op = (ListViewOptionsE)ch;
+            op = (ListViewOptionsE) ch;
 
             switch (op)
             {
                 case ListViewOptionsE.BaseStations:
+                {
+                    try
                     {
-                        try
+                        foreach (var station in dalObj._getStationList())
                         {
-                            foreach(var station in dalObj._getStationList())
+                            Console.WriteLine(station);
+                        }
+
+                        Console.WriteLine("Success.\n");
+                        pause();
+                    }
+
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
+
+                case ListViewOptionsE.Drones:
+                {
+                    try
+                    {
+                        foreach (var drone in dalObj._getDroneList())
+                        {
+                            Console.WriteLine(drone);
+                        }
+
+                        Console.WriteLine("Success.\n");
+                        pause();
+                    }
+
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
+
+                case ListViewOptionsE.Costumers:
+                {
+                    try
+                    {
+                        foreach (var costumer in dalObj._getCostumerList())
+                        {
+                            Console.WriteLine(costumer);
+                        }
+
+                        Console.WriteLine("Success.\n");
+                        pause();
+                    }
+
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
+
+                case ListViewOptionsE.Paracels:
+                {
+                    try
+                    {
+                        foreach (var parcel in dalObj._getParceList())
+                        {
+                            Console.WriteLine(parcel);
+                        }
+
+                        Console.WriteLine("Success.\n");
+                        pause();
+                    }
+
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
+
+                case ListViewOptionsE.UnassignParacels:
+                {
+                    IDAL.DO.Parcel parcel;
+                    int i = dalObj._getWaitingParcels().Count;
+
+                    if (i == 0)
+                    {
+                        Console.WriteLine("List is empty.\n");
+                    }
+
+                    try
+                    {
+                        while (i != 0)
+                        {
+                            parcel = dalObj._getWaitingParcels().Dequeue();
+                            Console.WriteLine(parcel); // print from top to bottom
+                            dalObj._getWaitingParcels().Enqueue(parcel);
+                            i--;
+                        }
+
+                        Console.WriteLine("Success.\n");
+                        pause();
+                    }
+
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
+
+                case ListViewOptionsE.AvaliableBaseStations:
+                {
+                    try
+                    {
+                        foreach (var station in dalObj._getStationList())
+                        {
+                            if (station.ChargeSolts >= 1)
                             {
                                 Console.WriteLine(station);
                             }
-
-                            Console.WriteLine("Success.\n");
-                            pause();
                         }
 
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("Failed.\n");
-                            Console.WriteLine(e.Message);
-                            pause();
-                        }
-
-                        break;
+                        Console.WriteLine("Success.\n");
+                        pause();
                     }
 
-                case ListViewOptionsE.Drones:
+                    catch (Exception e)
                     {
-                        try
-                        {
-                            foreach(var drone in dalObj._getDroneList())
-                            {
-                                Console.WriteLine(drone);
-                            }
-
-                            Console.WriteLine("Success.\n");
-                            pause();
-                        }
-
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("Failed.\n");
-                            Console.WriteLine(e.Message);
-                            pause();
-                        }
-
-                        break;
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
                     }
 
-                case ListViewOptionsE.Costumers:
-                    {
-                        try
-                        {
-                            foreach(var costumer in dalObj._getCostumerList())
-                            {
-                                Console.WriteLine(costumer);
-                            }
-
-                            Console.WriteLine("Success.\n");
-                            pause();
-                        }
-
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("Failed.\n");
-                            Console.WriteLine(e.Message);
-                            pause();
-                        }
-
-                        break;
-                    }
-
-                case ListViewOptionsE.Paracels:
-                    {
-                        try
-                        {
-                            foreach(var parcel in dalObj._getParceList())
-                            {
-                                Console.WriteLine(parcel);
-                            }
-
-                            Console.WriteLine("Success.\n");
-                            pause();
-                        }
-
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("Failed.\n");
-                            Console.WriteLine(e.Message);
-                            pause();
-                        }
-
-                        break;
-                    }
-
-                case ListViewOptionsE.UnassignParacels:
-                    {
-                        IDAL.DO.Parcel parcel;
-                        int i = dalObj._getWaitingParcels().Count;
-
-                        if(i == 0)
-                        {
-                            Console.WriteLine("List is empty.\n");
-                        }
-
-                        try
-                        {
-                            while(i != 0)
-                            {
-                                parcel = dalObj._getWaitingParcels().Dequeue();
-                                Console.WriteLine(parcel); // print from top to bottom
-                                dalObj._getWaitingParcels().Enqueue(parcel);
-                                i--;
-                            }
-
-                            Console.WriteLine("Success.\n");
-                            pause();
-                        }
-
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("Failed.\n");
-                            Console.WriteLine(e.Message);
-                            pause();
-                        }
-
-                        break;
-                    }
-
-                case ListViewOptionsE.AvaliableBaseStations:
-                    {
-                        try
-                        {
-                            foreach(var station in dalObj._getStationList())
-                            {
-                                if (station.ChargeSolts >= 1) { Console.WriteLine(station); }
-                            }
-
-                            Console.WriteLine("Success.\n");
-                            pause();
-                        }
-
-                        catch(Exception e)
-                        {
-                            Console.WriteLine("Failed.\n");
-                            Console.WriteLine(e.Message);
-                            pause();
-                        }
-
-                        break;
-                    }
+                    break;
+                }
 
                 case ListViewOptionsE.Back:
-                    {
-                        break;
-                    }
+                {
+                    break;
+                }
 
                 default:
-                    {
-                        Console.WriteLine("ERROR: Invalid Choice.\n");
-                        pause();
-                        break;
-                    }
+                {
+                    Console.WriteLine("ERROR: Invalid Choice.\n");
+                    pause();
+                    break;
+                }
             }
         }
 

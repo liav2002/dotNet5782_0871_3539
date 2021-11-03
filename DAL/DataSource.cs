@@ -27,7 +27,7 @@ namespace DalObject
 
             //TODO: Find out what the charge rate is, and initailze accordingly.
             internal static double chargeRatePH = 0; // drone charging rate per hour.
-        }
+        }   
 
         internal static void Initialize()
         {

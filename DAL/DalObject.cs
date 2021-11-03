@@ -25,7 +25,7 @@ namespace DalObject
 
             if (id < 0) { throw new IDAL.DO.NegetiveValue("Station's id"); }
 
-            if(charge_solts < 0) { throw new IDAL.DO.NegetiveValue("Charge's slots"); }
+            if (charge_solts < 0) { throw new IDAL.DO.NegetiveValue("Charge's slots"); }
 
             DataSource.stations.Add(new IDAL.DO.Station(id, name, longitude, latitude, charge_solts));
         }

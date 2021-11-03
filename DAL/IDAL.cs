@@ -4,7 +4,7 @@ using System.Text;
 
 namespace IDAL
 {
-    interface IDAL
+    public interface IDAL
     {
         //general methods
         public void AddStation(int id, string name, double longitude, double latitude, int charge_solts);
@@ -28,7 +28,7 @@ namespace IDAL
         public IEnumerable<DO.Station> _getStationList();
         public IEnumerable<DO.Costumer> _getCostumerList();
         public IEnumerable<DO.Parcel> _getParceList();
-        IEnumerable<DO.Drone> _getDroneList();
+        public IEnumerable<DO.Drone> _getDroneList();
         public Queue<DO.Parcel> _getWaitingParcels();
     }
 }
