@@ -8,7 +8,7 @@ namespace IDAL
     {
         //general methods
         public void AddStation(int id, string name, double longitude, double latitude, int charge_solts);
-        public void AddDrone(int id, string model, int maxWeight, int status = (int)DO.DroneStatuses.Undefined, double battery = -1);
+        public void AddDrone(int id, string model, int maxWeight, int status = (int)DO.DroneStatuses.Available, double battery = -1);
         public void AddCostumer(int id, string name, string phone, double longitude, double latitude);
         public void AddParcel(int id, int senderId, int targetId, int weight, int priority, DateTime requested,
             int droneId, DateTime scheduled, DateTime pickedUp, DateTime delivered);
