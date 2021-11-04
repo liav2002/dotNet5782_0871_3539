@@ -5,7 +5,7 @@ using System.Text;
 namespace IDAL
 {
     namespace DO
-    { 
+    {
         public class NonUniqueID : Exception
         {
             public NonUniqueID(string item) : base("ERROR: " + item + " must be unique.\n")
@@ -13,7 +13,7 @@ namespace IDAL
             }
         }
 
-        public class NegetiveValue : Exception 
+        public class NegetiveValue : Exception
         {
             public NegetiveValue(string item) : base("ERROR: " + item + " must be positive.\n")
             {
@@ -29,7 +29,8 @@ namespace IDAL
 
         public class WrongEnumValuesRange : Exception
         {
-            public WrongEnumValuesRange(string item, string start, string end) : base("ERROR: " + item +"(type: Enumorator) have only " + start + "-" + end + " values.\n")
+            public WrongEnumValuesRange(string item, string start, string end) : base("ERROR: " + item +
+                "(type: Enumorator) have only " + start + "-" + end + " values.\n")
             {
             }
         }
@@ -50,7 +51,8 @@ namespace IDAL
 
         public class NonAvilableDrones : Exception
         {
-            public NonAvilableDrones() : base ("Logistic Problem: There is no any avilable drone.\nmoving parcel to waiting list...\n")
+            public NonAvilableDrones() : base(
+                "Logistic Problem: There is no any avilable drone.\nmoving parcel to waiting list...\n")
             {
             }
         }

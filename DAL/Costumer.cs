@@ -30,7 +30,7 @@ namespace IDAL
                 set => _phone = value;
             }
 
-            public double Longitube
+            public double Longitude
             {
                 get => _longitude;
                 set => _longitude = value;
@@ -46,7 +46,7 @@ namespace IDAL
             {
                 return string.Format("the id is: {0}\nthe name is: {1}\nthe phone is: {2}\n" +
                                      "the longitube is: {3}\nthe latitude is: {4}\n"
-                    , Id, Name, Phone, Longitube, Latitude);
+                    , Id, Name, Phone, Longitude, Latitude);
             }
 
             public Costumer(int id, string name, string phone, double longitude, double latitude)

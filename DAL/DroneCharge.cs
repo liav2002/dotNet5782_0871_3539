@@ -16,7 +16,7 @@ namespace IDAL
                 this._droneId = droneId;
                 this._stationId = stationId;
             }
-            
+
             public int DroneId
             {
                 get => _droneId;
@@ -34,8 +34,6 @@ namespace IDAL
                 return string.Format("the droneID is: {0}\nthe stationID is: {1}\n"
                     , DroneId, StationId);
             }
-
-
         }
     }
 }

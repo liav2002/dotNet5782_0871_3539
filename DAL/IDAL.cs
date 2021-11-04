@@ -20,15 +20,15 @@ namespace IDAL
         public double[] PowerRequest();
 
         //getters
-        public DO.Parcel _getParcelById(int id);
-        public DO.Costumer _getCostumerById(int id);
-        public DO.Station _getStationById(int id);
-        public DO.Drone _getDroneById(int id);
-        public DO.DroneCharge _getDroneChargeByDroneId(int id);
-        public IEnumerable<DO.Station> _getStationList();
-        public IEnumerable<DO.Costumer> _getCostumerList();
-        public IEnumerable<DO.Parcel> _getParceList();
-        public IEnumerable<DO.Drone> _getDroneList();
-        public Queue<DO.Parcel> _getWaitingParcels();
+        public DO.Parcel GetParcelById(int id);
+        public DO.Costumer GetCostumerById(int id);
+        public DO.Station GetStationById(int id);
+        public DO.Drone GetDroneById(int id);
+        public DO.DroneCharge GetDroneChargeByDroneId(int id);
+        public IEnumerable<DO.Station> GetStationsList();
+        public IEnumerable<DO.Costumer> GetCostumerList();
+        public IEnumerable<DO.Parcel> GetParcelsList();
+        public IEnumerable<DO.Drone> GetDroneList();
+        public Queue<DO.Parcel> GetWaitingParcels();
     }
 }

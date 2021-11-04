@@ -45,14 +45,14 @@ namespace IDAL
 
             public WeightCategories MaxWeight
             {
-                get => (WeightCategories)_maxWeight;
-                set => _maxWeight = (WeightCategories)value;
+                get => (WeightCategories) _maxWeight;
+                set => _maxWeight = (WeightCategories) value;
             }
 
             public DO.DroneStatuses Status
             {
-                get => (DO.DroneStatuses)_status;
-                set => _status = (DO.DroneStatuses)value;
+                get => (DO.DroneStatuses) _status;
+                set => _status = (DO.DroneStatuses) value;
             }
 
             public double Battery
@@ -82,8 +82,8 @@ namespace IDAL
 
             public Drone(int id, string model, WeightCategories maxWeight,
                     DroneStatuses status = DO.DroneStatuses.Available, double battery = -1)
-            // the default for status and battery is set to be uninitialized.
-            // to avoid runing problems I initialzed it with unreal values.
+                // the default for status and battery is set to be uninitialized.
+                // to avoid runing problems I initialzed it with unreal values.
             {
                 this._id = id;
                 this._model = model;

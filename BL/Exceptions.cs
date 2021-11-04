@@ -2,20 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace IDAL
+namespace IBL
 {
-    namespace DO
+    namespace BO
     {
-        public class NonUniqueID : Exception
+        public class NonItems: Exception
         {
-            public NonUniqueID(string item) : base("ERROR: " + item + " must be unique.\n")
+            public NonItems(string item) : base("ERROR: There is no " + item + ".\n")
             {
             }
         }
-
-
-
-
-
     }
 }

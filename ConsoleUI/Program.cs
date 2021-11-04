@@ -453,7 +453,7 @@ namespace ConsoleUI
 
                     try
                     {
-                        station = dalObj._getStationById(stationId);
+                        station = dalObj.GetStationById(stationId);
 
                         Console.WriteLine(station);
                         Console.WriteLine("Success.\n");
@@ -481,7 +481,7 @@ namespace ConsoleUI
 
                     try
                     {
-                        drone = dalObj._getDroneById(droneId);
+                        drone = dalObj.GetDroneById(droneId);
 
                         Console.WriteLine(drone);
                         Console.WriteLine("Success.\n");
@@ -508,7 +508,7 @@ namespace ConsoleUI
 
                     try
                     {
-                        costumer = dalObj._getCostumerById(costumerId);
+                        costumer = dalObj.GetCostumerById(costumerId);
 
                         Console.WriteLine(costumer);
                         Console.WriteLine("Success.\n");
@@ -535,7 +535,7 @@ namespace ConsoleUI
 
                     try
                     {
-                        parcel = dalObj._getParcelById(paracelId);
+                        parcel = dalObj.GetParcelById(paracelId);
 
                         Console.WriteLine(parcel);
                         Console.WriteLine("Success.\n");
@@ -580,7 +580,7 @@ namespace ConsoleUI
                 {
                     try
                     {
-                        foreach (var station in dalObj._getStationList())
+                        foreach (var station in dalObj.GetStationsList())
                         {
                             Console.WriteLine(station);
                         }
@@ -603,7 +603,7 @@ namespace ConsoleUI
                 {
                     try
                     {
-                        foreach (var drone in dalObj._getDroneList())
+                        foreach (var drone in dalObj.GetDroneList())
                         {
                             Console.WriteLine(drone);
                         }
@@ -626,7 +626,7 @@ namespace ConsoleUI
                 {
                     try
                     {
-                        foreach (var costumer in dalObj._getCostumerList())
+                        foreach (var costumer in dalObj.GetCostumerList())
                         {
                             Console.WriteLine(costumer);
                         }
@@ -649,7 +649,7 @@ namespace ConsoleUI
                 {
                     try
                     {
-                        foreach (var parcel in dalObj._getParceList())
+                        foreach (var parcel in dalObj.GetParcelsList())
                         {
                             Console.WriteLine(parcel);
                         }
@@ -671,7 +671,7 @@ namespace ConsoleUI
                 case ListViewOptionsE.UnassignParacels:
                 {
                     IDAL.DO.Parcel parcel;
-                    int i = dalObj._getWaitingParcels().Count;
+                    int i = dalObj.GetWaitingParcels().Count;
 
                     if (i == 0)
                     {
@@ -682,9 +682,9 @@ namespace ConsoleUI
                     {
                         while (i != 0)
                         {
-                            parcel = dalObj._getWaitingParcels().Dequeue();
+                            parcel = dalObj.GetWaitingParcels().Dequeue();
                             Console.WriteLine(parcel); // print from top to bottom
-                            dalObj._getWaitingParcels().Enqueue(parcel);
+                            dalObj.GetWaitingParcels().Enqueue(parcel);
                             i--;
                         }
 
@@ -706,7 +706,7 @@ namespace ConsoleUI
                 {
                     try
                     {
-                        foreach (var station in dalObj._getStationList())
+                        foreach (var station in dalObj.GetStationsList())
                         {
                             if (station.ChargeSolts >= 1)
                             {
