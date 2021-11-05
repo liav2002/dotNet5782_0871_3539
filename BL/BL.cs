@@ -8,10 +8,9 @@ namespace IBL
 {
     namespace BO
     {
-        class BL : IBL
+        public class BL : IBL
         {
             private IDAL.IDAL _dalObj;
-            private IEnumerable<IDAL.DO.Drone> _drones;
 
             private double _chargeRate = DalObject.DataSource.Config.chargeRatePH; // to all the drones
 
@@ -170,15 +169,12 @@ namespace IBL
                 return count;
             }
 
-            public BL()
+            private void UpdateDrones()
             {
-                // handle all drones, init their values (location, battery, etc):
-
-                this._dalObj = new DalObject.DalObject();
-                this._drones = _dalObj.GetDroneList();
-                
                 //find all the drones which was assign to a parcel, and change there status to Shiping
                 IEnumerable<IDAL.DO.Parcel> parcels = _dalObj.GetParcelsList();
+                IEnumerable<IDAL.DO.Drone> drones = _dalObj.GetDroneList();
+
                 foreach (var parcel in parcels)
                 {
                     if (parcel.DroneId != 0) // the parcel has been assigned to drone, in this part I handle all the shiping drones.
@@ -198,7 +194,7 @@ namespace IBL
                 }
 
                 //move all the drone, set there values.
-                foreach (var drone in this._drones)
+                foreach (var drone in drones)
                 {
                     if (drone.Status != IDAL.DO.DroneStatuses.Shipping) //for all the drones that not in shiping.
                                                                         //I dont care from shiping drones, because I already init there value (battery, location).
@@ -266,6 +262,296 @@ namespace IBL
                         _InitBattery(drone, randParcel, nearStation);
                     }
                 }
+            }
+
+            public BL()
+            {
+                // handle all drones, init their values (location, battery, etc):
+
+                this._dalObj = new DalObject.DalObject();
+
+                UpdateDrones();
+            }
+
+            /*
+       	    *Description: add new Station to stations. check the logic in the parameters, then use dalObject for adding.
+       	    *Parameters: station's id, station's name, station's longitude, station's latitude, charge's slots.
+       	    *Return: None.
+            */
+            public void AddStation(int id, string name, double longitube, double latitude, int charge_solts)
+            {
+                IEnumerable<IDAL.DO.Station> stations = this._dalObj.GetStationsList();
+
+                foreach (var station in stations)
+                {
+                    if (station.Id == id)
+                    {
+                        throw new BO.NonUniqueID("Staion's id");
+                    }
+                }
+
+                if (id < 0)
+                {
+                    throw new BO.NegetiveValue("Station's id");
+                }
+
+                if (charge_solts < 0)
+                {
+                    throw new BO.NegetiveValue("Charge's slots");
+                }
+
+                this._dalObj.AddStation(id, name, longitube, latitude, charge_solts);
+            }
+
+            /*
+   	        *Description: add new Drone to drones. check logic, then use dalObject for adding.
+       	    *Parameters: drone's details.	
+       	    *Return: true - if added successfully, false - else.
+            */
+            public void AddDrone(int id, string model, int maxWeight)
+            {
+                IEnumerable<IDAL.DO.Drone> drones = _dalObj.GetDroneList();
+
+                foreach (var drone in drones)
+                {
+                    if (drone.Id == id)
+                    {
+                        throw new BO.NonUniqueID("Drone's id");
+                    }
+                }
+
+                if (id < 0)
+                {
+                    throw new BO.NegetiveValue("Drone's id");
+                }
+
+                if (maxWeight < 0 || maxWeight > 2)
+                {
+                    throw new BO.WrongEnumValuesRange("maxWeight", "0", "2");
+                }
+
+                this._dalObj.AddDrone(id, model, maxWeight);
+
+                this.UpdateDrones();
+            }
+
+            /*
+            *Description: add new Costumer to costumers. check logic, then use dalObject for adding.
+            *Parameters: costumer's details.
+            *Return: None.
+            */
+            public void AddCostumer(int id, string name, string phone, double longitube, double latitude)
+            {
+                IEnumerable<IDAL.DO.Costumer> costumers = _dalObj.GetCostumerList();
+
+                foreach (var costumer in costumers)
+                {
+                    if (costumer.Id == id)
+                    {
+                        throw new BO.NonUniqueID("Costumer's id");
+                    }
+                }
+
+                if (id < 0)
+                {
+                    throw new BO.NegetiveValue("Costumer's id");
+                }
+
+                this._dalObj.AddCostumer(id, name, phone, longitube, latitude);
+            }
+
+            /*
+            *Description: add new Paracel to paracels. check logic, then use dalObject for adding.
+            *Parameters: paracel's detatils.
+            *Return: None.
+            */
+            public void AddParcel(int id, int senderId, int targetId, int weight, int priority, int droneId)
+            {
+                IEnumerable<IDAL.DO.Parcel> parcels = _dalObj.GetParcelsList();
+
+                foreach (var parcel in parcels)
+                {
+                    if (parcel.Id == id)
+                    {
+                        throw new BO.NonUniqueID("Parcel's id");
+                    }
+                }
+
+                if (targetId == senderId)
+                {
+                    throw new BO.SelfDelivery();
+                }
+
+                if (0 > targetId || 0 > senderId)
+                {
+                    throw new BO.NegetiveValue("Id");
+                }
+
+                if (id < 0)
+                {
+                    throw new BO.NegetiveValue("Parcel's id");
+                }
+
+                this._dalObj.AddParcel(id, senderId, targetId, weight, 
+                    priority, DateTime.Now, droneId, default(DateTime), 
+                    default(DateTime), default(DateTime));
+            }
+
+            /*
+            *Description: find avaliable drone for deliverd a paracel.
+            *Parameters: a paracel.
+            *Return: None.
+            */
+            public void AssignParcelToDrone(int parcelId)
+            {
+                IEnumerable<IDAL.DO.Drone> drones = this._dalObj.GetDroneList();
+                IDAL.DO.Parcel parcel = this._dalObj.GetParcelById(parcelId);
+
+                if(0 > parcelId) { throw new BO.NegetiveValue("Parcel's id"); }
+
+                foreach (var drone in drones)
+                {
+                    if (drone.Status == IDAL.DO.DroneStatuses.Available && // if the drone is avalible
+                        (int)drone.MaxWeight >=
+                        (int)parcel.Weight) // and the drone maxWeight is qual or bigger to the parcel weight
+                    {
+                        this._dalObj.AssignParcelToDrone(parcelId, drone.Id);
+                        return; //operation complete - we find an avilable drone, so exit the function.
+                    }
+                }
+
+                //if there is no any avilable drone
+                this._dalObj.MoveParcelToWaitingList(parcel);
+            }
+
+            /*
+            *Description: update PickedUp time to NOW. check logic.
+            *Parameters: a paracel.
+            *Return: None.
+            */
+            public void ParcelCollection(int parcelId)
+            {
+                if (0 > parcelId) { throw new BO.NegetiveValue("Parcel's id"); }
+
+                this._dalObj.ParcelCollection(parcelId);
+            }
+
+            /*
+            *Description: update delivered time to NOW. check logic.
+            *Parameters: a paracel.
+            *Return: None.
+            */
+            public void ParcelDelivered(int parcelId)
+            {
+                if (0 > parcelId) { throw new BO.NegetiveValue("Parcel's id"); }
+
+                this._dalObj.ParcelCollection(parcelId);
+
+                //check if there is any waiting parcels, for assign them to the current drone.
+                IDAL.DO.Parcel nextParcel = this._dalObj.GetNextParcel();
+
+                if(nextParcel != null) //if there is a wairing parcel
+                {
+                    this._dalObj.AssignParcelToDrone(nextParcel.Id, this._dalObj.GetParcelById(parcelId).DroneId);
+                }
+            }
+
+            /*
+            *Description: Send drone to charge's station. check logic.
+            *Parameters: drone's id, station's id.
+            *Return: None.
+            */
+            public void SendDroneToCharge(int droneId, int stationId)
+            {
+                if (0 > droneId) { throw new BO.NegetiveValue("Drone's id"); }
+                if (0 > stationId) { throw new BO.NegetiveValue("Station's id"); }
+
+                IDAL.DO.Drone drone = this._dalObj.GetDroneById(droneId); ;
+                IDAL.DO.Station station = this._dalObj.GetStationById(stationId); ;
+
+                if (station.ChargeSolts <= 0)
+                {
+                    throw new BO.NegetiveValue("Charge's slots");
+                }
+
+                this._dalObj.SendDroneToCharge(droneId, stationId);
+            }
+
+            /*
+            *Description: release drone from station. check logic.
+            *Parameters: a drone.
+            *Return: None.
+            */
+            public void DroneRelease(int droneId)
+            {
+                if (0 > droneId) { throw new BO.NegetiveValue("Drone's id"); }
+                
+                this._dalObj.DroneRelease(droneId);
+
+                //check if there is any waiting parcels, for assign them to the current drone.
+                IDAL.DO.Parcel nextParcel = this._dalObj.GetNextParcel();
+
+                if (nextParcel != null) //if there is a wairing parcel
+                {
+                    this._dalObj.AssignParcelToDrone(nextParcel.Id, droneId);
+                }
+            }
+
+            //getters:
+
+            public IDAL.DO.Parcel GetParcelById(int id)
+            {
+                if (0 > id) { throw new BO.NegetiveValue("Parcel's id"); }
+                return this._dalObj.GetParcelById(id);
+            }
+
+            public IDAL.DO.Costumer GetCostumerById(int id)
+            {
+                if (0 > id) { throw new BO.NegetiveValue("Costumer's id"); }
+                return this._dalObj.GetCostumerById(id);
+            }
+
+            public IDAL.DO.Station GetStationById(int id)
+            {
+                if (0 > id) { throw new BO.NegetiveValue("Station's id"); }
+                return this._dalObj.GetStationById(id);
+            }
+
+            public IDAL.DO.Drone GetDroneById(int id)
+            {
+                if (0 > id) { throw new BO.NegetiveValue("Drone's id"); }
+                return this._dalObj.GetDroneById(id);
+            }
+
+            public IDAL.DO.DroneCharge GetDroneChargeByDroneId(int id)
+            {
+                if (0 > id) { throw new BO.NegetiveValue("Drone's id"); }
+                return this._dalObj.GetDroneChargeByDroneId(id);
+            }
+
+            public IEnumerable<IDAL.DO.Station> GetStationsList()
+            {
+                return this._dalObj.GetStationsList();
+            }
+
+            public IEnumerable<IDAL.DO.Costumer> GetCostumerList()
+            {
+                return this._dalObj.GetCostumerList();
+            }
+
+            public IEnumerable<IDAL.DO.Parcel> GetParcelsList()
+            {
+                return this._dalObj.GetParcelsList();
+            }
+
+            public IEnumerable<IDAL.DO.Drone> GetDroneList()
+            {
+                return this._dalObj.GetDroneList();
+            }
+
+            public Queue<IDAL.DO.Parcel> GetWaitingParcels()
+            {
+                return this._dalObj.GetWaitingParcels();
             }
         }
     }

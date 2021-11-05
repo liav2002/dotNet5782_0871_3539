@@ -180,7 +180,7 @@ namespace ConsoleUI
 
                     try
                     {
-                        dalObj.AddDrone(id, model, maxWeight, status, battery);
+                        dalObj.AddDrone(id, model, maxWeight);
                         Console.WriteLine("Success.\n");
                         pause();
                     }
@@ -305,9 +305,10 @@ namespace ConsoleUI
 
                     try
                     {
-                        dalObj.AssignParcelToDrone(paracelId);
-                        Console.WriteLine("Success.\n");
-                        pause();
+                        //dalObj.AssignParcelToDrone(paracelId);
+                        throw new Exception("BL unit is missing. can't assign a drone to parcel. update version required.");
+                        //Console.WriteLine("Success.\n");
+                        //pause();
                     }
 
                     catch (Exception e)

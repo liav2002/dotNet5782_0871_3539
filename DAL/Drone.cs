@@ -80,20 +80,12 @@ namespace IDAL
                     , Id, Model, MaxWeight, Status, Battery);
             }
 
-            public Drone(int id, string model, WeightCategories maxWeight,
-                    DroneStatuses status = DO.DroneStatuses.Available, double battery = -1)
-                // the default for status and battery is set to be uninitialized.
-                // to avoid runing problems I initialzed it with unreal values.
+            public Drone(int id, string model, WeightCategories maxWeight)
             {
                 this._id = id;
                 this._model = model;
                 this._maxWeight = maxWeight;
-                this._status = status;
-                this._battery = battery;
-
-                this._chargeRate = 0;
-                this._longitude = 0;
-                this._latitude = 0;
+                this._chargeRate = DalObject.DataSource.Config.chargeRatePH;
             }
         }
     }

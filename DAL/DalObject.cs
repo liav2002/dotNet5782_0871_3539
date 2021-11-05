@@ -12,127 +12,43 @@ namespace DalObject
         }
 
         /*
-       	*Description: add new Station to stations. check if station's list is not full before adding. if full print suitable message.
-       	*Parameters: station's id, station's name, station's longitude, station's latitude, charge's slots.
-       	*Return: true - if added successfully, false - else.
+       	*Description: add new Station to stations.
+       	*Parameters: station's id, station's name, station's longitube, station's latitude, charge's slots.
+       	*Return: None.
         */
-        public void AddStation(int id, string name, double longitude, double latitude, int charge_solts)
+        public void AddStation(int id, string name, double longitube, double latitude, int charge_solts)
         {
-            foreach (var station in DataSource.stations)
-            {
-                if (station.Id == id)
-                {
-                    throw new IDAL.DO.NonUniqueID("Staion's id");
-                }
-            }
-
-            if (id < 0)
-            {
-                throw new IDAL.DO.NegetiveValue("Station's id");
-            }
-
-            if (charge_solts < 0)
-            {
-                throw new IDAL.DO.NegetiveValue("Charge's slots");
-            }
-
-            DataSource.stations.Add(new IDAL.DO.Station(id, name, longitude, latitude, charge_solts));
+            DataSource.stations.Add(new IDAL.DO.Station(id, name, longitube, latitude, charge_solts));
         }
 
         /*
-   	    *Description: add new Drone to drones. check if drone's list is not full before adding. if full print suitable message.
+   	    *Description: add new Drone to drones.
        	*Parameters: drone's details.	
-       	*Return: true - if added successfully, false - else.
+       	*Return: None.
         */
-        public void AddDrone(int id, string model, int maxWeight, int status = (int) IDAL.DO.DroneStatuses.Available,
-            double battery = -1)
+        public void AddDrone(int id, string model, int maxWeight)
         {
-            foreach (var drone in DataSource.drones)
-            {
-                if (drone.Id == id)
-                {
-                    throw new IDAL.DO.NonUniqueID("Drone's id");
-                }
-            }
-
-            if (id < 0)
-            {
-                throw new IDAL.DO.NegetiveValue("Drone's id");
-            }
-
-            if ((battery < 0 || battery > 100) && (battery != -1))
-            {
-                throw new IDAL.DO.InvalidBattery();
-            }
-
-            if (maxWeight < 0 || maxWeight > 2)
-            {
-                throw new IDAL.DO.WrongEnumValuesRange("maxWeight", "0", "2");
-            }
-
-            if (status < 0 || status > 2)
-            {
-                throw new IDAL.DO.WrongEnumValuesRange("status", "0", "2");
-            }
-
-            DataSource.drones.Add(new IDAL.DO.Drone(id, model, (IDAL.DO.WeightCategories) maxWeight,
-                (IDAL.DO.DroneStatuses) status, battery));
+            DataSource.drones.Add(new IDAL.DO.Drone(id, model, (IDAL.DO.WeightCategories) maxWeight));
         }
 
         /*
-        *Description: add new Costumer to costumers. check if costumer's list is not full before adding. if full print suitable message.
+        *Description: add new Costumer to costumers.
         *Parameters: costumer's details.
-        *Return: true - if added successfully, false - else.
+        *Return: None.
         */
-        public void AddCostumer(int id, string name, string phone, double longitude, double latitude)
+        public void AddCostumer(int id, string name, string phone, double longitube, double latitude)
         {
-            foreach (var costumer in DataSource.costumers)
-            {
-                if (costumer.Id == id)
-                {
-                    throw new IDAL.DO.NonUniqueID("Costumer's id");
-                }
-            }
-
-            if (id < 0)
-            {
-                throw new IDAL.DO.NegetiveValue("Costumer's id");
-            }
-
-            DataSource.costumers.Add(new IDAL.DO.Costumer(id, name, phone, longitude, latitude));
+            DataSource.costumers.Add(new IDAL.DO.Costumer(id, name, phone, longitube, latitude));
         }
 
         /*
-        *Description: add new Paracel to paracels. check if paracel's list is not full before adding. if full print suitable message.
+        *Description: add new Paracel to paracels.
         *Parameters: paracel's detatils.
-        *Return: true - if added successfully, false - else.
+        *Return: None.
         */
         public void AddParcel(int id, int senderId, int targetId, int weight, int priority, DateTime requested,
             int droneId, DateTime scheduled, DateTime pickedUp, DateTime delivered)
         {
-            foreach (var parcel in DataSource.parcels)
-            {
-                if (parcel.Id == id)
-                {
-                    throw new IDAL.DO.NonUniqueID("Parcel's id");
-                }
-            }
-
-            if (targetId == senderId)
-            {
-                throw new IDAL.DO.SelfDelivery();
-            }
-
-            if (0 > targetId || 0 > senderId)
-            {
-                throw new IDAL.DO.NegetiveValue("Id");
-            }
-
-            if (id < 0)
-            {
-                throw new IDAL.DO.NegetiveValue("Parcel's id");
-            }
-
             try
             {
                 GetCostumerById(senderId);
@@ -150,39 +66,35 @@ namespace DalObject
         }
 
         /*
-        *Description: find avaliable drone for deliverd a paracel. // TODO: get parcel's id from the user, 
-		*find avaliable drone and initalized paracel.DroneId = droneId.
-        *Parameters: a paracel.
-        *Return: true - if assign successfully, false - else.
+        *Description: make an assign between parcel to drone. 
+        *Parameters: parcel's id, drone's id.
+        *Return: None.
         */
-        public void AssignParcelToDrone(int id)
+        public void AssignParcelToDrone(int parcelId, int droneId)
         {
-            IDAL.DO.Parcel parcel;
+            IDAL.DO.Parcel parcel = GetParcelById(parcelId);
+            IDAL.DO.Drone drone = GetDroneById(droneId);
 
-            parcel = GetParcelById(id);
+            parcel.Scheduled = DateTime.Now;
+            parcel.DroneId = drone.Id;
+            drone.Status = IDAL.DO.DroneStatuses.Shipping;
+        }
 
-            foreach (var drone in DataSource.drones)
-            {
-                if (drone.Status == IDAL.DO.DroneStatuses.Available && // if the drone its avalible
-                    (int) drone.MaxWeight >=
-                    (int) parcel.Weight) // and the drone maxWeight is qual or bigger to the parcel weight
-                {
-                    parcel.Scheduled = DateTime.Now;
-                    parcel.DroneId = drone.Id;
-                    drone.Status = IDAL.DO.DroneStatuses.Shipping;
-                    return;
-                }
-            }
-
+        /*
+        *Description: move parcel to waiting list.
+        *Parameters: a paracel.
+        *Return: None.
+        */
+        public void MoveParcelToWaitingList(IDAL.DO.Parcel parcel)
+        {
             DataSource.waitingParcels.Enqueue(parcel); // if all the drones are not availible
-
             throw new IDAL.DO.NonAvilableDrones();
         }
 
         /*
         *Description: update PickedUp time to NOW.
         *Parameters: a paracel.
-        *Return: true - if update successfully, false - else. In this part of the project this operation always will return true.
+        *Return: None.
         */
         public void ParcelCollection(int id)
         {
@@ -196,7 +108,7 @@ namespace DalObject
         /*
         *Description: update delivered time to NOW.
         *Parameters: a paracel..
-        *Return: true - if update successfully, false - else. In this part of the project this operation always will return true.
+        *Return: None.
         */
         public void ParcelDelivered(int id)
         {
@@ -208,19 +120,30 @@ namespace DalObject
 
             drone.Status = IDAL.DO.DroneStatuses.Available;
             parcel.Delivered = DateTime.Now;
+        }
 
-            // assign new parcel to the current drone
+        /*
+        *Description: get next parcel from waiting list.
+        *Parameters: None.
+        *Return: parcel if the list is not empty, else null.
+        */
+        public IDAL.DO.Parcel GetNextParcel()
+        {
             if (DataSource.waitingParcels.Count != 0)
             {
-                IDAL.DO.Parcel nextParcel = DataSource.waitingParcels.Dequeue();
-                AssignParcelToDrone(nextParcel.Id);
+                return DataSource.waitingParcels.Dequeue();
+            }
+
+            else
+            {
+                return null; 
             }
         }
 
         /*
-        *Description: Send drone to charge's station. // TODO: change drone's state, get a station from the user according to station list, 
+        *Description: Send drone to charge's station.
         *Parameters: a drone, a station
-        *Return: true - if send successfully, false - else.
+        *Return: None.
         */
         public void SendDroneToCharge(int droneId, int stationId)
         {
@@ -229,11 +152,6 @@ namespace DalObject
 
             station = GetStationById(stationId);
             drone = GetDroneById(droneId);
-
-            if (station.ChargeSolts <= 0)
-            {
-                throw new IDAL.DO.NegetiveValue("Charge's slots");
-            }
 
             station.ChargeSolts--;
             IDAL.DO.DroneCharge dc = new IDAL.DO.DroneCharge(drone.Id, station.Id);
@@ -244,7 +162,7 @@ namespace DalObject
         /*
         *Description: release drone from station. 
         *Parameters: a drone.
-        *Return: true - if send successfully, false - else.
+        *Return: None.
         */
         public void DroneRelease(int droneId)
         {
@@ -259,14 +177,6 @@ namespace DalObject
             station.ChargeSolts++;
             DataSource.droneCharge.Remove(dc);
             drone.Status = IDAL.DO.DroneStatuses.Available;
-
-
-            // assign new parcel to the current drone
-            if (DataSource.waitingParcels.Count != 0)
-            {
-                IDAL.DO.Parcel nextParcel = DataSource.waitingParcels.Dequeue();
-                AssignParcelToDrone(nextParcel.Id);
-            }
         }
 
         public double[] PowerRequest() 
