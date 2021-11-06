@@ -10,7 +10,7 @@ namespace IDAL
         {
             private int _id;
             private string _name;
-            private double _longitude;
+            private double _longitube;
             private double _latitude;
             private int _chargeSolts;
 
@@ -26,10 +26,10 @@ namespace IDAL
                 set => _name = value;
             }
 
-            public double Longitude
+            public double Longitube
             {
-                get => _longitude;
-                set => _longitude = value;
+                get => _longitube;
+                set => _longitube = value;
             }
 
             public double Latitude
@@ -46,16 +46,16 @@ namespace IDAL
 
             public override string ToString()
             {
-                return string.Format("the id is: {0}\nthe name is: {1}\nthe longitude is: {2}\n" +
+                return string.Format("the id is: {0}\nthe name is: {1}\nthe longitube is: {2}\n" +
                                      "the latitude is: {3}\nthe number of available argument positions: {4}\n"
-                    , Id, Name, Longitude, Latitude, ChargeSolts);
+                    , Id, Name, Longitube, Latitude, ChargeSolts);
             }
 
-            public Station(int id, string name, double longitude, double latitude, int charge_solts)
+            public Station(int id, string name, double longitube, double latitude, int charge_solts)
             {
                 this._id = id;
                 this._name = name;
-                this._longitude = longitude;
+                this._longitube = longitube;
                 this._latitude = latitude;
                 this._chargeSolts = charge_solts;
             }

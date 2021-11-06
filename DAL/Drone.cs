@@ -86,6 +86,7 @@ namespace IDAL
                 this._model = model;
                 this._maxWeight = maxWeight;
                 this._chargeRate = DalObject.DataSource.Config.chargeRatePH;
+                this.Status = DroneStatuses.Available;
             }
         }
     }

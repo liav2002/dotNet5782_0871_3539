@@ -447,7 +447,7 @@ namespace ConsoleUI_BL
                             pause();
                         }
 
-                        catch (ArgumentException e)
+                        catch (Exception e)
                         {
                             Console.WriteLine("Failed.\n");
                             Console.WriteLine(e.Message);
@@ -475,7 +475,7 @@ namespace ConsoleUI_BL
                             pause();
                         }
 
-                        catch (ArgumentException e)
+                        catch (Exception e)
                         {
                             Console.WriteLine("Failed.\n");
                             Console.WriteLine(e.Message);
@@ -502,7 +502,7 @@ namespace ConsoleUI_BL
                             pause();
                         }
 
-                        catch (ArgumentException e)
+                        catch (Exception e)
                         {
                             Console.WriteLine("Failed.\n");
                             Console.WriteLine(e.Message);
@@ -529,7 +529,7 @@ namespace ConsoleUI_BL
                             pause();
                         }
 
-                        catch (ArgumentException e)
+                        catch (Exception e)
                         {
                             Console.WriteLine("Failed.\n");
                             Console.WriteLine(e.Message);

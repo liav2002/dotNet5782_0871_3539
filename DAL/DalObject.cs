@@ -66,21 +66,6 @@ namespace DalObject
         }
 
         /*
-        *Description: make an assign between parcel to drone. 
-        *Parameters: parcel's id, drone's id.
-        *Return: None.
-        */
-        public void AssignParcelToDrone(int parcelId, int droneId)
-        {
-            IDAL.DO.Parcel parcel = GetParcelById(parcelId);
-            IDAL.DO.Drone drone = GetDroneById(droneId);
-
-            parcel.Scheduled = DateTime.Now;
-            parcel.DroneId = drone.Id;
-            drone.Status = IDAL.DO.DroneStatuses.Shipping;
-        }
-
-        /*
         *Description: move parcel to waiting list.
         *Parameters: a paracel.
         *Return: None.
@@ -89,37 +74,6 @@ namespace DalObject
         {
             DataSource.waitingParcels.Enqueue(parcel); // if all the drones are not availible
             throw new IDAL.DO.NonAvilableDrones();
-        }
-
-        /*
-        *Description: update PickedUp time to NOW.
-        *Parameters: a paracel.
-        *Return: None.
-        */
-        public void ParcelCollection(int id)
-        {
-            IDAL.DO.Parcel parcel;
-
-            parcel = GetParcelById(id);
-
-            parcel.PickedUp = DateTime.Now;
-        }
-
-        /*
-        *Description: update delivered time to NOW.
-        *Parameters: a paracel..
-        *Return: None.
-        */
-        public void ParcelDelivered(int id)
-        {
-            IDAL.DO.Parcel parcel;
-            IDAL.DO.Drone drone;
-
-            parcel = GetParcelById(id);
-            drone = GetDroneById(parcel.DroneId);
-
-            drone.Status = IDAL.DO.DroneStatuses.Available;
-            parcel.Delivered = DateTime.Now;
         }
 
         /*
@@ -145,18 +99,10 @@ namespace DalObject
         *Parameters: a drone, a station
         *Return: None.
         */
-        public void SendDroneToCharge(int droneId, int stationId)
+        public void AddDroneToCharge(int droneId, int stationId)
         {
-            IDAL.DO.Drone drone;
-            IDAL.DO.Station station;
-
-            station = GetStationById(stationId);
-            drone = GetDroneById(droneId);
-
-            station.ChargeSolts--;
-            IDAL.DO.DroneCharge dc = new IDAL.DO.DroneCharge(drone.Id, station.Id);
+            IDAL.DO.DroneCharge dc = new IDAL.DO.DroneCharge(droneId, stationId);
             DataSource.droneCharge.Add(dc);
-            drone.Status = IDAL.DO.DroneStatuses.Maintenance;
         }
 
         /*
@@ -177,6 +123,7 @@ namespace DalObject
             station.ChargeSolts++;
             DataSource.droneCharge.Remove(dc);
             drone.Status = IDAL.DO.DroneStatuses.Available;
+            drone.Battery = 100;
         }
 
         public double[] PowerRequest() 

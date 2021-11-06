@@ -26,25 +26,29 @@ namespace IBL
              **********************************************************************************************/
             private int _GetNearestStation(double lat, double lon)
             {
+                int stationId = -1;
                 var stations = _dalObj.GetStationsList();
 
                 if (!stations.Any() || stations == null) throw new NonItems("Stations");
 
                 var station = stations.GetEnumerator();
 
-                double min = _Distance(station.Current.Latitude, station.Current.Longitude, lat,
-                    lon);
-                int stationId = station.Current.Id;
-
-                while (station.MoveNext())
+                if(station.MoveNext())
                 {
-                    double distance = _Distance(station.Current.Latitude, station.Current.Longitude, lat,
-                        lon);
+                    double min = _Distance(station.Current.Latitude, station.Current.Longitube, lat,
+                    lon);
+                    stationId = station.Current.Id;
 
-                    if (min > distance)
+                    while (station.MoveNext())
                     {
-                        min = distance;
-                        stationId = station.Current.Id;
+                        double distance = _Distance(station.Current.Latitude, station.Current.Longitube, lat,
+                            lon);
+
+                        if (min > distance)
+                        {
+                            min = distance;
+                            stationId = station.Current.Id;
+                        }
                     }
                 }
 
@@ -62,14 +66,14 @@ namespace IBL
                 if (parcel.PickedUp == default(DateTime)) //the parcel is not pickedup yet
                 {
                     drone.Latitude = station.Latitude;
-                    drone.Longitube = station.Longitude;
+                    drone.Longitube = station.Longitube;
                 }
 
                 else if (parcel.Delivered == default(DateTime)) // the parcel is not delivered yet (but it's picked up)
                 {
                     var sender = _dalObj.GetCostumerById(parcel.SenderId);
                     drone.Latitude = sender.Latitude;
-                    drone.Longitube = sender.Longitude;
+                    drone.Longitube = sender.Longitube;
                 }
             }
 
@@ -91,14 +95,14 @@ namespace IBL
                 if(drone.Status == IDAL.DO.DroneStatuses.Shipping)
                 {
                     // first fly - base to parcel (maybe the drone is already in base, it doesn't affect)
-                    d1 = _Distance(drone.Latitude, drone.Longitube, sender.Latitude, sender.Longitude);
+                    d1 = _Distance(drone.Latitude, drone.Longitube, sender.Latitude, sender.Longitube);
 
                     // second fly - sender to target with the parcel
-                    d2 = _Distance(sender.Latitude, sender.Longitude, target.Latitude, target.Longitude);
+                    d2 = _Distance(sender.Latitude, sender.Longitube, target.Latitude, target.Longitube);
 
                     // last fly - returning to the nearest base from target, without the parcel
-                    station = this._dalObj.GetStationById(_GetNearestStation(target.Latitude, target.Longitude));
-                    d3 = _Distance(target.Latitude, target.Longitude, station.Latitude, station.Longitude);
+                    station = this._dalObj.GetStationById(_GetNearestStation(target.Latitude, target.Longitube));
+                    d3 = _Distance(target.Latitude, target.Longitube, station.Latitude, station.Longitube);
 
                     minBattery = (d1 + d3) * DataSource.Config.avilablePPK;
 
@@ -124,7 +128,7 @@ namespace IBL
 
                 else if(drone.Status == IDAL.DO.DroneStatuses.Available)
                 {
-                    minBattery = _Distance(drone.Latitude, drone.Longitube, station.Latitude, station.Longitude) * DataSource.Config.avilablePPK;
+                    minBattery = _Distance(drone.Latitude, drone.Longitube, station.Latitude, station.Longitube) * DataSource.Config.avilablePPK;
                 }
 
                 // set the drone's battery random value between minBattery to 100
@@ -169,98 +173,101 @@ namespace IBL
                 return count;
             }
 
-            private void UpdateDrones()
+            private void HandleAssignParcels()
             {
                 //find all the drones which was assign to a parcel, and change there status to Shiping
                 IEnumerable<IDAL.DO.Parcel> parcels = _dalObj.GetParcelsList();
-                IEnumerable<IDAL.DO.Drone> drones = _dalObj.GetDroneList();
 
                 foreach (var parcel in parcels)
                 {
                     if (parcel.DroneId != 0) // the parcel has been assigned to drone, in this part I handle all the shiping drones.
                     {
-                        // for every parcel that have a drone
-                        var drone = _dalObj.GetDroneById(parcel.DroneId);
-                        var sender = _dalObj.GetCostumerById(parcel.SenderId);
-                        var nearStation =
-                            _dalObj.GetStationById(_GetNearestStation(sender.Latitude, sender.Longitude));
-
-                        drone.Status = IDAL.DO.DroneStatuses.Shipping; // change the drone status to Shipping
-
-                        _InitDroneLocation(drone, parcel, nearStation); // set drone's location
-
-                        _InitBattery(drone, parcel, nearStation); // set drone's battery
+                        HandleAssignParcel(parcel);
                     }
                 }
+            }
 
-                //move all the drone, set there values.
-                foreach (var drone in drones)
+            private void HandleAssignParcel(IDAL.DO.Parcel parcel)
+            {
+                var drone = _dalObj.GetDroneById(parcel.DroneId);
+                var sender = _dalObj.GetCostumerById(parcel.SenderId);
+                var nearStation =
+                    _dalObj.GetStationById(_GetNearestStation(sender.Latitude, sender.Longitube));
+
+                drone.Status = IDAL.DO.DroneStatuses.Shipping; // change the drone status to Shipping
+
+                _InitDroneLocation(drone, parcel, nearStation); // set drone's location
+
+                _InitBattery(drone, parcel, nearStation); // set drone's battery
+            }
+
+            private void SetDroneDetails(IDAL.DO.Drone drone)
+            {
+                if (drone.Status != IDAL.DO.DroneStatuses.Shipping) //for all the drones that not in shiping.
+                                                                    //I dont care from shiping drones, because I already init there value (battery, location).
                 {
-                    if (drone.Status != IDAL.DO.DroneStatuses.Shipping) //for all the drones that not in shiping.
-                                                                        //I dont care from shiping drones, because I already init there value (battery, location).
+                    Random rand = new Random();
+                    int status = rand.Next(0, 1);
+                    drone.Status = (status == 0) // get random staus avilable or maintance.
+                        ? IDAL.DO.DroneStatuses.Available
+                        : IDAL.DO.DroneStatuses.Maintenance;
+                }
+
+                if (drone.Status == IDAL.DO.DroneStatuses.Maintenance) // handle the maintance drones.
+                {
+                    Random rand = new Random();
+                    var stations = _dalObj.GetStationsList();
+                    int counter = _LengthIEnumerator<IDAL.DO.Station>(stations);
+                    int index = rand.Next(0, counter - 1);
+
+                    //get random base station
+                    var enumerator = stations.GetEnumerator();
+                    for (int _ = 0;
+                        _ < index;
+                        _++)
                     {
-                        Random rand = new Random();
-                        int status = rand.Next(0, 1);
-                        drone.Status = (status == 0) // get random staus avilable or maintance.
-                            ? IDAL.DO.DroneStatuses.Available
-                            : IDAL.DO.DroneStatuses.Maintenance;
+                        enumerator.MoveNext();
                     }
 
-                    if (drone.Status == IDAL.DO.DroneStatuses.Maintenance) // handle the maintance drones.
-                    {
-                        Random rand = new Random();
-                        var stations = _dalObj.GetStationsList();
-                        int counter = _LengthIEnumerator<IDAL.DO.Station>(stations);
-                        int index = rand.Next(0, counter - 1);
+                    //set location
+                    drone.Latitude = enumerator.Current.Latitude;
+                    drone.Longitube = enumerator.Current.Longitube;
 
-                        //get random base station
-                        var enumerator = stations.GetEnumerator();
-                        for (int _ = 0;
-                            _ < index;
-                            _++)
+                    //set battery
+                    drone.Battery = rand.NextDouble() * 20;
+                }
+
+                else if (drone.Status == IDAL.DO.DroneStatuses.Available) // handle the avilable drones.
+                {
+                    IEnumerable<IDAL.DO.Parcel> parcels = _dalObj.GetParcelsList();
+                    Random rand = new Random();
+
+                    // get a list of delivered parcels.
+                    List<IDAL.DO.Parcel> deliveredParcels = new List<IDAL.DO.Parcel>();
+                    foreach (var parcel in parcels)
+                    {
+                        if (parcel.Delivered != default(DateTime))
                         {
-                            enumerator.MoveNext();
+                            deliveredParcels.Add(parcel);
                         }
-
-                        //set location
-                        drone.Latitude = enumerator.Current.Latitude;
-                        drone.Longitube = enumerator.Current.Longitude;
-
-                        //set battery
-                        drone.Battery = rand.NextDouble() * 20;
                     }
 
-                    else if (drone.Status == IDAL.DO.DroneStatuses.Available) // handle the avilable drones.
-                    {
-                        Random rand = new Random();
+                    // get random parcel from the list.
+                    int index = rand.Next(0, deliveredParcels.Count - 1);
+                    IDAL.DO.Parcel randParcel = deliveredParcels[index];
 
-                        // get a list of delivered parcels.
-                        List<IDAL.DO.Parcel> deliveredParcels = new List<IDAL.DO.Parcel>();
-                        foreach (var parcel in parcels)
-                        {
-                            if (parcel.Delivered != default(DateTime))
-                            {
-                                deliveredParcels.Add(parcel);
-                            }
-                        }
+                    // get the target from the random delivered parcel
+                    IDAL.DO.Costumer randTarget = _dalObj.GetCostumerById(randParcel.TargetId);
 
-                        // get random parcel from the list.
-                        int index = rand.Next(0, deliveredParcels.Count - 1);
-                        IDAL.DO.Parcel randParcel = deliveredParcels[index];
+                    // set drone's location
+                    drone.Latitude = randTarget.Latitude;
+                    drone.Longitube = randTarget.Longitube;
 
-                        // get the target from the random delivered parcel
-                        IDAL.DO.Costumer randTarget = _dalObj.GetCostumerById(randParcel.TargetId);
+                    //get the nearest base station to the target
+                    IDAL.DO.Station nearStation = _dalObj.GetStationById(_GetNearestStation(drone.Latitude, drone.Longitube));
 
-                        // set drone's location
-                        drone.Latitude = randTarget.Latitude;
-                        drone.Longitube = randTarget.Longitude;
-
-                        //get the nearest base station to the target
-                        IDAL.DO.Station nearStation = _dalObj.GetStationById(_GetNearestStation(drone.Latitude, drone.Longitube));
-
-                        //according to the nearest base station, get random battery and set it in drone's battery
-                        _InitBattery(drone, randParcel, nearStation);
-                    }
+                    //according to the nearest base station, get random battery and set it in drone's battery
+                    _InitBattery(drone, randParcel, nearStation);
                 }
             }
 
@@ -269,8 +276,13 @@ namespace IBL
                 // handle all drones, init their values (location, battery, etc):
 
                 this._dalObj = new DalObject.DalObject();
+                IEnumerable<IDAL.DO.Drone> drones = _dalObj.GetDroneList();
+                HandleAssignParcels();
 
-                UpdateDrones();
+                foreach(var drone in drones)
+                {
+                    SetDroneDetails(drone);
+                }
             }
 
             /*
@@ -332,7 +344,7 @@ namespace IBL
 
                 this._dalObj.AddDrone(id, model, maxWeight);
 
-                this.UpdateDrones();
+                this.SetDroneDetails(this._dalObj.GetDroneById(id));
             }
 
             /*
@@ -415,7 +427,9 @@ namespace IBL
                         (int)drone.MaxWeight >=
                         (int)parcel.Weight) // and the drone maxWeight is qual or bigger to the parcel weight
                     {
-                        this._dalObj.AssignParcelToDrone(parcelId, drone.Id);
+                        parcel.Scheduled = DateTime.Now;
+                        parcel.DroneId = drone.Id;
+                        this.HandleAssignParcel(this._dalObj.GetParcelById(parcelId));
                         return; //operation complete - we find an avilable drone, so exit the function.
                     }
                 }
@@ -433,7 +447,12 @@ namespace IBL
             {
                 if (0 > parcelId) { throw new BO.NegetiveValue("Parcel's id"); }
 
-                this._dalObj.ParcelCollection(parcelId);
+                IDAL.DO.Parcel parcel = this._dalObj.GetParcelById(parcelId);
+                IDAL.DO.Drone drone = this.GetDroneById(parcel.DroneId);
+                IDAL.DO.Costumer costumer = this.GetCostumerById(parcel.SenderId);
+                drone.Latitude = costumer.Latitude;
+                drone.Longitube = costumer.Longitube;
+                parcel.PickedUp = DateTime.Now;
             }
 
             /*
@@ -443,16 +462,33 @@ namespace IBL
             */
             public void ParcelDelivered(int parcelId)
             {
+                //check logic
                 if (0 > parcelId) { throw new BO.NegetiveValue("Parcel's id"); }
 
-                this._dalObj.ParcelCollection(parcelId);
+                IDAL.DO.Parcel parcel = this.GetParcelById(parcelId);
+
+                if(parcel.PickedUp == default(DateTime)) { throw new Exception("Parcel is not picked up yet, therefore can't be in delivered status.\n"); }
+
+                //update parcel's details
+
+                parcel.Delivered = DateTime.Now;
+
+                //update drone's details
+
+                IDAL.DO.Drone drone = this.GetDroneById(parcel.DroneId);
+                IDAL.DO.Costumer target = this.GetCostumerById(parcel.TargetId);
+                IDAL.DO.Station station = this._dalObj.GetStationById(this._GetNearestStation(target.Latitude, target.Longitube));
+                drone.Status = IDAL.DO.DroneStatuses.Available;
+                drone.Latitude = station.Latitude;
+                drone.Longitube = station.Longitube;
 
                 //check if there is any waiting parcels, for assign them to the current drone.
-                IDAL.DO.Parcel nextParcel = this._dalObj.GetNextParcel();
 
-                if(nextParcel != null) //if there is a wairing parcel
+                parcel = this._dalObj.GetNextParcel();
+
+                if(parcel != null) //if there is a waiting parcel
                 {
-                    this._dalObj.AssignParcelToDrone(nextParcel.Id, this._dalObj.GetParcelById(parcelId).DroneId);
+                    this.AssignParcelToDrone(parcel.Id);
                 }
             }
 
@@ -474,7 +510,9 @@ namespace IBL
                     throw new BO.NegetiveValue("Charge's slots");
                 }
 
-                this._dalObj.SendDroneToCharge(droneId, stationId);
+                station.ChargeSolts--;
+                this._dalObj.AddDroneToCharge(drone.Id, station.Id);
+                drone.Status = IDAL.DO.DroneStatuses.Maintenance;
             }
 
             /*
@@ -493,7 +531,7 @@ namespace IBL
 
                 if (nextParcel != null) //if there is a wairing parcel
                 {
-                    this._dalObj.AssignParcelToDrone(nextParcel.Id, droneId);
+                    this.AssignParcelToDrone(nextParcel.Id);
                 }
             }
 

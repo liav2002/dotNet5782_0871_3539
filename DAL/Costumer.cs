@@ -9,7 +9,7 @@ namespace IDAL
             private int _id;
             private string _name;
             private string _phone;
-            private double _longitude;
+            private double _longitube;
             private double _latitude;
 
             public int Id
@@ -30,10 +30,10 @@ namespace IDAL
                 set => _phone = value;
             }
 
-            public double Longitude
+            public double Longitube
             {
-                get => _longitude;
-                set => _longitude = value;
+                get => _longitube;
+                set => _longitube = value;
             }
 
             public double Latitude
@@ -46,15 +46,15 @@ namespace IDAL
             {
                 return string.Format("the id is: {0}\nthe name is: {1}\nthe phone is: {2}\n" +
                                      "the longitube is: {3}\nthe latitude is: {4}\n"
-                    , Id, Name, Phone, Longitude, Latitude);
+                    , Id, Name, Phone, Longitube, Latitude);
             }
 
-            public Costumer(int id, string name, string phone, double longitude, double latitude)
+            public Costumer(int id, string name, string phone, double longitube, double latitude)
             {
                 this._id = id;
                 this._name = name;
                 this._phone = phone;
-                this._longitude = longitude;
+                this._longitube = longitube;
                 this._latitude = latitude;
             }
         }
