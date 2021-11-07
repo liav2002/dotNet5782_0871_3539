@@ -11,6 +11,7 @@ namespace IBL
         public class BL : IBL
         {
             private IDAL.IDAL _dalObj;
+            private BO.SysLog syslog = new BO.SysLog();
 
             private double _chargeRate = DalObject.DataSource.Config.chargeRatePH; // to all the drones
 
@@ -182,22 +183,28 @@ namespace IBL
                 {
                     if (parcel.DroneId != 0) // the parcel has been assigned to drone, in this part I handle all the shiping drones.
                     {
-                        HandleAssignParcel(parcel);
+                        HandleAssignParcel(parcel, this._dalObj.GetDroneById(parcel.DroneId));
                     }
                 }
             }
 
-            private void HandleAssignParcel(IDAL.DO.Parcel parcel)
+            private void HandleAssignParcel(IDAL.DO.Parcel parcel, IDAL.DO.Drone drone)
             {
-                var drone = _dalObj.GetDroneById(parcel.DroneId);
+                syslog.HandleAssignParcel(parcel.Id, drone.Id);
+                parcel.Scheduled = DateTime.Now;
+                parcel.DroneId = drone.Id;
+
                 var sender = _dalObj.GetCostumerById(parcel.SenderId);
                 var nearStation =
                     _dalObj.GetStationById(_GetNearestStation(sender.Latitude, sender.Longitube));
 
+                syslog.ChangeDroneStatus(drone.Id, IDAL.DO.DroneStatuses.Shipping);
                 drone.Status = IDAL.DO.DroneStatuses.Shipping; // change the drone status to Shipping
 
+                syslog.InitDroneLocation(drone.Id);
                 _InitDroneLocation(drone, parcel, nearStation); // set drone's location
 
+                syslog.InitDroneBattery(drone.Id);
                 _InitBattery(drone, parcel, nearStation); // set drone's battery
             }
 
@@ -208,9 +215,18 @@ namespace IBL
                 {
                     Random rand = new Random();
                     int status = rand.Next(0, 1);
-                    drone.Status = (status == 0) // get random staus avilable or maintance.
-                        ? IDAL.DO.DroneStatuses.Available
-                        : IDAL.DO.DroneStatuses.Maintenance;
+
+                    // get random staus avilable or maintance.
+                    if (status == 0)
+                    {
+                        syslog.ChangeDroneStatus(drone.Id, IDAL.DO.DroneStatuses.Available);
+                        drone.Status = IDAL.DO.DroneStatuses.Available;
+                    }
+                    else
+                    {
+                        syslog.ChangeDroneStatus(drone.Id, IDAL.DO.DroneStatuses.Maintenance);
+                        drone.Status = IDAL.DO.DroneStatuses.Maintenance;
+                    }
                 }
 
                 if (drone.Status == IDAL.DO.DroneStatuses.Maintenance) // handle the maintance drones.
@@ -221,19 +237,21 @@ namespace IBL
                     int index = rand.Next(0, counter - 1);
 
                     //get random base station
-                    var enumerator = stations.GetEnumerator();
+                    var station = stations.GetEnumerator();
                     for (int _ = 0;
                         _ < index;
                         _++)
                     {
-                        enumerator.MoveNext();
+                        station.MoveNext();
                     }
 
                     //set location
-                    drone.Latitude = enumerator.Current.Latitude;
-                    drone.Longitube = enumerator.Current.Longitube;
+                    syslog.InitDroneLocation(drone.Id);
+                    drone.Latitude = station.Current.Latitude;
+                    drone.Longitube = station.Current.Longitube;
 
                     //set battery
+                    syslog.InitDroneBattery(drone.Id);
                     drone.Battery = rand.NextDouble() * 20;
                 }
 
@@ -260,6 +278,7 @@ namespace IBL
                     IDAL.DO.Costumer randTarget = _dalObj.GetCostumerById(randParcel.TargetId);
 
                     // set drone's location
+                    syslog.InitDroneLocation(drone.Id);
                     drone.Latitude = randTarget.Latitude;
                     drone.Longitube = randTarget.Longitube;
 
@@ -267,7 +286,20 @@ namespace IBL
                     IDAL.DO.Station nearStation = _dalObj.GetStationById(_GetNearestStation(drone.Latitude, drone.Longitube));
 
                     //according to the nearest base station, get random battery and set it in drone's battery
+                    syslog.InitDroneBattery(drone.Id);
                     _InitBattery(drone, randParcel, nearStation);
+                }
+            }
+
+            private void CheckWaitingList(IDAL.DO.Drone drone)
+            {
+                //check if there is any waiting parcels, for assign them to the current drone.
+                syslog.TryHandleWaitingParcels();
+                IDAL.DO.Parcel parcel = this._dalObj.GetNextParcel();
+
+                if (parcel != null) //if there is a waiting parcel
+                {
+                    this.HandleAssignParcel(parcel, drone);
                 }
             }
 
@@ -277,6 +309,8 @@ namespace IBL
 
                 this._dalObj = new DalObject.DalObject();
                 IEnumerable<IDAL.DO.Drone> drones = _dalObj.GetDroneList();
+
+                syslog.HandleAssignParcels();
                 HandleAssignParcels();
 
                 foreach(var drone in drones)
@@ -312,6 +346,7 @@ namespace IBL
                     throw new BO.NegetiveValue("Charge's slots");
                 }
 
+                syslog.AddStation(id);
                 this._dalObj.AddStation(id, name, longitube, latitude, charge_solts);
             }
 
@@ -342,9 +377,15 @@ namespace IBL
                     throw new BO.WrongEnumValuesRange("maxWeight", "0", "2");
                 }
 
+                syslog.AddDrone(id);
                 this._dalObj.AddDrone(id, model, maxWeight);
 
-                this.SetDroneDetails(this._dalObj.GetDroneById(id));
+                //check if there is any waiting parcels
+                IDAL.DO.Drone specificDrone = this._dalObj.GetDroneById(id);
+                if(specificDrone.Status == IDAL.DO.DroneStatuses.Available)
+                {
+                    this.CheckWaitingList(specificDrone);
+                }
             }
 
             /*
@@ -369,6 +410,7 @@ namespace IBL
                     throw new BO.NegetiveValue("Costumer's id");
                 }
 
+                syslog.AddCostumer(id);
                 this._dalObj.AddCostumer(id, name, phone, longitube, latitude);
             }
 
@@ -404,9 +446,13 @@ namespace IBL
                     throw new BO.NegetiveValue("Parcel's id");
                 }
 
+                syslog.AddParcel(id);
                 this._dalObj.AddParcel(id, senderId, targetId, weight, 
                     priority, DateTime.Now, droneId, default(DateTime), 
                     default(DateTime), default(DateTime));
+
+                syslog.MoveParcelToWaitingList(id);
+                this._dalObj.MoveParcelToWaitingList(this._dalObj.GetParcelById(id));
             }
 
             /*
@@ -417,9 +463,12 @@ namespace IBL
             public void AssignParcelToDrone(int parcelId)
             {
                 IEnumerable<IDAL.DO.Drone> drones = this._dalObj.GetDroneList();
+        
+                if(0 > parcelId) { throw new BO.NegetiveValue("Parcel's id"); }
+
                 IDAL.DO.Parcel parcel = this._dalObj.GetParcelById(parcelId);
 
-                if(0 > parcelId) { throw new BO.NegetiveValue("Parcel's id"); }
+                if(parcel.DroneId != 0) { throw new BO.ParcelAlreadyAssign(parcel.DroneId); }
 
                 foreach (var drone in drones)
                 {
@@ -427,15 +476,15 @@ namespace IBL
                         (int)drone.MaxWeight >=
                         (int)parcel.Weight) // and the drone maxWeight is qual or bigger to the parcel weight
                     {
-                        parcel.Scheduled = DateTime.Now;
-                        parcel.DroneId = drone.Id;
-                        this.HandleAssignParcel(this._dalObj.GetParcelById(parcelId));
+                        this.HandleAssignParcel(parcel, drone);
                         return; //operation complete - we find an avilable drone, so exit the function.
                     }
                 }
 
                 //if there is no any avilable drone
+                syslog.MoveParcelToWaitingList(parcel.Id);
                 this._dalObj.MoveParcelToWaitingList(parcel);
+                throw new IDAL.DO.NonAvilableDrones();
             }
 
             /*
@@ -446,10 +495,13 @@ namespace IBL
             public void ParcelCollection(int parcelId)
             {
                 if (0 > parcelId) { throw new BO.NegetiveValue("Parcel's id"); }
-
+                
                 IDAL.DO.Parcel parcel = this._dalObj.GetParcelById(parcelId);
                 IDAL.DO.Drone drone = this.GetDroneById(parcel.DroneId);
                 IDAL.DO.Costumer costumer = this.GetCostumerById(parcel.SenderId);
+
+                syslog.ParcelCollection(parcelId, drone.Id);
+
                 drone.Latitude = costumer.Latitude;
                 drone.Longitube = costumer.Longitube;
                 parcel.PickedUp = DateTime.Now;
@@ -477,19 +529,22 @@ namespace IBL
 
                 IDAL.DO.Drone drone = this.GetDroneById(parcel.DroneId);
                 IDAL.DO.Costumer target = this.GetCostumerById(parcel.TargetId);
+
+                syslog.ParcelDelivered(parcelId, drone.Id);
+
+                syslog.CalculateNearStation("target costumer");
                 IDAL.DO.Station station = this._dalObj.GetStationById(this._GetNearestStation(target.Latitude, target.Longitube));
+
+                syslog.ChangeDroneStatus(drone.Id, IDAL.DO.DroneStatuses.Available);
                 drone.Status = IDAL.DO.DroneStatuses.Available;
+
+                syslog.InitDroneLocation(drone.Id);
                 drone.Latitude = station.Latitude;
                 drone.Longitube = station.Longitube;
 
                 //check if there is any waiting parcels, for assign them to the current drone.
 
-                parcel = this._dalObj.GetNextParcel();
-
-                if(parcel != null) //if there is a waiting parcel
-                {
-                    this.AssignParcelToDrone(parcel.Id);
-                }
+                this.CheckWaitingList(drone);
             }
 
             /*
@@ -511,7 +566,15 @@ namespace IBL
                 }
 
                 station.ChargeSolts--;
+
+                syslog.InitDroneLocation(droneId);
+                drone.Latitude = station.Latitude;
+                drone.Longitube = station.Longitube;
+
+                syslog.InitDroneBattery(droneId);
                 this._dalObj.AddDroneToCharge(drone.Id, station.Id);
+
+                syslog.ChangeDroneStatus(droneId, IDAL.DO.DroneStatuses.Maintenance);
                 drone.Status = IDAL.DO.DroneStatuses.Maintenance;
             }
 
@@ -523,16 +586,12 @@ namespace IBL
             public void DroneRelease(int droneId)
             {
                 if (0 > droneId) { throw new BO.NegetiveValue("Drone's id"); }
-                
+
+                syslog.DroneRelease(droneId);
                 this._dalObj.DroneRelease(droneId);
 
                 //check if there is any waiting parcels, for assign them to the current drone.
-                IDAL.DO.Parcel nextParcel = this._dalObj.GetNextParcel();
-
-                if (nextParcel != null) //if there is a wairing parcel
-                {
-                    this.AssignParcelToDrone(nextParcel.Id);
-                }
+                this.CheckWaitingList(this._dalObj.GetDroneById(droneId));
             }
 
             //getters:

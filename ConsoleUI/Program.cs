@@ -330,9 +330,10 @@ namespace ConsoleUI
 
                     try
                     {
-                        dalObj.ParcelCollection(paracelId);
-                        Console.WriteLine("Success.\n");
-                        pause();
+                        //dalObj.ParcelCollection(paracelId);
+                        throw new Exception("BL unit is missing. can't assign a drone to parcel. update version required.");
+                        //Console.WriteLine("Success.\n");
+                        //pause();
                     }
 
                     catch (Exception e)
@@ -354,9 +355,10 @@ namespace ConsoleUI
 
                     try
                     {
-                        dalObj.ParcelDelivered(paracelId);
-                        Console.WriteLine("Success.\n");
-                        pause();
+                        //dalObj.ParcelDelivered(paracelId);
+                        throw new Exception("BL unit is missing. can't assign a drone to parcel. update version required.");
+                        //Console.WriteLine("Success.\n");
+                        //pause();
                     }
 
                     catch (Exception e)
@@ -381,9 +383,10 @@ namespace ConsoleUI
 
                     try
                     {
-                        dalObj.SendDroneToCharge(droneId, stationId);
-                        Console.WriteLine("Success.\n");
-                        pause();
+                        //dalObj.SendDroneToCharge(droneId, stationId);
+                        throw new Exception("BL unit is missing. can't assign a drone to parcel. update version required.");
+                        //Console.WriteLine("Success.\n");
+                        //pause();
                     }
 
                     catch (Exception e)

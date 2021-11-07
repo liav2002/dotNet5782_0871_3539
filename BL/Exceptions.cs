@@ -41,5 +41,12 @@ namespace IBL
             {
             }
         }
+
+        public class ParcelAlreadyAssign : Exception
+        {
+            public ParcelAlreadyAssign(int droneId) : base("ERROR: Parcel is already assgin to drone. drone's id: " + droneId + ".\n")
+            {
+            }
+        }
     }
 }

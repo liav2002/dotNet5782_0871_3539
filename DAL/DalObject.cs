@@ -73,7 +73,11 @@ namespace DalObject
         public void MoveParcelToWaitingList(IDAL.DO.Parcel parcel)
         {
             DataSource.waitingParcels.Enqueue(parcel); // if all the drones are not availible
-            throw new IDAL.DO.NonAvilableDrones();
+        }
+
+        public void RemoveParcelFromWaitingList(IDAL.DO.Parcel parcel)
+        {
+            //TODO: Implemented this function
         }
 
         /*
@@ -127,9 +131,9 @@ namespace DalObject
         }
 
         public double[] PowerRequest() 
-            //TODO: Implement this method
         {
-            double[] arr = new double[] {0, 0, 0, 0, 0};
+            double[] arr = new double[] {DataSource.Config.avilablePPK, DataSource.Config.lightPPK, 
+                DataSource.Config.mediumPPK, DataSource.Config.heavyPPK, DataSource.Config.chargeRatePH};
             return arr;
         }
 

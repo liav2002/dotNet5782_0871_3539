@@ -53,7 +53,9 @@ namespace ConsoleUI_BL
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Building BL Unit...\n");
             IBL.IBL iBL = new IBL.BO.BL();
+            pause();
             MenuWindowHandle(iBL);
         }
 
