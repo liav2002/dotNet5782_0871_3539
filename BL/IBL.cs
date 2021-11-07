@@ -6,10 +6,10 @@ namespace IBL
 {
     public interface IBL
     {
-        public void AddStation(int id, string name, double longitube, double latitude, int charge_solts);
-        public void AddDrone(int id, string model, int maxWeight);
-        public void AddCostumer(int id, string name, string phone, double longitube, double latitude);
-        public void AddParcel(int id, int senderId, int targetId, int weight, int priority, int droneId);
+        public void AddStation(int id, string name, double longitude, double latitude, int charge_solts);
+        public void AddDrone(int id, string model, int maxWeight, int stationId);
+        public void AddCostumer(int id, string name, string phone, double longitude, double latitude);
+        public void AddParcel(int senderId, int targetId, int weight, int priority, int droneId);
         public void AssignParcelToDrone(int parcelId);
         public void ParcelCollection(int parcelId);
         public void ParcelDelivered(int parcelId);

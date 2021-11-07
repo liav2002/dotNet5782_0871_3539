@@ -17,15 +17,15 @@ namespace ConsoleUI
         BaseStation = '1',
         Drone,
         Costumer,
-        Paracel,
+        Parcel,
         Back
     }
 
     enum UpdateOptionsE
     {
-        AssignParacelToDrone = '1',
-        ParacelCollection,
-        ParacelDelivered,
+        AssignParcelToDrone = '1',
+        ParcelCollection,
+        ParcelDelivered,
         SendDroneToCharge,
         ReleaseDroneFromCharge,
         Back
@@ -36,7 +36,7 @@ namespace ConsoleUI
         BaseStation = '1',
         Drone,
         Costumer,
-        Paracel,
+        Parcel,
         Back
     }
 
@@ -45,8 +45,8 @@ namespace ConsoleUI
         BaseStations = '1',
         Drones,
         Costumers,
-        Paracels,
-        UnassignParacels,
+        Parcels,
+        UnassignParcels,
         AvaliableBaseStations,
         Back
     }
@@ -142,7 +142,7 @@ namespace ConsoleUI
 
                     try
                     {
-                        dalObj.AddStation(id, name, longitude, lattitude, chargeSlots);
+                        dalObj.AddStation(id, name, new IDAL.DO.Point(lattitude, longitude), chargeSlots);
                         Console.WriteLine("Success.\n");
                         pause();
                     }
@@ -180,7 +180,7 @@ namespace ConsoleUI
 
                     try
                     {
-                        dalObj.AddDrone(id, model, maxWeight);
+                        dalObj.AddDrone(id, model, (IDAL.DO.WeightCategories) maxWeight, battery);
                         Console.WriteLine("Success.\n");
                         pause();
                     }
@@ -218,7 +218,7 @@ namespace ConsoleUI
 
                     try
                     {
-                        dalObj.AddCostumer(id, name, phone, longitude, lattitude);
+                        dalObj.AddCostumer(id, name, phone, new IDAL.DO.Point(lattitude, longitude));
                         Console.WriteLine("Success.\n");
                         pause();
                     }
@@ -233,7 +233,7 @@ namespace ConsoleUI
                     break;
                 }
 
-                case InsertOptionsE.Paracel:
+                case InsertOptionsE.Parcel:
                 {
                     int id = 0, senderId = 0, targetId = 0, weight = 0, priority = 0, droneId = 0;
                     DateTime requested = DateTime.Now,
@@ -241,7 +241,7 @@ namespace ConsoleUI
                         pickedUp = default(DateTime),
                         delivered = default(DateTime); //TODO: make sure the default DateTime is ok.
 
-                    Console.WriteLine("Paracel's details:\n");
+                    Console.WriteLine("Parcel's details:\n");
 
                     Console.WriteLine("Id: ");
                     id = Convert.ToInt32(Console.ReadLine());
@@ -296,17 +296,18 @@ namespace ConsoleUI
 
             switch (op)
             {
-                case UpdateOptionsE.AssignParacelToDrone:
+                case UpdateOptionsE.AssignParcelToDrone:
                 {
-                    int paracelId = 0;
+                    int parcelId = 0;
 
-                    Console.WriteLine("Enter paracel's id: ");
-                    paracelId = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter parcel's id: ");
+                    parcelId = Convert.ToInt32(Console.ReadLine());
 
                     try
                     {
-                        //dalObj.AssignParcelToDrone(paracelId);
-                        throw new Exception("BL unit is missing. can't assign a drone to parcel. update version required.");
+                        //dalObj.AssignParcelToDrone(parcelId);
+                        throw new Exception(
+                            "BL unit is missing. can't assign a drone to parcel. update version required.");
                         //Console.WriteLine("Success.\n");
                         //pause();
                     }
@@ -321,17 +322,18 @@ namespace ConsoleUI
                     break;
                 }
 
-                case UpdateOptionsE.ParacelCollection:
+                case UpdateOptionsE.ParcelCollection:
                 {
-                    int paracelId = 0;
+                    int parcelId = 0;
 
-                    Console.WriteLine("Enter paracel's id: ");
-                    paracelId = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter parcel's id: ");
+                    parcelId = Convert.ToInt32(Console.ReadLine());
 
                     try
                     {
-                        //dalObj.ParcelCollection(paracelId);
-                        throw new Exception("BL unit is missing. can't assign a drone to parcel. update version required.");
+                        //dalObj.ParcelCollection(parcelId);
+                        throw new Exception(
+                            "BL unit is missing. can't assign a drone to parcel. update version required.");
                         //Console.WriteLine("Success.\n");
                         //pause();
                     }
@@ -346,17 +348,18 @@ namespace ConsoleUI
                     break;
                 }
 
-                case UpdateOptionsE.ParacelDelivered:
+                case UpdateOptionsE.ParcelDelivered:
                 {
-                    int paracelId = 0;
+                    int parcelId = 0;
 
-                    Console.WriteLine("Enter paracel's id: ");
-                    paracelId = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter parcel's id: ");
+                    parcelId = Convert.ToInt32(Console.ReadLine());
 
                     try
                     {
-                        //dalObj.ParcelDelivered(paracelId);
-                        throw new Exception("BL unit is missing. can't assign a drone to parcel. update version required.");
+                        //dalObj.ParcelDelivered(parcelId);
+                        throw new Exception(
+                            "BL unit is missing. can't assign a drone to parcel. update version required.");
                         //Console.WriteLine("Success.\n");
                         //pause();
                     }
@@ -384,7 +387,8 @@ namespace ConsoleUI
                     try
                     {
                         //dalObj.SendDroneToCharge(droneId, stationId);
-                        throw new Exception("BL unit is missing. can't assign a drone to parcel. update version required.");
+                        throw new Exception(
+                            "BL unit is missing. can't assign a drone to parcel. update version required.");
                         //Console.WriteLine("Success.\n");
                         //pause();
                     }
@@ -529,17 +533,17 @@ namespace ConsoleUI
                     break;
                 }
 
-                case DisplayOptionsE.Paracel:
+                case DisplayOptionsE.Parcel:
                 {
-                    int paracelId = 0;
+                    int parcelId = 0;
                     IDAL.DO.Parcel parcel;
 
-                    Console.Write("Enter paracel's Id: ");
-                    paracelId = Convert.ToInt32(Console.ReadLine());
+                    Console.Write("Enter parcel's Id: ");
+                    parcelId = Convert.ToInt32(Console.ReadLine());
 
                     try
                     {
-                        parcel = dalObj.GetParcelById(paracelId);
+                        parcel = dalObj.GetParcelById(parcelId);
 
                         Console.WriteLine(parcel);
                         Console.WriteLine("Success.\n");
@@ -649,7 +653,7 @@ namespace ConsoleUI
                     break;
                 }
 
-                case ListViewOptionsE.Paracels:
+                case ListViewOptionsE.Parcels:
                 {
                     try
                     {
@@ -672,7 +676,7 @@ namespace ConsoleUI
                     break;
                 }
 
-                case ListViewOptionsE.UnassignParacels:
+                case ListViewOptionsE.UnassignParcels:
                 {
                     IDAL.DO.Parcel parcel;
                     int i = dalObj.GetWaitingParcels().Count;
@@ -784,7 +788,7 @@ namespace ConsoleUI
             Console.WriteLine("1. Add new base station.");
             Console.WriteLine("2. Add new drone.");
             Console.WriteLine("3. Add new costumer.");
-            Console.WriteLine("4. Add new paracel.");
+            Console.WriteLine("4. Add new parcel.");
             Console.WriteLine("5. Back.");
 
             userChoice = Console.ReadLine()[0];
@@ -804,9 +808,9 @@ namespace ConsoleUI
             Console.WriteLine("Update-Options-Window\n");
 
             Console.WriteLine("Your options:");
-            Console.WriteLine("1. Assign a paracel to a drone.");
-            Console.WriteLine("2. Paracel collection by drone.");
-            Console.WriteLine("3. Delivery paracel to Costumer.");
+            Console.WriteLine("1. Assign a parcel to a drone.");
+            Console.WriteLine("2. Parcel collection by drone.");
+            Console.WriteLine("3. Delivery parcel to Costumer.");
             Console.WriteLine("4. Sending a drone for charging at a base station.");
             Console.WriteLine("5. Release drone from charging at base station.");
             Console.WriteLine("6. Back.");
@@ -831,7 +835,7 @@ namespace ConsoleUI
             Console.WriteLine("1. Base station view. (by unique id).");
             Console.WriteLine("2. Drone view. (by unique id).");
             Console.WriteLine("3. Costumer view. (by unique id).");
-            Console.WriteLine("4. Paracel view. (by unique id).");
+            Console.WriteLine("4. Parcel view. (by unique id).");
             Console.WriteLine("5. Back.");
 
             userChoice = Console.ReadLine()[0];
@@ -854,8 +858,8 @@ namespace ConsoleUI
             Console.WriteLine("1. Displays a list of base stations.");
             Console.WriteLine("2. Display a list of drones.");
             Console.WriteLine("3. Display a list of costumers.");
-            Console.WriteLine("4. Display a list of paracels.");
-            Console.WriteLine("5. Displays a list of paracels that have not yet been assigned to a drone.");
+            Console.WriteLine("4. Display a list of parcels.");
+            Console.WriteLine("5. Displays a list of parcels that have not yet been assigned to a drone.");
             Console.WriteLine("6. Display of base stations with available charging stations.");
             Console.WriteLine("7. Back.");
 

@@ -101,7 +101,7 @@ namespace IDAL
                 this._requested = requested; // new parcel is created.
                 this._droneId = droneId;
                 this._scheduled = scheduled; // we make an assign between drone to parcel.
-                this._pickedUp = pickedUp; // paracel is being picked up.
+                this._pickedUp = pickedUp; // parcel is being picked up.
                 this._delivered = delivered; // costumer get the parcel.
             }
         }

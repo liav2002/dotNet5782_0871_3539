@@ -13,12 +13,12 @@ namespace DalObject
 
         /*
        	*Description: add new Station to stations.
-       	*Parameters: station's id, station's name, station's longitube, station's latitude, charge's slots.
+       	*Parameters: station's id, station's name, station's location, charge's slots.
        	*Return: None.
         */
-        public void AddStation(int id, string name, double longitube, double latitude, int charge_solts)
+        public void AddStation(int id, string name, IDAL.DO.Point location, int charge_solts)
         {
-            DataSource.stations.Add(new IDAL.DO.Station(id, name, longitube, latitude, charge_solts));
+            DataSource.stations.Add(new IDAL.DO.Station(id, name, location, charge_solts));
         }
 
         /*
@@ -26,9 +26,9 @@ namespace DalObject
        	*Parameters: drone's details.	
        	*Return: None.
         */
-        public void AddDrone(int id, string model, int maxWeight)
+        public void AddDrone(int id, string model, IDAL.DO.WeightCategories maxWeight, double battery)
         {
-            DataSource.drones.Add(new IDAL.DO.Drone(id, model, (IDAL.DO.WeightCategories) maxWeight));
+            DataSource.drones.Add(new IDAL.DO.Drone(id, model, maxWeight, battery));
         }
 
         /*
@@ -36,14 +36,14 @@ namespace DalObject
         *Parameters: costumer's details.
         *Return: None.
         */
-        public void AddCostumer(int id, string name, string phone, double longitube, double latitude)
+        public void AddCostumer(int id, string name, string phone, IDAL.DO.Point location)
         {
-            DataSource.costumers.Add(new IDAL.DO.Costumer(id, name, phone, longitube, latitude));
+            DataSource.costumers.Add(new IDAL.DO.Costumer(id, name, phone, location));
         }
 
         /*
-        *Description: add new Paracel to paracels.
-        *Parameters: paracel's detatils.
+        *Description: add new Parcel to parcels.
+        *Parameters: parcel's detatils.
         *Return: None.
         */
         public void AddParcel(int id, int senderId, int targetId, int weight, int priority, DateTime requested,
@@ -67,7 +67,7 @@ namespace DalObject
 
         /*
         *Description: move parcel to waiting list.
-        *Parameters: a paracel.
+        *Parameters: a parcel.
         *Return: None.
         */
         public void MoveParcelToWaitingList(IDAL.DO.Parcel parcel)
@@ -94,7 +94,7 @@ namespace DalObject
 
             else
             {
-                return null; 
+                return null;
             }
         }
 
@@ -130,10 +130,13 @@ namespace DalObject
             drone.Battery = 100;
         }
 
-        public double[] PowerRequest() 
+        public double[] PowerRequest()
         {
-            double[] arr = new double[] {DataSource.Config.avilablePPK, DataSource.Config.lightPPK, 
-                DataSource.Config.mediumPPK, DataSource.Config.heavyPPK, DataSource.Config.chargeRatePH};
+            double[] arr = new double[]
+            {
+                DataSource.Config.avilablePPK, DataSource.Config.lightPPK,
+                DataSource.Config.mediumPPK, DataSource.Config.heavyPPK, DataSource.Config.chargeRatePH
+            };
             return arr;
         }
 

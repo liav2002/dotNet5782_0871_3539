@@ -7,11 +7,15 @@ namespace IDAL
     public interface IDAL
     {
         //general methods
-        public void AddStation(int id, string name, double longitube, double latitude, int charge_solts);
-        public void AddDrone(int id, string model, int maxWeight);
-        public void AddCostumer(int id, string name, string phone, double longitube, double latitude);
+        public void AddStation(int id, string name, DO.Point location, int charge_solts);
+
+        public void AddDrone(int id, string model, DO.WeightCategories maxWeight, double battery);
+
+        public void AddCostumer(int id, string name, string phone, DO.Point location);
+
         public void AddParcel(int id, int senderId, int targetId, int weight, int priority, DateTime requested,
             int droneId, DateTime scheduled, DateTime pickedUp, DateTime delivered);
+
         public void MoveParcelToWaitingList(DO.Parcel parcel);
         public DO.Parcel GetNextParcel();
         public void AddDroneToCharge(int droneId, int stationId);

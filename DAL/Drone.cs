@@ -20,10 +20,20 @@ namespace IDAL
             private WeightCategories _maxWeight;
             private DroneStatuses _status;
             private double _battery;
-            private double _longitude;
-            private double _latitude;
+            private Point _location;
 
             private double _chargeRate;
+
+            public Drone(int id, string model, WeightCategories maxWeight, double battery)
+            {
+                this._id = id;
+                this._model = model;
+                this._maxWeight = maxWeight;
+                this._chargeRate = DalObject.DataSource.Config.chargeRatePH;
+                this._status = DroneStatuses.Available;
+                this._battery = battery;
+                this._location = new Point();
+            }
 
             public double ChargeRate
             {
@@ -61,32 +71,18 @@ namespace IDAL
                 set => _battery = value;
             }
 
-            public double Longitube
+            public Point Location
             {
-                get => _longitude;
-                set => _longitude = value;
+                get => _location;
+                set => _location = value;
             }
 
-            public double Latitude
-            {
-                get => _latitude;
-                set => _latitude = value;
-            }
 
             public override string ToString()
             {
                 return string.Format("the id is: {0}\nthe model is: {1}\nthe maxWegiht is: {2}\n" +
                                      "the status is: {3}\nthe battery is: {4}\n"
                     , Id, Model, MaxWeight, Status, Battery);
-            }
-
-            public Drone(int id, string model, WeightCategories maxWeight)
-            {
-                this._id = id;
-                this._model = model;
-                this._maxWeight = maxWeight;
-                this._chargeRate = DalObject.DataSource.Config.chargeRatePH;
-                this.Status = DroneStatuses.Available;
             }
         }
     }

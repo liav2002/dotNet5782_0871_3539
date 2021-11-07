@@ -9,8 +9,7 @@ namespace IDAL
             private int _id;
             private string _name;
             private string _phone;
-            private double _longitube;
-            private double _latitude;
+            private Point _location;
 
             public int Id
             {
@@ -30,32 +29,26 @@ namespace IDAL
                 set => _phone = value;
             }
 
-            public double Longitube
+            public Point Location
             {
-                get => _longitube;
-                set => _longitube = value;
+                get => _location;
+                set => _location = value;
             }
 
-            public double Latitude
-            {
-                get => _latitude;
-                set => _latitude = value;
-            }
 
             public override string ToString()
             {
                 return string.Format("the id is: {0}\nthe name is: {1}\nthe phone is: {2}\n" +
-                                     "the longitube is: {3}\nthe latitude is: {4}\n"
-                    , Id, Name, Phone, Longitube, Latitude);
+                                     "the location is: {3}\n"
+                    , Id, Name, Phone, Location);
             }
 
-            public Costumer(int id, string name, string phone, double longitube, double latitude)
+            public Costumer(int id, string name, string phone, Point location)
             {
                 this._id = id;
                 this._name = name;
                 this._phone = phone;
-                this._longitube = longitube;
-                this._latitude = latitude;
+                this._location = location;
             }
         }
     }

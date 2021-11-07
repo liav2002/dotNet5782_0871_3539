@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using IDAL.DO;
 
 namespace DalObject
 {
@@ -16,6 +17,7 @@ namespace DalObject
 
 
         internal static Random rand = new Random();
+
 
         public class Config
         {
@@ -42,15 +44,18 @@ namespace DalObject
             for (int i = 0; i < 5; i++)
             {
                 drones.Add(
-                    new IDAL.DO.Drone(rand.Next(1000, 10001), "Model-X", (IDAL.DO.WeightCategories) rand.Next(3)));
+                    new IDAL.DO.Drone(rand.Next(1000, 10001), "Model-X", (IDAL.DO.WeightCategories) rand.Next(3),
+                        rand.NextDouble() * 20 + 20));
             }
         }
 
         public static void InitializeStation()
         {
-            stations.Add(new IDAL.DO.Station(1010, "Netanya - College", 32.30747945219766, 34.87919798038194,
+            stations.Add(new IDAL.DO.Station(1010, "Netanya - College",
+                new IDAL.DO.Point(32.30747945219766, 34.87919798038194),
                 rand.Next(10)));
-            stations.Add(new IDAL.DO.Station(1020, "The Temple Mount", 31.65266801604753, 35.2281960943494,
+            stations.Add(new IDAL.DO.Station(1020, "The Temple Mount",
+                new IDAL.DO.Point(31.65266801604753, 35.2281960943494),
                 rand.Next(10)));
         }
 
@@ -60,7 +65,7 @@ namespace DalObject
             {
                 costumers.Add(new IDAL.DO.Costumer(2000 + (i + 1) * 10, "Costumer " + (i + 1).ToString(),
                     "05" + rand.Next(5).ToString() + "-" + rand.Next(999).ToString() + "-" +
-                    rand.Next(9999).ToString(), 30.234196842399772, 48.74692937085842));
+                    rand.Next(9999).ToString(), new IDAL.DO.Point(30.234196842399772, 48.74692937085842)));
             }
         }
 
@@ -82,6 +87,11 @@ namespace DalObject
                     (IDAL.DO.Priorities) rand.Next(3), DateTime.Now, drones[rand.Next(5)].Id, DateTime.Now,
                     DateTime.Now, DateTime.Now));
             }
+        }
+
+        public static int ParcelsLength()
+        {
+            return parcels.Count;
         }
     }
 }

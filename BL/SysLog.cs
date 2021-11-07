@@ -38,14 +38,16 @@ namespace IBL
             public void HandleAssignParcels()
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("SYSTEM_LOG: find all the drones which was assign to a parcel, and change there status to Shiping.");
+                Console.WriteLine(
+                    "SYSTEM_LOG: find all the drones which was assign to a parcel, and change there status to Shiping.");
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
             public void HandleAssignParcel(int parcelId, int droneId)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("SYSTEM_LOG: making assign between parcel (id: " + parcelId + ") and drone (id: " + droneId + ")...");
+                Console.WriteLine("SYSTEM_LOG: making assign between parcel (id: " + parcelId + ") and drone (id: " +
+                                  droneId + ")...");
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
@@ -101,14 +103,16 @@ namespace IBL
             public void ParcelCollection(int parcelId, int droneId)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("SYSTEM_LOG: parcel(id: " + parcelId + ") is pickedup by drone(id: " + droneId + ")...");
+                Console.WriteLine("SYSTEM_LOG: parcel(id: " + parcelId + ") is pickedup by drone(id: " + droneId +
+                                  ")...");
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
             public void ParcelDelivered(int parcelId, int droneId)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("SYSTEM_LOG: parcel(id: " + parcelId + ") is delivered by drone(id: " + droneId + ")...");
+                Console.WriteLine("SYSTEM_LOG: parcel(id: " + parcelId + ") is delivered by drone(id: " + droneId +
+                                  ")...");
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
