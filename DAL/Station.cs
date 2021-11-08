@@ -11,7 +11,7 @@ namespace IDAL
             private int _id;
             private string _name;
             private Point _location;
-            private int _chargeSolts;
+            private int _chargeSlots;
 
             public int Id
             {
@@ -32,25 +32,25 @@ namespace IDAL
             }
 
 
-            public int ChargeSolts
+            public int ChargeSlots
             {
-                get => _chargeSolts;
-                set => _chargeSolts = value;
+                get => _chargeSlots;
+                set => _chargeSlots = value;
             }
 
             public override string ToString()
             {
                 return string.Format("the id is: {0}\nthe name is: {1}\nthe location is: {2}\n" +
                                      "\nthe number of available argument positions: {3}\n"
-                    , Id, Name, Location, ChargeSolts);
+                    , Id, Name, Location, ChargeSlots);
             }
 
-            public Station(int id, string name, Point location, int charge_solts)
+            public Station(int id, string name, Point location, int chargeSlots)
             {
                 this._id = id;
                 this._name = name;
                 this._location = location;
-                this._chargeSolts = charge_solts;
+                this._chargeSlots = chargeSlots;
             }
         }
     }

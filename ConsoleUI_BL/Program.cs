@@ -22,11 +22,14 @@ namespace ConsoleUI_BL
 
     enum UpdateOptionsE
     {
-        AssignParcelToDrone = '1',
-        ParcelCollection,
-        ParcelDelivered,
+        UpdateDroneName = '1',
+        UpdateStation,
+        UpdateCostumer,
         SendDroneToCharge,
         ReleaseDroneFromCharge,
+        AssignParcelToDrone,
+        ParcelCollection,
+        ParcelDelivered,
         Back
     }
 
@@ -286,6 +289,141 @@ namespace ConsoleUI_BL
 
             switch (op)
             {
+                case UpdateOptionsE.UpdateDroneName:
+                {
+                    int droneId;
+                    string droneName;
+                    Console.WriteLine("Enter drone's id: ");
+                    droneId = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter drone's new name: ");
+                    droneName = Convert.ToString(Console.ReadLine());
+
+
+                    try
+                    {
+                        iBL.UpdateDroneName(droneId, droneName);
+                        Console.WriteLine("Success.\n");
+                        pause();
+                    }
+
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
+                case UpdateOptionsE.UpdateStation:
+                {
+                    int stationId;
+                    string name;
+                    int chargeSlots;
+                    Console.WriteLine("Enter station's id: ");
+                    stationId = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter statoin's new name: ");
+                    name = Convert.ToString(Console.ReadLine());
+                    Console.WriteLine("Enter statoin's new charge slots: ");
+                    chargeSlots = Convert.ToInt32(Console.ReadLine());
+
+
+                    try
+                    {
+                        iBL.UpdateStation(stationId, name, chargeSlots);
+                        Console.WriteLine("Success.\n");
+                        pause();
+                    }
+
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
+                case UpdateOptionsE.UpdateCostumer:
+                {
+                    int costumerId;
+                    string name;
+                    string phoneNumber;
+
+                    Console.WriteLine("Enter costumer's id: ");
+                    costumerId = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter costumer's new name: ");
+                    name = Convert.ToString(Console.ReadLine());
+                    Console.WriteLine("Enter costumer's new phone number: ");
+                    phoneNumber = Console.ReadLine();
+
+
+                    try
+                    {
+                        iBL.UpdateCostumer(costumerId, name, phoneNumber);
+                        Console.WriteLine("Success.\n");
+                        pause();
+                    }
+
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
+                case UpdateOptionsE.SendDroneToCharge:
+                {
+                    int droneId = 0;
+                    int stationId = 0;
+
+                    Console.WriteLine("Enter drone's id: ");
+                    droneId = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter station's id: ");
+                    stationId = Convert.ToInt32(Console.ReadLine());
+
+                    try
+                    {
+                        iBL.SendDroneToCharge(droneId, stationId);
+                        Console.WriteLine("Success.\n");
+                        pause();
+                    }
+
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
+
+                case UpdateOptionsE.ReleaseDroneFromCharge:
+                {
+                    int droneId = 0;
+
+                    Console.WriteLine("Enter drone's id: ");
+                    droneId = Convert.ToInt32(Console.ReadLine());
+
+                    try
+                    {
+                        iBL.DroneRelease(droneId);
+                        Console.WriteLine("Success.\n");
+                        pause();
+                    }
+
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failed.\n");
+                        Console.WriteLine(e.Message);
+                        pause();
+                    }
+
+                    break;
+                }
                 case UpdateOptionsE.AssignParcelToDrone:
                 {
                     int parcelId = 0;
@@ -358,56 +496,6 @@ namespace ConsoleUI_BL
                     break;
                 }
 
-                case UpdateOptionsE.SendDroneToCharge:
-                {
-                    int droneId = 0;
-                    int stationId = 0;
-
-                    Console.WriteLine("Enter drone's id: ");
-                    droneId = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("Enter station's id: ");
-                    stationId = Convert.ToInt32(Console.ReadLine());
-
-                    try
-                    {
-                        iBL.SendDroneToCharge(droneId, stationId);
-                        Console.WriteLine("Success.\n");
-                        pause();
-                    }
-
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
-                        pause();
-                    }
-
-                    break;
-                }
-
-                case UpdateOptionsE.ReleaseDroneFromCharge:
-                {
-                    int droneId = 0;
-
-                    Console.WriteLine("Enter drone's id: ");
-                    droneId = Convert.ToInt32(Console.ReadLine());
-
-                    try
-                    {
-                        iBL.DroneRelease(droneId);
-                        Console.WriteLine("Success.\n");
-                        pause();
-                    }
-
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
-                        pause();
-                    }
-
-                    break;
-                }
 
                 case UpdateOptionsE.Back:
                 {
@@ -698,7 +786,7 @@ namespace ConsoleUI_BL
                     {
                         foreach (var station in iBL.GetStationsList())
                         {
-                            if (station.ChargeSolts >= 1)
+                            if (station.ChargeSlots >= 1)
                             {
                                 Console.WriteLine(station);
                             }
@@ -790,12 +878,15 @@ namespace ConsoleUI_BL
             Console.WriteLine("Update-Options-Window\n");
 
             Console.WriteLine("Your options:");
-            Console.WriteLine("1. Assign a parcel to a drone.");
-            Console.WriteLine("2. Parcel collection by drone.");
-            Console.WriteLine("3. Delivery parcel to Costumer.");
+            Console.WriteLine("1. Update drone name.");
+            Console.WriteLine("2. Update station.");
+            Console.WriteLine("3. Update costumer.");
             Console.WriteLine("4. Sending a drone for charging at a base station.");
             Console.WriteLine("5. Release drone from charging at base station.");
-            Console.WriteLine("6. Back.");
+            Console.WriteLine("6. Assign Parcel To Drone.");
+            Console.WriteLine("7. Parcel collection by drone.");
+            Console.WriteLine("8. Delivery parcel to Costumer.");
+            Console.WriteLine("9. Back.");
 
             userChoice = Console.ReadLine()[0];
 

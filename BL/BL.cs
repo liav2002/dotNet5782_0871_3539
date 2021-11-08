@@ -494,6 +494,105 @@ namespace IBL
             }
 
             /*
+            *Description: update costumer details.
+            *Parameters: costumer's id, new name, new phone number.
+            *Return: None.
+            */
+            public void UpdateCostumer(int costumerId, string name, string phoneNumber)
+            {
+                //check logic
+                if (0 > costumerId)
+                {
+                    throw new BO.NegetiveValue("Costumer's id");
+                }
+
+                IDAL.DO.Costumer costumer = this.GetCostumerById(costumerId);
+                if (costumer.Name == name)
+                {
+                    throw new BO.NotNewValue("Costumer Name", name);
+                }
+
+                if (costumer.Phone == phoneNumber)
+                {
+                    throw new BO.NotNewValue("Costumer phone", phoneNumber);
+                }
+
+                if (name != null)
+                {
+                    costumer.Name = name;
+                    syslog.ChangeCostumerName(costumerId, name);
+                }
+
+                if (phoneNumber != null)
+                {
+                    costumer.Phone = phoneNumber;
+                    syslog.ChangeCostumerPhone(costumerId, phoneNumber);
+                }
+            }
+
+            /*
+            *Description: update station details.
+            *Parameters: station's id, new name, new charge slots.
+            *Return: None.
+            */
+
+            public void UpdateStation(int stationId, string name, int chargeSlots)
+            {
+                //check logic
+                if (0 > stationId)
+                {
+                    throw new BO.NegetiveValue("Station's id");
+                }
+
+                IDAL.DO.Station station = this.GetStationById(stationId);
+                if (station.Name == name)
+                {
+                    throw new BO.NotNewValue("Station name", name);
+                }
+
+                if (station.ChargeSlots == chargeSlots)
+                {
+                    throw new BO.NotNewValue("Station charge slots", chargeSlots.ToString());
+                }
+
+                if (name != null)
+                {
+                    station.Name = name;
+                    syslog.ChangeStationName(stationId, name);
+                }
+
+                if (chargeSlots != 0)
+                {
+                    station.ChargeSlots = chargeSlots;
+                    syslog.ChangeStationChargeSlots(stationId, chargeSlots);
+                }
+            }
+
+            /*
+            *Description: update drone name.
+            *Parameters: drone's id, new name.
+            *Return: None.
+            */
+            public void UpdateDroneName(int droneId, string name)
+            {
+                //check logic
+                if (0 > droneId)
+                {
+                    throw new BO.NegetiveValue("Drone's id");
+                }
+
+                IDAL.DO.Drone drone = this.GetDroneById(droneId);
+
+                if (drone.Model == name)
+                {
+                    throw new BO.NotNewValue("Drone model", name);
+                }
+
+                drone.Model = name;
+                syslog.ChangeDroneModelName(droneId, name);
+            }
+
+            /*
             *Description: update delivered time to NOW. check logic.
             *Parameters: a parcel.
             *Return: None.
@@ -562,12 +661,12 @@ namespace IBL
                 IDAL.DO.Station station = this._dalObj.GetStationById(stationId);
 
 
-                if (station.ChargeSolts <= 0)
+                if (station.ChargeSlots <= 0)
                 {
                     throw new BO.NegetiveValue("Charge's slots");
                 }
 
-                station.ChargeSolts--;
+                station.ChargeSlots--;
 
                 syslog.InitDroneLocation(droneId);
 

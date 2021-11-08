@@ -124,7 +124,7 @@ namespace DalObject
             drone = GetDroneById(droneId);
             station = GetStationById(dc.StationId);
 
-            station.ChargeSolts++;
+            station.ChargeSlots++;
             DataSource.droneCharge.Remove(dc);
             drone.Status = IDAL.DO.DroneStatuses.Available;
             drone.Battery = 100;

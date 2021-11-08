@@ -51,10 +51,46 @@ namespace IBL
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
+            public void ChangeCostumerName(int costumerId, string name)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("SYSTEM_LOG: change costumer (id: " + costumerId + ") name to " + name + "...");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+
+            public void ChangeCostumerPhone(int costumerId, string phone)   
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("SYSTEM_LOG: change costumer (id: " + costumerId + ") phone to " + phone + "...");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+
+            public void ChangeStationName(int stationId, string name)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("SYSTEM_LOG: change station (id: " + stationId + ") name to " + name + "...");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+
+            public void ChangeStationChargeSlots(int stationId, int chargeSlots)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("SYSTEM_LOG: change station (id: " + stationId + ") charge slots to " + chargeSlots +
+                                  "...");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+
             public void ChangeDroneStatus(int droneId, IDAL.DO.DroneStatuses status)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("SYSTEM_LOG: change drone (id: " + droneId + ") status to " + status + "...");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+
+            public void ChangeDroneModelName(int droneId, string name)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("SYSTEM_LOG: change drone (id: " + droneId + ") model to " + name + "...");
                 Console.ForegroundColor = ConsoleColor.White;
             }
 

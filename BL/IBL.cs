@@ -5,7 +5,7 @@ using System.Text;
 namespace IBL
 {
     public interface IBL
-    {
+    {   
         public void AddStation(int id, string name, double longitude, double latitude, int charge_solts);
         public void AddDrone(int id, string model, int maxWeight, int stationId);
         public void AddCostumer(int id, string name, string phone, double longitude, double latitude);
@@ -15,6 +15,9 @@ namespace IBL
         public void ParcelDelivered(int parcelId);
         public void SendDroneToCharge(int droneId, int stationId);
         public void DroneRelease(int droneId);
+        public void UpdateDroneName(int droneId, string name);
+        public void UpdateStation(int stationId, string name, int chargeSlots);
+        public void UpdateCostumer(int costumerId, string name, string phoneNumber);
 
         //getters
         public IDAL.DO.Parcel GetParcelById(int id);

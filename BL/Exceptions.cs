@@ -6,7 +6,7 @@ namespace IBL
 {
     namespace BO
     {
-        public class NonItems: Exception
+        public class NonItems : Exception
         {
             public NonItems(string item) : base("ERROR: There is no " + item + ".\n")
             {
@@ -16,6 +16,14 @@ namespace IBL
         public class NonUniqueID : Exception
         {
             public NonUniqueID(string item) : base("ERROR: " + item + " must be unique.\n")
+            {
+            }
+        }
+
+        public class NotNewValue : Exception
+        {
+            public NotNewValue(string property, string item) : base(
+                "ERROR: " + property + " is already " + item + ".\n")
             {
             }
         }
@@ -44,7 +52,8 @@ namespace IBL
 
         public class ParcelAlreadyAssign : Exception
         {
-            public ParcelAlreadyAssign(int droneId) : base("ERROR: Parcel is already assgin to drone. drone's id: " + droneId + ".\n")
+            public ParcelAlreadyAssign(int droneId) : base("ERROR: Parcel is already assgin to drone. drone's id: " +
+                                                           droneId + ".\n")
             {
             }
         }

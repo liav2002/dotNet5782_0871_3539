@@ -716,7 +716,7 @@ namespace ConsoleUI
                     {
                         foreach (var station in dalObj.GetStationsList())
                         {
-                            if (station.ChargeSolts >= 1)
+                            if (station.ChargeSlots >= 1)
                             {
                                 Console.WriteLine(station);
                             }
