@@ -146,14 +146,14 @@ namespace ConsoleUI_BL
                     try
                     {
                         iBL.AddStation(id, name, longitude, latitude, chargeSlots);
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -181,14 +181,14 @@ namespace ConsoleUI_BL
                     try
                     {
                         iBL.AddDrone(id, model, maxWeight, stationId);
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -219,14 +219,14 @@ namespace ConsoleUI_BL
                     try
                     {
                         iBL.AddCostumer(id, name, phone, longitude, lattitude);
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -251,14 +251,14 @@ namespace ConsoleUI_BL
                     try
                     {
                         iBL.AddParcel(senderId, targetId, weight, priority, droneId);
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -302,14 +302,14 @@ namespace ConsoleUI_BL
                     try
                     {
                         iBL.UpdateDroneName(droneId, droneName);
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -331,14 +331,14 @@ namespace ConsoleUI_BL
                     try
                     {
                         iBL.UpdateStation(stationId, name, chargeSlots);
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -361,14 +361,14 @@ namespace ConsoleUI_BL
                     try
                     {
                         iBL.UpdateCostumer(costumerId, name, phoneNumber);
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -387,14 +387,14 @@ namespace ConsoleUI_BL
                     try
                     {
                         iBL.SendDroneToCharge(droneId, stationId);
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -411,14 +411,14 @@ namespace ConsoleUI_BL
                     try
                     {
                         iBL.DroneRelease(droneId);
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -434,14 +434,14 @@ namespace ConsoleUI_BL
                     try
                     {
                         iBL.AssignParcelToDrone(parcelId);
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -458,14 +458,14 @@ namespace ConsoleUI_BL
                     try
                     {
                         iBL.ParcelCollection(parcelId);
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -482,14 +482,14 @@ namespace ConsoleUI_BL
                     try
                     {
                         iBL.ParcelDelivered(parcelId);
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -534,14 +534,14 @@ namespace ConsoleUI_BL
                         station = iBL.GetStationById(stationId);
 
                         Console.WriteLine(station);
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -562,14 +562,14 @@ namespace ConsoleUI_BL
                         drone = iBL.GetDroneById(droneId);
 
                         Console.WriteLine(drone);
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -589,14 +589,14 @@ namespace ConsoleUI_BL
                         costumer = iBL.GetCostumerById(costumerId);
 
                         Console.WriteLine(costumer);
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -616,14 +616,14 @@ namespace ConsoleUI_BL
                         parcel = iBL.GetParcelById(parcelId);
 
                         Console.WriteLine(parcel);
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -663,14 +663,14 @@ namespace ConsoleUI_BL
                             Console.WriteLine(station);
                         }
 
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -686,14 +686,14 @@ namespace ConsoleUI_BL
                             Console.WriteLine(drone);
                         }
 
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -709,14 +709,14 @@ namespace ConsoleUI_BL
                             Console.WriteLine(costumer);
                         }
 
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -732,14 +732,14 @@ namespace ConsoleUI_BL
                             Console.WriteLine(parcel);
                         }
 
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -766,14 +766,14 @@ namespace ConsoleUI_BL
                             i--;
                         }
 
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 
@@ -792,14 +792,14 @@ namespace ConsoleUI_BL
                             }
                         }
 
-                        Console.WriteLine("Success.\n");
+                        iBL.Sys().SuccessMessage();
                         pause();
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("Failed.\n");
-                        Console.WriteLine(e.Message);
+                        iBL.Sys().FailedMessage(e.Message);
+                        
                         pause();
                     }
 

@@ -30,5 +30,6 @@ namespace IBL
         public IEnumerable<IDAL.DO.Parcel> GetParcelsList();
         public IEnumerable<IDAL.DO.Drone> GetDroneList();
         public Queue<IDAL.DO.Parcel> GetWaitingParcels();
+        public BO.SysLog Sys();
     }
 }

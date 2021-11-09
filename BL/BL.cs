@@ -774,6 +774,11 @@ namespace IBL
             {
                 return this._dalObj.GetWaitingParcels();
             }
+
+            public SysLog Sys()
+            {
+                return this.syslog;
+            }
         }
     }
 }

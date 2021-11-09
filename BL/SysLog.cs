@@ -8,7 +8,7 @@ namespace IBL
 {
     namespace BO
     {
-        class SysLog
+        public class SysLog
         {
             public SysLog()
             {
@@ -58,7 +58,7 @@ namespace IBL
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
-            public void ChangeCostumerPhone(int costumerId, string phone)   
+            public void ChangeCostumerPhone(int costumerId, string phone)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("SYSTEM_LOG: change costumer (id: " + costumerId + ") phone to " + phone + "...");
@@ -156,6 +156,21 @@ namespace IBL
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("SYSTEM_LOG: release drone(id: " + droneId + ")...");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+
+            public void SuccessMessage()
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Success.\n");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+
+            public void FailedMessage(string errorMessage)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Failed.\n");
+                Console.WriteLine(errorMessage);
                 Console.ForegroundColor = ConsoleColor.White;
             }
         }
