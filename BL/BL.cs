@@ -25,7 +25,7 @@ namespace IBL
              * Parameters: drone's current location (lattidue and longtiube).                             *
              * Return: station's id.                                                                      *
              **********************************************************************************************/
-            private int _GetNearestStation(IDAL.DO.Point location)
+            private int _GetNearestStation(IDAL.DO.Location location)
             {
                 int stationId = -1;
                 var stations = _dalObj.GetStationsList();
@@ -321,7 +321,7 @@ namespace IBL
                 }
 
                 syslog.AddStation(id);
-                this._dalObj.AddStation(id, name, new IDAL.DO.Point(latitude, longitude), charge_solts);
+                this._dalObj.AddStation(id, name, new IDAL.DO.Location(latitude, longitude), charge_solts);
             }
 
             /*
@@ -400,7 +400,7 @@ namespace IBL
                 }
 
                 syslog.AddCostumer(id);
-                this._dalObj.AddCostumer(id, name, phone, new IDAL.DO.Point(longitude, latitude));
+                this._dalObj.AddCostumer(id, name, phone, new IDAL.DO.Location(longitude, latitude));
             }
 
             /*

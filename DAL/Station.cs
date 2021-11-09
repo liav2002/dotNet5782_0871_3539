@@ -10,7 +10,7 @@ namespace IDAL
         {
             private int _id;
             private string _name;
-            private Point _location;
+            private Location _location;
             private int _chargeSlots;
 
             public int Id
@@ -25,7 +25,7 @@ namespace IDAL
                 set => _name = value;
             }
 
-            public Point Location
+            public Location Location
             {
                 get => _location;
                 set => _location = value;
@@ -45,7 +45,7 @@ namespace IDAL
                     , Id, Name, Location, ChargeSlots);
             }
 
-            public Station(int id, string name, Point location, int chargeSlots)
+            public Station(int id, string name, Location location, int chargeSlots)
             {
                 this._id = id;
                 this._name = name;

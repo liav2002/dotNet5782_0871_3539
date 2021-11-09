@@ -16,7 +16,7 @@ namespace DalObject
        	*Parameters: station's id, station's name, station's location, charge's slots.
        	*Return: None.
         */
-        public void AddStation(int id, string name, IDAL.DO.Point location, int charge_solts)
+        public void AddStation(int id, string name, IDAL.DO.Location location, int charge_solts)
         {
             DataSource.stations.Add(new IDAL.DO.Station(id, name, location, charge_solts));
         }
@@ -36,7 +36,7 @@ namespace DalObject
         *Parameters: costumer's details.
         *Return: None.
         */
-        public void AddCostumer(int id, string name, string phone, IDAL.DO.Point location)
+        public void AddCostumer(int id, string name, string phone, IDAL.DO.Location location)
         {
             DataSource.costumers.Add(new IDAL.DO.Costumer(id, name, phone, location));
         }

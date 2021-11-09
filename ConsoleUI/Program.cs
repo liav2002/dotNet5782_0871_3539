@@ -142,7 +142,7 @@ namespace ConsoleUI
 
                     try
                     {
-                        dalObj.AddStation(id, name, new IDAL.DO.Point(lattitude, longitude), chargeSlots);
+                        dalObj.AddStation(id, name, new IDAL.DO.Location(lattitude, longitude), chargeSlots);
                         Console.WriteLine("Success.\n");
                         pause();
                     }
@@ -218,7 +218,7 @@ namespace ConsoleUI
 
                     try
                     {
-                        dalObj.AddCostumer(id, name, phone, new IDAL.DO.Point(lattitude, longitude));
+                        dalObj.AddCostumer(id, name, phone, new IDAL.DO.Location(lattitude, longitude));
                         Console.WriteLine("Success.\n");
                         pause();
                     }

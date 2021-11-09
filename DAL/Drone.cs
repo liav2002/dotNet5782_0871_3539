@@ -20,7 +20,7 @@ namespace IDAL
             private WeightCategories _maxWeight;
             private DroneStatuses _status;
             private double _battery;
-            private Point _location;
+            private Location _location;
 
             private double _chargeRate;
 
@@ -32,7 +32,7 @@ namespace IDAL
                 this._chargeRate = DalObject.DataSource.Config.chargeRatePH;
                 this._status = DroneStatuses.Available;
                 this._battery = battery;
-                this._location = new Point();
+                this._location = new Location();
             }
 
             public double ChargeRate
@@ -71,7 +71,7 @@ namespace IDAL
                 set => _battery = value;
             }
 
-            public Point Location
+            public Location Location
             {
                 get => _location;
                 set => _location = value;

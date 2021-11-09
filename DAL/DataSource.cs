@@ -52,10 +52,10 @@ namespace DalObject
         public static void InitializeStation()
         {
             stations.Add(new IDAL.DO.Station(1010, "Netanya - College",
-                new IDAL.DO.Point(32.30747945219766, 34.87919798038194),
+                new IDAL.DO.Location(32.30747945219766, 34.87919798038194),
                 rand.Next(10)));
             stations.Add(new IDAL.DO.Station(1020, "The Temple Mount",
-                new IDAL.DO.Point(31.65266801604753, 35.2281960943494),
+                new IDAL.DO.Location(31.65266801604753, 35.2281960943494),
                 rand.Next(10)));
         }
 
@@ -65,7 +65,7 @@ namespace DalObject
             {
                 costumers.Add(new IDAL.DO.Costumer(2000 + (i + 1) * 10, "Costumer " + (i + 1).ToString(),
                     "05" + rand.Next(5).ToString() + "-" + rand.Next(999).ToString() + "-" +
-                    rand.Next(9999).ToString(), new IDAL.DO.Point(30.234196842399772, 48.74692937085842)));
+                    rand.Next(9999).ToString(), new IDAL.DO.Location(30.234196842399772, 48.74692937085842)));
             }
         }
 

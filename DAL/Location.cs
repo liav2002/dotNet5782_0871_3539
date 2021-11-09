@@ -8,18 +8,18 @@ namespace IDAL
 {
     namespace DO
     {
-        public class Point
+        public class Location
         {
             private double _latitude;
             private double _longitude;
 
-            public Point(double latitude, double longitude)
+            public Location(double latitude, double longitude)
             {
                 this._latitude = latitude;
                 this._longitude = longitude;
             }
 
-            public Point() // Empty ctor: initial with random values
+            public Location() // Empty ctor: initial with random values
             {
                 Random random = new Random();
 
@@ -47,7 +47,7 @@ namespace IDAL
              **********************************************************************************************/
             private const double RADIUS = 6371.0088; // the average Radius of earth
 
-            public double Distance(Point p) // the return value is in km
+            public double Distance(Location p) // the return value is in km
             {
                 double dlon = _Radians(this._longitude - p._longitude);
                 double dlat = _Radians(this._latitude - p._latitude);

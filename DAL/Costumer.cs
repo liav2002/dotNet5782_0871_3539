@@ -9,7 +9,7 @@ namespace IDAL
             private int _id;
             private string _name;
             private string _phone;
-            private Point _location;
+            private Location _location;
 
             public int Id
             {
@@ -29,7 +29,7 @@ namespace IDAL
                 set => _phone = value;
             }
 
-            public Point Location
+            public Location Location
             {
                 get => _location;
                 set => _location = value;
@@ -43,7 +43,7 @@ namespace IDAL
                     , Id, Name, Phone, Location);
             }
 
-            public Costumer(int id, string name, string phone, Point location)
+            public Costumer(int id, string name, string phone, Location location)
             {
                 this._id = id;
                 this._name = name;
