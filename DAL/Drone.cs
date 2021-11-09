@@ -82,7 +82,7 @@ namespace IDAL
             {
                 return string.Format("the id is: {0}\nthe model is: {1}\nthe maxWegiht is: {2}\n" +
                                      "the status is: {3}\nthe battery is: {4}\n"
-                    , Id, Model, MaxWeight, Status, Battery);
+                    , Id, Model, MaxWeight, Status, String.Format("{0:F3}", Battery));
             }
         }
     }
