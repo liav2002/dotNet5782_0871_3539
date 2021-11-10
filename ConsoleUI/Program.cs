@@ -55,11 +55,11 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            DalObject.DalObject dalObj = new DalObject.DalObject();
+            IDAL.IDAL dalObj = IDAL.IDAL.GetInstance(); // Singleton
             MenuWindowHandle(dalObj);
         }
 
-        static void MenuWindowHandle(DalObject.DalObject dalObj)
+        static void MenuWindowHandle(IDAL.IDAL dalObj)
         {
             char ch = '0';
             MenuOptionsE op;
@@ -111,7 +111,7 @@ namespace ConsoleUI
             }
         }
 
-        static void InsertOptionsWindowHandle(DalObject.DalObject dalObj)
+        static void InsertOptionsWindowHandle(IDAL.IDAL dalObj)
         {
             char ch = '0';
             InsertOptionsE op;
@@ -239,7 +239,7 @@ namespace ConsoleUI
                     DateTime requested = DateTime.Now,
                         scheduled = default(DateTime),
                         pickedUp = default(DateTime),
-                        delivered = default(DateTime); //TODO: make sure the default DateTime is ok.
+                        delivered = default(DateTime);
 
                     Console.WriteLine("Parcel's details:\n");
 
@@ -286,7 +286,7 @@ namespace ConsoleUI
             }
         }
 
-        static void UpdateOptionsWindowHandle(DalObject.DalObject dalObj)
+        static void UpdateOptionsWindowHandle(IDAL.IDAL dalObj)
         {
             char ch = '0';
             UpdateOptionsE op;
@@ -441,7 +441,7 @@ namespace ConsoleUI
             }
         }
 
-        static void DisplayOptionsWindowHandle(DalObject.DalObject dalObj)
+        static void DisplayOptionsWindowHandle(IDAL.IDAL dalObj)
         {
             char ch = '0';
             DisplayOptionsE op;
@@ -574,7 +574,7 @@ namespace ConsoleUI
             }
         }
 
-        static void ListViewOptionsWindowHandle(DalObject.DalObject dalObj)
+        static void ListViewOptionsWindowHandle(IDAL.IDAL dalObj)
         {
             char ch = '0';
             ListViewOptionsE op;

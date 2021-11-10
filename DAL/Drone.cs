@@ -16,11 +16,17 @@ namespace IDAL
             }
 
             private int _id;
+            
             private string _model;
+            
             private WeightCategories _maxWeight;
+            
             private DroneStatuses _status;
+            
             private double _battery;
+            
             private Location _location;
+            
 
             private double _chargeRate;
 

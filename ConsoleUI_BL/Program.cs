@@ -55,10 +55,10 @@ namespace ConsoleUI_BL
 
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] args) 
         {
             Console.WriteLine("Building BL Unit...\n");
-            IBL.IBL iBL = new IBL.BO.BL();
+            IBL.IBL iBL = IBL.BO.BL.GetInstance(); // Singleton
             pause();
             MenuWindowHandle(iBL);
         }

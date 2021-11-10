@@ -4,9 +4,16 @@ using System.Text;
 
 namespace DalObject
 {
-    public class DalObject : IDAL.IDAL
+    public sealed class DalObject : IDAL.IDAL
     {
-        public DalObject()
+        private static DalObject instance = null;
+
+        public static IDAL.IDAL GetInstance()
+        {
+            return instance ?? (instance = new DalObject());
+        }
+
+        private DalObject()
         {
             DataSource.Initialize();
         }
@@ -193,6 +200,11 @@ namespace DalObject
                 }
 
             throw new IDAL.DO.ItemNotFound("Drone");
+        }
+
+        public IEnumerable<IDAL.DO.DroneCharge> GetDroneChargeList()
+        {
+            return DataSource.droneCharge;
         }
 
         public IEnumerable<IDAL.DO.Station> GetStationsList()

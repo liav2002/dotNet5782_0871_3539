@@ -7,6 +7,7 @@ namespace IDAL
     public interface IDAL
     {
         //general methods
+       public static extern IDAL GetInstance();
         public void AddStation(int id, string name, DO.Location location, int charge_solts);
 
         public void AddDrone(int id, string model, DO.WeightCategories maxWeight, double battery);
@@ -28,6 +29,7 @@ namespace IDAL
         public DO.Station GetStationById(int id);
         public DO.Drone GetDroneById(int id);
         public DO.DroneCharge GetDroneChargeByDroneId(int id);
+        public IEnumerable<DO.DroneCharge> GetDroneChargeList();
         public IEnumerable<DO.Station> GetStationsList();
         public IEnumerable<DO.Costumer> GetCostumerList();
         public IEnumerable<DO.Parcel> GetParcelsList();

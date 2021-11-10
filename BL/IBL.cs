@@ -5,7 +5,9 @@ using System.Text;
 namespace IBL
 {
     public interface IBL
-    {   
+    {
+        public static extern IBL GetInstance();
+
         public void AddStation(int id, string name, double longitude, double latitude, int charge_solts);
         public void AddDrone(int id, string model, int maxWeight, int stationId);
         public void AddCostumer(int id, string name, string phone, double longitude, double latitude);

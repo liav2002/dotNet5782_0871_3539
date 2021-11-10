@@ -10,6 +10,17 @@ namespace IBL
     {
         public class BL : IBL
         {
+            //Singleton design pattern
+            private static BL instance = null;
+
+            public static IBL GetInstance()
+
+            {
+                if (instance == null)
+                    instance = new BL();
+                return instance;
+            }
+
             private IDAL.IDAL _dalObj;
             private BO.SysLog syslog = new BO.SysLog();
 
@@ -153,6 +164,8 @@ namespace IBL
             {
                 syslog.HandleAssignParcel(parcel.Id, drone.Id);
                 parcel.Scheduled = DateTime.Now;
+                parcel.Status = IDAL.DO.ParcelStatuses.Assign;
+
                 parcel.DroneId = drone.Id;
 
                 var sender = _dalObj.GetCostumerById(parcel.SenderId);
@@ -265,11 +278,11 @@ namespace IBL
                 }
             }
 
-            public BL()
+            private BL()
             {
                 // handle all drones, init their values (location, battery, etc):
 
-                this._dalObj = new DalObject.DalObject();
+                this._dalObj = DalObject.DalObject.GetInstance(); // Singleton
                 IEnumerable<IDAL.DO.Drone> drones = _dalObj.GetDroneList();
 
                 syslog.HandleAssignParcels();
@@ -491,6 +504,8 @@ namespace IBL
                 drone.Location = costumer.Location;
 
                 parcel.PickedUp = DateTime.Now;
+                parcel.Status = IDAL.DO.ParcelStatuses.PickedUp;
+
             }
 
             /*
@@ -615,8 +630,9 @@ namespace IBL
                 //update parcel's details
 
                 parcel.Delivered = DateTime.Now;
+                parcel.Status = IDAL.DO.ParcelStatuses.Delivered;
 
-                //update drone's details
+                    //update drone's details
 
                 IDAL.DO.Drone drone = this.GetDroneById(parcel.DroneId);
                 IDAL.DO.Costumer target = this.GetCostumerById(parcel.TargetId);

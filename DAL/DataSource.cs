@@ -6,6 +6,20 @@ namespace DalObject
 {
     public class DataSource
     {
+        //Singelton Design pattern
+        private static DataSource instance = null;
+
+        public static DataSource GetInstance()
+        {
+                if (instance == null)
+                    instance = new DataSource();
+                return instance;
+        }
+
+        private DataSource()
+        {
+        }
+
         internal static List<IDAL.DO.Drone> drones = new List<IDAL.DO.Drone>();
         internal static List<IDAL.DO.Station> stations = new List<IDAL.DO.Station>();
         internal static List<IDAL.DO.Costumer> costumers = new List<IDAL.DO.Costumer>();
