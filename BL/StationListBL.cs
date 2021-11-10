@@ -10,11 +10,28 @@ namespace IBL
     {
         public class StationListBL
         {
-            private IDAL.DO.Drone _drone;
+            private IDAL.DO.Station _station;
 
-            public StationListBL()
+            private int _takingSlots;   
+
+            public StationListBL(IDAL.DO.Station station)
             {
+                IDAL.IDAL dalObj = DalObject.DalObject.GetInstance(); // Singleton
+
+                _station = station;
+
+                foreach (var droneCharge in dalObj.GetDroneChargeList())
+                    if (droneCharge.StationId == station.Id)
+                        _takingSlots++;
             }
+
+            public int Id => _station.Id;
+
+            public string Name => _station.Name;
+
+            public int FreeSlots => _station.ChargeSlots;
+
+            public int TakingSlots => _takingSlots;
         }
     }
 }

@@ -20,8 +20,12 @@ namespace IBL
                 IDAL.IDAL dalObj = DalObject.DalObject.GetInstance(); // Singleton
 
                 _parcel = parcel;
+
                 _receiver = new CostumerInParcel(dalObj.GetCostumerById(parcel.TargetId));
+
                 _sender = new CostumerInParcel(dalObj.GetCostumerById(parcel.SenderId));
+
+                _drone = new DroneParcelBL(dalObj.GetDroneById(parcel.DroneId));
             }
 
             public double Id => _parcel.Id;

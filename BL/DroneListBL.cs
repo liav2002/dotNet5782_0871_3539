@@ -17,6 +17,8 @@ namespace IBL
             {
                 IDAL.IDAL dalObj = DalObject.DalObject.GetInstance(); // Singleton
 
+                _drone = drone;
+                
                 foreach (var parcel in dalObj.GetParcelsList())
                     if ((parcel.DroneId == drone.Id) && (parcel.Status == IDAL.DO.ParcelStatuses.Delivered))
                         _parcelsDelivered++;

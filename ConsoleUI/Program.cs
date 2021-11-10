@@ -55,7 +55,7 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            IDAL.IDAL dalObj = IDAL.IDAL.GetInstance(); // Singleton
+            IDAL.IDAL dalObj = DalObject.DalObject.GetInstance(); // Singleton
             MenuWindowHandle(dalObj);
         }
 

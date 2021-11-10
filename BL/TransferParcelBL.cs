@@ -18,9 +18,9 @@ namespace IBL
 
             private bool _isOnTheWay;
 
-            private IDAL.DO.Location _start;
+            private IDAL.DO.Costumer _start;
 
-            private IDAL.DO.Location _end;
+            private IDAL.DO.Costumer _end;
 
             public TransferParcelBL(IDAL.DO.Parcel parcel)
             {
@@ -28,8 +28,12 @@ namespace IBL
 
                 _parcel = parcel;
 
-                _start = dalObj.GetCostumerById(parcel.SenderId).Location;
-                _end = dalObj.GetCostumerById(parcel.TargetId).Location;
+                _start = dalObj.GetCostumerById(parcel.SenderId);
+                _end = dalObj.GetCostumerById(parcel.TargetId);
+
+
+                _sender = new CostumerInParcel(_start);
+                _receiver = new CostumerInParcel(_end);
 
                 _isOnTheWay = (parcel.Status == IDAL.DO.ParcelStatuses.PickedUp);
             }
@@ -46,11 +50,10 @@ namespace IBL
 
             public CostumerInParcel Receiver => _receiver;
 
-            public IDAL.DO.Location Start => _start;
+            public IDAL.DO.Location Start => _start.Location;
+            public IDAL.DO.Location End => _end.Location;
 
-            public IDAL.DO.Location End => _end;
-
-            public double Distance => _start.Distance(_end);
+            public double Distance => _start.Location.Distance(_end.Location);
         }
     }
 }
