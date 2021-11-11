@@ -17,7 +17,7 @@ namespace IBL
                 foreach (char ch in str)
                 {
                     Console.Write(ch.ToString());
-                    if(!_start) { Thread.Sleep(15); }
+                    if(!_start) { Thread.Sleep(30); }
                 }
 
                 if(_start) { Thread.Sleep(5); }
