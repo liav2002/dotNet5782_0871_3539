@@ -192,6 +192,13 @@ namespace IBL
                 Type(errorMessage);
                 Console.ForegroundColor = ConsoleColor.White;
             }
+
+            public void EndMessage()
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Type("Good bye !!\n");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
         }
     }
 }

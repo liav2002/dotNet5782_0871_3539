@@ -101,13 +101,13 @@ namespace ConsoleUI_BL
 
                     case MenuOptionsE.Exit:
                     {
-                        Console.WriteLine("Good bye !!\n");
+                        iBL.Sys().EndMessage();
                         return;
                     }
 
                     default:
                     {
-                        Console.WriteLine("ERROR: Invalid Choice.\n");
+                        iBL.Sys().FailedMessage("ERROR: Invalid Choice.\n");
                         pause();
                         break;
                     }
