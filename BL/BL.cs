@@ -14,7 +14,6 @@ namespace IBL
             private static BL instance = null;
 
             public static IBL GetInstance()
-
             {
                 if (instance == null)
                     instance = new BL();
@@ -278,7 +277,7 @@ namespace IBL
                 }
             }
 
-            private BL()
+            public BL()
             {
                 // handle all drones, init their values (location, battery, etc):
 
