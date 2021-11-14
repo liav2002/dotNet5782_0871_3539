@@ -13,17 +13,17 @@ namespace IBL
         public void AssignParcelToDrone(int parcelId);
         public void ParcelCollection(int parcelId);
         public void ParcelDelivered(int parcelId);
-        public void SendDroneToCharge(int droneId, int stationId);
-        public void DroneRelease(int droneId);
+        public void SendDroneToCharge(int droneId, int stationId = -1);
+        public void DroneRelease(int droneId, double hours);
         public void UpdateDroneName(int droneId, string name);
         public void UpdateStation(int stationId, string name, int chargeSlots);
         public void UpdateCostumer(int costumerId, string name, string phoneNumber);
 
         //getters
-        public BO.ParcelBL GetParcelById(int id);
+        public BO.ParcelBL GetParcelById(int parcelId);
         public BO.CostumerBL GetCostumerById(int id);
         public BO.StationBL GetStationById(int id);
-        public BO.DroneBL GetDroneById(int id);
+        public BO.DroneBL GetDroneById(int droneId);
         public BO.DroneChargeBL GetDroneChargeByDroneId(int id);
         public IEnumerable<BO.StationListBL> GetStationsList();
         public IEnumerable<BO.CostumerListBL> GetCostumerList();

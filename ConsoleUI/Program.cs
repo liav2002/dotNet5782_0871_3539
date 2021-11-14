@@ -412,7 +412,8 @@ namespace ConsoleUI
 
                     try
                     {
-                        dalObj.DroneRelease(droneId);
+                        throw new Exception("Move to BL version.\n");
+                        //dalObj.DroneRelease(droneId);
                         Console.WriteLine("Success.\n");
                         pause();
                     }

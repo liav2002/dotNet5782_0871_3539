@@ -25,7 +25,7 @@ namespace IBL
 
                 _sender = new CostumerInParcel(dalObj.GetCostumerById(parcel.SenderId));
 
-                _drone = new DroneParcelBL(dalObj.GetDroneById(parcel.DroneId));
+                _drone = (parcel.DroneId != 0) ? new DroneParcelBL(dalObj.GetDroneById(parcel.DroneId)) : null;
             }
 
             public double Id => _parcel.Id;
@@ -50,9 +50,10 @@ namespace IBL
 
             public override string ToString()
             {
+                string droneId = (Drone != null) ? $"{Drone.Id}\n" : "None\n";
                 return $"the id is: {Id}\nthe senderId is: {Sender.Id}\nthe targetId is: {Receiver.Id}\n" +
                        $"the weight is: {Weight}\nthe priority is: {Priority}\nthe requested time is: {Requested}\n" +
-                       $"the droneId is: {Drone.Id}\nthe scheduled time is: {Scheduled}\nthe pickedUp time is: {PickedUp}\n" +
+                       $"the droneId is: {droneId}\nthe scheduled time is: {Scheduled}\nthe pickedUp time is: {PickedUp}\n" +
                        $"the delivered time is: {Delivered}\n";
             }
         }

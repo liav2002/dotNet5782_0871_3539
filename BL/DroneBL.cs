@@ -13,12 +13,12 @@ namespace IBL
             private IDAL.DO.Drone _drone;
             private TransferParcelBL _parcel;
 
-            public DroneBL(IDAL.DO.Parcel parcel)
+            public DroneBL(int droneId, int parcelId)
             {
                 IDAL.IDAL dalObj = DalObject.DalObject.GetInstance(); // Singleton
 
-                _parcel = new TransferParcelBL(parcel);
-                _drone = dalObj.GetDroneById(parcel.DroneId);
+                _parcel = (parcelId != 0) ? new TransferParcelBL(dalObj.GetParcelById(parcelId)) : null;
+                _drone = dalObj.GetDroneById(droneId);
             }
 
             public double Id => _drone.Id;

@@ -19,7 +19,7 @@ namespace IDAL
         public void MoveParcelToWaitingList(DO.Parcel parcel);
         public DO.Parcel GetNextParcel();
         public void AddDroneToCharge(int droneId, int stationId);
-        public void DroneRelease(int droneId);
+        public void DroneRelease(int droneId, double hours);
         public double[] PowerRequest();
 
         //getters

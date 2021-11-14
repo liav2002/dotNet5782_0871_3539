@@ -13,7 +13,7 @@ namespace IBL
             //Singleton design pattern
             private static BL instance = null;
 
-            public static IBL GetInstance()
+            public static BL GetInstance()
             {
                 if (instance == null)
                     instance = new BL();
@@ -29,6 +29,37 @@ namespace IBL
             private double _mediumPPK = DalObject.DataSource.Config.mediumPPK;
             private double _heavyPPK = DalObject.DataSource.Config.heavyPPK;
             private double _avilablePPK = DalObject.DataSource.Config.avilablePPK;
+
+            /**********************************************************************************************
+             * Details: this function find the nearest avilable station to drone.                         *
+             * Parameters: drone's current location (lattidue and longtiube).                             *
+             * Return: station's id.                                                                      *
+             **********************************************************************************************/
+            private int _GetNearestAvilableStation(IDAL.DO.Location location)
+            {
+                int stationId = -1;
+                var stations = _dalObj.GetStationsList();
+                double min = -1;
+
+                if (!stations.Any() || stations == null) throw new NonItems("Stations");
+
+                var station = stations.GetEnumerator();
+
+                while (station.MoveNext())
+                {
+                    double distance = station.Current.Location.Distance(location);
+
+                    if (min > distance || min == -1)
+                    {
+                        min = station.Current.ChargeSlots > 0 ? distance : -1;
+                        stationId = station.Current.ChargeSlots > 0 ? station.Current.Id : -1;
+                    }
+                }
+
+                if(min == -1) { throw new BO.NotAvilableStation(); }
+
+                return stationId;
+            }
 
             /**********************************************************************************************
              * Details: this function find the nearest station to drone.                                  *
@@ -63,7 +94,6 @@ namespace IBL
 
                 return stationId;
             }
-
 
             /**********************************************************************************************
              * Details: this function initalized drone's location according to some conditions.           *
@@ -277,7 +307,7 @@ namespace IBL
                 }
             }
 
-            public BL()
+            private BL()
             {
                 // handle all drones, init their values (location, battery, etc):
 
@@ -449,37 +479,21 @@ namespace IBL
             *Parameters: a parcel.
             *Return: None.
             */
-            public void AssignParcelToDrone(int parcelId)
+            public void AssignParcelToDrone(int droneId) //TODO:adding syslogs
             {
                 IEnumerable<IDAL.DO.Drone> drones = this._dalObj.GetDroneList();
 
-                if (0 > parcelId)
+                if (0 > droneId)
                 {
-                    throw new BO.NegetiveValue("Parcel's id");
+                    throw new BO.NegetiveValue("Drone's id");
                 }
 
-                IDAL.DO.Parcel parcel = this._dalObj.GetParcelById(parcelId);
+                IDAL.DO.Drone drone = this._dalObj.GetDroneById(droneId);
+                IDAL.DO.Parcel parcel = null;
+                IEnumerable<IDAL.DO.Parcel> parcels = this._dalObj.GetParcelsList();
 
-                if (parcel.DroneId != 0)
-                {
-                    throw new BO.ParcelAlreadyAssign(parcel.DroneId);
-                }
+                bool flag = false;
 
-                foreach (var drone in drones)
-                {
-                    if (drone.Status == IDAL.DO.DroneStatuses.Available && // if the drone is avalible
-                        (int) drone.MaxWeight >=
-                        (int) parcel.Weight) // and the drone maxWeight is qual or bigger to the parcel weight
-                    {
-                        this.HandleAssignParcel(parcel, drone);
-                        return; //operation complete - we find an avilable drone, so exit the function.
-                    }
-                }
-
-                //if there is no any avilable drone
-                syslog.MoveParcelToWaitingList(parcel.Id);
-                this._dalObj.MoveParcelToWaitingList(parcel);
-                throw new IDAL.DO.NonAvilableDrones();
             }
 
             /*
@@ -531,13 +545,13 @@ namespace IBL
                     throw new BO.NotNewValue("Costumer phone", phoneNumber);
                 }
 
-                if (name != null)
+                if (name != "")
                 {
                     costumer.Name = name;
                     syslog.ChangeCostumerName(costumerId, name);
                 }
 
-                if (phoneNumber != null)
+                if (phoneNumber != "")
                 {
                     costumer.Phone = phoneNumber;
                     syslog.ChangeCostumerPhone(costumerId, phoneNumber);
@@ -569,13 +583,13 @@ namespace IBL
                     throw new BO.NotNewValue("Station charge slots", chargeSlots.ToString());
                 }
 
-                if (name != null)
+                if (name != "")
                 {
                     station.Name = name;
                     syslog.ChangeStationName(stationId, name);
                 }
 
-                if (chargeSlots != 0)
+                if (chargeSlots != -1)
                 {
                     station.ChargeSlots = chargeSlots;
                     syslog.ChangeStationChargeSlots(stationId, chargeSlots);
@@ -602,8 +616,11 @@ namespace IBL
                     throw new BO.NotNewValue("Drone model", name);
                 }
 
-                drone.Model = name;
-                syslog.ChangeDroneModelName(droneId, name);
+                if (name != "")
+                {
+                    drone.Model = name;
+                    syslog.ChangeDroneModelName(droneId, name);
+                }
             }
 
             /*
@@ -659,39 +676,76 @@ namespace IBL
             *Parameters: drone's id, station's id.
             *Return: None.
             */
-            public void SendDroneToCharge(int droneId, int stationId)
+            public void SendDroneToCharge(int droneId, int stationId = -1)
             {
                 if (0 > droneId)
                 {
                     throw new BO.NegetiveValue("Drone's id");
                 }
 
-                if (0 > stationId)
+                if (0 > stationId && stationId != -1)
                 {
                     throw new BO.NegetiveValue("Station's id");
                 }
 
                 IDAL.DO.Drone drone = this._dalObj.GetDroneById(droneId);
-
-                IDAL.DO.Station station = this._dalObj.GetStationById(stationId);
-
-
-                if (station.ChargeSlots <= 0)
+                if(drone.Status != IDAL.DO.DroneStatuses.Available)
                 {
-                    throw new BO.NegetiveValue("Charge's slots");
+                    throw new BO.DroneNotAvliable(droneId);
                 }
 
-                station.ChargeSlots--;
+                IDAL.DO.Station station;
 
-                syslog.InitDroneLocation(droneId);
+                if(stationId == -1)
+                {
+                    station = this._dalObj.GetStationById(this._GetNearestAvilableStation(drone.Location));
+                    double distance = drone.Location.Distance(station.Location);
+                    double minBattery = distance * DalObject.DataSource.Config.avilablePPK;
 
-                drone.Location = station.Location;
+                    if(minBattery > drone.Battery)
+                    {
+                        throw new BO.DroneNotEnoughBattery(droneId);
+                    }
 
-                syslog.InitDroneBattery(droneId);
-                this._dalObj.AddDroneToCharge(drone.Id, station.Id);
+                    syslog.InitDroneBattery(droneId);
+                    drone.Battery -= minBattery;
 
-                syslog.ChangeDroneStatus(droneId, IDAL.DO.DroneStatuses.Maintenance);
-                drone.Status = IDAL.DO.DroneStatuses.Maintenance;
+                    syslog.InitDroneLocation(droneId);
+                    drone.Location = station.Location;
+
+                    syslog.ChangeDroneStatus(droneId, IDAL.DO.DroneStatuses.Maintenance);
+                    drone.Status = IDAL.DO.DroneStatuses.Maintenance;
+
+                    station.ChargeSlots--;
+
+                    syslog.DroneToCharge(droneId, stationId);
+                    this._dalObj.AddDroneToCharge(droneId, stationId);
+                }
+
+                else
+                {
+                    station = this._dalObj.GetStationById(stationId);
+
+                    if (station.ChargeSlots <= 0)
+                    {
+                        throw new BO.NegetiveValue("Charge's slots");
+                    }
+
+                    station.ChargeSlots--;
+
+                    syslog.InitDroneLocation(droneId);
+
+                    drone.Location = station.Location;
+
+                    syslog.InitDroneBattery(droneId);
+                    this._dalObj.AddDroneToCharge(drone.Id, station.Id);
+
+                    syslog.ChangeDroneStatus(droneId, IDAL.DO.DroneStatuses.Maintenance);
+                    drone.Status = IDAL.DO.DroneStatuses.Maintenance;
+
+                    syslog.DroneToCharge(droneId, stationId);
+                    this._dalObj.AddDroneToCharge(droneId, stationId);
+                }
             }
 
             /*
@@ -699,15 +753,22 @@ namespace IBL
             *Parameters: a drone.
             *Return: None.
             */
-            public void DroneRelease(int droneId)
+            public void DroneRelease(int droneId, double hours)
             {
                 if (0 > droneId)
                 {
                     throw new BO.NegetiveValue("Drone's id");
                 }
 
+                IDAL.DO.Drone drone = this._dalObj.GetDroneById(droneId);
+
+                if(drone.Status != IDAL.DO.DroneStatuses.Maintenance)
+                {
+                    throw new BO.DroneNotInMaintenance(droneId);
+                }
+
                 syslog.DroneRelease(droneId);
-                this._dalObj.DroneRelease(droneId);
+                this._dalObj.DroneRelease(droneId, hours);
 
                 //check if there is any waiting parcels, for assign them to the current drone.
                 this.CheckWaitingList(this._dalObj.GetDroneById(droneId));
@@ -715,14 +776,14 @@ namespace IBL
 
             //getters:
 
-            public BO.ParcelBL GetParcelById(int id)
+            public BO.ParcelBL GetParcelById(int parcelId)
             {
-                if (0 > id)
+                if (0 > parcelId)
                 {
                     throw new BO.NegetiveValue("Parcel's id");
                 }
 
-                return new BO.ParcelBL(this._dalObj.GetParcelById(id));
+                return new BO.ParcelBL(this._dalObj.GetParcelById(parcelId));
             }
 
             public BO.CostumerBL GetCostumerById(int id)
@@ -745,28 +806,28 @@ namespace IBL
                 return new BO.StationBL(this._dalObj.GetStationById(id));
             }
 
-            public BO.DroneBL GetDroneById(int id)
+            public BO.DroneBL GetDroneById(int droneId)
             {
-                if (0 > id)
+                if (0 > droneId)
                 {
                     throw new BO.NegetiveValue("Drone's id");
                 }
 
                 //get the parcel which the drone is assign to...
-                IDAL.DO.Drone drone = this._dalObj.GetDroneById(id);
+                IDAL.DO.Drone drone = this._dalObj.GetDroneById(droneId);
                 IEnumerable<IDAL.DO.Parcel> parcels = this._dalObj.GetParcelsList();
                 int parcelOfDroneId = 0;
 
                 foreach(var parcel in parcels)
                 {
-                    if(parcel.DroneId == id)
+                    if(parcel.DroneId == droneId)
                     {
                         parcelOfDroneId = parcel.Id;
                         break;
                     }
                 }
 
-                return new BO.DroneBL(this._dalObj.GetParcelById(parcelOfDroneId));
+                return new BO.DroneBL(droneId, parcelOfDroneId);
             }
 
             public BO.DroneChargeBL GetDroneChargeByDroneId(int id)

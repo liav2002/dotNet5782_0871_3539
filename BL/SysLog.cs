@@ -178,6 +178,13 @@ namespace IBL
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
+            public void DroneToCharge(int droneId, int staionId)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Type("SYSTEM_LOG: send drone(id: " + droneId + ") to charging in station(id: " + staionId + ")...");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+
             public void SuccessMessage()
             {
                 Console.ForegroundColor = ConsoleColor.Green;

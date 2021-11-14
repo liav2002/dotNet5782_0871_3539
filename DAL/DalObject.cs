@@ -121,7 +121,7 @@ namespace DalObject
         *Parameters: a drone.
         *Return: None.
         */
-        public void DroneRelease(int droneId)
+        public void DroneRelease(int droneId, double hours)
         {
             IDAL.DO.DroneCharge dc;
             IDAL.DO.Drone drone;
@@ -134,7 +134,7 @@ namespace DalObject
             station.ChargeSlots++;
             DataSource.droneCharge.Remove(dc);
             drone.Status = IDAL.DO.DroneStatuses.Available;
-            drone.Battery = 100;
+            drone.Battery += hours * DataSource.Config.chargeRatePH;
         }
 
         public double[] PowerRequest()

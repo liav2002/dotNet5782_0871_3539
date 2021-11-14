@@ -57,5 +57,40 @@ namespace IBL
             {
             }
         }
+
+        public class InvalidInput : Exception
+        {
+            public InvalidInput() : base("ERROR: Invalid input.\n")
+            {
+            }
+        }
+
+        public class NotAvilableStation : Exception
+        {
+            public NotAvilableStation() : base("ERROR: There is no any avilable station for the drone.\n")
+            {
+            }
+        }
+
+        public class DroneNotAvliable : Exception
+        {
+            public DroneNotAvliable(int droneId) : base("ERROR: drone (id: " + droneId + ") is not in 'Avliable' status.\n")
+            {
+            }
+        }
+
+        public class DroneNotInMaintenance : Exception
+        {
+            public DroneNotInMaintenance(int droneId) : base("ERROR: drone (id: " + droneId + ") is not in 'Maintenance' status.\n")
+            {
+            }
+        }
+
+        public class DroneNotEnoughBattery : Exception
+        {
+            public DroneNotEnoughBattery(int droneId) : base ("ERROR: drone (id: " + droneId + ") not have enough battery.\n")
+            {
+            }
+        }
     }
 }

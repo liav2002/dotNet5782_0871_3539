@@ -66,7 +66,7 @@ namespace ConsoleUI_BL
         static void Main(string[] args) 
         {
             Console.WriteLine("Building BL Unit...\n");
-            IBL.IBL iBL = new IBL.BO.BL();
+            IBL.IBL iBL = IBL.BO.BL.GetInstance();
             pause();
             iBL.Sys().SetStarttoFalse();
             MenuWindowHandle(iBL);
@@ -77,49 +77,59 @@ namespace ConsoleUI_BL
             char ch = '0';
             MenuOptionsE op;
 
-            while ((MenuOptionsE) ch != MenuOptionsE.Exit)
+            try
             {
-                op = PrintMenu();
-
-                switch (op)
+                while ((MenuOptionsE)ch != MenuOptionsE.Exit)
                 {
-                    case MenuOptionsE.Insert:
-                    {
-                        InsertOptionsWindowHandle(iBL);
-                        break;
-                    }
+                    op = PrintMenu();
 
-                    case MenuOptionsE.Update:
+                    switch (op)
                     {
-                        UpdateOptionsWindowHandle(iBL);
-                        break;
-                    }
+                        case MenuOptionsE.Insert:
+                            {
+                                InsertOptionsWindowHandle(iBL);
+                                break;
+                            }
 
-                    case MenuOptionsE.Display:
-                    {
-                        DisplayOptionsWindowHandle(iBL);
-                        break;
-                    }
+                        case MenuOptionsE.Update:
+                            {
+                                UpdateOptionsWindowHandle(iBL);
+                                break;
+                            }
 
-                    case MenuOptionsE.ListView:
-                    {
-                        ListViewOptionsWindowHandle(iBL);
-                        break;
-                    }
+                        case MenuOptionsE.Display:
+                            {
+                                DisplayOptionsWindowHandle(iBL);
+                                break;
+                            }
 
-                    case MenuOptionsE.Exit:
-                    {
-                        iBL.Sys().EndMessage();
-                        return;
-                    }
+                        case MenuOptionsE.ListView:
+                            {
+                                ListViewOptionsWindowHandle(iBL);
+                                break;
+                            }
 
-                    default:
-                    {
-                        iBL.Sys().FailedMessage("ERROR: Invalid Choice.\n");
-                        pause();
-                        break;
+                        case MenuOptionsE.Exit:
+                            {
+                                iBL.Sys().EndMessage();
+                                return;
+                            }
+
+                        default:
+                            {
+                                iBL.Sys().FailedMessage("ERROR: Invalid Choice.\n");
+                                pause();
+                                break;
+                            }
                     }
                 }
+            }
+
+            catch(Exception e)
+            {
+                iBL.Sys().FailedMessage(e.Message);
+                pause();
+                MenuWindowHandle(iBL);
             }
         }
 
@@ -329,12 +339,18 @@ namespace ConsoleUI_BL
                     int stationId;
                     string name;
                     int chargeSlots;
+
+                    string temp = "";
+
                     Console.WriteLine("Enter station's id: ");
                     stationId = Convert.ToInt32(Console.ReadLine());
+
                     Console.WriteLine("Enter statoin's new name: ");
-                    name = Convert.ToString(Console.ReadLine());
+                    name = Console.ReadLine();
+
                     Console.WriteLine("Enter statoin's new charge slots: ");
-                    chargeSlots = Convert.ToInt32(Console.ReadLine());
+                    temp = Console.ReadLine();
+                    chargeSlots = (temp == "") ? -1 : Convert.ToInt32(temp);
 
 
                     try
@@ -386,16 +402,13 @@ namespace ConsoleUI_BL
                 case UpdateOptionsE.SendDroneToCharge:
                 {
                     int droneId = 0;
-                    int stationId = 0;
 
                     Console.WriteLine("Enter drone's id: ");
                     droneId = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("Enter station's id: ");
-                    stationId = Convert.ToInt32(Console.ReadLine());
 
                     try
                     {
-                        iBL.SendDroneToCharge(droneId, stationId);
+                        iBL.SendDroneToCharge(droneId);
                         iBL.Sys().SuccessMessage();
                         pause();
                     }
@@ -413,13 +426,17 @@ namespace ConsoleUI_BL
                 case UpdateOptionsE.ReleaseDroneFromCharge:
                 {
                     int droneId = 0;
+                    double hours = 0;
 
-                    Console.WriteLine("Enter drone's id: ");
+                    Console.Write("Enter drone's id: ");
                     droneId = Convert.ToInt32(Console.ReadLine());
+
+                    Console.Write("Enter a period of time that was at the station: ");
+                    hours = Convert.ToInt32(Console.ReadLine());
 
                     try
                     {
-                        iBL.DroneRelease(droneId);
+                        iBL.DroneRelease(droneId, hours);
                         iBL.Sys().SuccessMessage();
                         pause();
                     }
@@ -562,7 +579,7 @@ namespace ConsoleUI_BL
                     int droneId = 0;
                     IBL.BO.DroneBL drone;
 
-                    Console.Write(" Enter drone's Id: ");
+                    Console.Write("Enter drone's Id: ");
                     droneId = Convert.ToInt32(Console.ReadLine());
                     ;
 
@@ -847,7 +864,15 @@ namespace ConsoleUI_BL
             Console.WriteLine("4. List view options.");
             Console.WriteLine("5. Exit.");
 
-            userChoice = Console.ReadLine()[0];
+            string temp = Console.ReadLine();
+            if(temp != "" && temp.Length == 1)
+            {
+                userChoice = temp[0];
+            }
+            else
+            {
+                throw new IBL.BO.InvalidInput();
+            }
 
             return (MenuOptionsE) userChoice;
         }
@@ -870,7 +895,15 @@ namespace ConsoleUI_BL
             Console.WriteLine("4. Add new parcel.");
             Console.WriteLine("5. Back.");
 
-            userChoice = Console.ReadLine()[0];
+            string temp = Console.ReadLine();
+            if(temp != "" && temp.Length == 1)
+            {
+                userChoice = temp[0];
+            }
+            else
+            {
+                throw new IBL.BO.InvalidInput();
+            }
 
             return userChoice;
         }
@@ -897,7 +930,15 @@ namespace ConsoleUI_BL
             Console.WriteLine("8. Delivery parcel to Costumer.");
             Console.WriteLine("9. Back.");
 
-            userChoice = Console.ReadLine()[0];
+            string temp = Console.ReadLine();
+            if(temp != "" && temp.Length == 1)
+            {
+                userChoice = temp[0];
+            }
+            else
+            {
+                throw new IBL.BO.InvalidInput();
+            }
 
             return userChoice;
         }
@@ -920,7 +961,15 @@ namespace ConsoleUI_BL
             Console.WriteLine("4. Parcel view. (by unique id).");
             Console.WriteLine("5. Back.");
 
-            userChoice = Console.ReadLine()[0];
+            string temp = Console.ReadLine();
+            if(temp != "" && temp.Length == 1)
+            {
+                userChoice = temp[0];
+            }
+            else
+            {
+                throw new IBL.BO.InvalidInput();
+            }
 
             return userChoice;
         }
@@ -945,8 +994,15 @@ namespace ConsoleUI_BL
             Console.WriteLine("6. Display of base stations with available charging stations.");
             Console.WriteLine("7. Back.");
 
-
-            userChoice = Console.ReadLine()[0];
+            string temp = Console.ReadLine();
+            if(temp != "" && temp.Length == 1)
+            {
+                userChoice = temp[0];
+            }
+            else
+            {
+                throw new IBL.BO.InvalidInput();
+            }
 
             return userChoice;
         }
