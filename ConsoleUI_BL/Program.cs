@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ * Course: Mini Project In Windows.
+ * Description: Windows App for manafing shpiments using drones.
+ * Name of Developer 1: Liav Ariel (212830871).
+ * Name of Developer 2: Eyal Zekbah ().
+ * Name of Lecturer: Aryeh Wiesen.
+ */
+
+using System;
 
 namespace ConsoleUI_BL
 {
