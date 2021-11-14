@@ -2,7 +2,7 @@
  * Course: Mini Project In Windows.
  * Description: Windows App for manafing shpiments using drones.
  * Name of Developer 1: Liav Ariel (212830871).
- * Name of Developer 2: Eyal Zekbah ().
+ * Name of Developer 2: Eyal Seckbach (324863539).
  * Name of Lecturer: Aryeh Wiesen.
  */
 
