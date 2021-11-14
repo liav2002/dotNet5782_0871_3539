@@ -11,24 +11,25 @@ namespace IBL
         public class DroneListBL
         {
             private IDAL.DO.Drone _drone;
-            private int _parcelsDelivered;
+            private int _parcelId;
 
             public DroneListBL(IDAL.DO.Drone drone)
             {
                 IDAL.IDAL dalObj = DalObject.DalObject.GetInstance(); // Singleton
 
                 _drone = drone;
-                
+
+                _parcelId = -1;
+
                 foreach (var parcel in dalObj.GetParcelsList())
-                    if ((parcel.DroneId == drone.Id) && (parcel.Status == IDAL.DO.ParcelStatuses.Delivered))
-                        _parcelsDelivered++;
+                    if (parcel.DroneId == drone.Id) { _parcelId = parcel.Id; }
             }
 
             public double Id => _drone.Id;
 
             public string Model => _drone.Model;
 
-            public IDAL.DO.WeightCategories Whigt => _drone.MaxWeight;
+            public IDAL.DO.WeightCategories Weight => _drone.MaxWeight;
 
             public double Battery => _drone.Battery;
 
@@ -36,7 +37,25 @@ namespace IBL
 
             public IDAL.DO.Location Location => _drone.Location;
 
-            public int ParcelsDelivered => _parcelsDelivered;
+            public int ParcelId => _parcelId;
+
+            public override string ToString()
+            {
+                string strToPrint = $"Id: {Id}, Model: {Model}.\n" +
+                                    $"Weight: {Weight}, Battery: {Battery}, Status: {Status}, Location: {Location}\n";
+
+                if(ParcelId != -1)
+                {
+                    strToPrint += $"Parcel's id: {ParcelId}.\n";
+                }
+
+                else
+                {
+                    strToPrint += "The drone doesn't carry any parcel.\n";
+                }
+
+                return strToPrint;
+            }
         }
     }
 }

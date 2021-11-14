@@ -32,6 +32,11 @@ namespace IBL
             public int FreeSlots => _station.ChargeSlots;
 
             public int TakingSlots => _takingSlots;
+
+            public override string ToString()
+            {
+                return $"Id: {Id}, Name: {Name}, Number of free slots: {FreeSlots}, Number of occupied slots: {TakingSlots}.\n";
+            }
         }
     }
 }

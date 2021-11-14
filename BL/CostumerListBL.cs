@@ -57,6 +57,15 @@ namespace IBL
             public int Recieve => _recieved;
 
             public int ParcelsAwait => _parcelsAwait;
+
+            public override string ToString()
+            {
+                return $"Id: {Id}, Name: {Name}, Phone: {Phone}\n" +
+                       $"Number of parcels send and delivered: {SendArrived}.\n" +
+                       $"Number of parcels sent but not yet delivered: {SendNotArrived}.\n" +
+                       $"Number of parcels he received: {Recieve}.\n" +
+                       $"Number of parcels on the way to coustumer: {ParcelsAwait}.\n";
+            }
         }
     }
 }

@@ -54,6 +54,12 @@ namespace IBL
             public IDAL.DO.Location End => _end.Location;
 
             public double Distance => _start.Location.Distance(_end.Location);
+
+            public override string ToString()
+            {
+                return $"Id: {Id}, Sender: {Sender}, Receiver: {Receiver}, Starting point: {Start}, Target point: {End} --> " + 
+                       (IsOnTheWay ? "On the way.\n" : "Not collected yet.\n");
+            }
         }
     }
 }

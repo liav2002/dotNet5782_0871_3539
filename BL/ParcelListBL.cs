@@ -35,8 +35,11 @@ namespace IBL
             public IDAL.DO.WeightCategories Weight => _parcel.Weight;
             
             public IDAL.DO.ParcelStatuses Priority => _parcel.Status;
-            
-    
+
+            public override string ToString()
+            {
+                return $"Id: {Id}, Receiver name: {ReceiverName}, Sender name: {SenderName}, Weight: {Weight}, Priority: {Priority}.\n";
+            }
         }
     }
 }

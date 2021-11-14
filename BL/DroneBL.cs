@@ -25,7 +25,7 @@ namespace IBL
 
             public string Model => _drone.Model;
 
-            public IDAL.DO.WeightCategories Whigt => _drone.MaxWeight;
+            public IDAL.DO.WeightCategories Weight => _drone.MaxWeight;
 
             public double Battery => _drone.Battery;
 
@@ -34,6 +34,14 @@ namespace IBL
             public TransferParcelBL Parcel => _parcel;
 
             public IDAL.DO.Location Location => _drone.Location;
+
+            public override string ToString()
+            {
+                return string.Format("the id is: {0}\nthe model is: {1}\nthe maxWegiht is: {2}\n" +
+                                     "the status is: {3}\nthe battery is: {4}\nthe transfer parcel is: {5}\n" +
+                                     "the location is: {6}\n"
+                    , Id, Model, Weight, Status, String.Format("{0:F3}", Battery), Parcel, Location);
+            }
         }
     }
 }

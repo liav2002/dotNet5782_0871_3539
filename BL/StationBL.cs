@@ -36,6 +36,19 @@ namespace IBL
             public int FreeSlots => _station.ChargeSlots;
 
             public List<DroneChargeBL> DronesInStation => _dronesInStation;
+
+            public override string ToString()
+            {
+                string strToPrint = string.Format("the id is: {0}\nthe name is: {1}\nthe location is: {2}\n" +
+                                     "\nthe number of available argument positions: {3}\n" +
+                                     "the drones in the station:\n"
+                    , Id, Name, Location, FreeSlots);
+
+                strToPrint += string.Join("\n", DronesInStation);
+                strToPrint += "\n";
+
+                return strToPrint;
+            }
         }
     }
 }

@@ -37,6 +37,12 @@ namespace IBL
             public IDAL.DO.ParcelStatuses Status => _parcel.Status;
 
             public CostumerInParcel CostumerParcel => _csp;
+
+            public override string ToString()
+            {
+                return $"id: {Id}, target's id: {this._parcel.TargetId}, weight: {Weight}, priority: {Priority}\n" +
+                       $"drone's id: {this._parcel.DroneId}";
+            }
         }
     }
 }

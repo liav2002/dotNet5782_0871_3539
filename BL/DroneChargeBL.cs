@@ -19,7 +19,12 @@ namespace IBL
 
             public double Id => _drone.Id;
 
-            public double Battery => _drone.Battery;    
+            public double Battery => _drone.Battery;
+
+            public override string ToString()
+            {
+                return $"drone's id: {Id}, battery: {Battery}.";
+            }
         }
     }
 }

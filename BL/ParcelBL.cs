@@ -47,6 +47,14 @@ namespace IBL
             public DateTime Scheduled => _parcel.Scheduled;
 
             public DateTime PickedUp => _parcel.PickedUp;
+
+            public override string ToString()
+            {
+                return $"the id is: {Id}\nthe senderId is: {Sender.Id}\nthe targetId is: {Receiver.Id}\n" +
+                       $"the weight is: {Weight}\nthe priority is: {Priority}\nthe requested time is: {Requested}\n" +
+                       $"the droneId is: {Drone.Id}\nthe scheduled time is: {Scheduled}\nthe pickedUp time is: {PickedUp}\n" +
+                       $"the delivered time is: {Delivered}\n";
+            }
         }
     }
 }
