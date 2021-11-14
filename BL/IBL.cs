@@ -20,15 +20,15 @@ namespace IBL
         public void UpdateCostumer(int costumerId, string name, string phoneNumber);
 
         //getters
-        public IDAL.DO.Parcel GetParcelById(int id);
-        public IDAL.DO.Costumer GetCostumerById(int id);
-        public IDAL.DO.Station GetStationById(int id);
-        public IDAL.DO.Drone GetDroneById(int id);
-        public IDAL.DO.DroneCharge GetDroneChargeByDroneId(int id);
-        public IEnumerable<IDAL.DO.Station> GetStationsList();
-        public IEnumerable<IDAL.DO.Costumer> GetCostumerList();
-        public IEnumerable<IDAL.DO.Parcel> GetParcelsList();
-        public IEnumerable<IDAL.DO.Drone> GetDroneList();
+        public BO.ParcelBL GetParcelById(int id);
+        public BO.CostumerBL GetCostumerById(int id);
+        public BO.StationBL GetStationById(int id);
+        public BO.DroneBL GetDroneById(int id);
+        public BO.DroneChargeBL GetDroneChargeByDroneId(int id);
+        public IEnumerable<BO.StationListBL> GetStationsList();
+        public IEnumerable<BO.CostumerListBL> GetCostumerList();
+        public IEnumerable<BO.ParcelListBL> GetParcelsList();
+        public IEnumerable<BO.DroneListBL> GetDroneList();
         public Queue<IDAL.DO.Parcel> GetWaitingParcels();
         public BO.SysLog Sys();
     }

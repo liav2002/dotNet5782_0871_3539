@@ -495,8 +495,8 @@ namespace IBL
                 }
 
                 IDAL.DO.Parcel parcel = this._dalObj.GetParcelById(parcelId);
-                IDAL.DO.Drone drone = this.GetDroneById(parcel.DroneId);
-                IDAL.DO.Costumer costumer = this.GetCostumerById(parcel.SenderId);
+                IDAL.DO.Drone drone = this._dalObj.GetDroneById(parcel.DroneId);
+                IDAL.DO.Costumer costumer = this._dalObj.GetCostumerById(parcel.SenderId);
 
                 syslog.ParcelCollection(parcelId, drone.Id);
 
@@ -520,7 +520,7 @@ namespace IBL
                     throw new BO.NegetiveValue("Costumer's id");
                 }
 
-                IDAL.DO.Costumer costumer = this.GetCostumerById(costumerId);
+                IDAL.DO.Costumer costumer = this._dalObj.GetCostumerById(costumerId);
                 if (costumer.Name == name)
                 {
                     throw new BO.NotNewValue("Costumer Name", name);
@@ -558,7 +558,7 @@ namespace IBL
                     throw new BO.NegetiveValue("Station's id");
                 }
 
-                IDAL.DO.Station station = this.GetStationById(stationId);
+                IDAL.DO.Station station = this._dalObj.GetStationById(stationId);
                 if (station.Name == name)
                 {
                     throw new BO.NotNewValue("Station name", name);
@@ -595,7 +595,7 @@ namespace IBL
                     throw new BO.NegetiveValue("Drone's id");
                 }
 
-                IDAL.DO.Drone drone = this.GetDroneById(droneId);
+                IDAL.DO.Drone drone = this._dalObj.GetDroneById(droneId);
 
                 if (drone.Model == name)
                 {
@@ -619,7 +619,7 @@ namespace IBL
                     throw new BO.NegetiveValue("Parcel's id");
                 }
 
-                IDAL.DO.Parcel parcel = this.GetParcelById(parcelId);
+                IDAL.DO.Parcel parcel = this._dalObj.GetParcelById(parcelId);
 
                 if (parcel.PickedUp == default(DateTime))
                 {
@@ -631,10 +631,10 @@ namespace IBL
                 parcel.Delivered = DateTime.Now;
                 parcel.Status = IDAL.DO.ParcelStatuses.Delivered;
 
-                    //update drone's details
+                //update drone's details
 
-                IDAL.DO.Drone drone = this.GetDroneById(parcel.DroneId);
-                IDAL.DO.Costumer target = this.GetCostumerById(parcel.TargetId);
+                IDAL.DO.Drone drone = this._dalObj.GetDroneById(parcel.DroneId);
+                IDAL.DO.Costumer target = this._dalObj.GetCostumerById(parcel.TargetId);
 
                 syslog.ParcelDelivered(parcelId, drone.Id);
 
@@ -715,74 +715,120 @@ namespace IBL
 
             //getters:
 
-            public IDAL.DO.Parcel GetParcelById(int id)
+            public BO.ParcelBL GetParcelById(int id)
             {
                 if (0 > id)
                 {
                     throw new BO.NegetiveValue("Parcel's id");
                 }
 
-                return this._dalObj.GetParcelById(id);
+                return new BO.ParcelBL(this._dalObj.GetParcelById(id));
             }
 
-            public IDAL.DO.Costumer GetCostumerById(int id)
+            public BO.CostumerBL GetCostumerById(int id)
             {
                 if (0 > id)
                 {
                     throw new BO.NegetiveValue("Costumer's id");
                 }
 
-                return this._dalObj.GetCostumerById(id);
+                return new BO.CostumerBL(this._dalObj.GetCostumerById(id));
             }
 
-            public IDAL.DO.Station GetStationById(int id)
+            public BO.StationBL GetStationById(int id)
             {
                 if (0 >= id)
                 {
                     throw new BO.NegetiveValue("Station's id");
                 }
 
-                return this._dalObj.GetStationById(id);
+                return new BO.StationBL(this._dalObj.GetStationById(id));
             }
 
-            public IDAL.DO.Drone GetDroneById(int id)
+            public BO.DroneBL GetDroneById(int id)
             {
                 if (0 > id)
                 {
                     throw new BO.NegetiveValue("Drone's id");
                 }
 
-                return this._dalObj.GetDroneById(id);
+                //get the parcel which the drone is assign to...
+                IDAL.DO.Drone drone = this._dalObj.GetDroneById(id);
+                IEnumerable<IDAL.DO.Parcel> parcels = this._dalObj.GetParcelsList();
+                int parcelOfDroneId = 0;
+
+                foreach(var parcel in parcels)
+                {
+                    if(parcel.DroneId == id)
+                    {
+                        parcelOfDroneId = parcel.Id;
+                        break;
+                    }
+                }
+
+                return new BO.DroneBL(this._dalObj.GetParcelById(parcelOfDroneId));
             }
 
-            public IDAL.DO.DroneCharge GetDroneChargeByDroneId(int id)
+            public BO.DroneChargeBL GetDroneChargeByDroneId(int id)
             {
                 if (0 > id)
                 {
                     throw new BO.NegetiveValue("Drone's id");
                 }
 
-                return this._dalObj.GetDroneChargeByDroneId(id);
+                return new BO.DroneChargeBL(this._dalObj.GetDroneById(id));
             }
 
-            public IEnumerable<IDAL.DO.Station> GetStationsList()
+            public IEnumerable<BO.StationListBL> GetStationsList()
             {
-                return this._dalObj.GetStationsList();
+                List<BO.StationListBL> stationList = new List<BO.StationListBL>();
+                IEnumerable<IDAL.DO.Station> stations = this._dalObj.GetStationsList();
+
+                foreach(var station in stations)
+                {
+                    stationList.Add(new StationListBL(station));
+                }
+
+                return stationList;
             }
 
-            public IEnumerable<IDAL.DO.Costumer> GetCostumerList()
+            public IEnumerable<BO.CostumerListBL> GetCostumerList()
             {
-                return this._dalObj.GetCostumerList();
+                List<BO.CostumerListBL> costumerList = new List<BO.CostumerListBL>();
+                IEnumerable<IDAL.DO.Costumer> costumers = this._dalObj.GetCostumerList();
+
+                foreach(var costumer in costumers)
+                {
+                    costumerList.Add(new BO.CostumerListBL(costumer));
+                }
+
+                return costumerList;
             }
 
-            public IEnumerable<IDAL.DO.Parcel> GetParcelsList()
+            public IEnumerable<BO.ParcelListBL> GetParcelsList()
             {
-                return this._dalObj.GetParcelsList();
+                List<BO.ParcelListBL> parcelList = new List<BO.ParcelListBL>();
+                IEnumerable<IDAL.DO.Parcel> parcels =  this._dalObj.GetParcelsList();
+
+                foreach(var parcel in parcels)
+                {
+                    parcelList.Add(new BO.ParcelListBL(parcel));
+                }
+
+                return parcelList;
             }
 
-            public IEnumerable<IDAL.DO.Drone> GetDroneList()
+            public IEnumerable<BO.DroneListBL> GetDroneList()
             {
-                return this._dalObj.GetDroneList();
+                List<BO.DroneListBL> droneList = new List<BO.DroneListBL>();
+                IEnumerable<IDAL.DO.Drone> drones =  this._dalObj.GetDroneList();
+
+                foreach(var drone in drones)
+                {
+                    droneList.Add(new BO.DroneListBL(drone));
+                }
+
+                return droneList;
             }
 
             public Queue<IDAL.DO.Parcel> GetWaitingParcels()

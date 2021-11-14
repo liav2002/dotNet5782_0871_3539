@@ -525,7 +525,7 @@ namespace ConsoleUI_BL
                 case DisplayOptionsE.BaseStation:
                 {
                     int stationId = 0;
-                    IDAL.DO.Station station;
+                    IBL.BO.StationBL station;
 
                     Console.Write("Enter station's Id: ");
                     stationId = Convert.ToInt32(Console.ReadLine());
@@ -552,7 +552,7 @@ namespace ConsoleUI_BL
                 case DisplayOptionsE.Drone:
                 {
                     int droneId = 0;
-                    IDAL.DO.Drone drone;
+                    IBL.BO.DroneBL drone;
 
                     Console.Write(" Enter drone's Id: ");
                     droneId = Convert.ToInt32(Console.ReadLine());
@@ -580,7 +580,7 @@ namespace ConsoleUI_BL
                 case DisplayOptionsE.Costumer:
                 {
                     int costumerId = 0;
-                    IDAL.DO.Costumer costumer;
+                    IBL.BO.CostumerBL costumer;
 
                     Console.Write("Enter costumer's Id: ");
                     costumerId = Convert.ToInt32(Console.ReadLine());
@@ -607,7 +607,7 @@ namespace ConsoleUI_BL
                 case DisplayOptionsE.Parcel:
                 {
                     int parcelId = 0;
-                    IDAL.DO.Parcel parcel;
+                    IBL.BO.ParcelBL parcel;
 
                     Console.Write("Enter parcel's Id: ");
                     parcelId = Convert.ToInt32(Console.ReadLine());
@@ -787,7 +787,7 @@ namespace ConsoleUI_BL
                     {
                         foreach (var station in iBL.GetStationsList())
                         {
-                            if (station.ChargeSlots >= 1)
+                            if (station.FreeSlots >= 1)
                             {
                                 Console.WriteLine(station);
                             }
