@@ -11,9 +11,9 @@ namespace IBL
         public void AddDrone(int id, string model, int maxWeight, int stationId);
         public void AddCostumer(int id, string name, string phone, double longitude, double latitude);
         public void AddParcel(int senderId, int targetId, int weight, int priority, int droneId);
-        public void AssignParcelToDrone(int parcelId);
-        public void ParcelCollection(int parcelId);
-        public void ParcelDelivered(int parcelId);
+        public void AssignParcelToDrone(int droneId);
+        public void ParcelCollection(int droneId);
+        public void ParcelDelivered(int droneId);
         public void SendDroneToCharge(int droneId, int stationId = -1);
         public void DroneRelease(int droneId, double hours);
         public void UpdateDroneName(int droneId, string name);
