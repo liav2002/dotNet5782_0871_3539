@@ -92,5 +92,12 @@ namespace IBL
             {
             }
         }
+
+        public class NoParcelsForAssign : Exception
+        {
+            public NoParcelsForAssign() : base("ERROR: There is no any parcel in waiting list.\n")
+            {
+            }
+        }
     }
 }

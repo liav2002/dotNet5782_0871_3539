@@ -15,7 +15,7 @@ namespace IBL
             public static BL GetInstance() => _instance ?? (_instance = new BL());
 
 
-            private PriorityQueue<IDAL.DO.Parcel> _waitingParcel = new PriorityQueue<IDAL.DO.Parcel>();
+            private PriorityQueue<IDAL.DO.Parcel> _waitingParcels = new PriorityQueue<IDAL.DO.Parcel>();
             
             private IDAL.IDAL _dalObj;
 
@@ -449,7 +449,8 @@ namespace IBL
                     priority, DateTime.Now, droneId, default(DateTime),
                     default(DateTime), default(DateTime));
 
-                this._dalObj.MoveParcelToWaitingList(this._dalObj.GetParcelById(id));
+                SysLog.SysLog.GetInstance().MoveParcelToWaitingList(id);
+                this._waitingParcels.Enqueue(this._dalObj.GetParcelById(id), priority);
             }
 
             /*
@@ -457,21 +458,91 @@ namespace IBL
             *Parameters: a parcel.
             *Return: None.
             */
-            public void AssignParcelToDrone(int droneId) //TODO:adding syslogs
+            public void AssignParcelToDrone(int droneId)
             {
-                IEnumerable<IDAL.DO.Drone> drones = this._dalObj.GetDroneList();
+                //check exceptions
 
-                if (0 > droneId)
+                if(droneId < 0)
                 {
                     throw new BO.NegetiveValue("Drone's id");
                 }
 
-                IDAL.DO.Drone drone = this._dalObj.GetDroneById(droneId);
-                IDAL.DO.Parcel parcel = null;
-                IEnumerable<IDAL.DO.Parcel> parcels = this._dalObj.GetParcelsList();
+                var drone = this._dalObj.GetDroneById(droneId);
 
-                bool flag = false;
+                if(drone.Status != IDAL.DO.DroneStatuses.Available)
+                {
+                    throw new BO.DroneNotAvliable(droneId);
+                }
 
+                if(this._waitingParcels.Count == 0)
+                {
+                    throw new BO.NoParcelsForAssign();
+                }
+
+                //check which parcel we prefer to assign to these drone.
+
+                //first create a list with all the parcels with highest priority
+                List<IDAL.DO.Parcel> suitableParcels = new List<IDAL.DO.Parcel>();
+                IDAL.DO.Parcel parcelForAssign = this._waitingParcels.Dequeue();
+                IDAL.DO.Priorities priority = parcelForAssign.Priority;
+                suitableParcels.Add(parcelForAssign);
+
+                bool search = true;
+
+                while (search)
+                {
+                    parcelForAssign = this._waitingParcels.Dequeue();
+
+                    if(parcelForAssign.Priority == priority)
+                    {
+                        suitableParcels.Add(parcelForAssign);
+                    }
+
+                    else
+                    {
+                        search = false;
+                        this._waitingParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Priority);
+                    }
+                }
+                
+                //now check which from the parcels in the list
+                //the drone can carry consider the parcel's weight
+                foreach(var parcel in suitableParcels)
+                {
+                    if(parcel.Weight > drone.MaxWeight)
+                    {
+                        suitableParcels.Remove(parcel);
+                    }
+                }
+
+                //finaly, check which parcel is teh nearest to the drone
+                parcelForAssign = suitableParcels[0];
+                double minDistance = drone.Location.Distance(this._dalObj.GetCostumerById(parcelForAssign.SenderId).Location);
+                
+                for(int i = 1; i < suitableParcels.Count; ++i)
+                {
+                    IDAL.DO.Parcel parcel = suitableParcels[i];
+                    double currentDistance = drone.Location.Distance(this._dalObj.GetCostumerById(parcel.SenderId).Location);
+
+                    if(currentDistance < minDistance)
+                    {
+                        parcelForAssign = parcel;
+                        minDistance = currentDistance;
+                    }
+                }
+
+                //Now, we finaly got the parcel we need to assign
+
+                //making the assign
+                HandleAssignParcel(parcelForAssign, drone);
+                suitableParcels.Remove(parcelForAssign);
+
+                //return the rest of the parcels to waitingParcels queue
+                foreach(var parcel in suitableParcels)
+                {
+                    this._waitingParcels.Enqueue(parcel, (int)parcel.Priority);
+                    suitableParcels.Remove(parcel);
+                }
             }
 
             /*
