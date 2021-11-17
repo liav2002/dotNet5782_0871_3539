@@ -25,6 +25,7 @@ namespace IDAL
         public DO.Costumer GetCostumerById(int id);
         public DO.Station GetStationById(int id);
         public DO.Drone GetDroneById(int id);
+        public DO.Parcel GetParcelByDroneId(int droneId);
         public DO.DroneCharge GetDroneChargeByDroneId(int id);
         public IEnumerable<DO.DroneCharge> GetDroneChargeList();
         public IEnumerable<DO.Station> GetStationsList();

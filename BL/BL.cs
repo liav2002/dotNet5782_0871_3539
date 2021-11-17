@@ -3,6 +3,7 @@ using IDAL;
 using System.Collections.Generic;
 using System.Linq;
 using DalObject;
+using IDAL.DO;
 
 namespace IBL
 {
@@ -621,7 +622,7 @@ namespace IBL
             *Parameters: a parcel.
             *Return: None.
             */
-            public void ParcelCollection(int droneId)
+            public void ParcelCollection(int parcelId)
             {
                 if (0 > parcelId)
                 {
@@ -741,37 +742,64 @@ namespace IBL
             *Parameters: a parcel.
             *Return: None.
             */
-            public void ParcelDelivered(int parcelId)
+            public void ParcelDelivered(int droneId)
             {
                 //check logic
-                if (0 > parcelId)
+                if (0 > droneId)
                 {
-                    throw new BO.NegetiveValue("Parcel's id");
+                    throw new BO.NegetiveValue("Drone's id");
                 }
 
-                IDAL.DO.Parcel parcel = this._dalObj.GetParcelById(parcelId);
+                IDAL.DO.Drone drone = _dalObj.GetDroneById(droneId);
+                if (drone.Status != DroneStatuses.Shipping) throw new DroneNotShipping(droneId);
+                IDAL.DO.Parcel parcel = _dalObj.GetParcelByDroneId(droneId);
+
 
                 if (parcel.PickedUp == default(DateTime))
                 {
-                    throw new Exception("Parcel is not picked up yet, therefore can't be in delivered status.\n");
+                    throw new ParcelNotPickedUp(parcel.Id);
+                }
+
+                if (parcel.Delivered != default(DateTime))
+                {
+                    throw new ParcelIsAlreadyDelivered(parcel.Id);
                 }
 
                 //update parcel's details
-
                 parcel.Delivered = DateTime.Now;
                 parcel.Status = IDAL.DO.ParcelStatuses.Delivered;
 
                 //update drone's details
 
-                IDAL.DO.Drone drone = this._dalObj.GetDroneById(parcel.DroneId);
-                IDAL.DO.Costumer target = this._dalObj.GetCostumerById(parcel.TargetId);
 
+                IDAL.DO.Costumer target = this._dalObj.GetCostumerById(parcel.TargetId);
                 IDAL.DO.Station station =
                     this._dalObj.GetStationById(this._GetNearestStation(target.Location));
 
                 drone.Status = IDAL.DO.DroneStatuses.Available;
 
+                // the km of the first fly
+                double fD = drone.Location.Distance(target.Location);
+
+                switch (parcel.Weight)
+                {
+                    case WeightCategories.Heavy:
+                        fD *= DataSource.Config.heavyPPK;
+                        break;
+                    case WeightCategories.Medium:
+                        fD *= DataSource.Config.mediumPPK;
+                        break;
+                    case WeightCategories.Light:
+                        fD *= DataSource.Config.lightPPK;
+                        break;
+                }
+
+                drone.Location = target.Location;
+
+                // the second fly
+                double sD = target.Location.Distance(station.Location) * DataSource.Config.avilablePPK;
                 drone.Location = station.Location;
+                drone.Battery -= (fD + sD);
             }
 
             /*

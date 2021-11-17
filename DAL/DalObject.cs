@@ -163,6 +163,16 @@ namespace DalObject
             throw new IDAL.DO.ItemNotFound("Drone");
         }
 
+        public IDAL.DO.Parcel GetParcelByDroneId(int droneId)
+        {
+            foreach (var parcel in DataSource.parcels)
+            {
+                if (parcel.DroneId == droneId)
+                    return parcel;
+            }
+            throw new IDAL.DO.ItemNotFound("Parcel");
+        }
+
         public IDAL.DO.DroneCharge GetDroneChargeByDroneId(int id)
         {
             foreach (var dc in DataSource.droneCharge)

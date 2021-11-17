@@ -50,6 +50,13 @@ namespace IBL
             }
         }
 
+        public class NoAssignParcels : Exception
+        {
+            public NoAssignParcels(int droneId) : base("ERROR: No parcels been assign to drone(" + droneId + ").\n")
+            {
+            }
+        }
+
         public class ParcelAlreadyAssign : Exception
         {
             public ParcelAlreadyAssign(int droneId) : base("ERROR: Parcel is already assgin to drone. drone's id: " +
@@ -74,21 +81,32 @@ namespace IBL
 
         public class DroneNotAvliable : Exception
         {
-            public DroneNotAvliable(int droneId) : base("ERROR: drone (id: " + droneId + ") is not in 'Avliable' status.\n")
+            public DroneNotAvliable(int droneId) : base("ERROR: drone (id: " + droneId +
+                                                        ") is not in 'Avliable' status.\n")
+            {
+            }
+        }
+
+        public class DroneNotShipping : Exception
+        {
+            public DroneNotShipping(int droneId) : base("ERROR: drone (id: " + droneId +
+                                                        ") is not in 'Shipping' status.\n")
             {
             }
         }
 
         public class DroneNotInMaintenance : Exception
         {
-            public DroneNotInMaintenance(int droneId) : base("ERROR: drone (id: " + droneId + ") is not in 'Maintenance' status.\n")
+            public DroneNotInMaintenance(int droneId) : base("ERROR: drone (id: " + droneId +
+                                                             ") is not in 'Maintenance' status.\n")
             {
             }
         }
 
         public class DroneNotEnoughBattery : Exception
         {
-            public DroneNotEnoughBattery(int droneId) : base ("ERROR: drone (id: " + droneId + ") not have enough battery.\n")
+            public DroneNotEnoughBattery(int droneId) : base("ERROR: drone (id: " + droneId +
+                                                             ") not have enough battery.\n")
             {
             }
         }
@@ -100,12 +118,34 @@ namespace IBL
             }
         }
 
-        public class NoSuitableParcelForDrone : Exception
+        public class ParcelNotInAssignStatus : Exception
         {
-            public NoSuitableParcelForDrone(int droneId) : base("ERROR: there is no suitable parcel for drone(id: " + droneId + ").\n")
+            public ParcelNotInAssignStatus(int parcelId) : base("ERROR: parcel (id: " + parcelId +
+                                                                ") not in assigned status.\n")
+            {
+            }
+        }
+        public class ParcelNotPickedUp : Exception
+        {
+            public ParcelNotPickedUp(int parcelId) : base("ERROR: parcel (id: " + parcelId +
+                                                          ") not in not picked up.\n")
+            {
+            }
+        }
+        public class ParcelIsAlreadyDelivered : Exception
+        {
+            public ParcelIsAlreadyDelivered(int parcelId) : base("ERROR: parcel (id: " + parcelId +
+                                                                 ") delivered arleady.\n")
             {
             }
         }
 
+        public class NoSuitableParcelForDrone : Exception
+        {
+            public NoSuitableParcelForDrone(int droneId) : base("ERROR: there is no suitable parcel for drone(id: " +
+                                                                droneId + ").\n")
+            {
+            }
+        }
     }
 }
