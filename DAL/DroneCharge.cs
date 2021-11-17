@@ -13,6 +13,7 @@ namespace IDAL
 
             public DroneCharge(int droneId, int stationId)
             {
+                SysLog.GetInstance().DroneToCharge(droneId, stationId);
                 this._droneId = droneId;
                 this._stationId = stationId;
             }

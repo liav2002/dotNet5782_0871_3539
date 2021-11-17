@@ -16,22 +16,23 @@ namespace IDAL
             }
 
             private int _id;
-            
+
             private string _model;
-            
+
             private WeightCategories _maxWeight;
-            
+
             private DroneStatuses _status;
-            
+
             private double _battery;
-            
+
             private Location _location;
-            
+
 
             private double _chargeRate;
 
             public Drone(int id, string model, WeightCategories maxWeight, double battery)
             {
+                SysLog.GetInstance().AddDrone(id);
                 this._id = id;
                 this._model = model;
                 this._maxWeight = maxWeight;
@@ -56,7 +57,11 @@ namespace IDAL
             public string Model
             {
                 get => _model;
-                set => _model = value;
+                set
+                {
+                    _model = value;
+                    SysLog.GetInstance().ChangeDroneModelName(_id, value);
+                }
             }
 
             public WeightCategories MaxWeight
@@ -67,20 +72,36 @@ namespace IDAL
 
             public DO.DroneStatuses Status
             {
-                get => (DO.DroneStatuses) _status;
-                set => _status = (DO.DroneStatuses) value;
+                get => (DroneStatuses) _status;
+                set
+                {
+                    SysLog.GetInstance().ChangeDroneStatus(_id, value);
+                    if (_status == DroneStatuses.Maintenance && value == DroneStatuses.Available)
+                        // we release now the drone from charge
+                        SysLog.GetInstance().DroneRelease(_id);
+                    _status = (DroneStatuses) value;
+
+                }
             }
 
             public double Battery
             {
                 get => _battery;
-                set => _battery = value;
+                set
+                {
+                    _battery = value;
+                    SysLog.GetInstance().InitDroneBattery(this.Id);
+                }
             }
 
             public Location Location
             {
                 get => _location;
-                set => _location = value;
+                set
+                {
+                    _location = value;
+                    SysLog.GetInstance().InitDroneLocation(this.Id);
+                }
             }
 
 

@@ -5,26 +5,38 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace IBL
+namespace IDAL
 {
-    namespace BO
+    namespace DO
     {
         public class SysLog
         {
             private bool _start;
+
+            //Singleton design pattern
+            private static SysLog _instance = null;
+            public static SysLog GetInstance() => _instance ?? (_instance = new SysLog());
+
             private void Type(string str)
             {
                 foreach (char ch in str)
                 {
                     Console.Write(ch.ToString());
-                    if(!_start) { Thread.Sleep(30); }
+                    if (!_start)
+                    {
+                        Thread.Sleep(30);
+                    }
                 }
 
-                if(_start) { Thread.Sleep(5); }
+                if (_start)
+                {
+                    Thread.Sleep(5);
+                }
+
                 Console.WriteLine();
             }
 
-            public SysLog()
+            private SysLog()
             {
                 this._start = true;
             }
@@ -37,7 +49,7 @@ namespace IBL
             public void CalculateNearStation(string obj)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Type("SYSTEM_LOG: calculate near staion to " + obj + "...");
+                Type("SYSTEM_LOG: calculate near station to " + obj + "...");
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
@@ -58,7 +70,8 @@ namespace IBL
             public void HandleAssignParcels()
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Type("SYSTEM_LOG: find all the drones which was assign to a parcel, and change there status to Shiping.");
+                Type(
+                    "SYSTEM_LOG: find all the drones which was assign to a parcel, and change there status to Shipping.");
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
@@ -66,7 +79,7 @@ namespace IBL
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Type("SYSTEM_LOG: making assign between parcel (id: " + parcelId + ") and drone (id: " +
-                                  droneId + ")...");
+                     droneId + ")...");
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
@@ -95,11 +108,11 @@ namespace IBL
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Type("SYSTEM_LOG: change station (id: " + stationId + ") charge slots to " + chargeSlots +
-                                  "...");
+                     "...");
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
-            public void ChangeDroneStatus(int droneId, IDAL.DO.DroneStatuses status)
+            public void ChangeDroneStatus(int droneId, DroneStatuses status)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Type("SYSTEM_LOG: change drone (id: " + droneId + ") status to " + status + "...");
@@ -141,7 +154,7 @@ namespace IBL
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
-            public void MoveParcelToWaitingList(int parcelId)
+            public void MoveParcelToWaitingList (int parcelId)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Type("SYSTEM_LOG: move parcel(id: " + parcelId + ") to waiting list...");
@@ -159,7 +172,7 @@ namespace IBL
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Type("SYSTEM_LOG: parcel(id: " + parcelId + ") is pickedup by drone(id: " + droneId +
-                                  ")...");
+                     ")...");
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
@@ -167,7 +180,7 @@ namespace IBL
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Type("SYSTEM_LOG: parcel(id: " + parcelId + ") is delivered by drone(id: " + droneId +
-                                  ")...");
+                     ")...");
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
@@ -178,10 +191,10 @@ namespace IBL
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
-            public void DroneToCharge(int droneId, int staionId)
+            public void DroneToCharge(int droneId, int stationId)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Type("SYSTEM_LOG: send drone(id: " + droneId + ") to charging in station(id: " + staionId + ")...");
+                Type("SYSTEM_LOG: send drone(id: " + droneId + ") to charging in station(id: " + stationId + ")...");
                 Console.ForegroundColor = ConsoleColor.White;
             }
 

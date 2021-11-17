@@ -6,11 +6,11 @@ namespace DalObject
 {
     public sealed class DalObject : IDAL.IDAL
     {
-        private static DalObject instance = null;
+        private static DalObject _instance = null;
 
         public static IDAL.IDAL GetInstance()
         {
-            return instance ?? (instance = new DalObject());
+            return _instance ?? (_instance = new DalObject());
         }
 
         private DalObject()
@@ -79,6 +79,7 @@ namespace DalObject
         */
         public void MoveParcelToWaitingList(IDAL.DO.Parcel parcel)
         {
+            IDAL.DO.SysLog.GetInstance().MoveParcelToWaitingList(parcel.Id);
             DataSource.waitingParcels.Enqueue(parcel); // if all the drones are not availible
         }
 
@@ -94,6 +95,7 @@ namespace DalObject
         */
         public IDAL.DO.Parcel GetNextParcel()
         {
+            IDAL.DO.SysLog.GetInstance().TryHandleWaitingParcels();
             if (DataSource.waitingParcels.Count != 0)
             {
                 return DataSource.waitingParcels.Dequeue();

@@ -22,7 +22,11 @@ namespace IDAL
             public string Name
             {
                 get => _name;
-                set => _name = value;
+                set
+                {
+                    _name = value;
+                    SysLog.GetInstance().ChangeStationName(_id, value);
+                }
             }
 
             public Location Location
@@ -35,7 +39,11 @@ namespace IDAL
             public int ChargeSlots
             {
                 get => _chargeSlots;
-                set => _chargeSlots = value;
+                set
+                {
+                    _chargeSlots = value;
+                    SysLog.GetInstance().ChangeStationChargeSlots(_id, value);
+                }
             }
 
             public override string ToString()
@@ -47,6 +55,7 @@ namespace IDAL
 
             public Station(int id, string name, Location location, int chargeSlots)
             {
+                SysLog.GetInstance().AddStation(id);
                 this._id = id;
                 this._name = name;
                 this._location = location;

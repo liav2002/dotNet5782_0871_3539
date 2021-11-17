@@ -8,27 +8,104 @@ namespace IDAL
     {
         public class Parcel
         {
-            public int Id { get; set; }
+            private int _id;
 
-            public int SenderId { get; set; }
+            private int _droneId;
 
-            public int TargetId { get; set; }
+            private int _senderId;
 
-            public WeightCategories Weight { get; set; }
+            private int _targetId;
 
-            public Priorities Priority { get; set; }
+            private ParcelStatuses _status;
 
-            public DateTime Requested { get; set; }
+            private WeightCategories _weight;
 
-            public int DroneId { get; set; }
+            private Priorities _priority;
 
-            public DateTime Scheduled { get; set; }
+            private DateTime _requested;
 
-            public DateTime PickedUp { get; set; }
+            private DateTime _scheduled;
 
-            public DateTime Delivered { get; set; }
+            private DateTime _pickedUp;
 
-            public ParcelStatuses Status { get; set; }
+            private DateTime _delivered;
+
+            public int Id
+            {
+                get => _id;
+                set => _id = value;
+            }
+
+            public int SenderId
+            {
+                get => _senderId;
+                set => _senderId = value;
+            }
+
+            public int TargetId
+            {
+                get => _targetId;
+                set => _targetId = value;
+            }
+
+            public WeightCategories Weight
+            {
+                get => _weight;
+                set => _weight = value;
+            }
+
+            public Priorities Priority
+            {
+                get => _priority;
+                set => _priority = value;
+            }
+
+            public DateTime Requested
+            {
+                get => _requested;
+                set => _requested = value;
+            }
+
+            public int DroneId
+            {
+                get => _droneId;
+                set
+                {
+                    _droneId = value;
+                    SysLog.GetInstance().HandleAssignParcel(this.Id, value);
+                }
+            }
+
+            public DateTime Scheduled
+            {
+                get => _scheduled;
+                set => _scheduled = value;
+            }
+
+            public DateTime PickedUp
+            {
+                get => _pickedUp;
+                set => _pickedUp = value;
+            }
+
+            public DateTime Delivered
+            {
+                get => _delivered;
+                set => _delivered = value;
+            }
+
+            public ParcelStatuses Status
+            {
+                get => _status;
+                set
+                {
+                    _status = value;
+                    if (_status == ParcelStatuses.Delivered)
+                        SysLog.GetInstance().ParcelDelivered(_id, _droneId);
+                    if (_status == ParcelStatuses.PickedUp)
+                        SysLog.GetInstance().ParcelCollection(_id, _droneId);
+                }
+            }
 
             public override string ToString()
             {
@@ -42,21 +119,22 @@ namespace IDAL
                 DateTime requested,
                 int droneId, DateTime scheduled, DateTime pickedUp, DateTime delivered)
             {
-                this.Id = id;
-                this.DroneId = droneId;
-                this.SenderId = senderId;
-                this.TargetId = targetId;
-                this.Weight = weight;
-                this.Priority = priority;
-                this.Requested = requested; // new parcel is created.
-                this.Scheduled = scheduled; // we make an assign between drone to parcel.
-                this.PickedUp = pickedUp; // parcel is being picked up.
-                this.Delivered = delivered; // costumer get the parcel.
+                SysLog.GetInstance().AddParcel(id);
+                this._id = id;
+                this._droneId = droneId;
+                this._senderId = senderId;
+                this._targetId = targetId;
+                this._weight = weight;
+                this._priority = priority;
+                this._requested = requested; // new parcel is created.
+                this._scheduled = scheduled; // we make an assign between drone to parcel.
+                this._pickedUp = pickedUp; // parcel is being picked up.
+                this._delivered = delivered; // costumer get the parcel.
 
-                if (delivered != default(DateTime)) this.Status = ParcelStatuses.Delivered;
-                else if (pickedUp != default(DateTime)) this.Status = ParcelStatuses.PickedUp;
-                else if (scheduled != default(DateTime)) this.Status = ParcelStatuses.Assign;
-                else if (requested != default(DateTime)) this.Status = ParcelStatuses.Created;
+                if (delivered != default(DateTime)) this._status = ParcelStatuses.Delivered;
+                else if (pickedUp != default(DateTime)) this._status = ParcelStatuses.PickedUp;
+                else if (scheduled != default(DateTime)) this._status = ParcelStatuses.Assign;
+                else if (requested != default(DateTime)) this._status = ParcelStatuses.Created;
             }
         }
     }
