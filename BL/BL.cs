@@ -981,6 +981,26 @@ namespace IBL
             {
                 return SysLog.SysLog.GetInstance();
             }
+            
+                        private IDAL.DO.Parcel _bestParcel(List<IDAL.DO.Parcel> parcels, IDAL.DO.Drone drone)
+            {
+                
+                // filter the parcels list to contain just the one's who the drone can carry
+                parcels = parcels.Where(parcel => parcel.Weight <= drone.MaxWeight).ToList(); // where the weight is valid
+                
+                // firstly: we sort by the distance => the latest influencing parameter
+                parcels = parcels.OrderBy(parcel =>
+                    _dalObj.GetCostumerById(parcel.SenderId).Location.Distance(drone.Location)).ToList();
+                
+                // secondly: we sort by the [parcel.Weight] => the second most influencing parameter
+                parcels = parcels.OrderBy(parcel => -1 * (int) parcel.Weight).ToList(); // in desc order: 3, 2, 1...
+           
+                // third: we sort by the [parcel.Priority] => the most influencing parameter
+                parcels = parcels.OrderBy(parcel => -1 * (int) parcel.Priority).ToList(); // in desc order: 3, 2, 1...
+
+                if (parcels.Count == 0) return null; // ERROR, throwing suitable exception
+                return parcels[0];
+            }
 
         }
     }
