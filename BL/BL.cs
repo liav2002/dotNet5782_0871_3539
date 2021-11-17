@@ -615,7 +615,7 @@ namespace IBL
             *Parameters: a parcel.
             *Return: None.
             */
-            public void ParcelCollection(int parcelId)
+            public void ParcelCollection(int droneId)
             {
                 if (0 > parcelId)
                 {

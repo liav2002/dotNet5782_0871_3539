@@ -452,14 +452,14 @@ namespace ConsoleUI_BL
                 }
                 case UpdateOptionsE.AssignParcelToDrone:
                 {
-                    int parcelId = 0;
+                    int droneId = 0;
 
-                    Console.WriteLine("Enter parcel's id: ");
-                    parcelId = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter drone's id: ");
+                    droneId = Convert.ToInt32(Console.ReadLine());
 
                     try
                     {
-                        iBL.AssignParcelToDrone(parcelId);
+                        iBL.AssignParcelToDrone(droneId);
                         iBL.Sys().SuccessMessage();
                         pause();
                     }
@@ -476,14 +476,14 @@ namespace ConsoleUI_BL
 
                 case UpdateOptionsE.ParcelCollection:
                 {
-                    int parcelId = 0;
+                    int droneId = 0;
 
-                    Console.WriteLine("Enter parcel's id: ");
-                    parcelId = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter drone's id: ");
+                    droneId = Convert.ToInt32(Console.ReadLine());
 
                     try
                     {
-                        iBL.ParcelCollection(parcelId);
+                        iBL.ParcelCollection(droneId);
                         iBL.Sys().SuccessMessage();
                         pause();
                     }
@@ -786,7 +786,6 @@ namespace ConsoleUI_BL
                     {
                         while (i != 0)
                         {
-                            parcel = iBL.GetWaitingParcels().Dequeue();
                             Console.WriteLine(parcel); // print from top to bottom
                             iBL.GetWaitingParcels().Enqueue(parcel);
                             i--;
