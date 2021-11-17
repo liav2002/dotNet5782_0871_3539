@@ -26,10 +26,6 @@ namespace DalObject
         internal static List<IDAL.DO.Parcel> parcels = new List<IDAL.DO.Parcel>();
         internal static List<IDAL.DO.DroneCharge> droneCharge = new List<IDAL.DO.DroneCharge>();
 
-        internal static Queue<IDAL.DO.Parcel> waitingParcels =
-            new Queue<IDAL.DO.Parcel>();
-
-
         internal static Random rand = new Random();
 
 

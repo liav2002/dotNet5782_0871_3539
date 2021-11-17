@@ -29,7 +29,6 @@ namespace IBL
         public IEnumerable<BO.CostumerListBL> GetCostumerList();
         public IEnumerable<BO.ParcelListBL> GetParcelsList();
         public IEnumerable<BO.DroneListBL> GetDroneList();
-        public Queue<IDAL.DO.Parcel> GetWaitingParcels();
         public SysLog.SysLog Sys();
     }
 }

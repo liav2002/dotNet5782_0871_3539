@@ -16,8 +16,6 @@ namespace IDAL
         public void AddParcel(int id, int senderId, int targetId, int weight, int priority, DateTime requested,
             int droneId, DateTime scheduled, DateTime pickedUp, DateTime delivered);
 
-        public void MoveParcelToWaitingList(DO.Parcel parcel);
-        public DO.Parcel GetNextParcel();
         public void AddDroneToCharge(int droneId, int stationId);
         public void DroneRelease(int droneId, double hours);
         public double[] PowerRequest();
@@ -33,6 +31,5 @@ namespace IDAL
         public IEnumerable<DO.Costumer> GetCostumerList();
         public IEnumerable<DO.Parcel> GetParcelsList();
         public IEnumerable<DO.Drone> GetDroneList();
-        public Queue<DO.Parcel> GetWaitingParcels();
     }
 }

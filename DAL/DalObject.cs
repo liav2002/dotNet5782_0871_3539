@@ -72,39 +72,9 @@ namespace DalObject
                 droneId, scheduled, pickedUp, delivered));
         }
 
-        /*
-        *Description: move parcel to waiting list.
-        *Parameters: a parcel.
-        *Return: None.
-        */
-        public void MoveParcelToWaitingList(IDAL.DO.Parcel parcel)
-        {
-            SysLog.SysLog.GetInstance().MoveParcelToWaitingList(parcel.Id);
-            DataSource.waitingParcels.Enqueue(parcel); // if all the drones are not availible
-        }
-
         public void RemoveParcelFromWaitingList(IDAL.DO.Parcel parcel)
         {
             //TODO: Implemented this function
-        }
-
-        /*
-        *Description: get next parcel from waiting list.
-        *Parameters: None.
-        *Return: parcel if the list is not empty, else null.
-        */
-        public IDAL.DO.Parcel GetNextParcel()
-        {
-            SysLog.SysLog.GetInstance().TryHandleWaitingParcels();
-            if (DataSource.waitingParcels.Count != 0)
-            {
-                return DataSource.waitingParcels.Dequeue();
-            }
-
-            else
-            {
-                return null;
-            }
         }
 
         /*
@@ -227,11 +197,6 @@ namespace DalObject
         public IEnumerable<IDAL.DO.Drone> GetDroneList()
         {
             return DataSource.drones;
-        }
-
-        public Queue<IDAL.DO.Parcel> GetWaitingParcels()
-        {
-            return DataSource.waitingParcels;
         }
     }
 }

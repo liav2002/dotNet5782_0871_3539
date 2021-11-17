@@ -99,5 +99,13 @@ namespace IBL
             {
             }
         }
+
+        public class NoSuitableParcelForDrone : Exception
+        {
+            public NoSuitableParcelForDrone(int droneId) : base("ERROR: there is no suitable parcel for drone(id: " + droneId + ").\n")
+            {
+            }
+        }
+
     }
 }
