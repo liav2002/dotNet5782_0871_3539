@@ -680,7 +680,9 @@ namespace ConsoleUI
                 case ListViewOptionsE.UnassignParcels:
                 {
                     IDAL.DO.Parcel parcel;
-                    int i = dalObj.GetWaitingParcels().Count;
+                    int i;
+                    // i = dalObj.GetWaitingParcels().Count;
+                    throw new Exception("ERROR: Move to BL Version.");
 
                     if (i == 0)
                     {
@@ -691,9 +693,9 @@ namespace ConsoleUI
                     {
                         while (i != 0)
                         {
-                            parcel = dalObj.GetWaitingParcels().Dequeue();
-                            Console.WriteLine(parcel); // print from top to bottom
-                            dalObj.GetWaitingParcels().Enqueue(parcel);
+                            //parcel = dalObj.GetWaitingParcels().Dequeue();
+                            //Console.WriteLine(parcel); // print from top to bottom
+                            //dalObj.GetWaitingParcels().Enqueue(parcel);
                             i--;
                         }
 
