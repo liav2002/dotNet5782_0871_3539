@@ -68,6 +68,7 @@ namespace ConsoleUI_BL
             Console.WriteLine("Building BL Unit...\n");
             IBL.IBL iBL = IBL.BO.BL.GetInstance();
             pause();
+            iBL.Sys().SetStarttoFalse();
             MenuWindowHandle(iBL);
         }
 

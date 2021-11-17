@@ -853,10 +853,11 @@ namespace IBL
                 return this._dalObj.GetWaitingParcels();
             }
 
-            public IDAL.DO.SysLog Sys()
+            public SysLog.SysLog Sys()
             {
-                return IDAL.DO.SysLog.GetInstance();
+                return SysLog.SysLog.GetInstance();
             }
+
         }
     }
 }

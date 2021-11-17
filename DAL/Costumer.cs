@@ -22,7 +22,7 @@ namespace IDAL
                 get => _name;
                 set
                 {
-                    SysLog.GetInstance().ChangeCostumerName(_id, value);
+                    SysLog.SysLog.GetInstance().ChangeCostumerName(_id, value);
                     this._name = value;
                 }
             }
@@ -32,7 +32,7 @@ namespace IDAL
                 get => _phone;
                 set
                 {
-                    SysLog.GetInstance().ChangeCostumerPhone(_id, value);
+                    SysLog.SysLog.GetInstance().ChangeCostumerPhone(_id, value);
                     this._phone = value;
                 }
             }
@@ -53,7 +53,7 @@ namespace IDAL
 
             public Costumer(int id, string name, string phone, Location location)
             {
-                SysLog.GetInstance().AddCostumer(id);
+                SysLog.SysLog.GetInstance().AddCostumer(id);
                 this._id = id;
                 this._name = name;
                 this._phone = phone;

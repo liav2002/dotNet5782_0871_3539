@@ -32,7 +32,7 @@ namespace IDAL
 
             public Drone(int id, string model, WeightCategories maxWeight, double battery)
             {
-                SysLog.GetInstance().AddDrone(id);
+                SysLog.SysLog.GetInstance().AddDrone(id);
                 this._id = id;
                 this._model = model;
                 this._maxWeight = maxWeight;
@@ -60,7 +60,7 @@ namespace IDAL
                 set
                 {
                     _model = value;
-                    SysLog.GetInstance().ChangeDroneModelName(_id, value);
+                    SysLog.SysLog.GetInstance().ChangeDroneModelName(_id, value);
                 }
             }
 
@@ -75,10 +75,10 @@ namespace IDAL
                 get => (DroneStatuses) _status;
                 set
                 {
-                    SysLog.GetInstance().ChangeDroneStatus(_id, value);
+                    SysLog.SysLog.GetInstance().ChangeDroneStatus(_id, value);
                     if (_status == DroneStatuses.Maintenance && value == DroneStatuses.Available)
                         // we release now the drone from charge
-                        SysLog.GetInstance().DroneRelease(_id);
+                        SysLog.SysLog.GetInstance().DroneRelease(_id);
                     _status = (DroneStatuses) value;
 
                 }
@@ -90,7 +90,7 @@ namespace IDAL
                 set
                 {
                     _battery = value;
-                    SysLog.GetInstance().InitDroneBattery(this.Id);
+                    SysLog.SysLog.GetInstance().InitDroneBattery(this.Id);
                 }
             }
 
@@ -100,7 +100,7 @@ namespace IDAL
                 set
                 {
                     _location = value;
-                    SysLog.GetInstance().InitDroneLocation(this.Id);
+                    SysLog.SysLog.GetInstance().InitDroneLocation(this.Id);
                 }
             }
 

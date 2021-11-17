@@ -72,7 +72,7 @@ namespace IDAL
                 set
                 {
                     _droneId = value;
-                    SysLog.GetInstance().HandleAssignParcel(this.Id, value);
+                    SysLog.SysLog.GetInstance().HandleAssignParcel(this.Id, value);
                 }
             }
 
@@ -101,9 +101,9 @@ namespace IDAL
                 {
                     _status = value;
                     if (_status == ParcelStatuses.Delivered)
-                        SysLog.GetInstance().ParcelDelivered(_id, _droneId);
+                        SysLog.SysLog.GetInstance().ParcelDelivered(_id, _droneId);
                     if (_status == ParcelStatuses.PickedUp)
-                        SysLog.GetInstance().ParcelCollection(_id, _droneId);
+                        SysLog.SysLog.GetInstance().ParcelCollection(_id, _droneId);
                 }
             }
 
@@ -119,7 +119,7 @@ namespace IDAL
                 DateTime requested,
                 int droneId, DateTime scheduled, DateTime pickedUp, DateTime delivered)
             {
-                SysLog.GetInstance().AddParcel(id);
+                SysLog.SysLog.GetInstance().AddParcel(id);
                 this._id = id;
                 this._droneId = droneId;
                 this._senderId = senderId;

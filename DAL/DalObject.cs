@@ -79,7 +79,7 @@ namespace DalObject
         */
         public void MoveParcelToWaitingList(IDAL.DO.Parcel parcel)
         {
-            IDAL.DO.SysLog.GetInstance().MoveParcelToWaitingList(parcel.Id);
+            SysLog.SysLog.GetInstance().MoveParcelToWaitingList(parcel.Id);
             DataSource.waitingParcels.Enqueue(parcel); // if all the drones are not availible
         }
 
@@ -95,7 +95,7 @@ namespace DalObject
         */
         public IDAL.DO.Parcel GetNextParcel()
         {
-            IDAL.DO.SysLog.GetInstance().TryHandleWaitingParcels();
+            SysLog.SysLog.GetInstance().TryHandleWaitingParcels();
             if (DataSource.waitingParcels.Count != 0)
             {
                 return DataSource.waitingParcels.Dequeue();

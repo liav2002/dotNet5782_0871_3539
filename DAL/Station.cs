@@ -25,7 +25,7 @@ namespace IDAL
                 set
                 {
                     _name = value;
-                    SysLog.GetInstance().ChangeStationName(_id, value);
+                    SysLog.SysLog.GetInstance().ChangeStationName(_id, value);
                 }
             }
 
@@ -42,7 +42,7 @@ namespace IDAL
                 set
                 {
                     _chargeSlots = value;
-                    SysLog.GetInstance().ChangeStationChargeSlots(_id, value);
+                    SysLog.SysLog.GetInstance().ChangeStationChargeSlots(_id, value);
                 }
             }
 
@@ -55,7 +55,7 @@ namespace IDAL
 
             public Station(int id, string name, Location location, int chargeSlots)
             {
-                SysLog.GetInstance().AddStation(id);
+                SysLog.SysLog.GetInstance().AddStation(id);
                 this._id = id;
                 this._name = name;
                 this._location = location;
