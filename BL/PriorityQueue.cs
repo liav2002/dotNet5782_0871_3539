@@ -36,12 +36,12 @@ namespace IBL
                 return item;
             }
 
-            class Pair<T>
+            private class Pair<K>
             {
-                public T First { get; private set; }
-                public T Second { get; private set; }
+                public K First { get; }
+                public K Second { get; }
 
-                public Pair(T first, T second)
+                public Pair(K first, K second)
                 {
                     First = first;
                     Second = second;
@@ -54,7 +54,7 @@ namespace IBL
 
                 public override bool Equals(object other)
                 {
-                    Pair<T> pair = other as Pair<T>;
+                    Pair<K> pair = other as Pair<K>;
                     if (pair == null)
                     {
                         return false;
@@ -64,15 +64,16 @@ namespace IBL
                 }
             }
 
-            class PairComparer<T> : IComparer<Pair<T>> where T : IComparable
+            private class PairComparer<K> : IComparer<Pair<K>> where K : IComparable
             {
-                public int Compare(Pair<T> x, Pair<T> y)
+                public int Compare(Pair<K> x, Pair<K> y)
                 {
-                    if (x.First.CompareTo(y.First) < 0)
+                    // in descending order
+                    if (x.First.CompareTo(y.First) > 0)
                     {
                         return -1;
                     }
-                    else if (x.First.CompareTo(y.First) > 0)
+                    else if (x.First.CompareTo(y.First) < 0)
                     {
                         return 1;
                     }
