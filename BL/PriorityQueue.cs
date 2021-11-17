@@ -10,12 +10,12 @@ namespace IBL
     {
         internal class PriorityQueue<T>
         {
-            SortedList<Pair<int>, T> _list;
+            SortedList<Pair<double>, T> _list;
             int count;
 
             public PriorityQueue()
             {
-                _list = new SortedList<Pair<int>, T>(new PairComparer<int>());
+                _list = new SortedList<Pair<double>, T>(new PairComparer<double>());
             }
 
             public int Count
@@ -23,9 +23,9 @@ namespace IBL
                 get { return _list.Count; }
             }
 
-            public void Enqueue(T item, int priority)
+            public void Enqueue(T item, double priority)
             {
-                _list.Add(new Pair<int>(priority, count), item);
+                _list.Add(new Pair<double>(priority, count), item);
                 count++;
             }
 
