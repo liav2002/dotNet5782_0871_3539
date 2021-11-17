@@ -8,7 +8,7 @@ namespace IBL
 {
     namespace BO
     {
-        internal class PriorityQueue<T>
+        public class PriorityQueue<T>
         {
             SortedList<Pair<double>, T> _list;
             int count;

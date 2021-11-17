@@ -16,7 +16,7 @@ namespace IBL
 
 
             private PriorityQueue<IDAL.DO.Parcel> _waitingParcels = new PriorityQueue<IDAL.DO.Parcel>();
-            
+
             private IDAL.IDAL _dalObj;
 
             private double _chargeRate = DalObject.DataSource.Config.chargeRatePH; // to all the drones
@@ -52,7 +52,10 @@ namespace IBL
                     }
                 }
 
-                if(min == -1) { throw new BO.NotAvilableStation(); }
+                if (min == -1)
+                {
+                    throw new BO.NotAvilableStation();
+                }
 
                 return stationId;
             }
@@ -167,10 +170,11 @@ namespace IBL
                                  DataSource.Config.avilablePPK;
                 }
 
-                if(minBattery > 100)
+                if (minBattery > 100)
                 {
                     throw new BO.DroneNotEnoughBattery(drone.Id);
                 }
+
                 // set the drone's battery random value between minBattery to 100
                 drone.Battery = (rand.NextDouble() * (100 - minBattery)) + minBattery;
             }
@@ -199,13 +203,13 @@ namespace IBL
                 IDAL.DO.Parcel parcelForAssign = this._waitingParcels.Dequeue();
                 IDAL.DO.Priorities priority = parcelForAssign.Priority - lessPriority;
 
-                if(priority == parcelForAssign.Priority)
+                if (priority == parcelForAssign.Priority)
                 {
-                    parcelsAccordingWeight.Enqueue(parcelForAssign, (int)parcelForAssign.Weight);
+                    parcelsAccordingWeight.Enqueue(parcelForAssign, (int) parcelForAssign.Weight);
                 }
                 else
                 {
-                    this._waitingParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Priority);
+                    this._waitingParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Priority);
                 }
 
                 bool search = true;
@@ -216,13 +220,13 @@ namespace IBL
 
                     if (parcelForAssign.Priority == priority)
                     {
-                        parcelsAccordingWeight.Enqueue(parcelForAssign, (int)parcelForAssign.Weight);
+                        parcelsAccordingWeight.Enqueue(parcelForAssign, (int) parcelForAssign.Weight);
                     }
 
                     else
                     {
                         search = false;
-                        this._waitingParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Priority);
+                        this._waitingParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Priority);
                     }
                 }
 
@@ -236,19 +240,19 @@ namespace IBL
 
                     if (parcelForAssign.Weight > drone.MaxWeight)
                     {
-                        this._waitingParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Priority);
+                        this._waitingParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Priority);
                     }
 
                     else
                     {
-                        parcelsAccordingWeight.Enqueue(parcelForAssign, (int)parcelForAssign.Weight);
+                        parcelsAccordingWeight.Enqueue(parcelForAssign, (int) parcelForAssign.Weight);
                         search = false;
                     }
                 }
 
-                if(parcelsAccordingWeight.Count == 0)
+                if (parcelsAccordingWeight.Count == 0)
                 {
-                    if(lessPriority >= 0 && lessPriority <= 2)
+                    if (lessPriority >= 0 && lessPriority <= 2)
                     {
                         return findSuitableParcel(drone, lessPriority + 1);
                     }
@@ -277,7 +281,7 @@ namespace IBL
 
                     else
                     {
-                        this._waitingParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Priority);
+                        this._waitingParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Priority);
                         search = false;
                     }
                 }
@@ -288,12 +292,14 @@ namespace IBL
 
                 if (suitableParcels.Count > 1)
                 {
-                    double minDistance = drone.Location.Distance(this._dalObj.GetCostumerById(parcelForAssign.SenderId).Location);
+                    double minDistance =
+                        drone.Location.Distance(this._dalObj.GetCostumerById(parcelForAssign.SenderId).Location);
 
                     for (int i = 1; i < suitableParcels.Count; ++i)
                     {
                         IDAL.DO.Parcel parcel = suitableParcels[i];
-                        double currentDistance = drone.Location.Distance(this._dalObj.GetCostumerById(parcel.SenderId).Location);
+                        double currentDistance =
+                            drone.Location.Distance(this._dalObj.GetCostumerById(parcel.SenderId).Location);
 
                         if (currentDistance < minDistance)
                         {
@@ -302,12 +308,12 @@ namespace IBL
                         }
                     }
 
-                    for(int i = 0; i < suitableParcels.Count; ++i)
+                    for (int i = 0; i < suitableParcels.Count; ++i)
                     {
                         IDAL.DO.Parcel parcel = suitableParcels[i];
                         if (parcel.Id != parcelForAssign.Id)
                         {
-                            this._waitingParcels.Enqueue(parcel, (int)parcel.Priority);
+                            this._waitingParcels.Enqueue(parcel, (int) parcel.Priority);
                         }
                     }
                 }
@@ -321,18 +327,16 @@ namespace IBL
                 parcel.Status = IDAL.DO.ParcelStatuses.Assign;
 
                 parcel.DroneId = drone.Id;
-                
+
                 var sender = _dalObj.GetCostumerById(parcel.SenderId);
                 var nearStation =
                     _dalObj.GetStationById(_GetNearestStation(sender.Location));
-                
+
                 drone.Status = IDAL.DO.DroneStatuses.Shipping; // change the drone status to Shipping
-                
+
                 _InitDroneLocation(drone, parcel, nearStation); // set drone's location
-                
+
                 _InitBattery(drone, parcel, nearStation); // set drone's battery
-
-
             }
 
             private void SetDroneDetails(IDAL.DO.Drone drone)
@@ -425,14 +429,16 @@ namespace IBL
 
                 foreach (var parcel in parcels)
                 {
-                    if (parcel.DroneId != 0) // the parcel has been assigned to drone, in this part I handle all the shiping drones.
+                    if (
+                        parcel.DroneId !=
+                        0) // the parcel has been assigned to drone, in this part I handle all the shiping drones.
                     {
                         HandleAssignParcel(parcel, _dalObj.GetDroneById(parcel.DroneId));
                     }
 
                     else
                     {
-                        this._waitingParcels.Enqueue(parcel, (int)parcel.Priority);
+                        this._waitingParcels.Enqueue(parcel, (int) parcel.Priority);
                     }
                 }
 
@@ -586,19 +592,19 @@ namespace IBL
             {
                 //check exceptions
 
-                if(droneId < 0)
+                if (droneId < 0)
                 {
                     throw new BO.NegetiveValue("Drone's id");
                 }
 
                 var drone = this._dalObj.GetDroneById(droneId);
 
-                if(drone.Status != IDAL.DO.DroneStatuses.Available)
+                if (drone.Status != IDAL.DO.DroneStatuses.Available)
                 {
                     throw new BO.DroneNotAvliable(droneId);
                 }
 
-                if(this._waitingParcels.Count == 0)
+                if (this._waitingParcels.Count == 0)
                 {
                     throw new BO.NoParcelsForAssign();
                 }
@@ -609,7 +615,7 @@ namespace IBL
                 //making the assign
                 HandleAssignParcel(parcelForAssign, drone);
             }
-            
+
             /*
             *Description: update PickedUp time to NOW. check logic.
             *Parameters: a parcel.
@@ -631,7 +637,6 @@ namespace IBL
 
                 parcel.PickedUp = DateTime.Now;
                 parcel.Status = IDAL.DO.ParcelStatuses.PickedUp;
-
             }
 
             /*
@@ -766,7 +771,7 @@ namespace IBL
 
                 drone.Status = IDAL.DO.DroneStatuses.Available;
 
-                drone.Location = station.Location;                
+                drone.Location = station.Location;
             }
 
             /*
@@ -787,20 +792,20 @@ namespace IBL
                 }
 
                 IDAL.DO.Drone drone = this._dalObj.GetDroneById(droneId);
-                if(drone.Status != IDAL.DO.DroneStatuses.Available)
+                if (drone.Status != IDAL.DO.DroneStatuses.Available)
                 {
                     throw new BO.DroneNotAvliable(droneId);
                 }
 
                 IDAL.DO.Station station;
 
-                if(stationId == -1)
+                if (stationId == -1)
                 {
                     station = this._dalObj.GetStationById(this._GetNearestAvilableStation(drone.Location));
                     double distance = drone.Location.Distance(station.Location);
                     double minBattery = distance * DalObject.DataSource.Config.avilablePPK;
 
-                    if(minBattery > drone.Battery)
+                    if (minBattery > drone.Battery)
                     {
                         throw new BO.DroneNotEnoughBattery(droneId);
                     }
@@ -851,7 +856,7 @@ namespace IBL
 
                 IDAL.DO.Drone drone = this._dalObj.GetDroneById(droneId);
 
-                if(drone.Status != IDAL.DO.DroneStatuses.Maintenance)
+                if (drone.Status != IDAL.DO.DroneStatuses.Maintenance)
                 {
                     throw new BO.DroneNotInMaintenance(droneId);
                 }
@@ -903,9 +908,9 @@ namespace IBL
                 IEnumerable<IDAL.DO.Parcel> parcels = this._dalObj.GetParcelsList();
                 int parcelOfDroneId = 0;
 
-                foreach(var parcel in parcels)
+                foreach (var parcel in parcels)
                 {
-                    if(parcel.DroneId == droneId)
+                    if (parcel.DroneId == droneId)
                     {
                         parcelOfDroneId = parcel.Id;
                         break;
@@ -930,7 +935,7 @@ namespace IBL
                 List<BO.StationListBL> stationList = new List<BO.StationListBL>();
                 IEnumerable<IDAL.DO.Station> stations = this._dalObj.GetStationsList();
 
-                foreach(var station in stations)
+                foreach (var station in stations)
                 {
                     stationList.Add(new StationListBL(station));
                 }
@@ -943,7 +948,7 @@ namespace IBL
                 List<BO.CostumerListBL> costumerList = new List<BO.CostumerListBL>();
                 IEnumerable<IDAL.DO.Costumer> costumers = this._dalObj.GetCostumerList();
 
-                foreach(var costumer in costumers)
+                foreach (var costumer in costumers)
                 {
                     costumerList.Add(new BO.CostumerListBL(costumer));
                 }
@@ -951,12 +956,26 @@ namespace IBL
                 return costumerList;
             }
 
+            public List<IDAL.DO.Parcel> GetWaitingParcels()
+            {
+                List<IDAL.DO.Parcel> parcels = new List<IDAL.DO.Parcel>();
+                IDAL.DO.Parcel parcel;
+                for (int _ = 0; _ < _waitingParcels.Count; _++)
+                {
+                    parcel = _waitingParcels.Dequeue();
+                    parcels.Add(parcel);
+                    _waitingParcels.Enqueue(parcel, (int) parcel.Priority);
+                }
+
+                return parcels;
+            }
+
             public IEnumerable<BO.ParcelListBL> GetParcelsList()
             {
                 List<BO.ParcelListBL> parcelList = new List<BO.ParcelListBL>();
-                IEnumerable<IDAL.DO.Parcel> parcels =  this._dalObj.GetParcelsList();
+                IEnumerable<IDAL.DO.Parcel> parcels = this._dalObj.GetParcelsList();
 
-                foreach(var parcel in parcels)
+                foreach (var parcel in parcels)
                 {
                     parcelList.Add(new BO.ParcelListBL(parcel));
                 }
@@ -967,9 +986,9 @@ namespace IBL
             public IEnumerable<BO.DroneListBL> GetDroneList()
             {
                 List<BO.DroneListBL> droneList = new List<BO.DroneListBL>();
-                IEnumerable<IDAL.DO.Drone> drones =  this._dalObj.GetDroneList();
+                IEnumerable<IDAL.DO.Drone> drones = this._dalObj.GetDroneList();
 
-                foreach(var drone in drones)
+                foreach (var drone in drones)
                 {
                     droneList.Add(new BO.DroneListBL(drone));
                 }
@@ -982,6 +1001,25 @@ namespace IBL
                 return SysLog.SysLog.GetInstance();
             }
 
+            private IDAL.DO.Parcel _bestParcel(List<IDAL.DO.Parcel> parcels, IDAL.DO.Drone drone)
+            {
+                // filter the parcels list to contain just the one's who the drone can carry
+                parcels = parcels.Where(parcel => parcel.Weight <= drone.MaxWeight)
+                    .ToList(); // where the weight is valid
+
+                // firstly: we sort by the distance => the latest influencing parameter
+                parcels = parcels.OrderBy(parcel =>
+                    _dalObj.GetCostumerById(parcel.SenderId).Location.Distance(drone.Location)).ToList();
+
+                // secondly: we sort by the [parcel.Weight] => the second most influencing parameter
+                parcels = parcels.OrderBy(parcel => -1 * (int) parcel.Weight).ToList(); // in desc order: 3, 2, 1...
+
+                // third: we sort by the [parcel.Priority] => the most influencing parameter
+                parcels = parcels.OrderBy(parcel => -1 * (int) parcel.Priority).ToList(); // in desc order: 3, 2, 1...
+
+                if (parcels.Count == 0) return null; // ERROR, throwing suitable exception
+                return parcels[0];
+            }
         }
     }
 }

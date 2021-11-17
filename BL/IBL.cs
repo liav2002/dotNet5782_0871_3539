@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
+
 namespace IBL
 {
     public interface IBL
@@ -18,6 +19,7 @@ namespace IBL
         public void UpdateDroneName(int droneId, string name);
         public void UpdateStation(int stationId, string name, int chargeSlots);
         public void UpdateCostumer(int costumerId, string name, string phoneNumber);
+        public List<IDAL.DO.Parcel> GetWaitingParcels();
 
         //getters
         public BO.ParcelBL GetParcelById(int parcelId);
