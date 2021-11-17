@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 
 namespace ConsoleUI_BL
 {
@@ -500,14 +501,14 @@ namespace ConsoleUI_BL
 
                 case UpdateOptionsE.ParcelDelivered:
                 {
-                    int parcelId = 0;
+                    int droneId = 0;
 
-                    Console.WriteLine("Enter parcel's id: ");
-                    parcelId = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter drone's id: ");
+                    droneId = Convert.ToInt32(Console.ReadLine());
 
                     try
                     {
-                        iBL.ParcelDelivered(parcelId);
+                        iBL.ParcelDelivered(droneId);
                         iBL.Sys().SuccessMessage();
                         pause();
                     }
@@ -774,21 +775,19 @@ namespace ConsoleUI_BL
 
                 case ListViewOptionsE.UnassignParcels:
                 {
-                    IDAL.DO.Parcel parcel;
-                    int i = iBL.GetWaitingParcels().Count;
-
-                    if (i == 0)
-                    {
-                        Console.WriteLine("List is empty.\n");
-                    }
-
                     try
                     {
-                        while (i != 0)
+                        List<IDAL.DO.Parcel> waitingParcels = iBL.GetWaitingParcels();
+                        int size = waitingParcels.Count;
+
+                        if (size == 0)
                         {
-                            Console.WriteLine(parcel); // print from top to bottom
-                            iBL.GetWaitingParcels().Enqueue(parcel);
-                            i--;
+                            Console.WriteLine("List is empty.\n");
+                        }
+
+                        foreach (var parcel in waitingParcels)
+                        {
+                            Console.WriteLine(parcel);
                         }
 
                         iBL.Sys().SuccessMessage();
