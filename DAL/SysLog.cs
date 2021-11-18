@@ -8,7 +8,6 @@ namespace SysLog
     public class SysLog
     {
         private bool _start;
-        private bool _enter = false;
 
         //Singleton design pattern
         private static SysLog _instance = null;

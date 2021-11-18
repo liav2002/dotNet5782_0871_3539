@@ -139,6 +139,13 @@ namespace IBL
             {
             }
         }
+        public class ParcelIsAlreadyPickedUp : Exception
+        {
+            public ParcelIsAlreadyPickedUp(int parcelId) : base("ERROR: parcel (id: " + parcelId +
+                                                                ") picked up already.\n")
+            {
+            }
+        }
 
         public class NoSuitableParcelForDrone : Exception
         {

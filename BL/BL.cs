@@ -646,19 +646,32 @@ namespace IBL
             *Parameters: a parcel.
             *Return: None.
             */
-            public void ParcelCollection(int parcelId)
+            public void ParcelCollection(int droneId)
             {
-                if (0 > parcelId)
+                if (0 > droneId)
                 {
-                    throw new BO.NegetiveValue("Parcel's id");
+                    throw new BO.NegetiveValue("Drone's id");
                 }
 
-                IDAL.DO.Parcel parcel = this._dalObj.GetParcelById(parcelId);
-                IDAL.DO.Drone drone = this._dalObj.GetDroneById(parcel.DroneId);
-                IDAL.DO.Costumer costumer = this._dalObj.GetCostumerById(parcel.SenderId);
 
+                IDAL.DO.Parcel parcel = this._dalObj.GetParcelByDroneId(droneId);
+                IDAL.DO.Drone drone = this._dalObj.GetDroneById(droneId);
+                IDAL.DO.Costumer sender = this._dalObj.GetCostumerById(parcel.SenderId);
 
-                drone.Location = costumer.Location;
+                if (parcel.Scheduled == default(DateTime))
+                {
+                    throw new Exception("ERROR: The parcel (id: " + parcel.Id +
+                                        ") is not Assign (not supposed to happen check [AssignParcelToDrone] method)");
+                }
+
+                if (parcel.PickedUp != default(DateTime))
+                {
+                    throw new ParcelIsAlreadyPickedUp(parcel.Id);
+                }
+
+                double distance = drone.Location.Distance(sender.Location) * DataSource.Config.avilablePPK;
+                drone.Location = sender.Location;
+                drone.Battery -= distance;
 
                 parcel.PickedUp = DateTime.Now;
                 parcel.Status = IDAL.DO.ParcelStatuses.PickedUp;
