@@ -217,17 +217,25 @@ namespace IBL
 
                 while (search)
                 {
-                    parcelForAssign = this._waitingParcels.Dequeue();
-
-                    if (parcelForAssign.Priority == priority)
+                    if(this._waitingParcels.Count != 0)
                     {
-                        parcelsAccordingWeight.Enqueue(parcelForAssign, (int) parcelForAssign.Weight);
+                        parcelForAssign = this._waitingParcels.Dequeue();
+
+                        if (parcelForAssign.Priority == priority)
+                        {
+                            parcelsAccordingWeight.Enqueue(parcelForAssign, (int)parcelForAssign.Weight);
+                        }
+
+                        else
+                        {
+                            search = false;
+                            this._waitingParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Priority);
+                        }
                     }
 
                     else
                     {
                         search = false;
-                        this._waitingParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Priority);
                     }
                 }
 
@@ -237,16 +245,24 @@ namespace IBL
 
                 while (search)
                 {
-                    parcelForAssign = parcelsAccordingWeight.Dequeue();
-
-                    if (parcelForAssign.Weight > drone.MaxWeight)
+                    if(parcelsAccordingWeight.Count != 0)
                     {
-                        this._waitingParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Priority);
+                        parcelForAssign = parcelsAccordingWeight.Dequeue();
+
+                        if (parcelForAssign.Weight > drone.MaxWeight)
+                        {
+                            this._waitingParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Priority);
+                        }
+
+                        else
+                        {
+                            parcelsAccordingWeight.Enqueue(parcelForAssign, (int)parcelForAssign.Weight);
+                            search = false;
+                        }
                     }
 
                     else
                     {
-                        parcelsAccordingWeight.Enqueue(parcelForAssign, (int) parcelForAssign.Weight);
                         search = false;
                     }
                 }
@@ -273,16 +289,24 @@ namespace IBL
 
                 while (search)
                 {
-                    parcelForAssign = parcelsAccordingWeight.Dequeue();
-
-                    if (parcelForAssign.Weight == maxWeight)
+                    if(parcelsAccordingWeight.Count != 0)
                     {
-                        suitableParcels.Add(parcelForAssign);
+                        parcelForAssign = parcelsAccordingWeight.Dequeue();
+
+                        if (parcelForAssign.Weight == maxWeight)
+                        {
+                            suitableParcels.Add(parcelForAssign);
+                        }
+
+                        else
+                        {
+                            this._waitingParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Priority);
+                            search = false;
+                        }
                     }
 
                     else
                     {
-                        this._waitingParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Priority);
                         search = false;
                     }
                 }
@@ -865,8 +889,6 @@ namespace IBL
                     this._dalObj.AddDroneToCharge(drone.Id, station.Id);
 
                     drone.Status = IDAL.DO.DroneStatuses.Maintenance;
-
-                    this._dalObj.AddDroneToCharge(droneId, stationId);
                 }
             }
 
