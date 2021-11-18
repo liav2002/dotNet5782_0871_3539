@@ -66,7 +66,7 @@ namespace DalObject
                 rand.Next(10)));
             stations.Add(new IDAL.DO.Station(1020, "The Temple Mount",
                 new IDAL.DO.Location(31.65266801604753, 35.2281960943494),
-                rand.Next(10)));
+                rand.Next(10) + 1)); //I don't want stations without a free charge slots.
         }
 
         public static void InitializeCostumer()
@@ -94,8 +94,8 @@ namespace DalObject
 
                 parcels.Add(new IDAL.DO.Parcel(rand.Next(50, 100), costumers[sender].Id, costumers[target].Id,
                     (IDAL.DO.WeightCategories) rand.Next(3),
-                    (IDAL.DO.Priorities) rand.Next(3), DateTime.Now, drones[rand.Next(5)].Id, DateTime.Now,
-                    DateTime.Now, DateTime.Now));
+                    (IDAL.DO.Priorities) rand.Next(3), DateTime.Now, drones[rand.Next(5)].Id, default(DateTime),
+                    default(DateTime), default(DateTime)));
             }
         }
 

@@ -107,6 +107,11 @@ namespace DalObject
             DataSource.droneCharge.Remove(dc);
             drone.Status = IDAL.DO.DroneStatuses.Available;
             drone.Battery += hours * DataSource.Config.chargeRatePH;
+
+            if(drone.Battery > 100)
+            {
+                drone.Battery = 100;
+            }
         }
 
         public double[] PowerRequest()

@@ -35,7 +35,7 @@ namespace IBL
 
             public override string ToString()
             {
-                return $"Id: {Id}, Name: {Name}, Number of free slots: {FreeSlots}, Number of occupied slots: {TakingSlots}.\n";
+                return $"Id: {Id}, Name: {Name}, Number of free slots: {FreeSlots}, Number of occupied slots: {TakingSlots}, Location: {this._station.Location}.\n";
             }
         }
     }

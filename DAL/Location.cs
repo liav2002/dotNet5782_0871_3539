@@ -23,8 +23,8 @@ namespace IDAL
             {
                 Random random = new Random();
 
-                this._latitude = random.NextDouble() * 180 - 90; // get double value in range (-90, 90)
-                this._longitude = random.NextDouble() * 360 - 180; // get double value in range (-180, 180)
+                this._latitude = 0; // random.NextDouble() * 180 - 90; // get double value in range (-90, 90) TODO: show to eyal.
+                this._longitude = 0; // random.NextDouble() * 360 - 180; // get double value in range (-180, 180)
             }
 
 
