@@ -831,7 +831,7 @@ namespace IBL
                         break;
                 }
 
-                drone.Location = target.Location;
+                // drone.Location = target.Location;
 
                 // the second fly
                 double sD = target.Location.Distance(station.Location) * DataSource.Config.avilablePPK;
