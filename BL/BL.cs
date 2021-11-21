@@ -533,7 +533,7 @@ namespace IBL
 
                 if (flag == false) // station id does not exist
                 {
-                    throw new BO.NonItems("Station with id " + id);
+                    throw new BO.NonItems("Station with id " + stationId);
                 }
 
                 if (id < 0)
@@ -831,7 +831,7 @@ namespace IBL
                         break;
                 }
 
-                drone.Location = target.Location;
+                // drone.Location = target.Location;
 
                 // the second fly
                 double sD = target.Location.Distance(station.Location) * DataSource.Config.avilablePPK;
