@@ -108,7 +108,7 @@ namespace DalObject
             drone.Status = IDAL.DO.DroneStatuses.Available;
             drone.Battery += hours * DataSource.Config.chargeRatePH;
 
-            if(drone.Battery > 100)
+            if (drone.Battery > 100)
             {
                 drone.Battery = 100;
             }
@@ -122,6 +122,16 @@ namespace DalObject
                 DataSource.Config.mediumPPK, DataSource.Config.heavyPPK, DataSource.Config.chargeRatePH
             };
             return arr;
+        }
+
+        public bool IsDroneCharge(int droneId)
+        {
+            foreach (var droneCharge in DataSource.droneCharge)
+            {
+                if (droneCharge.DroneId == droneId) return true;
+            }
+
+            return false;
         }
 
         public IDAL.DO.Parcel GetParcelById(int id)
@@ -175,6 +185,7 @@ namespace DalObject
                 if (parcel.DroneId == droneId)
                     return parcel;
             }
+
             throw new IDAL.DO.ItemNotFound("Parcel");
         }
 

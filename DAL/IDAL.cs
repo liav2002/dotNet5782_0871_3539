@@ -20,6 +20,7 @@ namespace IDAL
         public void DroneRelease(int droneId, double hours);
         public double[] PowerRequest();
 
+        public bool IsDroneCharge(int droneId);
         //getters
         public DO.Parcel GetParcelById(int id);
         public DO.Costumer GetCostumerById(int id);
