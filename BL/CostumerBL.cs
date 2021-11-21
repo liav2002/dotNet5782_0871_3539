@@ -26,13 +26,10 @@ namespace IBL
                 IDAL.IDAL dalObj = DalObject.DalObject.GetInstance(); // Singleton
                 foreach (IDAL.DO.Parcel parcel in dalObj.GetParcelsList())
                 {
-                    if (parcel.PickedUp == default(DateTime))
-                    {
-                        if (parcel.SenderId == _costumer.Id)
-                            _parcelsSender.Add(new ParcelAtCostumer(parcel, costumer));
-                        if (parcel.TargetId == _costumer.Id)
-                            _parcelsReciever.Add(new ParcelAtCostumer(parcel, costumer));
-                    }
+                    if (parcel.SenderId == _costumer.Id)
+                        _parcelsSender.Add(new ParcelAtCostumer(parcel, costumer));
+                    if (parcel.TargetId == _costumer.Id)
+                        _parcelsReciever.Add(new ParcelAtCostumer(parcel, costumer));
                 }
             }
 
@@ -51,13 +48,13 @@ namespace IBL
             public override string ToString()
             {
                 string strToPrint = string.Format("the id is: {0}\nthe name is: {1}\nthe phone is: {2}\n" +
-                                     "the location is: {3}\n", Id, Name, Phone, Location);
+                                                  "the location is: {3}\n", Id, Name, Phone, Location);
 
                 strToPrint += "Shipped Parcels:\n";
                 strToPrint += string.Join("\n", ParcelsSender);
                 strToPrint += "\n";
 
-                strToPrint += "Recieved Parcels:\n";
+                strToPrint += "Incoming Parcels:\n";
                 strToPrint += string.Join("\n", ParcelsReciever);
                 strToPrint += "\n";
 

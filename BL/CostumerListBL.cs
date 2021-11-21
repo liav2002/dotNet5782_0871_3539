@@ -11,17 +11,21 @@ namespace IBL
         public class CostumerListBL
         {
             private IDAL.DO.Costumer _costumer;
-            private int _sendArrived;
-            private int _sendNotArrived;
+            
+            private int _sendDelivered;
+            
+            private int _sendNotDelivered;
+            
             private int _recieved;
+            
             private int _parcelsAwait;
 
             public CostumerListBL(IDAL.DO.Costumer costumer)
             {
                 IDAL.IDAL dalObj = DalObject.DalObject.GetInstance(); // Singleton
                 _costumer = costumer;
-                _sendArrived = 0;
-                _sendNotArrived = 0;
+                _sendDelivered = 0;
+                _sendNotDelivered = 0;
                 _recieved = 0;
                 _parcelsAwait = 0;
                 foreach (IDAL.DO.Parcel parcel in dalObj.GetParcelsList())
@@ -29,12 +33,12 @@ namespace IBL
                     if (parcel.SenderId == costumer.Id)
                     {
                         if (parcel.Delivered != default(DateTime))
-                            _sendArrived++;
+                            _sendDelivered++;
                         else
-                            _sendNotArrived++;
+                            _sendNotDelivered++;
                     }
 
-                    if (parcel.TargetId == costumer.Id)
+                    else if (parcel.TargetId == costumer.Id)
                     {
                         if (parcel.Delivered != default(DateTime))
                             _recieved++;
@@ -50,9 +54,9 @@ namespace IBL
 
             public string Phone => _costumer.Phone;
 
-            public int SendArrived => _sendArrived;
+            public int SendDelivered => _sendDelivered;
 
-            public int SendNotArrived => _sendNotArrived;
+            public int SendNotDelivered => _sendNotDelivered;
 
             public int Recieve => _recieved;
 
@@ -61,10 +65,10 @@ namespace IBL
             public override string ToString()
             {
                 return $"Id: {Id}, Name: {Name}, Phone: {Phone}\n" +
-                       $"Number of parcels send and delivered: {SendArrived}.\n" +
-                       $"Number of parcels sent but not yet delivered: {SendNotArrived}.\n" +
+                       $"Number of parcels send and delivered: {SendDelivered}.\n" +
+                       $"Number of parcels sent but not yet delivered: {SendNotDelivered}.\n" +
                        $"Number of parcels he received: {Recieve}.\n" +
-                       $"Number of parcels on the way to coustumer: {ParcelsAwait}.\n";
+                       $"Number of parcels on the way to costumer: {ParcelsAwait}.\n";
             }
         }
     }
