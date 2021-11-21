@@ -18,6 +18,8 @@ namespace IBL
                 IDAL.IDAL dalObj = DalObject.DalObject.GetInstance(); // Singleton
 
                 _parcel = (parcelId != 0) ? new TransferParcelBL(dalObj.GetParcelById(parcelId)) : null;
+                if (_parcel != null && _parcel.IsDelivered){ _parcel = null; }
+
                 _drone = dalObj.GetDroneById(droneId);
             }
 

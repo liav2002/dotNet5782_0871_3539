@@ -17,6 +17,7 @@ namespace IBL
             private CostumerInParcel _receiver;
 
             private bool _isOnTheWay;
+            private bool _isDelivered;
 
             private IDAL.DO.Costumer _start;
 
@@ -36,11 +37,13 @@ namespace IBL
                 _receiver = new CostumerInParcel(_end);
 
                 _isOnTheWay = (parcel.Status == IDAL.DO.ParcelStatuses.PickedUp);
+                _isDelivered = (parcel.Status == IDAL.DO.ParcelStatuses.Delivered);
             }
 
             public double Id => _parcel.Id;
 
             public bool IsOnTheWay => _isOnTheWay;
+            public bool IsDelivered => _isDelivered;
 
             public IDAL.DO.Priorities Priority => _parcel.Priority;
 
@@ -57,8 +60,9 @@ namespace IBL
 
             public override string ToString()
             {
-                return $"Id: {Id}, Sender: {Sender}, Receiver: {Receiver}, Starting point: {Start}, Target point: {End} --> " + 
-                       (IsOnTheWay ? "On the way.\n" : "Not collected yet.\n");
+                return
+                    $"Id: {Id}, Sender: {Sender}, Receiver: {Receiver}, Starting point: {Start}, Target point: {End} --> " +
+                    (IsOnTheWay ? "On the way.\n" : "Not collected yet.\n");
             }
         }
     }
