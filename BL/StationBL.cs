@@ -22,13 +22,13 @@ namespace IBL
 
                 _station = station;
 
-                foreach (var droneCharge in dalObj.GetDroneChargeList()) //TODO: show to eyal
-                    if (droneCharge.StationId == station.Id)
-                    _dronesInStation.Add(new DroneChargeBL(dalObj.GetDroneById(droneCharge.DroneId)));
-
                 foreach (var drone in dalObj.GetDroneList())
+                {
                     if (drone.Location == this.Location)
-                        _dronesInStation.Add(new DroneChargeBL(drone, false));
+                    {
+                        _dronesInStation.Add(new DroneChargeBL(drone, dalObj.IsDroneCharge(drone.Id)));
+                    }
+                }
             }
 
             public int Id => _station.Id;
