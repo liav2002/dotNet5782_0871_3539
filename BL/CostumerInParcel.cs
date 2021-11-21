@@ -18,8 +18,13 @@ namespace IBL
             }
 
             public int Id => _costumer.Id;
-            
+
             public string Name => _costumer.Name;
+
+            public override string ToString()
+            {
+                return $"{Name}(id: {Id})";
+            }
         }
     }
 }
