@@ -533,7 +533,7 @@ namespace IBL
 
                 if (flag == false) // station id does not exist
                 {
-                    throw new BO.NonItems("Station with id " + id);
+                    throw new BO.NonItems("Station with id " + stationId);
                 }
 
                 if (id < 0)
