@@ -21,7 +21,7 @@ namespace IDAL
 
             public Location() // Empty ctor: initial with random values
             {
-                //Random random = new Random();
+                Random random = new Random();
 
                 this._latitude = 0; // random.NextDouble() * 180 - 90; // get double value in range (-90, 90) TODO: show to eyal.
                 this._longitude = 0; // random.NextDouble() * 360 - 180; // get double value in range (-180, 180)
