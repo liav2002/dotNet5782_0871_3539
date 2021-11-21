@@ -317,7 +317,7 @@ namespace ConsoleUI_BL
                     droneId = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine("Enter drone's new name: ");
                     droneName = Convert.ToString(Console.ReadLine());
-
+                    Console.WriteLine("");
 
                     try
                     {
@@ -352,7 +352,7 @@ namespace ConsoleUI_BL
                     Console.WriteLine("Enter statoin's new charge slots: ");
                     temp = Console.ReadLine();
                     chargeSlots = (temp == "") ? -1 : Convert.ToInt32(temp);
-
+                    Console.WriteLine("");
 
                     try
                     {
@@ -382,7 +382,7 @@ namespace ConsoleUI_BL
                     name = Convert.ToString(Console.ReadLine());
                     Console.WriteLine("Enter costumer's new phone number: ");
                     phoneNumber = Console.ReadLine();
-
+                    Console.WriteLine("");
 
                     try
                     {
@@ -406,7 +406,8 @@ namespace ConsoleUI_BL
 
                     Console.WriteLine("Enter drone's id: ");
                     droneId = Convert.ToInt32(Console.ReadLine());
-
+                    Console.WriteLine("");
+                
                     try
                     {
                         iBL.SendDroneToCharge(droneId);
@@ -434,7 +435,8 @@ namespace ConsoleUI_BL
 
                     Console.Write("Enter a period of time that was at the station: ");
                     hours = Convert.ToInt32(Console.ReadLine());
-
+                    Console.WriteLine("");
+                    
                     try
                     {
                         iBL.DroneRelease(droneId, hours);
@@ -457,7 +459,8 @@ namespace ConsoleUI_BL
 
                     Console.WriteLine("Enter drone's id: ");
                     droneId = Convert.ToInt32(Console.ReadLine());
-
+                    Console.WriteLine("");
+                
                     try
                     {
                         iBL.AssignParcelToDrone(droneId);
@@ -481,7 +484,8 @@ namespace ConsoleUI_BL
 
                     Console.WriteLine("Enter drone's id: ");
                     droneId = Convert.ToInt32(Console.ReadLine());
-
+                    Console.WriteLine("");
+                    
                     try
                     {
                         iBL.ParcelCollection(droneId);
@@ -505,7 +509,8 @@ namespace ConsoleUI_BL
 
                     Console.WriteLine("Enter drone's id: ");
                     droneId = Convert.ToInt32(Console.ReadLine());
-
+                    Console.WriteLine("");
+                
                     try
                     {
                         iBL.ParcelDelivered(droneId);
@@ -555,7 +560,8 @@ namespace ConsoleUI_BL
 
                     Console.Write("Enter station's Id: ");
                     stationId = Convert.ToInt32(Console.ReadLine());
-
+                    Console.WriteLine("");
+                
                     try
                     {
                         station = iBL.GetStationById(stationId);
@@ -582,7 +588,7 @@ namespace ConsoleUI_BL
 
                     Console.Write("Enter drone's Id: ");
                     droneId = Convert.ToInt32(Console.ReadLine());
-                    ;
+                    Console.WriteLine("");
 
                     try
                     {
@@ -610,7 +616,8 @@ namespace ConsoleUI_BL
 
                     Console.Write("Enter costumer's Id: ");
                     costumerId = Convert.ToInt32(Console.ReadLine());
-
+                    Console.WriteLine("");
+                
                     try
                     {
                         costumer = iBL.GetCostumerById(costumerId);
@@ -637,7 +644,8 @@ namespace ConsoleUI_BL
 
                     Console.Write("Enter parcel's Id: ");
                     parcelId = Convert.ToInt32(Console.ReadLine());
-
+                    Console.WriteLine("");
+                
                     try
                     {
                         parcel = iBL.GetParcelById(parcelId);
