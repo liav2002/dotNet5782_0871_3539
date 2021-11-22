@@ -103,14 +103,24 @@ namespace DalObject
             drone = GetDroneById(droneId);
             station = GetStationById(dc.StationId);
 
+            //handle the station
             station.ChargeSlots++;
             DataSource.droneCharge.Remove(dc);
-            drone.Status = IDAL.DO.DroneStatuses.Available;
-            drone.Battery += hours * DataSource.Config.chargeRatePH;
 
-            if (drone.Battery > 100)
+            //change drone's status
+            drone.Status = IDAL.DO.DroneStatuses.Available;
+
+            //change drone's battery
+            double newBattery = drone.Battery + hours * DataSource.Config.chargeRatePH;
+
+            if (newBattery > 100)
             {
                 drone.Battery = 100;
+            }
+
+            else
+            {
+                drone.Battery = newBattery;
             }
         }
 
