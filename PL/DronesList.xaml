@@ -6,8 +6,24 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="DronesList" Height="640" Width="800">
+    
     <Grid>
         <Grid Name="MainGrid"></Grid>
+        <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
+        VerticalAlignment="Stretch" Width="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions >
+        </Grid>
+        
+        <ComboBox HorizontalAlignment="Stretch" 
+                  VerticalAlignment="Stretch"
+                  Name ="StatusSelector"
+                  Grid.Column="1"/>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="400"/>
