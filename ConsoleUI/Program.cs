@@ -236,10 +236,10 @@ namespace ConsoleUI
                 case InsertOptionsE.Parcel:
                 {
                     int id = 0, senderId = 0, targetId = 0, weight = 0, priority = 0, droneId = 0;
-                    DateTime requested = DateTime.Now,
-                        scheduled = default(DateTime),
-                        pickedUp = default(DateTime),
-                        delivered = default(DateTime);
+                    DateTime? requested = DateTime.Now,
+                        scheduled = null,
+                        pickedUp = null,
+                        delivered = null;
 
                     Console.WriteLine("Parcel's details:\n");
 

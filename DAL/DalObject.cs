@@ -53,8 +53,8 @@ namespace DalObject
         *Parameters: parcel's detatils.
         *Return: None.
         */
-        public void AddParcel(int id, int senderId, int targetId, int weight, int priority, DateTime requested,
-            int droneId, DateTime scheduled, DateTime pickedUp, DateTime delivered)
+        public void AddParcel(int id, int senderId, int targetId, int weight, int priority, DateTime? requested,
+            int droneId, DateTime? scheduled, DateTime? pickedUp, DateTime? delivered)
         {
             try
             {

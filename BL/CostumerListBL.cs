@@ -32,7 +32,7 @@ namespace IBL
                 {
                     if (parcel.SenderId == costumer.Id)
                     {
-                        if (parcel.Delivered != default(DateTime))
+                        if (parcel.Delivered != null)
                             _sendDelivered++;
                         else
                             _sendNotDelivered++;
@@ -40,7 +40,7 @@ namespace IBL
 
                     else if (parcel.TargetId == costumer.Id)
                     {
-                        if (parcel.Delivered != default(DateTime))
+                        if (parcel.Delivered != null)
                             _recieved++;
                         else
                             _parcelsAwait++;

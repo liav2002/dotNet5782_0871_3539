@@ -11,9 +11,9 @@ namespace DalObject
 
         public static DataSource GetInstance()
         {
-                if (instance == null)
-                    instance = new DataSource();
-                return instance;
+            if (instance == null)
+                instance = new DataSource();
+            return instance;
         }
 
         private DataSource()
@@ -94,8 +94,8 @@ namespace DalObject
 
                 parcels.Add(new IDAL.DO.Parcel(rand.Next(50, 100), costumers[sender].Id, costumers[target].Id,
                     (IDAL.DO.WeightCategories) rand.Next(3),
-                    (IDAL.DO.Priorities) rand.Next(3), DateTime.Now, drones[rand.Next(5)].Id, default(DateTime),
-                    default(DateTime), default(DateTime)));
+                    (IDAL.DO.Priorities) rand.Next(3), DateTime.Now, drones[rand.Next(5)].Id, null,
+                    null, null));
             }
         }
 

@@ -102,12 +102,12 @@ namespace IBL
              **********************************************************************************************/
             private void _InitDroneLocation(IDAL.DO.Drone drone, IDAL.DO.Parcel parcel, IDAL.DO.Station station)
             {
-                if (parcel.PickedUp == default(DateTime)) //the parcel is not pickedup yet
+                if (parcel.PickedUp == null) //the parcel is not picked up yet
                 {
                     drone.Location = station.Location;
                 }
 
-                else if (parcel.Delivered == default(DateTime)) // the parcel is not delivered yet (but it's picked up)
+                else if (parcel.Delivered == null) // the parcel is not delivered yet (but it's picked up)
                 {
                     var sender = _dalObj.GetCostumerById(parcel.SenderId);
                     drone.Location = station.Location;
@@ -416,7 +416,7 @@ namespace IBL
                     List<IDAL.DO.Parcel> deliveredParcels = new List<IDAL.DO.Parcel>();
                     foreach (var parcel in parcels)
                     {
-                        if (parcel.Delivered != default(DateTime))
+                        if (parcel.Delivered != null)
                         {
                             deliveredParcels.Add(parcel);
                         }
@@ -601,8 +601,8 @@ namespace IBL
 
                 int id = DataSource.ParcelsLength() + 1;
                 this._dalObj.AddParcel(id, senderId, targetId, weight,
-                    priority, DateTime.Now, droneId, default(DateTime),
-                    default(DateTime), default(DateTime));
+                    priority, DateTime.Now, droneId, null,
+                    null, null);
 
                 SysLog.SysLog.GetInstance().MoveParcelToWaitingList(id);
                 this._waitingParcels.Enqueue(this._dalObj.GetParcelById(id), priority);
@@ -658,13 +658,13 @@ namespace IBL
                 IDAL.DO.Drone drone = this._dalObj.GetDroneById(droneId);
                 IDAL.DO.Costumer sender = this._dalObj.GetCostumerById(parcel.SenderId);
 
-                if (parcel.Scheduled == default(DateTime))
+                if (parcel.Scheduled == null)
                 {
                     throw new Exception("ERROR: The parcel (id: " + parcel.Id +
                                         ") is not Assign (not supposed to happen check [AssignParcelToDrone] method)");
                 }
 
-                if (parcel.PickedUp != default(DateTime))
+                if (parcel.PickedUp != null)
                 {
                     throw new ParcelIsAlreadyPickedUp(parcel.Id);
                 }
@@ -792,12 +792,12 @@ namespace IBL
                 IDAL.DO.Parcel parcel = _dalObj.GetParcelByDroneId(droneId);
 
 
-                if (parcel.PickedUp == default(DateTime))
+                if (parcel.PickedUp == null)
                 {
                     throw new ParcelNotPickedUp(parcel.Id);
                 }
 
-                if (parcel.Delivered != default(DateTime))
+                if (parcel.Delivered != null)
                 {
                     throw new ParcelIsAlreadyDelivered(parcel.Id);
                 }

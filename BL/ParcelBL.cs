@@ -40,13 +40,13 @@ namespace IBL
 
             public DroneParcelBL Drone => _drone;
 
-            public DateTime Delivered => _parcel.Delivered;
+            public DateTime? Delivered => _parcel.Delivered;
 
-            public DateTime Requested => _parcel.Requested;
+            public DateTime? Requested => _parcel.Requested;
 
-            public DateTime Scheduled => _parcel.Scheduled;
+            public DateTime? Scheduled => _parcel.Scheduled;
 
-            public DateTime PickedUp => _parcel.PickedUp;
+            public DateTime? PickedUp => _parcel.PickedUp;
 
             public override string ToString()
             {

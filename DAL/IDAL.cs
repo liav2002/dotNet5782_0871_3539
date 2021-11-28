@@ -13,8 +13,8 @@ namespace IDAL
 
         public void AddCostumer(int id, string name, string phone, DO.Location location);
 
-        public void AddParcel(int id, int senderId, int targetId, int weight, int priority, DateTime requested,
-            int droneId, DateTime scheduled, DateTime pickedUp, DateTime delivered);
+        public void AddParcel(int id, int senderId, int targetId, int weight, int priority, DateTime? requested,
+            int droneId, DateTime? scheduled, DateTime? pickedUp, DateTime? delivered);
 
         public void AddDroneToCharge(int droneId, int stationId);
         public void DroneRelease(int droneId, double hours);

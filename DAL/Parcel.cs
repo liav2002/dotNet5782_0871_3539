@@ -22,13 +22,13 @@ namespace IDAL
 
             private Priorities _priority;
 
-            private DateTime _requested;
+            private DateTime? _requested;
 
-            private DateTime _scheduled;
+            private DateTime? _scheduled;
 
-            private DateTime _pickedUp;
+            private DateTime? _pickedUp;
 
-            private DateTime _delivered;
+            private DateTime? _delivered;
 
             public int Id
             {
@@ -60,7 +60,7 @@ namespace IDAL
                 set => _priority = value;
             }
 
-            public DateTime Requested
+            public DateTime? Requested
             {
                 get => _requested;
                 set => _requested = value;
@@ -76,19 +76,19 @@ namespace IDAL
                 }
             }
 
-            public DateTime Scheduled
+            public DateTime? Scheduled
             {
                 get => _scheduled;
                 set => _scheduled = value;
             }
 
-            public DateTime PickedUp
+            public DateTime? PickedUp
             {
                 get => _pickedUp;
                 set => _pickedUp = value;
             }
 
-            public DateTime Delivered
+            public DateTime? Delivered
             {
                 get => _delivered;
                 set => _delivered = value;
@@ -116,8 +116,8 @@ namespace IDAL
             }
 
             public Parcel(int id, int senderId, int targetId, WeightCategories weight, Priorities priority,
-                DateTime requested,
-                int droneId, DateTime scheduled, DateTime pickedUp, DateTime delivered)
+                DateTime? requested,
+                int droneId, DateTime? scheduled, DateTime? pickedUp, DateTime? delivered)
             {
                 SysLog.SysLog.GetInstance().AddParcel(id);
                 this._id = id;
@@ -131,10 +131,10 @@ namespace IDAL
                 this._pickedUp = pickedUp; // parcel is being picked up.
                 this._delivered = delivered; // costumer get the parcel.
 
-                if (delivered != default(DateTime)) this._status = ParcelStatuses.Delivered;
-                else if (pickedUp != default(DateTime)) this._status = ParcelStatuses.PickedUp;
-                else if (scheduled != default(DateTime)) this._status = ParcelStatuses.Assign;
-                else if (requested != default(DateTime)) this._status = ParcelStatuses.Created;
+                if (delivered != null) this._status = ParcelStatuses.Delivered;
+                else if (pickedUp != null) this._status = ParcelStatuses.PickedUp;
+                else if (scheduled != null) this._status = ParcelStatuses.Assign;
+                else if (requested != null) this._status = ParcelStatuses.Created;
             }
         }
     }
