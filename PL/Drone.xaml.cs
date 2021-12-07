@@ -17,11 +17,17 @@ namespace PL
     /// <summary>
     /// Interaction logic for DroneView.xaml
     /// </summary>
-    public partial class DroneView : Window
+    public partial class Drone : Window
     {
-        public DroneView()
+        public Drone()
         {
             InitializeComponent();
+        }
+
+
+        private void CloseScreen(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
         }
     }
 }
