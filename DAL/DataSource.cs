@@ -31,13 +31,11 @@ namespace DalObject
 
         public class Config
         {
-            //TODO: Find out what the power consumption is on all cases and initail accordingly.
             public static double avilablePPK = 0.0005; // PPK - Power consumption Per Kilometer. for avilble drone.
             public static double lightPPK = 0.0015; // for drone who carried a light weight.
             public static double mediumPPK = 0.002; // for drone who carried a medium weight.
             public static double heavyPPK = 0.0025; // for drone who carried a heavy weight.
 
-            //TODO: Find out what the charge rate is, and initailze accordingly.
             public static double chargeRatePH = 66.66; // drone charging rate per hour.
         }
 

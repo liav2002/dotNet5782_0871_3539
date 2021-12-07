@@ -72,11 +72,6 @@ namespace DalObject
                 droneId, scheduled, pickedUp, delivered));
         }
 
-        public void RemoveParcelFromWaitingList(IDAL.DO.Parcel parcel)
-        {
-            //TODO: Implemented this function
-        }
-
         /*
         *Description: Send drone to charge's station.
         *Parameters: a drone, a station
