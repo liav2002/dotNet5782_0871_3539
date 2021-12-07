@@ -71,7 +71,7 @@ namespace PL
         private void ReturnButtonOnClick(object o, EventArgs e)
         {
             isReturnButtonUsed = true;
-            this.Close();
+            App.ShowWindow<MainWindow>();
         }
         private void AddDroneButtonOnClick(object o, EventArgs e)
         {
