@@ -430,7 +430,7 @@ namespace IBL
 
                         // get the target from the random delivered parcel
                         IDAL.DO.Costumer randTarget = _dalObj.GetCostumerById(randParcel.TargetId);
- 
+
                         // set drone's location
 
                         drone.Location = randTarget.Location;
@@ -996,10 +996,10 @@ namespace IBL
                 return new BO.DroneChargeBL(this._dalObj.GetDroneById(id));
             }
 
-            public IEnumerable<BO.StationListBL> GetStationsList()
+            public IEnumerable<BO.StationListBL> GetStationsList(Func<IDAL.DO.Station, bool> filter = null)
             {
                 List<BO.StationListBL> stationList = new List<BO.StationListBL>();
-                IEnumerable<IDAL.DO.Station> stations = this._dalObj.GetStationsList();
+                IEnumerable<IDAL.DO.Station> stations = this._dalObj.GetStationsList(filter);
 
                 foreach (var station in stations)
                 {
@@ -1009,10 +1009,10 @@ namespace IBL
                 return stationList;
             }
 
-            public IEnumerable<BO.CostumerListBL> GetCostumerList()
+            public IEnumerable<BO.CostumerListBL> GetCostumerList(Func<IDAL.DO.Costumer, bool> filter = null)
             {
                 List<BO.CostumerListBL> costumerList = new List<BO.CostumerListBL>();
-                IEnumerable<IDAL.DO.Costumer> costumers = this._dalObj.GetCostumerList();
+                IEnumerable<IDAL.DO.Costumer> costumers = this._dalObj.GetCostumerList(filter);
 
                 foreach (var costumer in costumers)
                 {
@@ -1036,10 +1036,10 @@ namespace IBL
                 return parcels;
             }
 
-            public IEnumerable<BO.ParcelListBL> GetParcelsList()
+            public IEnumerable<BO.ParcelListBL> GetParcelsList(Func<IDAL.DO.Parcel, bool> filter = null)
             {
                 List<BO.ParcelListBL> parcelList = new List<BO.ParcelListBL>();
-                IEnumerable<IDAL.DO.Parcel> parcels = this._dalObj.GetParcelsList();
+                IEnumerable<IDAL.DO.Parcel> parcels = this._dalObj.GetParcelsList(filter);
 
                 foreach (var parcel in parcels)
                 {
@@ -1049,10 +1049,11 @@ namespace IBL
                 return parcelList;
             }
 
-            public IEnumerable<BO.DroneListBL> GetDroneList()
+
+            public IEnumerable<BO.DroneListBL> GetDroneList(Func<IDAL.DO.Drone, bool> filter = null)
             {
                 List<BO.DroneListBL> droneList = new List<BO.DroneListBL>();
-                IEnumerable<IDAL.DO.Drone> drones = this._dalObj.GetDroneList();
+                IEnumerable<IDAL.DO.Drone> drones = this._dalObj.GetDroneList(filter);
 
                 foreach (var drone in drones)
                 {

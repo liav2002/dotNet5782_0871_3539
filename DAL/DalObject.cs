@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DalObject
@@ -205,29 +206,31 @@ namespace DalObject
             throw new IDAL.DO.ItemNotFound("Drone");
         }
 
-        public IEnumerable<IDAL.DO.DroneCharge> GetDroneChargeList()
+        public IEnumerable<IDAL.DO.DroneCharge> GetDroneChargeList(Func<IDAL.DO.DroneCharge, bool> filter = null)
         {
-            return DataSource.droneCharge;
+            return filter == null ? DataSource.droneCharge : DataSource.droneCharge.Where(filter);
         }
 
-        public IEnumerable<IDAL.DO.Station> GetStationsList()
+        public IEnumerable<IDAL.DO.Station> GetStationsList(Func<IDAL.DO.Station, bool> filter = null)
         {
-            return DataSource.stations;
+            return filter == null ? DataSource.stations : DataSource.stations.Where(filter);
         }
 
-        public IEnumerable<IDAL.DO.Costumer> GetCostumerList()
+        public IEnumerable<IDAL.DO.Costumer> GetCostumerList(Func<IDAL.DO.Costumer, bool> filter = null)
         {
-            return DataSource.costumers;
+            return filter == null ? DataSource.costumers : DataSource.costumers.Where(filter);
         }
 
-        public IEnumerable<IDAL.DO.Parcel> GetParcelsList()
+        public IEnumerable<IDAL.DO.Parcel> GetParcelsList(Func<IDAL.DO.Parcel, bool> filter = null)
         {
-            return DataSource.parcels;
+            return filter == null ? DataSource.parcels : DataSource.parcels.Where(filter);
+
         }
 
-        public IEnumerable<IDAL.DO.Drone> GetDroneList()
+
+        public IEnumerable<IDAL.DO.Drone> GetDroneList(Func<IDAL.DO.Drone, bool> filter = null)
         {
-            return DataSource.drones;
+            return filter == null ? DataSource.drones : DataSource.drones.Where(filter);
         }
     }
 }

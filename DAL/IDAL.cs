@@ -28,10 +28,10 @@ namespace IDAL
         public DO.Drone GetDroneById(int id);
         public DO.Parcel GetParcelByDroneId(int droneId);
         public DO.DroneCharge GetDroneChargeByDroneId(int id);
-        public IEnumerable<DO.DroneCharge> GetDroneChargeList();
-        public IEnumerable<DO.Station> GetStationsList();
-        public IEnumerable<DO.Costumer> GetCostumerList();
-        public IEnumerable<DO.Parcel> GetParcelsList();
-        public IEnumerable<DO.Drone> GetDroneList();
+        public IEnumerable<DO.DroneCharge> GetDroneChargeList(Func<DO.DroneCharge, bool> filter = null);
+        public IEnumerable<DO.Station> GetStationsList(Func<DO.Station, bool> filter = null);
+        public IEnumerable<DO.Costumer> GetCostumerList(Func<DO.Costumer, bool> filter = null);
+        public IEnumerable<DO.Parcel> GetParcelsList(Func<DO.Parcel, bool> filter = null);
+        public IEnumerable<DO.Drone> GetDroneList(Func<DO.Drone, bool> filter = null);
     }
 }
