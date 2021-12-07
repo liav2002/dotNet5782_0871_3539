@@ -23,8 +23,11 @@ namespace PL
         public MainWindow()
         {
             InitializeComponent();
-            menuButtons = new Button[] { DronesButton, ParcelsButton, CostumersButton, StationButton };
-            SetMenuButtonsActive(false);
+
+            //TODO: add using to this buttons
+            ParcelsButton.IsEnabled = false;
+            CostumersButton.IsEnabled = false;
+            StationButton.IsEnabled = false;
         }
 
         public void QuitOnClick(object o, EventArgs e)
@@ -35,7 +38,7 @@ namespace PL
 
         public void DronesOnClick(object o, EventArgs e)
         {
-
+            App.ShowWindow<DronesList>();
         }
 
         public void ParcelsOnClick(object o, EventArgs e)
@@ -52,15 +55,5 @@ namespace PL
         {
 
         }
-
-        private void SetMenuButtonsActive(bool active)
-        {
-            for (int i = 0; i < menuButtons.Length; i++)
-            {
-                menuButtons[i].IsEnabled = active;
-            }
-        }
-
-        private Button[] menuButtons;
     }
 }

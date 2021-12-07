@@ -15,8 +15,8 @@ namespace PL
     {
         void Application_Startup(object sender, StartupEventArgs e)
         {
-            //mainWindow = new MainWindow();
-            //ShowWindow(mainWindow);
+            mainWindow = new MainWindow();
+            ShowWindow(mainWindow);
         }
 
         public static void ShowWindow(Window nextWindow)
@@ -31,6 +31,12 @@ namespace PL
             nextWindow.Show();
 
             currentWindow = nextWindow;
+        }
+
+        public static void ShowWindow<MyWindow>() where MyWindow : Window, new()
+        {
+            MyWindow nextWindow = new MyWindow();
+            ShowWindow(nextWindow);
         }
 
         private static MainWindow mainWindow;
