@@ -7,9 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Graphics\background_img.png" />
+    <None Remove="Graphics\backButton.png" />
+    <None Remove="Graphics\background.jpg" />
     <None Remove="Graphics\buttonBackground.jpg" />
-    <None Remove="Graphics\quitButton.png" />
+    <None Remove="Graphics\buttonBackground.png" />
+    <None Remove="Graphics\exitButton.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,9 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Graphics\background_img.png" />
-    <Resource Include="Graphics\buttonBackground.jpg" />
-    <Resource Include="Graphics\quitButton.png" />
+    <Resource Include="Graphics\backButton.png" />
+    <Resource Include="Graphics\background.jpg" />
+    <Resource Include="Graphics\buttonBackground.png" />
+    <Resource Include="Graphics\exitButton.png" />
   </ItemGroup>
 
 </Project>

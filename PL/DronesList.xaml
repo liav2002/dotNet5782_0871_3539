@@ -5,28 +5,63 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="DronesList" Height="550" Width="850">
-    
-    <Grid>
-        <Grid Name="MainGrid"></Grid>
-        <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
-        VerticalAlignment="Stretch" Width="auto">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions >
-        </Grid>
-        
-        <ComboBox HorizontalAlignment="Stretch" 
-                  VerticalAlignment="Stretch"
-                  Name ="StatusSelector"
-                  Grid.Column="1"/>
-        
+        Title="DronesList" Height="550" Width="850" ShowInTaskbar="False" Closing="Window_Closing">
+
+    <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
-            <RowDefinition Height="400"/>
+            <RowDefinition Height="400*"/>
         </Grid.RowDefinitions>
+
+        <Grid.Background>
+            <ImageBrush ImageSource="Graphics/background.jpg"></ImageBrush>
+        </Grid.Background>
+
+        <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
+VerticalAlignment="Stretch" Width="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="110*"/>
+                <ColumnDefinition Width="203*"/>
+                <ColumnDefinition Width="202*"/>
+                <ColumnDefinition Width="153*"/>
+                <ColumnDefinition Width="182*"/>
+            </Grid.ColumnDefinitions >
+
+            <Button x:Name="ReturnButton" Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ReturnButtonOnClick">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/backButton.png" ></ImageBrush>
+                </Button.Background>
+            </Button>
+
+            <ComboBox x:Name="StatusSelector" Grid.Column="2" Margin="0,8,3,31" SelectionChanged="SelectionChanged" BorderBrush="White"/>
+            <ComboBox x:Name="WeightSelector" Grid.Column="2" Margin="0,31,3,8" SelectionChanged="SelectionChanged" BorderBrush="White"/>
+
+            <Button x:Name="StatusSelectorClearButton" Width="50" Height="25" Content="Clear" Grid.Column="3" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Click="StatusSelectorClearButtonOnClick" Foreground="White">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/buttonBackground.png" ></ImageBrush>
+                </Button.Background>
+            </Button>
+
+            <Button x:Name="WeightSelectorClearButton" Width="50" Content="Clear" Grid.Column="3" HorizontalAlignment="Center" Margin="0,28,0,6" Click="WeightSelectorClearButtonOnClick" Foreground="White">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/buttonBackground.png" ></ImageBrush>
+                </Button.Background>
+            </Button>
+
+            <Label x:Name="StatusLabel" Content="Choose drone status" HorizontalAlignment="Center" Grid.Column="1" Margin="0,2,0,0" VerticalAlignment="Top" Width="100" Height="23" RenderTransformOrigin="0.441,1.322" FontSize="9" FontWeight="Bold" Foreground="White"/>
+            <Label x:Name="WeightLabel" Content="Choose drone weight" HorizontalAlignment="Center" Grid.Column="1" Margin="0,25,0,0" VerticalAlignment="Top" Width="100" Height="23" RenderTransformOrigin="0.441,1.322" FontSize="9" FontWeight="Bold" Foreground="White"/>
+
+            <Button x:Name="AddDroneButton" Width="100" Height="25" Content="Add a Drone" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddDroneButtonOnClick" Foreground="White" FontSize="14">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
+                </Button.Background>
+            </Button>
+        </Grid>
+
+        <ListView x:Name="DronesListView" Grid.Row="1" MouseDoubleClick="DroneView" SelectionMode="Single" Foreground="White" BorderBrush="White" FontFamily="Segoe UI">
+            <ListView.Background>
+                <ImageBrush ImageSource="Graphics/background.jpg"></ImageBrush>
+            </ListView.Background>
+        </ListView>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IBL.BO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,12 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
+        private IBL.IBL iBL;
         public MainWindow()
         {
             InitializeComponent();
+
+            this.iBL = BL.GetInstance();
 
             //TODO: add using to this buttons
             ParcelsButton.IsEnabled = false;
