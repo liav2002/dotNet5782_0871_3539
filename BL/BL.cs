@@ -217,19 +217,19 @@ namespace IBL
 
                 while (search)
                 {
-                    if(this._waitingParcels.Count != 0)
+                    if (this._waitingParcels.Count != 0)
                     {
                         parcelForAssign = this._waitingParcels.Dequeue();
 
                         if (parcelForAssign.Priority == priority)
                         {
-                            parcelsAccordingWeight.Enqueue(parcelForAssign, (int)parcelForAssign.Weight);
+                            parcelsAccordingWeight.Enqueue(parcelForAssign, (int) parcelForAssign.Weight);
                         }
 
                         else
                         {
                             search = false;
-                            this._waitingParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Priority);
+                            this._waitingParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Priority);
                         }
                     }
 
@@ -245,18 +245,18 @@ namespace IBL
 
                 while (search)
                 {
-                    if(parcelsAccordingWeight.Count != 0)
+                    if (parcelsAccordingWeight.Count != 0)
                     {
                         parcelForAssign = parcelsAccordingWeight.Dequeue();
 
                         if (parcelForAssign.Weight > drone.MaxWeight)
                         {
-                            this._waitingParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Priority);
+                            this._waitingParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Priority);
                         }
 
                         else
                         {
-                            parcelsAccordingWeight.Enqueue(parcelForAssign, (int)parcelForAssign.Weight);
+                            parcelsAccordingWeight.Enqueue(parcelForAssign, (int) parcelForAssign.Weight);
                             search = false;
                         }
                     }
@@ -289,7 +289,7 @@ namespace IBL
 
                 while (search)
                 {
-                    if(parcelsAccordingWeight.Count != 0)
+                    if (parcelsAccordingWeight.Count != 0)
                     {
                         parcelForAssign = parcelsAccordingWeight.Dequeue();
 
@@ -300,7 +300,7 @@ namespace IBL
 
                         else
                         {
-                            this._waitingParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Priority);
+                            this._waitingParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Priority);
                             search = false;
                         }
                     }
@@ -422,23 +422,26 @@ namespace IBL
                         }
                     }
 
-                    // get random parcel from the list.
-                    int index = rand.Next(0, deliveredParcels.Count - 1);
-                    IDAL.DO.Parcel randParcel = deliveredParcels[index];
+                    if (deliveredParcels.Count > 0)
+                    {
+                        // get random parcel from the list.
+                        int index = rand.Next(0, deliveredParcels.Count - 1);
+                        IDAL.DO.Parcel randParcel = deliveredParcels[index];
 
-                    // get the target from the random delivered parcel
-                    IDAL.DO.Costumer randTarget = _dalObj.GetCostumerById(randParcel.TargetId);
+                        // get the target from the random delivered parcel
+                        IDAL.DO.Costumer randTarget = _dalObj.GetCostumerById(randParcel.TargetId);
+ 
+                        // set drone's location
 
-                    // set drone's location
+                        drone.Location = randTarget.Location;
 
-                    drone.Location = randTarget.Location;
+                        //get the nearest base station to the target
+                        IDAL.DO.Station nearStation =
+                            _dalObj.GetStationById(_GetNearestStation(drone.Location));
 
-                    //get the nearest base station to the target
-                    IDAL.DO.Station nearStation =
-                        _dalObj.GetStationById(_GetNearestStation(drone.Location));
-
-                    //according to the nearest base station, get random battery and set it in drone's battery
-                    _InitBattery(drone, randParcel, nearStation);
+                        //according to the nearest base station, get random battery and set it in drone's battery
+                        _InitBattery(drone, randParcel, nearStation);
+                    }
                 }
             }
 
