@@ -7,7 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Graphics\background_img.png" />
+    <None Remove="Graphics\buttonBackground.jpg" />
+    <None Remove="Graphics\quitButton.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BL\BL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Graphics\background_img.png" />
+    <Resource Include="Graphics\buttonBackground.jpg" />
+    <Resource Include="Graphics\quitButton.png" />
   </ItemGroup>
 
 </Project>

@@ -5,8 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="550" Width="850"
+        Name="win" ResizeMode="CanMinimize">
+    <Window.Background>
+        <ImageBrush ImageSource="Graphics/background_img.png"></ImageBrush>
+    </Window.Background>
+    <StackPanel>
+        <!--<Canvas Height="0" Width="335">
+            <Image Name="logo" Source="Graphics/" Canvas.Bottom="-100" Height="177" Width="745" Canvas.Top="-33" Canvas.Left="-207" Visibility="Visible"></Image>
+        </Canvas>-->
 
-    </Grid>
+        <Button Margin="225,120,225,0"  VerticalAlignment="Top" Width="350" Height="40" Content="Drones" Name="DronesButton" Click="DronesOnClick" FontSize="22" FontWeight="ExtraBold" Foreground="Black">
+            <Button.Background>
+                <ImageBrush ImageSource="Graphics/buttonBackground.jpg"></ImageBrush>
+            </Button.Background>
+        </Button>
+        <Button Margin="225,10,225,0" VerticalAlignment="Top" Width="350" Height="40" Content="Parcels" Name="ParcelsButton" Click="ParcelsOnClick" FontSize="22" FontWeight="ExtraBold">
+            <Button.Background>
+                <ImageBrush ImageSource="Graphics/buttonBackground.jpg"></ImageBrush>
+            </Button.Background>
+        </Button>
+        <Button Margin="225,10,225,0" VerticalAlignment="Top" Width="350" Height="40" Content="Costumers" Name="CostumersButton" Click="CostumersOnClick" FontSize="22" FontWeight="ExtraBold">
+            <Button.Background>
+                <ImageBrush ImageSource="Graphics/buttonBackground.jpg"></ImageBrush>
+            </Button.Background>
+        </Button>
+        <Button Margin="225,10,225,0" VerticalAlignment="Top" Width="350" Height="40" Content="Stations" Name="StationButton" Click="StationsOnClick" FontSize="22" FontWeight="ExtraBold">
+            <Button.Background>
+                <ImageBrush ImageSource="Graphics/buttonBackground.jpg"></ImageBrush>
+            </Button.Background>
+        </Button>
+        <Button Margin="350,10,350,0" VerticalAlignment="Top" Width="100" Height="40" Click="QuitOnClick" Foreground="Black" FontSize="26" FontWeight="ExtraBold">
+            <Button.Background>
+                <ImageBrush ImageSource="Graphics/quitButton.png" ></ImageBrush>
+            </Button.Background>
+        </Button>
+    </StackPanel>
 </Window>
