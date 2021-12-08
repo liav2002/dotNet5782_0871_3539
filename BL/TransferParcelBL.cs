@@ -61,7 +61,7 @@ namespace IBL
             public override string ToString()
             {
                 return
-                    $"Id: {Id}, Sender: {Sender}, Receiver: {Receiver}, Starting point: {Start}, Target point: {End} --> " +
+                    $"Id: {Id}, Sender: {Sender}, \n\t\tReceiver: {Receiver}, \n\t\tStarting point: {Start}, \n\t\tTarget point: {End} \n\t\t--> " +
                     (IsOnTheWay ? "On the way.\n" : "Not collected yet.\n");
             }
         }

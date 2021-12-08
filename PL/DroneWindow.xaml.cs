@@ -147,7 +147,7 @@ namespace PL
                 SecondButton.Visibility = Visibility.Visible;
             }
 
-            else
+            else //Collect delivery
             {
                 try
                 {
@@ -159,6 +159,8 @@ namespace PL
                     MessageBox.Show(ex.Message, "ERROR");
                     return;
                 }
+
+                MessageBox.Show("The parcel has been collected", "SYSTEM");
             }
 
             DroneLabel.Content = iBL.GetDroneById(drone.Id);
@@ -201,11 +203,12 @@ namespace PL
                 SecondButton.Content = "Deliver parcel";
             }
 
-            else
+            else //Deliver parcel
             {
                 try
                 {
                     iBL.ParcelDelivered(drone.Id);
+                    DroneLabel.Content = iBL.GetDroneById(drone.Id);
                     FirstButton.Content = "Send to charge";
                     SecondButton.Content = "Send to delivery";
 

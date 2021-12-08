@@ -886,7 +886,7 @@ namespace IBL
 
                     station.ChargeSlots--;
 
-                    this._dalObj.AddDroneToCharge(droneId, stationId);
+                    this._dalObj.AddDroneToCharge(droneId, station.Id);
                 }
 
                 else
