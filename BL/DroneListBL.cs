@@ -25,7 +25,7 @@ namespace IBL
                     if (parcel.DroneId == drone.Id) { _parcelId = parcel.Id; }
             }
 
-            public double Id => _drone.Id;
+            public int Id => _drone.Id;
 
             public string Model => _drone.Model;
 

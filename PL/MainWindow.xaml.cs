@@ -42,7 +42,7 @@ namespace PL
 
         public void DronesOnClick(object o, EventArgs e)
         {
-            App.ShowWindow<DronesList>();
+            App.ShowWindow<DronesListWindow>();
         }
 
         public void ParcelsOnClick(object o, EventArgs e)
