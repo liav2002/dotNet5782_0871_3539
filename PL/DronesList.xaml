@@ -9,7 +9,7 @@
 
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50*"/>
+            <RowDefinition Height="100*"/>
             <RowDefinition Height="400*"/>
         </Grid.RowDefinitions>
 
@@ -18,10 +18,11 @@
         </Grid.Background>
 
         <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
-VerticalAlignment="Stretch" Width="auto">
+VerticalAlignment="Stretch" Width="auto" RenderTransformOrigin="0.502,0.622">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="110*"/>
-                <ColumnDefinition Width="203*"/>
+                <ColumnDefinition Width="188*"/>
+                <ColumnDefinition Width="15*"/>
                 <ColumnDefinition Width="202*"/>
                 <ColumnDefinition Width="153*"/>
                 <ColumnDefinition Width="182*"/>
@@ -33,25 +34,25 @@ VerticalAlignment="Stretch" Width="auto">
                 </Button.Background>
             </Button>
 
-            <ComboBox x:Name="StatusSelector" Grid.Column="2" Margin="0,8,3,31" SelectionChanged="SelectionChanged" BorderBrush="White"/>
-            <ComboBox x:Name="WeightSelector" Grid.Column="2" Margin="0,31,3,8" SelectionChanged="SelectionChanged" BorderBrush="White"/>
+            <ComboBox x:Name="StatusSelector" Grid.Column="3" Height="50" Margin="0,8,3,64" SelectionChanged="SelectionChanged" BorderBrush="White" FontSize="15"/>
+            <ComboBox x:Name="WeightSelector" Grid.Column="3" Height="50" Margin="0,62,3,10" SelectionChanged="SelectionChanged" BorderBrush="White" FontSize="15"/>
 
-            <Button x:Name="StatusSelectorClearButton" Width="50" Height="25" Content="Clear" Grid.Column="3" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Click="StatusSelectorClearButtonOnClick" Foreground="White">
+            <Button x:Name="StatusSelectorClearButton" Width="50" Height="30" Content="Clear" Grid.Column="4" Margin="13,11,90,0" VerticalAlignment="Top" Click="StatusSelectorClearButtonOnClick" Foreground="White">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png" ></ImageBrush>
                 </Button.Background>
             </Button>
 
-            <Button x:Name="WeightSelectorClearButton" Width="50" Content="Clear" Grid.Column="3" HorizontalAlignment="Center" Margin="0,28,0,6" Click="WeightSelectorClearButtonOnClick" Foreground="White">
+            <Button x:Name="WeightSelectorClearButton" Height="30" Width="50" Content="Clear" Grid.Column="4" Margin="13,66,90,11" Click="WeightSelectorClearButtonOnClick" Foreground="White">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png" ></ImageBrush>
                 </Button.Background>
             </Button>
 
-            <Label x:Name="StatusLabel" Content="Choose drone status" HorizontalAlignment="Center" Grid.Column="1" Margin="0,2,0,0" VerticalAlignment="Top" Width="100" Height="23" RenderTransformOrigin="0.441,1.322" FontSize="9" FontWeight="Bold" Foreground="White"/>
-            <Label x:Name="WeightLabel" Content="Choose drone weight" HorizontalAlignment="Center" Grid.Column="1" Margin="0,25,0,0" VerticalAlignment="Top" Width="100" Height="23" RenderTransformOrigin="0.441,1.322" FontSize="9" FontWeight="Bold" Foreground="White"/>
+            <Label x:Name="StatusLabel" Content="Choose drone status" HorizontalAlignment="Left" Grid.Column="1" Margin="25,13,0,0" VerticalAlignment="Top" Width="150" Height="30" RenderTransformOrigin="0.441,1.322" FontSize="12" FontWeight="Bold" Foreground="White"/>
+            <Label x:Name="WeightLabel" Content="Choose drone weight" HorizontalAlignment="Left" Grid.Column="1" Margin="25,65,0,0" VerticalAlignment="Top" Width="150" Height="30" RenderTransformOrigin="0.441,1.322" FontSize="12" FontWeight="Bold" Foreground="White"/>
 
-            <Button x:Name="AddDroneButton" Width="100" Height="25" Content="Add a Drone" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddDroneButtonOnClick" Foreground="White" FontSize="14">
+            <Button x:Name="AddDroneButton" Width="100" Height="50" Content="Add a Drone" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddDroneButtonOnClick" Foreground="White" FontSize="14">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
                 </Button.Background>

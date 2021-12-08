@@ -39,23 +39,25 @@ namespace PL
 
         private void SelectionChanged(object o, EventArgs e)
         {
-            if(StatusSelector.SelectedItem == null & WeightSelector.SelectedItem == null)
+            if(StatusSelector.SelectedItem == null && WeightSelector.SelectedItem == null)
             {
-                drones = iBL.GetDroneList();
+                this.drones = iBL.GetDroneList();
             }
-            else if(StatusSelector.SelectedItem != null & WeightSelector.SelectedItem != null)
+            else if(StatusSelector.SelectedItem != null && WeightSelector.SelectedItem != null)
             {
-                drones = iBL.GetDroneList(); //TODO: iBL.GetDroneList(drone => drone.Status == (IDAL.DO.DroneStatuses)StatusSelector.SelectedItem & drone.Weight == (IDAL.DO.WeightCategories)WeightSelector.SelectedItem);
+                this.drones = iBL.GetDroneList(drone => drone.Status == (IDAL.DO.DroneStatuses)StatusSelector.SelectedItem && 
+                                           drone.MaxWeight == (IDAL.DO.WeightCategories)WeightSelector.SelectedItem);
             }
-            else if(StatusSelector.SelectedItem != null & WeightSelector.SelectedItem == null)
+            else if(StatusSelector.SelectedItem != null && WeightSelector.SelectedItem == null)
             {
-                drones = iBL.GetDroneList(); //TODO: iBL.GetDroneList(drone => drone.Status == (IDAL.DO.DroneStatuses)StatusSelector.SelectedItem);
+                this.drones = iBL.GetDroneList(drone => drone.Status == (IDAL.DO.DroneStatuses)StatusSelector.SelectedItem);
             }
             else
             {
-                drones = iBL.GetDroneList(); //TODO: iBL.GetDroneList(drone => drone.Weight == (IDAL.DO.WeightCategories)WeightSelector.SelectedItem);
+                this.drones = iBL.GetDroneList(drone => drone.MaxWeight == (IDAL.DO.WeightCategories)WeightSelector.SelectedItem);
             }
 
+            DronesListView.ItemsSource = this.drones;
         }
 
         private void StatusSelectorClearButtonOnClick(object o, EventArgs e)
