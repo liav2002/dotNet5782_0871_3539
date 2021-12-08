@@ -766,10 +766,10 @@ namespace IBL
 
                 IDAL.DO.Drone drone = this._dalObj.GetDroneById(droneId);
 
-                if (drone.Model == name)
-                {
-                    throw new BO.NotNewValue("Drone model", name);
-                }
+                //if (drone.Model == name)
+                //{
+                //    throw new BO.NotNewValue("Drone model", name);
+                //}
 
                 if (name != "")
                 {
