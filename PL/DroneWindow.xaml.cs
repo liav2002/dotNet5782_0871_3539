@@ -209,6 +209,7 @@ namespace PL
                 {
                     iBL.ParcelDelivered(drone.Id);
                     DroneLabel.Content = iBL.GetDroneById(drone.Id);
+                    listViewDrones.ItemsSource = iBL.GetDroneList(drone => true);
                     FirstButton.Content = "Send to charge";
                     SecondButton.Content = "Send to delivery";
 

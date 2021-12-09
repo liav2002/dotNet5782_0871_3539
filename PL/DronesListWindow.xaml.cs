@@ -76,17 +76,17 @@ namespace PL
         }
         private void AddDroneButtonOnClick(object o, EventArgs e)
         {
+            DroneWindow nextWindow = new DroneWindow(DronesListView.SelectedItem);
             StatusSelector.SelectedItem = null;
             WeightSelector.SelectedItem = null;
-            DroneWindow nextWindow = new DroneWindow(DronesListView.SelectedItem);
             App.ShowWindow(nextWindow);
         }
 
         private void DroneView(object o, EventArgs e)
         {
+            DroneWindow nextWindow = new DroneWindow(DronesListView.SelectedItem, DronesListView);
             StatusSelector.SelectedItem = null;
             WeightSelector.SelectedItem = null;
-            DroneWindow nextWindow = new DroneWindow(DronesListView.SelectedItem, DronesListView);
             App.ShowWindow(nextWindow);
         }
 
