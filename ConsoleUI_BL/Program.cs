@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using BlApi;
 
 namespace ConsoleUI_BL
 {
@@ -67,13 +68,13 @@ namespace ConsoleUI_BL
         static void Main(string[] args) 
         {
             Console.WriteLine("Building BL Unit...\n");
-            IBL.IBL iBL = IBL.BO.BL.GetInstance();
+            IBL iBL = BlFactory.GetBl();
             pause();
             iBL.Sys().SetStarttoFalse();
             MenuWindowHandle(iBL);
         }
 
-        static void MenuWindowHandle(IBL.IBL iBL)
+        static void MenuWindowHandle(IBL iBL)
         {
             char ch = '0';
             MenuOptionsE op;
@@ -134,7 +135,7 @@ namespace ConsoleUI_BL
             }
         }
 
-        static void InsertOptionsWindowHandle(IBL.IBL iBL)
+        static void InsertOptionsWindowHandle(IBL iBL)
         {
             char ch = '0';
             InsertOptionsE op;
@@ -299,7 +300,7 @@ namespace ConsoleUI_BL
             }
         }
 
-        static void UpdateOptionsWindowHandle(IBL.IBL iBL)
+        static void UpdateOptionsWindowHandle(IBL iBL)
         {
             char ch = '0';
             UpdateOptionsE op;
@@ -543,7 +544,7 @@ namespace ConsoleUI_BL
             }
         }
 
-        static void DisplayOptionsWindowHandle(IBL.IBL iBL)
+        static void DisplayOptionsWindowHandle(IBL iBL)
         {
             char ch = '0';
             DisplayOptionsE op;
@@ -556,7 +557,7 @@ namespace ConsoleUI_BL
                 case DisplayOptionsE.BaseStation:
                 {
                     int stationId = 0;
-                    IBL.BO.StationBL station;
+                    BO.StationBL station;
 
                     Console.Write("Enter station's Id: ");
                     stationId = Convert.ToInt32(Console.ReadLine());
@@ -584,7 +585,7 @@ namespace ConsoleUI_BL
                 case DisplayOptionsE.Drone:
                 {
                     int droneId = 0;
-                    IBL.BO.DroneBL drone;
+                    BO.DroneBL drone;
 
                     Console.Write("Enter drone's Id: ");
                     droneId = Convert.ToInt32(Console.ReadLine());
@@ -612,7 +613,7 @@ namespace ConsoleUI_BL
                 case DisplayOptionsE.Costumer:
                 {
                     int costumerId = 0;
-                    IBL.BO.CostumerBL costumer;
+                    BO.CostumerBL costumer;
 
                     Console.Write("Enter costumer's Id: ");
                     costumerId = Convert.ToInt32(Console.ReadLine());
@@ -640,7 +641,7 @@ namespace ConsoleUI_BL
                 case DisplayOptionsE.Parcel:
                 {
                     int parcelId = 0;
-                    IBL.BO.ParcelBL parcel;
+                    BO.ParcelBL parcel;
 
                     Console.Write("Enter parcel's Id: ");
                     parcelId = Convert.ToInt32(Console.ReadLine());
@@ -679,7 +680,7 @@ namespace ConsoleUI_BL
             }
         }
 
-        static void ListViewOptionsWindowHandle(IBL.IBL iBL)
+        static void ListViewOptionsWindowHandle(IBL iBL)
         {
             char ch = '0';
             ListViewOptionsE op;
@@ -785,7 +786,7 @@ namespace ConsoleUI_BL
                 {
                     try
                     {
-                        List<IDAL.DO.Parcel> waitingParcels = iBL.GetWaitingParcels();
+                        List<DO.Parcel> waitingParcels = iBL.GetWaitingParcels();
                         int size = waitingParcels.Count;
 
                         if (size == 0)
@@ -877,7 +878,7 @@ namespace ConsoleUI_BL
             }
             else
             {
-                throw new IBL.BO.InvalidInput();
+                throw new BO.InvalidInput();
             }
 
             return (MenuOptionsE) userChoice;
@@ -908,7 +909,7 @@ namespace ConsoleUI_BL
             }
             else
             {
-                throw new IBL.BO.InvalidInput();
+                throw new BO.InvalidInput();
             }
 
             return userChoice;
@@ -943,7 +944,7 @@ namespace ConsoleUI_BL
             }
             else
             {
-                throw new IBL.BO.InvalidInput();
+                throw new BO.InvalidInput();
             }
 
             return userChoice;
@@ -974,7 +975,7 @@ namespace ConsoleUI_BL
             }
             else
             {
-                throw new IBL.BO.InvalidInput();
+                throw new BO.InvalidInput();
             }
 
             return userChoice;
@@ -1007,7 +1008,7 @@ namespace ConsoleUI_BL
             }
             else
             {
-                throw new IBL.BO.InvalidInput();
+                throw new BO.InvalidInput();
             }
 
             return userChoice;

@@ -1,5 +1,4 @@
-﻿using IBL.BO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BlApi;
 
 namespace PL
 {
@@ -21,12 +21,12 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
-        private IBL.IBL iBL;
+        private BlApi.IBL iBL;
         public MainWindow()
         {
             InitializeComponent();
 
-            this.iBL = BL.GetInstance();
+            this.iBL = BlFactory.GetBl();
 
             //TODO: add using to this buttons
             ParcelsButton.IsEnabled = false;

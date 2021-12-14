@@ -4,24 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBL
+namespace BO
 {
-    namespace BO
+    public class DroneParcelBL
     {
-        public class DroneParcelBL
+        private DO.Drone _drone;
+
+        public DroneParcelBL(DO.Drone drone)
         {
-            private IDAL.DO.Drone _drone;
-
-            public DroneParcelBL(IDAL.DO.Drone drone)
-            {
-                _drone = drone;
-            }
-
-            public double Id => _drone.Id;
-
-            public double Battery => _drone.Battery;
-
-            public IDAL.DO.Location Location => _drone.Location;
+            _drone = drone;
         }
+
+        public double Id => _drone.Id;
+
+        public double Battery => _drone.Battery;
+
+        public DO.Location Location => _drone.Location;
     }
 }

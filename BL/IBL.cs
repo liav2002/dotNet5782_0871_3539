@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 
-namespace IBL
+namespace BlApi
 {
     public interface IBL
     {
@@ -19,7 +19,7 @@ namespace IBL
         public void UpdateDroneName(int droneId, string name);
         public void UpdateStation(int stationId, string name, int chargeSlots);
         public void UpdateCostumer(int costumerId, string name, string phoneNumber);
-        public List<IDAL.DO.Parcel> GetWaitingParcels();
+        public List<DO.Parcel> GetWaitingParcels();
 
         //getters
         public BO.ParcelBL GetParcelById(int parcelId);
@@ -35,10 +35,10 @@ namespace IBL
         // NOTE: THIS IS AN OPTIONAL PARAMETER, SO ALL THE EXISTING PROGRAM SHOULD RUN SUCCESSFULY
 
 
-        public IEnumerable<BO.StationListBL> GetStationsList(Func<IDAL.DO.Station, bool> filter = null);
-        public IEnumerable<BO.CostumerListBL> GetCostumerList(Func<IDAL.DO.Costumer, bool> filter = null);
-        public IEnumerable<BO.ParcelListBL> GetParcelsList(Func<IDAL.DO.Parcel, bool> filter = null);
-        public IEnumerable<BO.DroneListBL> GetDroneList(Func<IDAL.DO.Drone, bool> filter = null);
+        public IEnumerable<BO.StationListBL> GetStationsList(Func<DO.Station, bool> filter = null);
+        public IEnumerable<BO.CostumerListBL> GetCostumerList(Func<DO.Costumer, bool> filter = null);
+        public IEnumerable<BO.ParcelListBL> GetParcelsList(Func<DO.Parcel, bool> filter = null);
+        public IEnumerable<BO.DroneListBL> GetDroneList(Func<DO.Drone, bool> filter = null);
         public SysLog.SysLog Sys();
     }
 }

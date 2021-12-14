@@ -3,45 +3,45 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DalApi;
 
-namespace IBL
+
+namespace BO
 {
-    namespace BO
+    public class ParcelListBL
     {
-        public class ParcelListBL
+        private DO.Parcel _parcel;
+
+        private string _senderName;
+
+        private string _recieverName;
+
+
+        public ParcelListBL(DO.Parcel parcel)
         {
-            private IDAL.DO.Parcel _parcel;
-            
-            private string _senderName;
-            
-            private string _recieverName;
-            
-            
-            public ParcelListBL(IDAL.DO.Parcel parcel)
-            {
-                IDAL.IDAL dalObj = DalObject.DalObject.GetInstance(); // Singleton
-                _parcel = parcel;
-                _senderName = dalObj.GetCostumerById(parcel.SenderId).Name;
-                _recieverName = dalObj.GetCostumerById(parcel.TargetId).Name;
+            DalApi.IDAL idalObj = DalFactory.GetDal(DO.DalTypes.DalObj); // Singleton
 
+            _parcel = parcel;
+            _senderName = idalObj.GetCostumerById(parcel.SenderId).Name;
+            _recieverName = idalObj.GetCostumerById(parcel.TargetId).Name;
+        }
 
-            }
-            public double Id => _parcel.Id;
+        public double Id => _parcel.Id;
 
-            public string ReceiverName => _recieverName;
-            
-            public string SenderName => _senderName;
-            
-            public IDAL.DO.WeightCategories Weight => _parcel.Weight;
-            
-            public IDAL.DO.Priorities Priority => _parcel.Priority;
+        public string ReceiverName => _recieverName;
 
-            public IDAL.DO.ParcelStatuses Status => _parcel.Status;
+        public string SenderName => _senderName;
 
-            public override string ToString()
-            {
-                return $"Id: {Id}, Receiver name: {ReceiverName}, Sender name: {SenderName}, Weight: {Weight}, Priority: {Priority}, Status: {Status}\n";
-            }
+        public DO.WeightCategories Weight => _parcel.Weight;
+
+        public DO.Priorities Priority => _parcel.Priority;
+
+        public DO.ParcelStatuses Status => _parcel.Status;
+
+        public override string ToString()
+        {
+            return
+                $"Id: {Id}, Receiver name: {ReceiverName}, Sender name: {SenderName}, Weight: {Weight}, Priority: {Priority}, Status: {Status}\n";
         }
     }
 }

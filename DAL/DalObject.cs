@@ -5,11 +5,11 @@ using System.Text;
 
 namespace DalObject
 {
-    public sealed class DalObject : IDAL.IDAL
+    internal sealed class DalObject : DalApi.IDAL
     {
-        private static DalObject _instance = null;
+        internal static DalObject _instance = null;
 
-        public static IDAL.IDAL GetInstance()
+        public static DalApi.IDAL GetInstance()
         {
             return _instance ?? (_instance = new DalObject());
         }
@@ -24,9 +24,9 @@ namespace DalObject
        	*Parameters: station's id, station's name, station's location, charge's slots.
        	*Return: None.
         */
-        public void AddStation(int id, string name, IDAL.DO.Location location, int charge_solts)
+        public void AddStation(int id, string name, DO.Location location, int charge_solts)
         {
-            DataSource.stations.Add(new IDAL.DO.Station(id, name, location, charge_solts));
+            DataSource.stations.Add(new DO.Station(id, name, location, charge_solts));
         }
 
         /*
@@ -34,9 +34,9 @@ namespace DalObject
        	*Parameters: drone's details.	
        	*Return: None.
         */
-        public void AddDrone(int id, string model, IDAL.DO.WeightCategories maxWeight, double battery)
+        public void AddDrone(int id, string model, DO.WeightCategories maxWeight, double battery)
         {
-            DataSource.drones.Add(new IDAL.DO.Drone(id, model, maxWeight, battery));
+            DataSource.drones.Add(new DO.Drone(id, model, maxWeight, battery));
         }
 
         /*
@@ -44,9 +44,9 @@ namespace DalObject
         *Parameters: costumer's details.
         *Return: None.
         */
-        public void AddCostumer(int id, string name, string phone, IDAL.DO.Location location)
+        public void AddCostumer(int id, string name, string phone, DO.Location location)
         {
-            DataSource.costumers.Add(new IDAL.DO.Costumer(id, name, phone, location));
+            DataSource.costumers.Add(new DO.Costumer(id, name, phone, location));
         }
 
         /*
@@ -68,8 +68,8 @@ namespace DalObject
                 throw new Exception(e.Message);
             }
 
-            DataSource.parcels.Add(new IDAL.DO.Parcel(id, senderId, targetId, (IDAL.DO.WeightCategories) weight,
-                (IDAL.DO.Priorities) priority, requested,
+            DataSource.parcels.Add(new DO.Parcel(id, senderId, targetId, (DO.WeightCategories) weight,
+                (DO.Priorities) priority, requested,
                 droneId, scheduled, pickedUp, delivered));
         }
 
@@ -80,7 +80,7 @@ namespace DalObject
         */
         public void AddDroneToCharge(int droneId, int stationId)
         {
-            IDAL.DO.DroneCharge dc = new IDAL.DO.DroneCharge(droneId, stationId);
+            DO.DroneCharge dc = new DO.DroneCharge(droneId, stationId);
             DataSource.droneCharge.Add(dc);
         }
 
@@ -91,9 +91,9 @@ namespace DalObject
         */
         public void DroneRelease(int droneId, double hours)
         {
-            IDAL.DO.DroneCharge dc;
-            IDAL.DO.Drone drone;
-            IDAL.DO.Station station;
+            DO.DroneCharge dc;
+            DO.Drone drone;
+            DO.Station station;
 
             dc = GetDroneChargeByDroneId(droneId);
             drone = GetDroneById(droneId);
@@ -104,7 +104,7 @@ namespace DalObject
             DataSource.droneCharge.Remove(dc);
 
             //change drone's status
-            drone.Status = IDAL.DO.DroneStatuses.Available;
+            drone.Status = DO.DroneStatuses.Available;
 
             //change drone's battery
             double newBattery = drone.Battery + hours * DataSource.Config.chargeRatePH;
@@ -140,7 +140,7 @@ namespace DalObject
             return false;
         }
 
-        public IDAL.DO.Parcel GetParcelById(int id)
+        public DO.Parcel GetParcelById(int id)
         {
             foreach (var parcel in DataSource.parcels)
                 if (parcel.Id == id)
@@ -148,10 +148,10 @@ namespace DalObject
                     return parcel;
                 }
 
-            throw new IDAL.DO.ItemNotFound("Parcel");
+            throw new DO.ItemNotFound("Parcel");
         }
 
-        public IDAL.DO.Costumer GetCostumerById(int id)
+        public DO.Costumer GetCostumerById(int id)
         {
             foreach (var costumer in DataSource.costumers)
                 if (costumer.Id == id)
@@ -159,10 +159,10 @@ namespace DalObject
                     return costumer;
                 }
 
-            throw new IDAL.DO.ItemNotFound("Costumer");
+            throw new DO.ItemNotFound("Costumer");
         }
 
-        public IDAL.DO.Station GetStationById(int id)
+        public DO.Station GetStationById(int id)
         {
             foreach (var station in DataSource.stations)
                 if (station.Id == id)
@@ -170,10 +170,10 @@ namespace DalObject
                     return station;
                 }
 
-            throw new IDAL.DO.ItemNotFound("Station");
+            throw new DO.ItemNotFound("Station");
         }
 
-        public IDAL.DO.Drone GetDroneById(int id)
+        public DO.Drone GetDroneById(int id)
         {
             foreach (var drone in DataSource.drones)
                 if (drone.Id == id)
@@ -181,10 +181,10 @@ namespace DalObject
                     return drone;
                 }
 
-            throw new IDAL.DO.ItemNotFound("Drone");
+            throw new DO.ItemNotFound("Drone");
         }
 
-        public IDAL.DO.Parcel GetParcelByDroneId(int droneId)
+        public DO.Parcel GetParcelByDroneId(int droneId)
         {
             foreach (var parcel in DataSource.parcels)
             {
@@ -192,10 +192,10 @@ namespace DalObject
                     return parcel;
             }
 
-            throw new IDAL.DO.ItemNotFound("Parcel");
+            throw new DO.ItemNotFound("Parcel");
         }
 
-        public IDAL.DO.DroneCharge GetDroneChargeByDroneId(int id)
+        public DO.DroneCharge GetDroneChargeByDroneId(int id)
         {
             foreach (var dc in DataSource.droneCharge)
                 if (dc.DroneId == id)
@@ -203,32 +203,31 @@ namespace DalObject
                     return dc;
                 }
 
-            throw new IDAL.DO.ItemNotFound("Drone");
+            throw new DO.ItemNotFound("Drone");
         }
 
-        public IEnumerable<IDAL.DO.DroneCharge> GetDroneChargeList(Func<IDAL.DO.DroneCharge, bool> filter = null)
+        public IEnumerable<DO.DroneCharge> GetDroneChargeList(Func<DO.DroneCharge, bool> filter = null)
         {
             return filter == null ? DataSource.droneCharge : DataSource.droneCharge.Where(filter);
         }
 
-        public IEnumerable<IDAL.DO.Station> GetStationsList(Func<IDAL.DO.Station, bool> filter = null)
+        public IEnumerable<DO.Station> GetStationsList(Func<DO.Station, bool> filter = null)
         {
             return filter == null ? DataSource.stations : DataSource.stations.Where(filter);
         }
 
-        public IEnumerable<IDAL.DO.Costumer> GetCostumerList(Func<IDAL.DO.Costumer, bool> filter = null)
+        public IEnumerable<DO.Costumer> GetCostumerList(Func<DO.Costumer, bool> filter = null)
         {
             return filter == null ? DataSource.costumers : DataSource.costumers.Where(filter);
         }
 
-        public IEnumerable<IDAL.DO.Parcel> GetParcelsList(Func<IDAL.DO.Parcel, bool> filter = null)
+        public IEnumerable<DO.Parcel> GetParcelsList(Func<DO.Parcel, bool> filter = null)
         {
             return filter == null ? DataSource.parcels : DataSource.parcels.Where(filter);
-
         }
 
 
-        public IEnumerable<IDAL.DO.Drone> GetDroneList(Func<IDAL.DO.Drone, bool> filter = null)
+        public IEnumerable<DO.Drone> GetDroneList(Func<DO.Drone, bool> filter = null)
         {
             return filter == null ? DataSource.drones : DataSource.drones.Where(filter);
         }

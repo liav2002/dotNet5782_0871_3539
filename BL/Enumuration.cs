@@ -1,30 +1,26 @@
 ﻿using System;
 
-namespace IBL
+
+namespace BO
 {
-    namespace BO
-    {
-
-
-        // public enum WeightCategories
-        // {
-        //     Light,
-        //     Medium,
-        //     Heavy
-        // };
-        //
-        // public enum DroneStatuses
-        // {
-        //     Available,
-        //     Maintenance,
-        //     Shipping
-        // };
-        //
-        // public enum Priorities
-        // {
-        //     Regular,
-        //     Fast,
-        //     Emergency
-        // }
-    }
+    // public enum WeightCategories
+    // {
+    //     Light,
+    //     Medium,
+    //     Heavy
+    // };
+    //
+    // public enum DroneStatuses
+    // {
+    //     Available,
+    //     Maintenance,
+    //     Shipping
+    // };
+    //
+    // public enum Priorities
+    // {
+    //     Regular,
+    //     Fast,
+    //     Emergency
+    // }
 }

@@ -3,67 +3,66 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DalApi;
 
-namespace IBL
+
+namespace BO
 {
-    namespace BO
+    public class TransferParcelBL
     {
-        public class TransferParcelBL
+        private DO.Parcel _parcel;
+
+        private CostumerInParcel _sender;
+
+        private CostumerInParcel _receiver;
+
+        private bool _isOnTheWay;
+        private bool _isDelivered;
+
+        private DO.Costumer _start;
+
+        private DO.Costumer _end;
+
+        public TransferParcelBL(DO.Parcel parcel)
         {
-            private IDAL.DO.Parcel _parcel;
+            DalApi.IDAL idalObj = DalFactory.GetDal(DO.DalTypes.DalObj); // Singleton
 
-            private CostumerInParcel _sender;
+            _parcel = parcel;
 
-            private CostumerInParcel _receiver;
-
-            private bool _isOnTheWay;
-            private bool _isDelivered;
-
-            private IDAL.DO.Costumer _start;
-
-            private IDAL.DO.Costumer _end;
-
-            public TransferParcelBL(IDAL.DO.Parcel parcel)
-            {
-                IDAL.IDAL dalObj = DalObject.DalObject.GetInstance(); // Singleton
-
-                _parcel = parcel;
-
-                _start = dalObj.GetCostumerById(parcel.SenderId);
-                _end = dalObj.GetCostumerById(parcel.TargetId);
+            _start = idalObj.GetCostumerById(parcel.SenderId);
+            _end = idalObj.GetCostumerById(parcel.TargetId);
 
 
-                _sender = new CostumerInParcel(_start);
-                _receiver = new CostumerInParcel(_end);
+            _sender = new CostumerInParcel(_start);
+            _receiver = new CostumerInParcel(_end);
 
-                _isOnTheWay = (parcel.Status == IDAL.DO.ParcelStatuses.PickedUp);
-                _isDelivered = (parcel.Status == IDAL.DO.ParcelStatuses.Delivered);
-            }
+            _isOnTheWay = (parcel.Status == DO.ParcelStatuses.PickedUp);
+            _isDelivered = (parcel.Status == DO.ParcelStatuses.Delivered);
+        }
 
-            public double Id => _parcel.Id;
+        public double Id => _parcel.Id;
 
-            public bool IsOnTheWay => _isOnTheWay;
-            public bool IsDelivered => _isDelivered;
+        public bool IsOnTheWay => _isOnTheWay;
+        public bool IsDelivered => _isDelivered;
 
-            public IDAL.DO.Priorities Priority => _parcel.Priority;
+        public DO.Priorities Priority => _parcel.Priority;
 
-            public IDAL.DO.WeightCategories Weight => _parcel.Weight;
+        public DO.WeightCategories Weight => _parcel.Weight;
 
-            public CostumerInParcel Sender => _sender;
+        public CostumerInParcel Sender => _sender;
 
-            public CostumerInParcel Receiver => _receiver;
+        public CostumerInParcel Receiver => _receiver;
 
-            public IDAL.DO.Location Start => _start.Location;
-            public IDAL.DO.Location End => _end.Location;
+        public DO.Location Start => _start.Location;
+        public DO.Location End => _end.Location;
 
-            public double Distance => _start.Location.Distance(_end.Location);
+        public double Distance => _start.Location.Distance(_end.Location);
 
-            public override string ToString()
-            {
-                return
-                    $"Id: {Id}, Sender: {Sender}, \n\t\tReceiver: {Receiver}, \n\t\tStarting point: {Start}, \n\t\tTarget point: {End} \n\t\t--> " +
-                    (IsOnTheWay ? "On the way.\n" : "Not collected yet.\n");
-            }
+        public override string ToString()
+        {
+            return
+                $"Id: {Id}, Sender: {Sender}, \n\t\tReceiver: {Receiver}, \n\t\tStarting point: {Start}, \n\t\tTarget point: {End} \n\t\t--> " +
+                (IsOnTheWay ? "On the way.\n" : "Not collected yet.\n");
         }
     }
 }

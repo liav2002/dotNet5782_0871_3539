@@ -3,40 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DalApi;
 
-namespace IBL
+
+namespace BO
 {
-    namespace BO
+    public class StationListBL
     {
-        public class StationListBL
+        private DO.Station _station;
+
+        private int _takingSlots;
+
+        public StationListBL(DO.Station station)
         {
-            private IDAL.DO.Station _station;
+            DalApi.IDAL idalObj = DalFactory.GetDal(DO.DalTypes.DalObj); // Singleton
 
-            private int _takingSlots;   
+            _station = station;
 
-            public StationListBL(IDAL.DO.Station station)
-            {
-                IDAL.IDAL dalObj = DalObject.DalObject.GetInstance(); // Singleton
+            foreach (var droneCharge in idalObj.GetDroneChargeList())
+                if (droneCharge.StationId == station.Id)
+                    _takingSlots++;
+        }
 
-                _station = station;
+        public int Id => _station.Id;
 
-                foreach (var droneCharge in dalObj.GetDroneChargeList())
-                    if (droneCharge.StationId == station.Id)
-                        _takingSlots++;
-            }
+        public string Name => _station.Name;
 
-            public int Id => _station.Id;
+        public int FreeSlots => _station.ChargeSlots;
 
-            public string Name => _station.Name;
+        public int TakingSlots => _takingSlots;
 
-            public int FreeSlots => _station.ChargeSlots;
-
-            public int TakingSlots => _takingSlots;
-
-            public override string ToString()
-            {
-                return $"Id: {Id}, Name: {Name}, Number of free slots: {FreeSlots}, Number of occupied slots: {TakingSlots}, Location: {this._station.Location}.\n";
-            }
+        public override string ToString()
+        {
+            return
+                $"Id: {Id}, Name: {Name}, Number of free slots: {FreeSlots}, Number of occupied slots: {TakingSlots}, Location: {this._station.Location}.\n";
         }
     }
 }

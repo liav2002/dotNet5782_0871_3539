@@ -1,5 +1,4 @@
-﻿using IBL.BO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BlApi;
 
 namespace PL
 {
@@ -20,40 +20,43 @@ namespace PL
     /// </summary>
     public partial class DronesListWindow : Window
     {
-        private IBL.IBL iBL;
+        private BlApi.IBL iBL;
 
         bool isReturnButtonUsed = false;
 
-        IEnumerable<DroneListBL> drones = new List<DroneListBL>();
+        IEnumerable<BO.DroneListBL> drones = new List<BO.DroneListBL>();
 
         public DronesListWindow()
         {
             InitializeComponent();
-            this.iBL = BL.GetInstance();
+            this.iBL = BlFactory.GetBl();
+
             this.drones = this.iBL.GetDroneList();
             DronesListView.ItemsSource = this.drones;
-            StatusSelector.ItemsSource = Enum.GetValues(typeof(IDAL.DO.DroneStatuses));
-            WeightSelector.ItemsSource = Enum.GetValues(typeof(IDAL.DO.WeightCategories));
+            StatusSelector.ItemsSource = Enum.GetValues(typeof(DO.DroneStatuses));
+            WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
         }
 
         private void SelectionChanged(object o, EventArgs e)
         {
-            if(StatusSelector.SelectedItem == null && WeightSelector.SelectedItem == null)
+            if (StatusSelector.SelectedItem == null && WeightSelector.SelectedItem == null)
             {
                 this.drones = iBL.GetDroneList();
             }
-            else if(StatusSelector.SelectedItem != null && WeightSelector.SelectedItem != null)
+            else if (StatusSelector.SelectedItem != null && WeightSelector.SelectedItem != null)
             {
-                this.drones = iBL.GetDroneList(drone => drone.Status == (IDAL.DO.DroneStatuses)StatusSelector.SelectedItem && 
-                                           drone.MaxWeight == (IDAL.DO.WeightCategories)WeightSelector.SelectedItem);
+                this.drones = iBL.GetDroneList(drone =>
+                    drone.Status == (DO.DroneStatuses) StatusSelector.SelectedItem &&
+                    drone.MaxWeight == (DO.WeightCategories) WeightSelector.SelectedItem);
             }
-            else if(StatusSelector.SelectedItem != null && WeightSelector.SelectedItem == null)
+            else if (StatusSelector.SelectedItem != null && WeightSelector.SelectedItem == null)
             {
-                this.drones = iBL.GetDroneList(drone => drone.Status == (IDAL.DO.DroneStatuses)StatusSelector.SelectedItem);
+                this.drones = iBL.GetDroneList(drone => drone.Status == (DO.DroneStatuses) StatusSelector.SelectedItem);
             }
             else
             {
-                this.drones = iBL.GetDroneList(drone => drone.MaxWeight == (IDAL.DO.WeightCategories)WeightSelector.SelectedItem);
+                this.drones = iBL.GetDroneList(drone =>
+                    drone.MaxWeight == (DO.WeightCategories) WeightSelector.SelectedItem);
             }
 
             DronesListView.ItemsSource = this.drones;
@@ -74,6 +77,7 @@ namespace PL
             isReturnButtonUsed = true;
             App.ShowWindow<MainWindow>();
         }
+
         private void AddDroneButtonOnClick(object o, EventArgs e)
         {
             DroneWindow nextWindow = new DroneWindow(DronesListView.SelectedItem);

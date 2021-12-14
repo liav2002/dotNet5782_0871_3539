@@ -108,7 +108,7 @@ namespace SysLog
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public void ChangeDroneStatus(int droneId, IDAL.DO.DroneStatuses status)
+        public void ChangeDroneStatus(int droneId, DO.DroneStatuses status)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Type("SYSTEM_LOG: change drone (id: " + droneId + ") status to " + status + "...");

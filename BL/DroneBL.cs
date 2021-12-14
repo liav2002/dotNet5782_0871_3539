@@ -3,48 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DalApi;
 
-namespace IBL
+namespace BO
 {
-    namespace BO
+    public class DroneBL
     {
-        public class DroneBL
+        private DO.Drone _drone;
+        private TransferParcelBL _parcel;
+
+        public DroneBL(int droneId, int parcelId)
         {
-            private IDAL.DO.Drone _drone;
-            private TransferParcelBL _parcel;
+            DalApi.IDAL idalObj = DalFactory.GetDal(DO.DalTypes.DalObj); // Singleton
 
-            public DroneBL(int droneId, int parcelId)
+            _parcel = (parcelId != 0) ? new TransferParcelBL(idalObj.GetParcelById(parcelId)) : null;
+            if (_parcel != null && _parcel.IsDelivered)
             {
-                IDAL.IDAL dalObj = DalObject.DalObject.GetInstance(); // Singleton
-
-                _parcel = (parcelId != 0) ? new TransferParcelBL(dalObj.GetParcelById(parcelId)) : null;
-                if (_parcel != null && _parcel.IsDelivered){ _parcel = null; }
-
-                _drone = dalObj.GetDroneById(droneId);
+                _parcel = null;
             }
 
-            public double Id => _drone.Id;
+            _drone = idalObj.GetDroneById(droneId);
+        }
 
-            public string Model => _drone.Model;
+        public double Id => _drone.Id;
 
-            public IDAL.DO.WeightCategories Weight => _drone.MaxWeight;
+        public string Model => _drone.Model;
 
-            public double Battery => _drone.Battery;
+        public DO.WeightCategories Weight => _drone.MaxWeight;
 
-            public IDAL.DO.DroneStatuses Status => _drone.Status;
+        public double Battery => _drone.Battery;
 
-            public TransferParcelBL Parcel => _parcel;
+        public DO.DroneStatuses Status => _drone.Status;
 
-            public IDAL.DO.Location Location => _drone.Location;
+        public TransferParcelBL Parcel => _parcel;
 
-            public override string ToString()
-            {
-                return string.Format("the id is: {0}\nthe model is: {1}\nthe maxWegiht is: {2}\n" +
-                                     "the status is: {3}\nthe battery is: {4}\n\nthe transfer parcel is: " +
-                                     (Parcel == null ? "None" : Parcel) + "\n" +
-                                     "the location is: {5}\n"
-                    , Id, Model, Weight, Status, String.Format("{0:F3}", Battery), Location);
-            }
+        public DO.Location Location => _drone.Location;
+
+        public override string ToString()
+        {
+            return string.Format("the id is: {0}\nthe model is: {1}\nthe maxWegiht is: {2}\n" +
+                                 "the status is: {3}\nthe battery is: {4}\n\nthe transfer parcel is: " +
+                                 (Parcel == null ? "None" : Parcel) + "\n" +
+                                 "the location is: {5}\n"
+                , Id, Model, Weight, Status, String.Format("{0:F3}", Battery), Location);
         }
     }
 }

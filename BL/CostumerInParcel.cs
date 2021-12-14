@@ -4,27 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBL
+
+namespace BO
 {
-    namespace BO
+    public class CostumerInParcel
     {
-        public class CostumerInParcel
+        private DO.Costumer _costumer;
+
+        public CostumerInParcel(DO.Costumer costumer)
         {
-            private IDAL.DO.Costumer _costumer;
+            _costumer = costumer;
+        }
 
-            public CostumerInParcel(IDAL.DO.Costumer costumer)
-            {
-                _costumer = costumer;
-            }
+        public int Id => _costumer.Id;
 
-            public int Id => _costumer.Id;
+        public string Name => _costumer.Name;
 
-            public string Name => _costumer.Name;
-
-            public override string ToString()
-            {
-                return $"{Name}(id: {Id})";
-            }
+        public override string ToString()
+        {
+            return $"{Name}(id: {Id})";
         }
     }
 }
