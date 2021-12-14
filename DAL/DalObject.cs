@@ -7,11 +7,11 @@ namespace DalObject
 {
     internal sealed class DalObject : DalApi.IDAL
     {
-        internal static DalObject _instance = null;
+        internal static readonly Lazy<DalApi.IDAL> _instance = new Lazy<DalApi.IDAL>(() => new DalObject());
 
-        public static DalApi.IDAL GetInstance()
+        public static DalApi.IDAL GetInstance
         {
-            return _instance ?? (_instance = new DalObject());
+            get { return _instance.Value; }
         }
 
         private DalObject()
