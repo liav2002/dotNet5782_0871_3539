@@ -9,7 +9,7 @@ namespace DalObject
     {
         internal static readonly Lazy<DalApi.IDAL> _instance = new Lazy<DalApi.IDAL>(() => new DalObject());
 
-        public static DalApi.IDAL GetInstance
+        internal static DalApi.IDAL GetInstance
         {
             get { return _instance.Value; }
         }

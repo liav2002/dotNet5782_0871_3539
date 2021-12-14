@@ -19,4 +19,11 @@ namespace DO
         {
         }
     }
+
+    public class DalTypeError : Exception
+    {
+        public DalTypeError() : base("ERROR: No type is match\n.")
+        {
+        }
+    }
 }

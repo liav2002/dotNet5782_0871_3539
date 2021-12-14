@@ -16,7 +16,7 @@ namespace DalApi
                 if (type == DO.DalTypes.DalXml)
                     throw new ArgumentException("DalXml is not implemented yet");
                 else
-                    throw new ArgumentException("No type is match");
+                    throw new DO.DalTypeError();
             }
         }
     }
