@@ -13,7 +13,7 @@ namespace DalApi
             {
                 if (type == DO.DalTypes.DalObj)
                     return DalObject.DalObject.GetInstance;
-                if (type == DO.DalTypes.DalXml)
+                else if (type == DO.DalTypes.DalXml)
                     throw new ArgumentException("DalXml is not implemented yet");
                 else
                     throw new DO.DalTypeError();
