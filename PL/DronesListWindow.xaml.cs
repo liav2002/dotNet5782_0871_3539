@@ -21,7 +21,6 @@ namespace PL
     public partial class DronesListWindow : Window
     {
         private BlApi.IBL iBL;
-        
 
         IEnumerable<BO.DroneListBL> drones = new List<BO.DroneListBL>();
 

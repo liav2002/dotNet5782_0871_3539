@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="SignUp" Height="450" Width="800">
+        Title="SignUp" Height="550" Width="850">
     <Window.Background>
         <ImageBrush ImageSource="Graphics/background.jpg"></ImageBrush>
     </Window.Background>
