@@ -29,6 +29,8 @@ namespace PL
         public DroneWindow(object listViewDrones)
         {
             InitializeComponent();
+            this.Closing += App.Window_Closing;
+
             this.iBL = BlFactory.GetBl();
             AddDrone.Visibility = Visibility.Visible;
             UpdateDrone.Visibility = Visibility.Hidden;
@@ -41,6 +43,8 @@ namespace PL
         public DroneWindow(object item, object listViewDrones)
         {
             InitializeComponent();
+            this.Closing += App.Window_Closing;
+
             this.iBL = BlFactory.GetBl();
             this.drone = (BO.DroneListBL) item;
             AddDrone.Visibility = Visibility.Hidden;
@@ -115,7 +119,7 @@ namespace PL
         {
             if ((string) FirstButton.Content == "Send to charge")
             {
-                iBL.SendDroneToCharge(drone.Id);
+                iBL.SendDroneToCharge(drone.Id); //TODO: Add time variable to DroneCharge in DAL
                 FirstButton.Content = "Release from charge";
                 SecondButton.Visibility = Visibility.Hidden;
             }
@@ -135,7 +139,8 @@ namespace PL
 
                 try
                 {
-                    iBL.DroneRelease(drone.Id, time);
+                    iBL.DroneRelease(drone.Id, time); //TODO: After add time variable to DroneChare, we dont neet time parameter.
+                                                      //The time can be easliy calculate by current time - started time (make sure it's in hours).
                 }
 
                 catch (Exception ex)

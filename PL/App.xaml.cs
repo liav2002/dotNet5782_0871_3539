@@ -40,6 +40,38 @@ namespace PL
             ShowWindow(nextWindow);
         }
 
+        public static void ShowMainWindow()
+        {
+            ShowWindow(mainWindow);
+        }
+
+        public static void CloseMainWindow()
+        {
+            mainWindow.Close();
+        }
+
+        public static MainWindow GetMainWindow()
+        {
+            return mainWindow;
+        }
+
+        public static void Window_Closing(object o, EventArgs e)
+        {
+            if (closeAllWindows)
+            {
+                CloseMainWindow();
+            }
+            closeAllWindows = true;
+        }
+
+        public static void BackToMain()
+        {
+            closeAllWindows = false;
+            currentWindow.Close();
+            ShowWindow(mainWindow);
+        }
+
+        public static bool closeAllWindows;
         private static MainWindow mainWindow;
         private static Window currentWindow;
     }

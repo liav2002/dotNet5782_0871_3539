@@ -21,14 +21,16 @@ namespace PL
     public partial class DronesListWindow : Window
     {
         private BlApi.IBL iBL;
-
-        bool isReturnButtonUsed = false;
+        
 
         IEnumerable<BO.DroneListBL> drones = new List<BO.DroneListBL>();
 
         public DronesListWindow()
         {
             InitializeComponent();
+            ReturnButton.Click += delegate { App.BackToMain(); };
+            this.Closing += App.Window_Closing;
+
             this.iBL = BlFactory.GetBl();
 
             this.drones = this.iBL.GetDroneList();
@@ -72,12 +74,6 @@ namespace PL
             WeightSelector.SelectedItem = null;
         }
 
-        private void ReturnButtonOnClick(object o, EventArgs e)
-        {
-            isReturnButtonUsed = true;
-            App.ShowWindow<MainWindow>();
-        }
-
         private void AddDroneButtonOnClick(object o, EventArgs e)
         {
             DroneWindow nextWindow = new DroneWindow(DronesListView.SelectedItem);
@@ -92,14 +88,6 @@ namespace PL
             StatusSelector.SelectedItem = null;
             WeightSelector.SelectedItem = null;
             App.ShowWindow(nextWindow);
-        }
-
-        private void Window_Closing(object o, System.ComponentModel.CancelEventArgs e)
-        {
-            if (!isReturnButtonUsed)
-            {
-                e.Cancel = true;
-            }
         }
     }
 }

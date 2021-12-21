@@ -11,30 +11,56 @@
         <ImageBrush ImageSource="Graphics/background.jpg"></ImageBrush>
     </Window.Background>
     <StackPanel>
-        <!--<Canvas Height="0" Width="335">
-            <Image Name="logo" Source="Graphics/" Canvas.Bottom="-100" Height="177" Width="745" Canvas.Top="-33" Canvas.Left="-207" Visibility="Visible"></Image>
-        </Canvas>-->
+        <Canvas Name="loginCanvas" HorizontalAlignment="Center" Margin="0,50,0,0" VerticalAlignment="Top" Width="450" Height="100" Background="White">
+            <Label Content="User name" Margin="10,10,0,0" Width="90" Height="30" Background="White" HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FontFamily="Arial" FontWeight="Bold" VerticalContentAlignment="Center"/>
+            <Label Content="Password" Margin="10,40,0,0" Width="90" Height="30" Background="White" HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FontFamily="Arial" FontWeight="Bold" VerticalContentAlignment="Center"/>
+            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Foreground="Red" Name="errorMessage" Margin="100,70,0,0" Width="200" Height="29" Background="White" FontFamily="Arial" FontWeight="Bold"/>
+            <TextBox TextChanged="InputChange" Margin="100, 10" Height="30" Width="200" VerticalContentAlignment="Center" TextWrapping="Wrap" Name="inputUser"/>
+            <PasswordBox PasswordChanged="InputChange" Margin="100, 40" Height="30" Width="200" VerticalContentAlignment="Center" Name="inputPass"/>
+            <Button Canvas.Right="10" Canvas.Top="5" Width="102" Height="45" Content="Sign in" Click="SignInOnClick" FontSize="24" FontWeight="ExtraBold" Canvas.Left="338">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
+                </Button.Background>
+            </Button>
+            <Button Canvas.Right="10" Canvas.Top="50" Width="102" Height="45" Content="Sign up" Click="SignUpOnClick" FontSize="24" FontWeight="ExtraBold" Canvas.Left="338">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
+                </Button.Background>
+            </Button>
+        </Canvas>
 
-        <Button Margin="225,120,225,0"  VerticalAlignment="Top" Width="350" Height="40" Content="Drones" Name="DronesButton" Click="DronesOnClick" FontSize="22" FontWeight="ExtraBold" Foreground="Black">
+        <Label Name="helloUserLabel" Visibility="Collapsed" Content="Hello {[name]}" Foreground="White" FontWeight="ExtraBold" FontSize="42" Margin="10,60,0,20" HorizontalAlignment="Center" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FontFamily="Arial" VerticalContentAlignment="Center"/>
+
+        <Button Margin="225,10,225,0"  VerticalAlignment="Top" Width="350" Height="40" Content="Drones" Name="DronesButton" Click="DronesOnClick" FontSize="22" FontWeight="ExtraBold">
             <Button.Background>
                 <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
             </Button.Background>
         </Button>
+
         <Button Margin="225,10,225,0" VerticalAlignment="Top" Width="350" Height="40" Content="Parcels" Name="ParcelsButton" Click="ParcelsOnClick" FontSize="22" FontWeight="ExtraBold">
             <Button.Background>
                 <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
             </Button.Background>
         </Button>
+
         <Button Margin="225,10,225,0" VerticalAlignment="Top" Width="350" Height="40" Content="Costumers" Name="CostumersButton" Click="CostumersOnClick" FontSize="22" FontWeight="ExtraBold">
             <Button.Background>
                 <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
             </Button.Background>
         </Button>
-        <Button Margin="225,10,225,0" VerticalAlignment="Top" Width="350" Height="40" Content="Stations" Name="StationButton" Click="StationsOnClick" FontSize="22" FontWeight="ExtraBold">
+
+        <Button Margin="225,10,225,0" VerticalAlignment="Top" Width="350" Height="40" Content="Stations" Name="StationsButton" Click="StationsOnClick" FontSize="22" FontWeight="ExtraBold">
             <Button.Background>
                 <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
             </Button.Background>
         </Button>
+
+        <Button Margin="225,10,225,0" VerticalAlignment="Top" Width="350" Height="40" Name="signOutButton" Click="SignOutOnClick" Foreground="Black" FontSize="22" FontWeight="ExtraBold" Content="Sign Out" Visibility="Collapsed">
+            <Button.Background>
+                <ImageBrush ImageSource="Graphics/buttonBackground.png" ></ImageBrush>
+            </Button.Background>
+        </Button>
+        
         <Button Margin="350,10,350,0" VerticalAlignment="Top" Width="100" Height="40" Click="QuitOnClick" Foreground="Black" FontSize="26" FontWeight="ExtraBold">
             <Button.Background>
                 <ImageBrush ImageSource="Graphics/exitButton.png" ></ImageBrush>

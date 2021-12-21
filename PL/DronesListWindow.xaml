@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="DronesList" Height="550" Width="850" ShowInTaskbar="False" Closing="Window_Closing">
+        Title="DronesList" Height="550" Width="850" ShowInTaskbar="False">
 
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
@@ -28,7 +28,7 @@ VerticalAlignment="Stretch" Width="auto" RenderTransformOrigin="0.502,0.622">
                 <ColumnDefinition Width="182*"/>
             </Grid.ColumnDefinitions >
 
-            <Button x:Name="ReturnButton" Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ReturnButtonOnClick">
+            <Button x:Name="ReturnButton" Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/backButton.png" ></ImageBrush>
                 </Button.Background>

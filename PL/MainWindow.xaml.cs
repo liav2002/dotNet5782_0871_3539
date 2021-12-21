@@ -25,13 +25,62 @@ namespace PL
         public MainWindow()
         {
             InitializeComponent();
-
+            menuButtons = new Button[] { DronesButton, ParcelsButton, CostumersButton, StationsButton };
+            SetMenuButtonsActive(false);
             this.iBL = BlFactory.GetBl();
+            int x = 0;
+        }
 
-            //TODO: add using to this buttons
-            ParcelsButton.IsEnabled = false;
-            CostumersButton.IsEnabled = false;
-            StationButton.IsEnabled = false;
+        public void SignInOnClick(object o, EventArgs e)
+        {
+            try
+            {
+                //TODO: implemnted data-base, try to sign in
+                //for example: App.SignIn(inputUser.Text, inputPass.Text);
+                //the function get access to sql database and check if the name and passwords are suitable.
+                //if they suitable: init currentUser in DataSource. else: throw suitable exception. 
+                
+                helloUserLabel.Content = helloUserLabel.Content.ToString().Replace("{[name]}", inputUser.Text);
+                helloUserLabel.Visibility = Visibility.Visible;
+                loginCanvas.Visibility = Visibility.Collapsed;
+                signOutButton.Visibility = Visibility.Visible;
+                SetMenuButtonsActive(true);
+
+            }
+            catch(Exception ex)
+            {
+                errorMessage.Text = ex.Message;
+            }
+        }
+
+        public void SignUpOnClick(object o, EventArgs e)
+        {
+            App.ShowWindow<SignUpWindow>();
+        }
+
+        public void SignOutOnClick(object o, EventArgs e)
+        {
+            loginCanvas.Visibility = Visibility.Visible;
+
+            helloUserLabel.Content = "Hello {[name]}";
+            helloUserLabel.Visibility = Visibility.Collapsed;
+
+            signOutButton.Visibility = Visibility.Collapsed;
+
+            SetMenuButtonsActive(false);
+
+            //Resets login details
+            inputUser.Text = "";
+            inputPass.Password = "";
+            errorMessage.Text = "";
+
+            //TODO: Implemted App.SignOut()
+            //the function delete the currentUser variable in dal. make him null.
+        }
+
+        public void InputChange(object o, EventArgs e)
+        {
+            errorMessage.Text = "";
         }
 
         public void QuitOnClick(object o, EventArgs e)
@@ -59,5 +108,14 @@ namespace PL
         {
 
         }
+        private void SetMenuButtonsActive(bool active)
+        {
+            for (int i = 0; i < menuButtons.Length; i++)
+            {
+                menuButtons[i].IsEnabled = active;
+            }
+        }
+
+        private Button[] menuButtons;
     }
 }
