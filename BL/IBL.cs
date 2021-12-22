@@ -28,7 +28,7 @@ namespace BlApi
         public BO.DroneBL GetDroneById(int droneId);
         public BO.DroneChargeBL GetDroneChargeByDroneId(int id);
 
-        // TODO: for Liav
+
         // Examples: GetDroneList() => return all the drones,
         // GetDroneList(d => d.WeightCategories == WeightCategories.Light) => return all the drones with light weight 
         // complex call: GetDroneList(d => d.Model.Length > 4 && d.Battery < 90 ....

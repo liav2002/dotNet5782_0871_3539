@@ -82,8 +82,7 @@ namespace PL
         private void RemoveStationButtonOnClick(object o, EventArgs e)
         {
             errorMessage.Text = "Window has not been developed yet.";
-            //TODO: Implemeted StationViewWindow (Add constructor)
-            //App.ShowWindow<StationViewWindow>();
+            //TODO: Implement Remove of station using BL to get access to DAL 
         }
 
         private void AvliableChargeSlotsChecked(object o, EventArgs e)
