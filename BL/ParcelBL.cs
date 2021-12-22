@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DalApi;
 
 
+
 namespace BO
 {
     public class ParcelBL
@@ -17,7 +18,7 @@ namespace BO
 
         public ParcelBL(DO.Parcel parcel)
         {
-            DalApi.IDAL idalObj = DalFactory.GetDal(DO.DalTypes.DalObj); // Singleton
+            DalApi.IDal idalObj = DalApi.DalFactory.GetDal();
 
             _parcel = parcel;
 

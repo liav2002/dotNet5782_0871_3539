@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DalApi
 {
-    public interface IDAL
+    public interface IDal
     {
         //general methods
         public void AddStation(int id, string name, DO.Location location, int charge_solts);
@@ -21,6 +21,7 @@ namespace DalApi
         public double[] PowerRequest();
 
         public bool IsDroneCharge(int droneId);
+
         //getters
         public DO.Parcel GetParcelById(int id);
         public DO.Costumer GetCostumerById(int id);

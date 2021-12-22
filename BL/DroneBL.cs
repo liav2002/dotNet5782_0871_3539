@@ -14,7 +14,7 @@ namespace BO
 
         public DroneBL(int droneId, int parcelId)
         {
-            DalApi.IDAL idalObj = DalFactory.GetDal(DO.DalTypes.DalObj); // Singleton
+            DalApi.IDal idalObj = DalFactory.GetDal();
 
             _parcel = (parcelId != 0) ? new TransferParcelBL(idalObj.GetParcelById(parcelId)) : null;
             if (_parcel != null && _parcel.IsDelivered)

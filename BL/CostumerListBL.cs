@@ -21,7 +21,7 @@ namespace BO
 
         public CostumerListBL(DO.Costumer costumer)
         {
-            DalApi.IDAL idalObj = DalFactory.GetDal(DO.DalTypes.DalObj); // Singleton
+            DalApi.IDal idalObj = DalFactory.GetDal();
             _costumer = costumer;
             _sendDelivered = 0;
             _sendNotDelivered = 0;

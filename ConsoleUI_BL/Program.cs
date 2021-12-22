@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using BlApi;
+using DO;
 
 namespace ConsoleUI_BL
 {

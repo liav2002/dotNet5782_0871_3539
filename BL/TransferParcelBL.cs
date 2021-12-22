@@ -25,7 +25,7 @@ namespace BO
 
         public TransferParcelBL(DO.Parcel parcel)
         {
-            DalApi.IDAL idalObj = DalFactory.GetDal(DO.DalTypes.DalObj); // Singleton
+            DalApi.IDal idalObj = DalFactory.GetDal();
 
             _parcel = parcel;
 

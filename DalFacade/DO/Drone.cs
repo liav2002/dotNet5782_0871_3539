@@ -26,25 +26,16 @@ namespace DO
 
         private Location _location;
 
-
-        private double _chargeRate;
-
+        
         public Drone(int id, string model, WeightCategories maxWeight, double battery)
         {
             SysLog.SysLog.GetInstance().AddDrone(id);
             this._id = id;
             this._model = model;
             this._maxWeight = maxWeight;
-            this._chargeRate = DalObject.DataSource.Config.chargeRatePH;
             this._status = DroneStatuses.Available;
             this._battery = battery;
-            this._location = new Location();
-        }
-
-        public double ChargeRate
-        {
-            get => _chargeRate;
-            set => _chargeRate = value;
+            this._location = new Location();    
         }
 
         public int Id
@@ -69,7 +60,7 @@ namespace DO
             set => _maxWeight = (WeightCategories) value;
         }
 
-        public DO.DroneStatuses Status
+        public DroneStatuses Status
         {
             get => (DroneStatuses) _status;
             set

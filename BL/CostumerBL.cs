@@ -23,7 +23,7 @@ namespace BO
 
             _costumer = costumer;
 
-            DalApi.IDAL idalObj = DalFactory.GetDal(DO.DalTypes.DalObj); // Singleton
+            DalApi.IDal idalObj = DalFactory.GetDal();
             foreach (DO.Parcel parcel in idalObj.GetParcelsList())
             {
                 if (parcel.SenderId == _costumer.Id)

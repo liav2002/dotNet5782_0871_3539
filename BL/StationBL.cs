@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DalApi;
-
+using DO;
 
 namespace BO
 {
@@ -16,7 +16,7 @@ namespace BO
 
         public StationBL(DO.Station station)
         {
-            DalApi.IDAL idalObj = DalFactory.GetDal(DO.DalTypes.DalObj); // Singleton
+            DalApi.IDal idalObj = DalFactory.GetDal();
 
             _dronesInStation = new List<DroneChargeBL>();
 

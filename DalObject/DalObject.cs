@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DalApi;
 
-namespace DalObject
+namespace Dal
 {
-    internal sealed class DalObject : DalApi.IDAL
+    internal sealed class DalObject : DalApi.IDal
     {
-        internal static readonly Lazy<DalApi.IDAL> _instance = new Lazy<DalApi.IDAL>(() => new DalObject());
+        internal static readonly Lazy<DalApi.IDal> _instance = new Lazy<DalApi.IDal>(() => new DalObject());
 
-        internal static DalApi.IDAL GetInstance
+        public static DalApi.IDal GetInstance
         {
             get { return _instance.Value; }
         }

@@ -15,7 +15,7 @@ namespace BO
 
         public DroneListBL(DO.Drone drone)
         {
-            DalApi.IDAL idalObj = DalFactory.GetDal(DO.DalTypes.DalObj); // Singleton
+            DalApi.IDal idalObj = DalFactory.GetDal();
 
             _drone = drone;
 

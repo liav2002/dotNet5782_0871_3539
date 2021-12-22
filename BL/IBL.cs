@@ -27,14 +27,6 @@ namespace BlApi
         public BO.StationBL GetStationById(int id);
         public BO.DroneBL GetDroneById(int droneId);
         public BO.DroneChargeBL GetDroneChargeByDroneId(int id);
-
-
-        // Examples: GetDroneList() => return all the drones,
-        // GetDroneList(d => d.WeightCategories == WeightCategories.Light) => return all the drones with light weight 
-        // complex call: GetDroneList(d => d.Model.Length > 4 && d.Battery < 90 ....
-        // NOTE: THIS IS AN OPTIONAL PARAMETER, SO ALL THE EXISTING PROGRAM SHOULD RUN SUCCESSFULY
-
-
         public IEnumerable<BO.StationListBL> GetStationsList(Func<DO.Station, bool> filter = null);
         public IEnumerable<BO.CostumerListBL> GetCostumerList(Func<DO.Costumer, bool> filter = null);
         public IEnumerable<BO.ParcelListBL> GetParcelsList(Func<DO.Parcel, bool> filter = null);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DalApi;
+using DO;
 
 
 namespace BO
@@ -18,7 +19,7 @@ namespace BO
             // [parcel] - to know what parcel,
             // [costumer] - to know who is the other costumer
         {
-            DalApi.IDAL idalObj = DalFactory.GetDal(DO.DalTypes.DalObj); // Singleton
+            DalApi.IDal idalObj = DalApi.DalFactory.GetDal(); // Singleton
             int otherCostumerId;
             // if [costumer] is the sender so [otherCostumerId] reference to the receiver ext
             otherCostumerId = parcel.TargetId == costumer.Id

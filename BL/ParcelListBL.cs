@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DalApi;
-
+using DO;
 
 namespace BO
 {
@@ -19,7 +19,7 @@ namespace BO
 
         public ParcelListBL(DO.Parcel parcel)
         {
-            DalApi.IDAL idalObj = DalFactory.GetDal(DO.DalTypes.DalObj); // Singleton
+            DalApi.IDal idalObj = DalApi.DalFactory.GetDal();
 
             _parcel = parcel;
             _senderName = idalObj.GetCostumerById(parcel.SenderId).Name;

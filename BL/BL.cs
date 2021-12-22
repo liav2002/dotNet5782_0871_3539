@@ -2,7 +2,7 @@
 using DalApi;
 using System.Collections.Generic;
 using System.Linq;
-using DalObject;
+using Dal;
 using DO;
 
 
@@ -23,14 +23,14 @@ namespace BO
 
         private PriorityQueue<DO.Parcel> _waitingParcels = new PriorityQueue<DO.Parcel>();
 
-        private DalApi.IDAL _idalObj;
+        private DalApi.IDal _idalObj;
 
-        private double _chargeRate = DalObject.DataSource.Config.chargeRatePH; // to all the drones
+        private double _chargeRate = Dal.DataSource.Config.chargeRatePH; // to all the drones
 
-        private double _lightPPK = DalObject.DataSource.Config.lightPPK;
-        private double _mediumPPK = DalObject.DataSource.Config.mediumPPK;
-        private double _heavyPPK = DalObject.DataSource.Config.heavyPPK;
-        private double _avilablePPK = DalObject.DataSource.Config.avilablePPK;
+        private double _lightPPK = Dal.DataSource.Config.lightPPK;
+        private double _mediumPPK = Dal.DataSource.Config.mediumPPK;
+        private double _heavyPPK = Dal.DataSource.Config.heavyPPK;
+        private double _avilablePPK = Dal.DataSource.Config.avilablePPK;
 
         /**********************************************************************************************
          * Details: this function find the nearest avilable station to drone.                         *
@@ -452,7 +452,7 @@ namespace BO
         private BL()
         {
             // handle all drones, init their values (location, battery, etc):
-            this._idalObj = DalFactory.GetDal(DO.DalTypes.DalObj); // Singleton
+            this._idalObj = DalFactory.GetDal();
 
             IEnumerable<DO.Drone> drones = _idalObj.GetDroneList();
 
@@ -611,7 +611,6 @@ namespace BO
                 priority, DateTime.Now, droneId, null,
                 null, null);
 
-            SysLog.SysLog.GetInstance().MoveParcelToWaitingList(id);
             this._waitingParcels.Enqueue(this._idalObj.GetParcelById(id), priority);
         }
 
@@ -875,7 +874,7 @@ namespace BO
             {
                 station = this._idalObj.GetStationById(this._GetNearestAvilableStation(drone.Location));
                 double distance = drone.Location.Distance(station.Location);
-                double minBattery = distance * DalObject.DataSource.Config.avilablePPK;
+                double minBattery = distance * Dal.DataSource.Config.avilablePPK;
 
                 if (minBattery > drone.Battery)
                 {
