@@ -22,7 +22,7 @@ namespace PL
     {
         private BlApi.IBL iBL;
 
-        IEnumerable<BO.StationListBL> drones = new List<BO.StationListBL>();
+        IEnumerable<BO.StationListBL> stations = new List<BO.StationListBL>();
 
         public StationsListWindow()
         {
@@ -32,9 +32,86 @@ namespace PL
 
             this.iBL = BlFactory.GetBl();
 
-            
-            //TODO: add delegates for buttons and implemented the code behind the gui. StationListWindow.xml
+            this.stations = this.iBL.GetStationsList();
 
+            StationsListView.ItemsSource = this.stations;
+        }
+
+        private void InputChanged(object o, EventArgs e)
+        {
+            string slotsStr = RequiredSlotsInput.Text;
+            int inputSlots = 0;
+            errorMessage.Text = "";
+
+            if(slotsStr == "")
+            {
+                this.stations = this.iBL.GetStationsList();
+                StationsListView.ItemsSource = this.stations;
+            }
+            
+            else if (!int.TryParse(slotsStr, out inputSlots))
+            {
+                errorMessage.Text = "Charge slots must be integer.";
+            }
+
+            else
+            {
+                this.stations = this.iBL.GetStationsList(station => station.ChargeSlots >= inputSlots);
+                StationsListView.ItemsSource = this.stations;
+            }
+        }
+
+        private void RequiredSlotsClearButtonOnClick(object o, EventArgs e)
+        {
+            errorMessage.Text = "";
+            RequiredSlotsInput.Text = "";
+        }
+
+        private void StationView(object o, EventArgs e)
+        {
+            errorMessage.Text = "Window has not been developed yet.";
+            //TODO: Implemeted StationViewWindow
+            //App.ShowWindow<StationViewWindow>();
+        }
+
+        private void AddStationButtonOnClick(object o, EventArgs e)
+        {
+            errorMessage.Text = "Window has not been developed yet.";
+            //TODO: Implemeted StationViewWindow (Add constructor)
+            //App.ShowWindow<StationViewWindow>();
+        }
+
+        private void RemoveStationButtonOnClick(object o, EventArgs e)
+        {
+            errorMessage.Text = "Window has not been developed yet.";
+            //TODO: Implemeted StationViewWindow (Add constructor)
+            //App.ShowWindow<StationViewWindow>();
+        }
+
+        private void AvliableChargeSlotsChecked(object o, EventArgs e)
+        {
+            int chargeSlots = 0;
+
+            if (AvaliableSlotsOnly.IsChecked == true)
+            {
+                chargeSlots = 1;
+
+                if (RequiredSlotsInput.Text != "")
+                {
+                    int.TryParse(RequiredSlotsInput.Text, out chargeSlots);
+                }
+            }
+
+            else
+            {
+                if (RequiredSlotsInput.Text != "")
+                {
+                    int.TryParse(RequiredSlotsInput.Text, out chargeSlots);
+                }
+            }
+
+            this.stations = iBL.GetStationsList(station => station.ChargeSlots >= chargeSlots);
+            StationsListView.ItemsSource = this.stations;
         }
     }
 }

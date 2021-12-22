@@ -106,8 +106,9 @@ namespace PL
 
         public void StationsOnClick(object o, EventArgs e)
         {
-
+            App.ShowWindow<StationsListWindow>();
         }
+
         private void SetMenuButtonsActive(bool active)
         {
             for (int i = 0; i < menuButtons.Length; i++)
