@@ -24,7 +24,6 @@ namespace PL
         private BlApi.IBL iBL;
         private BO.DroneListBL drone;
         ListView listViewDrones;
-        bool isReturnButtonUsed = false;
 
         public DroneWindow(object listViewDrones)
         {
@@ -105,13 +104,12 @@ namespace PL
                 return;
             }
 
-            MessageBox.Show("Drone added successful.", "SYSTEM");
+            MessageBox.Show("Drone added successfully.", "SYSTEM");
             App.ShowWindow<DronesListWindow>();
         }
 
         private void ReturnOnClick(object o, EventArgs e)
         {
-            isReturnButtonUsed = true;
             App.ShowWindow<DronesListWindow>();
         }
 
@@ -226,14 +224,6 @@ namespace PL
                     MessageBox.Show(ex.Message, "ERROR");
                     return;
                 }
-            }
-        }
-
-        private void Window_Closing(object o, System.ComponentModel.CancelEventArgs e)
-        {
-            if (!isReturnButtonUsed)
-            {
-                e.Cancel = true;
             }
         }
     }

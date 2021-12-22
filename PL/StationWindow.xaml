@@ -1,0 +1,54 @@
+﻿<Window x:Class="PL.StationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="Station" Height="550" Width="850">
+    <Window.Background>
+        <ImageBrush ImageSource="Graphics/addDroneBackground.jpg" />
+    </Window.Background>
+
+    <Grid x:Name="MainGrid">
+        <Grid x:Name="AddStation" Visibility="Visible">
+            <TextBox x:Name="StationID" TextChanged="IdChanged" HorizontalAlignment="Left" Margin="238,120,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" Height="38" TextAlignment="Left" FontSize="20"/>
+            <Label Content="ID" HorizontalAlignment="Left" Margin="75,120,0,0" VerticalAlignment="Top" Height="38" Width="100" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" RenderTransformOrigin="0.479,-0.341"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="IdError" Margin="435,120,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+
+            <TextBox x:Name="StationName" TextChanged="NameChanged" HorizontalAlignment="Left" Margin="238,170,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
+            <Label Content="Name" HorizontalAlignment="Left" Margin="76,170,0,0" VerticalAlignment="Top" Height="38" Width="130" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="NameError" Margin="435,170,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+
+            <TextBox x:Name="Lattitude" TextChanged="LattitudeChanged" HorizontalAlignment="Left" Margin="238,220,0,0" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
+            <Label Content="Lattitude" HorizontalAlignment="Left" Margin="84,220,0,0" VerticalAlignment="Top" Height="38" Width="140" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="LattitudeError" Margin="435,220,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+
+            <TextBox x:Name="Longitude" TextChanged="LongitudeChanged" HorizontalAlignment="Left" Margin="238,270,0,0" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
+            <Label Content="Longitude" HorizontalAlignment="Left" Margin="110,270,0,0" VerticalAlignment="Top" Height="38" Width="100" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="LongitudeError" Margin="435,270,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+
+            <TextBox x:Name="ChargeSlots" TextChanged="ChargeSlotsChanged" HorizontalAlignment="Left" Margin="238,320,0,0" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
+            <Label Content="Chrage Slots" HorizontalAlignment="Left" Margin="100,320,0,0" VerticalAlignment="Top" Height="38" Width="140" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="ChargeSlotsError" Margin="435,320,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+
+            <Button x:Name="AddButton" Content="ADD" HorizontalAlignment="Left" Margin="190,380,0,0" VerticalAlignment="Top" Height="50" Width="100" Click="AddOnClick" FontSize="30" FontWeight="Bold" Foreground="Black">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/buttonBackground.png" ></ImageBrush>
+                </Button.Background>
+            </Button>
+
+            <Button x:Name="ReturnButton" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Width="50"  Click="ReturnOnClick" Margin="20,20,0,0">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/backButton.png" ></ImageBrush>
+                </Button.Background>
+            </Button>
+
+            <Image HorizontalAlignment="Left" Height="220" Width="179" Margin="661,138,0,0" VerticalAlignment="Top" Source="Graphics/station.png" Visibility="Visible"/>
+        </Grid>
+
+        <Grid x:Name="UpdateStation" Visibility="Hidden">
+
+        </Grid>
+    </Grid>
+</Window>

@@ -37,7 +37,7 @@ namespace PL
             {
                 //TODO: App.SignUp(inputUser.Text, inputPass.Text, inputEmail.Text, inputId.Text, inputPhone.Text);
                 //this function add new costumer to the database users table. need to calculate location of user.
-                App.ShowMainWindow();
+                App.BackToMain();
             }
 
             catch (Exception ex)

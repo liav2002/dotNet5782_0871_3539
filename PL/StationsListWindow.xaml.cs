@@ -76,9 +76,7 @@ namespace PL
 
         private void AddStationButtonOnClick(object o, EventArgs e)
         {
-            errorMessage.Text = "Window has not been developed yet.";
-            //TODO: Implemeted StationViewWindow (Add constructor)
-            //App.ShowWindow<StationViewWindow>();
+            App.ShowWindow<StationWindow>();
         }
 
         private void RemoveStationButtonOnClick(object o, EventArgs e)
