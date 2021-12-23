@@ -80,6 +80,12 @@ namespace Dal
         {
             int target = 0, sender = 0;
 
+            bool[] isFreeToShip = new bool[drones.Count];
+            for (int i = 0; i < drones.Count; ++i)
+            {
+                isFreeToShip[i] = true;
+            }
+
             for (int i = 0; i < 10; ++i)
             {
                 //generate random sender and random target (they must be different)
@@ -89,9 +95,18 @@ namespace Dal
                     sender = rand.Next(10);
                 } while (target == sender);
 
+                int droneIndex = rand.Next(5);
+                int droneId = 0;
+
+                if (isFreeToShip[droneIndex])
+                {
+                    droneId = drones[droneIndex].Id;
+                    isFreeToShip[droneIndex] = false;
+                }
+
                 parcels.Add(new DO.Parcel(rand.Next(50, 100), costumers[sender].Id, costumers[target].Id,
-                    (DO.WeightCategories) rand.Next(3),
-                    (DO.Priorities) rand.Next(3), DateTime.Now, drones[rand.Next(5)].Id, null,
+                    (DO.WeightCategories)rand.Next(3),
+                    (DO.Priorities)rand.Next(3), DateTime.Now, droneId, null,
                     null, null));
             }
         }
