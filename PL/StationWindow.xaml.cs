@@ -21,7 +21,7 @@ namespace PL
     public partial class StationWindow : Window
     {
         private BlApi.IBL iBL;
-        private BO.StationListBL station;
+        private BO.StationBL station;
  
 
         public StationWindow()
@@ -30,6 +30,7 @@ namespace PL
             this.Closing += App.Window_Closing;
 
             AddStation.Visibility = Visibility.Visible;
+            StationDetails.Visibility = Visibility.Hidden;
             UpdateStation.Visibility = Visibility.Hidden;
 
             this.iBL = BlFactory.GetBl();
@@ -42,9 +43,47 @@ namespace PL
             this.Closing += App.Window_Closing;
 
             AddStation.Visibility = Visibility.Hidden;
+            StationDetails.Visibility = Visibility.Visible;
+            UpdateStation.Visibility = Visibility.Hidden;
+
+            this.iBL = BlFactory.GetBl();
+
+            BO.StationListBL stationList = null;
+            if (item is BO.StationListBL)
+            {
+                stationList = (BO.StationListBL)item;
+                this.station = this.iBL.GetStationById(stationList.Id);
+            }
+
+            else if(item is BO.StationBL)
+            {
+                this.station = (BO.StationBL)item;
+            }
+
+            //initalized text blocks
+            StationIDView.Text = "ID: " + this.station.Id;
+            StationNameView.Text = "Name: " + this.station.Name;
+            StationSlotsView.Text = "Number of Free Slots: " + this.station.FreeSlots;
+            StationLocationView.Text = "Location: " + this.station.Location;
+
+            //initialized drones ListView
+            DronesInStationView.ItemsSource = this.station.DronesInStation;
+        }
+
+        StationWindow(string name, string FreeSlots, BO.StationBL station)
+        {
+            InitializeComponent();
+            this.Closing += App.Window_Closing;
+
+            this.iBL = BlFactory.GetBl();
+            this.station = station;
+
+            AddStation.Visibility = Visibility.Hidden;
+            StationDetails.Visibility = Visibility.Hidden;
             UpdateStation.Visibility = Visibility.Visible;
 
-
+            NewStationName.Text = name;
+            NewChargeSlots.Text = FreeSlots;
         }
 
         private void AddOnClick(object o, EventArgs e)
@@ -153,6 +192,56 @@ namespace PL
         private void ChargeSlotsChanged(object o, EventArgs e)
         {
             ChargeSlotsError.Text = "";
+        }
+
+        private void NewNameChanged(object o, EventArgs e)
+        {
+            ConfirmError.Text = "";
+        }
+
+        private void NewChargeSlotsChanged(object o, EventArgs e)
+        {
+            NewChargeSlotsError.Text = "";
+            ConfirmError.Text = "";
+        }
+
+        private void DroneView(object o, EventArgs e)
+        {
+            DroneWindow nextWindow = new DroneWindow(DronesInStationView.SelectedItem, station.Id);
+            App.ShowWindow(nextWindow);
+        }
+
+        private void UpdateOnClick(object o, EventArgs e)
+        {
+            StationWindow nextWindow = new StationWindow(station.Name, station.FreeSlots.ToString(), station);
+            App.ShowWindow(nextWindow);
+        }
+
+        private void ConfirmOnClick(object o, EventArgs e)
+        {
+            int freeSlots = 0;
+
+            if (!int.TryParse(NewChargeSlots.Text, out freeSlots))
+            {
+                NewChargeSlotsError.Text = "Free slots must be ingeter.";
+                return;
+            }
+
+            try
+            {
+                iBL.UpdateStation(station.Id, NewStationName.Text, freeSlots);
+                StationNameView.Text = "Name: " + station.Name;
+                StationSlotsView.Text = "Number of Free Slots: " + station.FreeSlots;
+            }
+
+            catch (Exception ex)
+            {
+                ConfirmError.Text = ex.Message;
+                return;
+            }
+
+            StationWindow nextWindow = new StationWindow(station);
+            App.ShowWindow(nextWindow);
         }
 
         private void ReturnOnClick(object o, EventArgs e)

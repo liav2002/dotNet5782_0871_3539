@@ -155,4 +155,11 @@ namespace BO
         {
         }
     }
+
+    public class CantRemoveUsedSlots : Exception 
+    {
+        public CantRemoveUsedSlots() : base("ERROR: you are trying to remove used slots.")
+        {
+        }
+    }
 }

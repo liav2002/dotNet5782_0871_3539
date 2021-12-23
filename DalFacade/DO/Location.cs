@@ -65,9 +65,10 @@ namespace DO
 
         public override string ToString()
         {
-            return string.Format("({0}, {1})"
-                , String.Format("{0:F4}", Latitude), String.Format("{0:F4}", Longitude));
-            // the format: (xx.xxxx, yy.yyyy)
+            return String.Format("{0:F3}", Latitude) + 
+                "° N, " + String.Format("{0:F3}", Longitude) + "° E";
+
+            // the format: {X.xxx}° N, {Y.yyy}° E
         }
     }
 }

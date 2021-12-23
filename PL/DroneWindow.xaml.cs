@@ -22,10 +22,10 @@ namespace PL
     public partial class DroneWindow : Window
     {
         private BlApi.IBL iBL;
-        private BO.DroneListBL drone;
-        ListView listViewDrones;
+        private BO.DroneBL drone;
+        private int stationId;
 
-        public DroneWindow(object listViewDrones)
+        public DroneWindow()
         {
             InitializeComponent();
             this.Closing += App.Window_Closing;
@@ -35,20 +35,31 @@ namespace PL
             UpdateDrone.Visibility = Visibility.Hidden;
             DroneWeight.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
             DroneStation.ItemsSource = this.iBL.GetStationsList(station => true);
-            this.listViewDrones = (ListView) listViewDrones;
             this.drone = null;
+            stationId = 0;
         }
 
-        public DroneWindow(object item, object listViewDrones)
+        public DroneWindow(object item, int stationId = 0)
         {
             InitializeComponent();
             this.Closing += App.Window_Closing;
 
             this.iBL = BlFactory.GetBl();
-            this.drone = (BO.DroneListBL) item;
+
+            if (item is BO.DroneListBL)
+            {
+                this.drone = this.iBL.GetDroneById(((BO.DroneListBL)item).Id);
+            }
+
+            else if (item is BO.DroneChargeBL)
+            {
+                this.drone = this.iBL.GetDroneById(((BO.DroneChargeBL)item).Id);
+                this.stationId = stationId;
+            }
+
             AddDrone.Visibility = Visibility.Hidden;
             UpdateDrone.Visibility = Visibility.Visible;
-            DroneLabel.Content = this.iBL.GetDroneById(this.drone.Id);
+            DroneLabel.Content = this.drone;
 
             if (drone.Status == DO.DroneStatuses.Available)
             {
@@ -67,8 +78,6 @@ namespace PL
                 FirstButton.Content = "Collect delivery";
                 SecondButton.Content = "Deliver parcel";
             }
-
-            this.listViewDrones = (ListView) listViewDrones;
         }
 
         private void AddOnClick(object o, EventArgs e)
@@ -110,16 +119,33 @@ namespace PL
 
         private void ReturnOnClick(object o, EventArgs e)
         {
-            App.ShowWindow<DronesListWindow>();
+            if(stationId == 0)
+            {
+                App.ShowWindow<DronesListWindow>();
+            }
+
+            else
+            {
+                StationWindow nextWindow = new StationWindow(this.iBL.GetStationById(stationId));
+                App.ShowWindow(nextWindow);
+            }
         }
 
         private void FirstOnClick(object o, EventArgs e)
         {
             if ((string) FirstButton.Content == "Send to charge")
             {
-                iBL.SendDroneToCharge(drone.Id); //TODO: Add time variable to DroneCharge in DAL
-                FirstButton.Content = "Release from charge";
-                SecondButton.Visibility = Visibility.Hidden;
+                try
+                {
+                    iBL.SendDroneToCharge(drone.Id); //TODO: Add time variable to DroneCharge in DAL
+                    FirstButton.Content = "Release from charge";
+                    SecondButton.Visibility = Visibility.Hidden;
+                }
+
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "ERROR");
+                }
             }
 
             else if ((string) FirstButton.Content == "Release from charge")
@@ -169,7 +195,6 @@ namespace PL
             }
 
             DroneLabel.Content = iBL.GetDroneById(drone.Id);
-            listViewDrones.ItemsSource = iBL.GetDroneList(drone => true);
         }
 
         private void UpdateOnClick(object sender, EventArgs e)
@@ -178,15 +203,8 @@ namespace PL
 
             droneModel = Microsoft.VisualBasic.Interaction.InputBox("Enter value: ", "Drone's model", drone.Model);
 
-            if (droneModel == "")
-            {
-                MessageBox.Show("Missing value", "WARNING");
-                return;
-            }
-
             iBL.UpdateDroneName(drone.Id, droneModel);
             DroneLabel.Content = iBL.GetDroneById(drone.Id);
-            listViewDrones.ItemsSource = iBL.GetDroneList(drone => true);
         }
 
         private void SecondOnClick(object o, EventArgs e)
@@ -214,7 +232,6 @@ namespace PL
                 {
                     iBL.ParcelDelivered(drone.Id);
                     DroneLabel.Content = iBL.GetDroneById(drone.Id);
-                    listViewDrones.ItemsSource = iBL.GetDroneList(drone => true);
                     FirstButton.Content = "Send to charge";
                     SecondButton.Content = "Send to delivery";
                 }

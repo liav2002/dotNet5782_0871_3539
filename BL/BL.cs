@@ -42,25 +42,49 @@ namespace BO
             int stationId = -1;
             var stations = _idalObj.GetStationsList();
             double min = -1;
+            int numberOfIteration = 0;
+            bool stopSearch = false;
 
             if (!stations.Any() || stations == null) throw new NonItems("Stations");
 
-            var station = stations.GetEnumerator();
-            while (station.MoveNext())
-            {
-                double distance = station.Current.Location.Distance(location);
+            double minToAvoid = -1;
+            double saveMin = 0;
 
-                if (min > distance || min == -1)
+            while (!stopSearch)
+            {
+                var station = stations.GetEnumerator();
+                while (station.MoveNext())
                 {
-                    min = station.Current.ChargeSlots > 0 ? distance : -1;
-                    stationId = station.Current.ChargeSlots > 0 ? station.Current.Id : -1;
+                    double distance = station.Current.Location.Distance(location);
+
+                    if ((min > distance  || min == -1) && distance > minToAvoid)
+                    {
+                        saveMin = distance;
+                        min = station.Current.ChargeSlots > 0 ? distance : -1;
+                        stationId = station.Current.ChargeSlots > 0 ? station.Current.Id : -1;
+                    }
+                }
+
+                if (min == -1) // if the nearest station is not avilable
+                {
+                    if(numberOfIteration == stations.Count()) // if there is no another station to check
+                    {
+                        throw new BO.NotAvilableStation(); // tell the user
+                    }
+
+                    else
+                    {
+                        minToAvoid = saveMin; // mark this minimum as unvaliable station, so next time avoid him
+                        numberOfIteration++; // count number of tests
+                    }
+                }
+
+                else
+                {
+                    stopSearch = true;
                 }
             }
-
-            if (min == -1)
-            {
-                throw new BO.NotAvilableStation();
-            }
+            
 
             return stationId;
         }
@@ -733,15 +757,16 @@ namespace BO
             }
 
             DO.Station station = this._idalObj.GetStationById(stationId);
-            if (station.Name == name)
-            {
-                throw new BO.NotNewValue("Station name", name);
-            }
 
-            if (station.ChargeSlots == chargeSlots)
-            {
-                throw new BO.NotNewValue("Station charge slots", chargeSlots.ToString());
-            }
+            //if (station.Name == name)
+            //{
+            //    throw new BO.NotNewValue("Station name", name);
+            //}
+
+            //if (station.ChargeSlots == chargeSlots)
+            //{
+            //    throw new BO.NotNewValue("Station charge slots", chargeSlots.ToString());
+            //}
 
             if (name != "")
             {
@@ -750,6 +775,11 @@ namespace BO
 
             if (chargeSlots != -1)
             {
+                if(chargeSlots < 0)
+                {
+                    throw new BO.NegetiveValue("Charge slots");
+                }
+
                 station.ChargeSlots = chargeSlots;
             }
         }

@@ -25,7 +25,7 @@ namespace BO
             _drone = idalObj.GetDroneById(droneId);
         }
 
-        public double Id => _drone.Id;
+        public int Id => _drone.Id;
 
         public string Model => _drone.Model;
 

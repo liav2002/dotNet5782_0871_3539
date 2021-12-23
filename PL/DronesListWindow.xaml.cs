@@ -75,7 +75,7 @@ namespace PL
 
         private void AddDroneButtonOnClick(object o, EventArgs e)
         {
-            DroneWindow nextWindow = new DroneWindow(DronesListView.SelectedItem);
+            DroneWindow nextWindow = new DroneWindow();
             StatusSelector.SelectedItem = null;
             WeightSelector.SelectedItem = null;
             App.ShowWindow(nextWindow);
@@ -83,7 +83,7 @@ namespace PL
 
         private void DroneView(object o, EventArgs e)
         {
-            DroneWindow nextWindow = new DroneWindow(DronesListView.SelectedItem, DronesListView);
+            DroneWindow nextWindow = new DroneWindow(DronesListView.SelectedItem);
             StatusSelector.SelectedItem = null;
             WeightSelector.SelectedItem = null;
             App.ShowWindow(nextWindow);

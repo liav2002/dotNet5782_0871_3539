@@ -36,7 +36,7 @@
             <Image HorizontalAlignment="Left" Height="150" Width="250" Margin="491,138,0,0" VerticalAlignment="Top" Source="Graphics/drone.png"/>
         </Grid>
 
-        <Grid x:Name="UpdateDrone" Visibility="Visible">
+        <Grid x:Name="UpdateDrone" Visibility="Hidden">
             <Label x:Name="DroneLabel" Content="" HorizontalAlignment="Left" Margin="32,0,0,0" VerticalAlignment="Center" Height="300" Width="450" VerticalContentAlignment="Top" Foreground="White" FontSize="15"/>
 
             <Button x:Name="UpdateButton" Content="Update" HorizontalAlignment="Left" Margin="570,230,0,0" VerticalAlignment="Top" Height="60" Width="260" Foreground="Black" FontSize="23" FontWeight="Bold" Click="UpdateOnClick">

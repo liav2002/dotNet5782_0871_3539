@@ -13,6 +13,7 @@
     <None Remove="Graphics\buttonBackground.jpg" />
     <None Remove="Graphics\buttonBackground.png" />
     <None Remove="Graphics\drone.png" />
+    <None Remove="Graphics\droneStation.png" />
     <None Remove="Graphics\exitButton.png" />
     <None Remove="Graphics\station.png" />
   </ItemGroup>
@@ -27,6 +28,7 @@
     <Resource Include="Graphics\background.jpg" />
     <Resource Include="Graphics\buttonBackground.png" />
     <Resource Include="Graphics\drone.png" />
+    <Resource Include="Graphics\droneStation.png" />
     <Resource Include="Graphics\exitButton.png" />
     <Resource Include="Graphics\station.png" />
   </ItemGroup>
