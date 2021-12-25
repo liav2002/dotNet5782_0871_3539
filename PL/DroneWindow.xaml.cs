@@ -149,22 +149,10 @@ namespace PL
             }
 
             else if ((string) FirstButton.Content == "Release from charge")
-            {
-                string timeStr = "";
-                int time = 0;
-
-                timeStr = Microsoft.VisualBasic.Interaction.InputBox("Enter value: ", "Charge time", "0");
-
-                if (!int.TryParse(timeStr, out time))
-                {
-                    MessageBox.Show("Charge time must be integer !!", "ERROR");
-                    return;
-                }
-
+            {                
                 try
                 {
-                    iBL.DroneRelease(drone.Id, time); //TODO: After add time variable to DroneChare, we dont neet time parameter.
-                                                      //The time can be easliy calculate by current time - started time (make sure it's in hours).
+                    iBL.DroneRelease(drone.Id);
                 }
 
                 catch (Exception ex)

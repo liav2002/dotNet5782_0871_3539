@@ -9,12 +9,15 @@ namespace DO
     {
         private int _droneId;
         private int _stationId;
+        DateTime _startTime;
 
         public DroneCharge(int droneId, int stationId)
         {
             SysLog.SysLog.GetInstance().DroneToCharge(droneId, stationId);
             this._droneId = droneId;
             this._stationId = stationId;
+
+            this._startTime = DateTime.Now;
         }
 
         public int DroneId
@@ -27,6 +30,11 @@ namespace DO
         {
             get => _stationId;
             set => _stationId = value;
+        }
+
+        public DateTime StartTime
+        {
+            get => _startTime;
         }
 
         public override string ToString()

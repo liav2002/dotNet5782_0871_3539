@@ -966,7 +966,7 @@ namespace BO
         *Parameters: a drone.
         *Return: None.
         */
-        public void DroneRelease(int droneId, double hours)
+        public void DroneRelease(int droneId)
         {
             if (0 > droneId)
             {
@@ -979,6 +979,11 @@ namespace BO
             {
                 throw new BO.DroneNotInMaintenance(droneId);
             }
+
+            DO.DroneCharge dc = this._idalObj.GetDroneChargeByDroneId(droneId);
+
+            TimeSpan time = DateTime.Now.Subtract(dc.StartTime);
+            double hours = time.TotalHours;
 
             this._idalObj.DroneRelease(droneId, hours);
         }
