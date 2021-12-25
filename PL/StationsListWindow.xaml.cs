@@ -80,8 +80,25 @@ namespace PL
 
         private void RemoveStationButtonOnClick(object o, EventArgs e)
         {
-            errorMessage.Text = "Window has not been developed yet.";
-            //TODO: Implement Remove of station using BL to get access to DAL 
+            try
+            {
+                if(StationsListView.SelectedItem != null)
+                {
+                    this.iBL.RemoveStation(((BO.StationListBL)StationsListView.SelectedItem).Id);
+
+                    StationsListView.ItemsSource = this.iBL.GetStationsList();
+                }
+
+                else
+                {
+                    errorMessage.Text = "You need to select station first.";
+                }
+            }
+
+            catch(Exception ex)
+            {
+                errorMessage.Text = ex.Message;
+            }
         }
 
         private void AvliableChargeSlotsChecked(object o, EventArgs e)

@@ -15,7 +15,7 @@ namespace BO
 
         internal static readonly Lazy<BlApi.IBL> _instance = new Lazy<BlApi.IBL>(() => new BL());
 
-        internal static  BlApi.IBL GetInstance
+        internal static BlApi.IBL GetInstance
         {
             get { return _instance.Value; }
         }
@@ -57,7 +57,7 @@ namespace BO
                 {
                     double distance = station.Current.Location.Distance(location);
 
-                    if ((min > distance  || min == -1) && distance > minToAvoid)
+                    if ((min > distance || min == -1) && distance > minToAvoid)
                     {
                         saveMin = distance;
                         min = station.Current.ChargeSlots > 0 ? distance : -1;
@@ -67,7 +67,7 @@ namespace BO
 
                 if (min == -1) // if the nearest station is not avilable
                 {
-                    if(numberOfIteration == stations.Count()) // if there is no another station to check
+                    if (numberOfIteration == stations.Count()) // if there is no another station to check
                     {
                         throw new BO.NotAvilableStation(); // tell the user
                     }
@@ -84,7 +84,7 @@ namespace BO
                     stopSearch = true;
                 }
             }
-            
+
 
             return stationId;
         }
@@ -176,20 +176,20 @@ namespace BO
                 switch (parcel.Weight)
                 {
                     case DO.WeightCategories.Heavy:
-                    {
-                        minBattery += d2 * DataSource.Config.heavyPPK;
-                        break;
-                    }
+                        {
+                            minBattery += d2 * DataSource.Config.heavyPPK;
+                            break;
+                        }
                     case DO.WeightCategories.Medium:
-                    {
-                        minBattery += d2 * DataSource.Config.mediumPPK;
-                        break;
-                    }
+                        {
+                            minBattery += d2 * DataSource.Config.mediumPPK;
+                            break;
+                        }
                     case DO.WeightCategories.Light:
-                    {
-                        minBattery += d2 * DataSource.Config.lightPPK;
-                        break;
-                    }
+                        {
+                            minBattery += d2 * DataSource.Config.lightPPK;
+                            break;
+                        }
                 }
             }
 
@@ -234,11 +234,11 @@ namespace BO
 
             if (priority == parcelForAssign.Priority)
             {
-                parcelsAccordingWeight.Enqueue(parcelForAssign, (int) parcelForAssign.Weight);
+                parcelsAccordingWeight.Enqueue(parcelForAssign, (int)parcelForAssign.Weight);
             }
             else
             {
-                this._waitingParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Priority);
+                this._waitingParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Priority);
             }
 
             bool search = true;
@@ -251,13 +251,13 @@ namespace BO
 
                     if (parcelForAssign.Priority == priority)
                     {
-                        parcelsAccordingWeight.Enqueue(parcelForAssign, (int) parcelForAssign.Weight);
+                        parcelsAccordingWeight.Enqueue(parcelForAssign, (int)parcelForAssign.Weight);
                     }
 
                     else
                     {
                         search = false;
-                        this._waitingParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Priority);
+                        this._waitingParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Priority);
                     }
                 }
 
@@ -279,12 +279,12 @@ namespace BO
 
                     if (parcelForAssign.Weight > drone.MaxWeight)
                     {
-                        this._waitingParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Priority);
+                        this._waitingParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Priority);
                     }
 
                     else
                     {
-                        parcelsAccordingWeight.Enqueue(parcelForAssign, (int) parcelForAssign.Weight);
+                        parcelsAccordingWeight.Enqueue(parcelForAssign, (int)parcelForAssign.Weight);
                         search = false;
                     }
                 }
@@ -328,7 +328,7 @@ namespace BO
 
                     else
                     {
-                        this._waitingParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Priority);
+                        this._waitingParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Priority);
                         search = false;
                     }
                 }
@@ -366,7 +366,7 @@ namespace BO
                     DO.Parcel parcel = suitableParcels[i];
                     if (parcel.Id != parcelForAssign.Id)
                     {
-                        this._waitingParcels.Enqueue(parcel, (int) parcel.Priority);
+                        this._waitingParcels.Enqueue(parcel, (int)parcel.Priority);
                     }
                 }
             }
@@ -395,7 +395,7 @@ namespace BO
         private void SetDroneDetails(DO.Drone drone)
         {
             if (drone.Status != DO.DroneStatuses.Shipping) //for all the drones that not in shiping.
-                //I dont care from shiping drones, because I already init there value (battery, location).
+                                                           //I dont care from shiping drones, because I already init there value (battery, location).
             {
                 Random rand = new Random();
                 int status = rand.Next(0, 1);
@@ -494,7 +494,7 @@ namespace BO
 
                 else
                 {
-                    this._waitingParcels.Enqueue(parcel, (int) parcel.Priority);
+                    this._waitingParcels.Enqueue(parcel, (int)parcel.Priority);
                 }
             }
 
@@ -532,6 +532,16 @@ namespace BO
             }
 
             this._idalObj.AddStation(id, name, new DO.Location(latitude, longitude), charge_solts);
+        }
+
+        /*
+           *Description: Remove station from data.
+           *Parameters: station's id
+           *Return: None.
+        */
+        public void RemoveStation(int stationId)
+        {
+            this._idalObj.RemoveStation(stationId);
         }
 
         /*
@@ -580,10 +590,20 @@ namespace BO
 
             Random random = new Random();
             double battery = random.NextDouble() * 20 + 20; // random double in range (20, 40)
-            this._idalObj.AddDrone(id, model, (DO.WeightCategories) maxWeight, battery);
+            this._idalObj.AddDrone(id, model, (DO.WeightCategories)maxWeight, battery);
 
             // after the drone created we send he to the station:
             SendDroneToCharge(id, stationId);
+        }
+
+        /*
+           *Description: Remove drone from data.
+           *Parameters: drone's id
+           *Return: None.
+        */
+        public void RemoveDrone(int droneId)
+        {
+            this._idalObj.RemoveDrone(droneId);
         }
 
         /*

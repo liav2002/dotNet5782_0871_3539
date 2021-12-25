@@ -8,7 +8,9 @@ namespace BlApi
     public interface IBL
     {
         public void AddStation(int id, string name, double longitude, double latitude, int charge_solts);
+        public void RemoveStation(int stationId);
         public void AddDrone(int id, string model, int maxWeight, int stationId);
+        public void RemoveDrone(int droneId);
         public void AddCostumer(int id, string name, string phone, double longitude, double latitude);
         public void AddParcel(int senderId, int targetId, int weight, int priority, int droneId);
         public void AssignParcelToDrone(int droneId);

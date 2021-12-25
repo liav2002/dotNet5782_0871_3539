@@ -9,7 +9,11 @@ namespace DalApi
         //general methods
         public void AddStation(int id, string name, DO.Location location, int charge_solts);
 
+        public void RemoveStation(int stationId);
+
         public void AddDrone(int id, string model, DO.WeightCategories maxWeight, double battery);
+
+        public void RemoveDrone(int droneId);
 
         public void AddCostumer(int id, string name, string phone, DO.Location location);
 

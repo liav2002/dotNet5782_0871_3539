@@ -81,6 +81,28 @@ namespace PL
             App.ShowWindow(nextWindow);
         }
 
+        private void RemoveDroneButtonOnClick(object o, EventArgs e)
+        {
+            try 
+            {
+                if(DronesListView.SelectedItem != null)
+                {
+                    this.iBL.RemoveDrone(((BO.DroneListBL)DronesListView.SelectedItem).Id);
+                    DronesListView.ItemsSource = this.iBL.GetDroneList();
+                }
+
+                else
+                {
+                    errorMessage.Text = "You need to select drone first.";
+                }
+            }
+
+            catch(Exception ex)
+            {
+                errorMessage.Text = ex.Message;
+            }
+        }
+
         private void DroneView(object o, EventArgs e)
         {
             DroneWindow nextWindow = new DroneWindow(DronesListView.SelectedItem);
