@@ -137,7 +137,7 @@ namespace PL
             {
                 try
                 {
-                    iBL.SendDroneToCharge(drone.Id); //TODO: Add time variable to DroneCharge in DAL
+                    iBL.SendDroneToCharge(drone.Id);
                     FirstButton.Content = "Release from charge";
                     SecondButton.Visibility = Visibility.Hidden;
                 }
