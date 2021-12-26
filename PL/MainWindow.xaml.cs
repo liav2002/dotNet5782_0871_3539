@@ -28,7 +28,6 @@ namespace PL
             menuButtons = new Button[] { DronesButton, ParcelsButton, CostumersButton, StationsButton };
             SetMenuButtonsActive(false);
             this.iBL = BlFactory.GetBl();
-            int x = 0;
         }
 
         public void SignInOnClick(object o, EventArgs e)
@@ -96,12 +95,12 @@ namespace PL
 
         public void ParcelsOnClick(object o, EventArgs e)
         {
-
+            errorMessage.Text = "Window is not been devoloped yet.";
         }
 
         public void CostumersOnClick(object o, EventArgs e)
         {
-
+            App.ShowWindow<CostumersListWindow>();
         }
 
         public void StationsOnClick(object o, EventArgs e)

@@ -441,7 +441,7 @@ namespace ConsoleUI_BL
                     
                     try
                     {
-                        iBL.DroneRelease(droneId, hours);
+                        iBL.DroneRelease(droneId);
                         iBL.Sys().SuccessMessage();
                         pause();
                     }

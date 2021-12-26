@@ -53,6 +53,7 @@ namespace PL
 
         public static void BackToMain()
         {
+            mainWindow.errorMessage.Text = "";
             ShowWindow(mainWindow);
         }
 

@@ -10,6 +10,7 @@
     <None Remove="Graphics\addDroneBackground.jpg" />
     <None Remove="Graphics\backButton.png" />
     <None Remove="Graphics\background.jpg" />
+    <None Remove="Graphics\backgroundUpGrid.jpg" />
     <None Remove="Graphics\buttonBackground.jpg" />
     <None Remove="Graphics\buttonBackground.png" />
     <None Remove="Graphics\drone.png" />
@@ -26,6 +27,7 @@
     <Resource Include="Graphics\addDroneBackground.jpg" />
     <Resource Include="Graphics\backButton.png" />
     <Resource Include="Graphics\background.jpg" />
+    <Resource Include="Graphics\backgroundUpGrid.jpg" />
     <Resource Include="Graphics\buttonBackground.png" />
     <Resource Include="Graphics\drone.png" />
     <Resource Include="Graphics\droneStation.png" />

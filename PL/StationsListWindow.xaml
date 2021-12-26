@@ -33,7 +33,7 @@ VerticalAlignment="Stretch" Width="auto" RenderTransformOrigin="0.502,0.622">
                 </Button.Background>
             </Button>
 
-            <TextBox x:Name="RequiredSlotsInput" Grid.Column="3" Height="50" Margin="0,8,3,64" TextChanged="InputChanged" BorderBrush="White" FontSize="15"/>
+            <TextBox x:Name="RequiredSlotsInput" Grid.Column="3" Margin="0,8,3,64" TextChanged="InputChanged" BorderBrush="White" FontSize="15"/>
             <TextBlock TextWrapping="Wrap" TextAlignment="Center" Foreground="Red" Name="errorMessage" Margin="14,59,3,19" Width="200" Height="29" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2" Grid.Column="2" FontSize="12"/>
             <CheckBox x:Name="AvaliableSlotsOnly" Content="Only avliable charge slots." Foreground="White" FontWeight="Bold" FontSize="12" Grid.Column="1" Margin="16,68,4,19" IsChecked="{x:Null}" Click="AvliableChargeSlotsChecked"/>
 
