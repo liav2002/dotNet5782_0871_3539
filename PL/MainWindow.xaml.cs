@@ -95,12 +95,13 @@ namespace PL
 
         public void ParcelsOnClick(object o, EventArgs e)
         {
-            errorMessage.Text = "Window is not been devoloped yet.";
+            App.ShowWindow<ParcelsListWindow>();
         }
 
         public void CostumersOnClick(object o, EventArgs e)
         {
             App.ShowWindow<CostumersListWindow>();
+
         }
 
         public void StationsOnClick(object o, EventArgs e)
