@@ -40,7 +40,7 @@ namespace BO
             _isDelivered = (parcel.Status == DO.ParcelStatuses.Delivered);
         }
 
-        public double Id => _parcel.Id;
+        public int Id => _parcel.Id;
 
         public bool IsOnTheWay => _isOnTheWay;
         public bool IsDelivered => _isDelivered;

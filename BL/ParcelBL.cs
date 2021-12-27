@@ -32,7 +32,7 @@ namespace BO
             _isAvaliable = true;
         }
 
-        public double Id => _parcel.Id;
+        public int Id => _parcel.Id;
 
         public CostumerInParcel Receiver => _receiver;
 

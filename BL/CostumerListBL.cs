@@ -47,7 +47,7 @@ namespace BO
             }
         }
 
-        public double Id => _costumer.Id;
+        public int Id => _costumer.Id;
 
         public string Name => _costumer.Name;
 

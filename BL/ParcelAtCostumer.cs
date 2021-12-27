@@ -29,7 +29,7 @@ namespace BO
             _csp = new CostumerInParcel(idalObj.GetCostumerById(otherCostumerId));
         }
 
-        public double Id => _parcel.Id;
+        public int Id => _parcel.Id;
 
         public DO.WeightCategories Weight => _parcel.Weight;
 

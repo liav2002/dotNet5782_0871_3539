@@ -26,7 +26,7 @@ namespace BO
             _recieverName = idalObj.GetCostumerById(parcel.TargetId).Name;
         }
 
-        public double Id => _parcel.Id;
+        public int Id => _parcel.Id;
 
         public string ReceiverName => _recieverName;
 

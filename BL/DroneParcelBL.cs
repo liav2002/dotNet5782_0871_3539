@@ -15,7 +15,7 @@ namespace BO
             _drone = drone;
         }
 
-        public double Id => _drone.Id;
+        public int Id => _drone.Id;
 
         public double Battery => _drone.Battery;
 
