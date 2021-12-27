@@ -18,6 +18,13 @@ namespace BO
         }
     }
 
+    public class NoAvaliable : Exception
+    {
+        public NoAvaliable(string item) : base("ERROR: " + item + " is not avliable.\n")
+        {
+        }
+    }
+
     public class NotNewValue : Exception
     {
         public NotNewValue(string property, string item) : base(

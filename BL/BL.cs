@@ -541,7 +541,7 @@ namespace BO
         */
         public void RemoveStation(int stationId)
         {
-            GetStationById(stationId).IsAvaliable = false;
+            GetStationById(stationId).SetAsUnvaliable();
         }
 
         /*
@@ -603,7 +603,7 @@ namespace BO
         */
         public void RemoveDrone(int droneId)
         {
-            GetDroneById(droneId).IsAvliable = false;
+            GetDroneById(droneId).SetAsUnvaliable();
         }
 
         /*
@@ -670,6 +670,11 @@ namespace BO
             if (droneId < 0)
             {
                 throw new BO.NegetiveValue("Drone's id");
+            }
+
+            if(GetDroneById(droneId).IsAvliable == false)
+            {
+                throw new BO.NoAvaliable("drone");
             }
 
             var drone = this._idalObj.GetDroneById(droneId);
@@ -817,6 +822,11 @@ namespace BO
                 throw new BO.NegetiveValue("Drone's id");
             }
 
+            if(GetDroneById(droneId).IsAvliable == false)
+            {
+                throw new BO.NoAvaliable("drone");
+            }
+
             DO.Drone drone = this._idalObj.GetDroneById(droneId);
 
             //if (drone.Model == name)
@@ -910,6 +920,11 @@ namespace BO
             if (0 > stationId && stationId != -1)
             {
                 throw new BO.NegetiveValue("Station's id");
+            }
+
+            if(GetDroneById(droneId).IsAvliable == false)
+            {
+                throw new BO.NoAvaliable("drone");
             }
 
             DO.Drone drone = this._idalObj.GetDroneById(droneId);

@@ -34,8 +34,26 @@ namespace PL
 
             this.drones = this.iBL.GetDroneList();
             DronesListView.ItemsSource = this.drones;
+            SetListViewForeground();
+
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DO.DroneStatuses));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
+        }
+
+        private void SetListViewForeground()
+        {
+            //TODO: Try do implement this function (Foreground List View).
+            //The function set the foreground of unvaliable items as red.
+
+            //for (int i = 0; i < DronesListView.Items.Count; ++i)
+            //{
+            //    var item = DronesListView.ItemContainerGenerator.ContainerFromItem(i) as ListViewItem;
+
+            //    if (((BO.DroneBL)item.Content).IsAvliable == false)
+            //    {
+            //        item.Foreground = Brushes.Red;
+            //    }
+            //}
         }
 
         private void SelectionChanged(object o, EventArgs e)
@@ -89,6 +107,7 @@ namespace PL
                 {
                     this.iBL.RemoveDrone(((BO.DroneListBL)DronesListView.SelectedItem).Id);
                     DronesListView.ItemsSource = this.iBL.GetDroneList();
+                    SetListViewForeground();
                 }
 
                 else

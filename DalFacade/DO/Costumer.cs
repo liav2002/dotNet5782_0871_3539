@@ -9,6 +9,7 @@ namespace DO
         private string _name;
         private string _phone;
         private Location _location;
+        private bool _isAvaliable;
 
         public int Id
         {
@@ -42,6 +43,11 @@ namespace DO
             set => _location = value;
         }
 
+        public bool IsAvaliable
+        {
+            get => this._isAvaliable;
+            set => this._isAvaliable = value;
+        }
 
         public override string ToString()
         {
@@ -57,6 +63,7 @@ namespace DO
             this._name = name;
             this._phone = phone;
             this._location = location;
+            this._isAvaliable = true;
         }
     }
 }

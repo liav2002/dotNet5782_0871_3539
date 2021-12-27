@@ -35,6 +35,38 @@ namespace PL
             this.stations = this.iBL.GetStationsList();
 
             StationsListView.ItemsSource = this.stations;
+
+            SetListViewForeground();
+        }
+
+        private void SetListViewForeground()
+        {
+            //TODO: Try do implement this function (Foreground List View).
+            //The function set the foreground of unvaliable items as red.
+
+            //foreach(ListViewItem item in StationsListView)
+            //{
+            //    BO.StationListBL stationList = (BO.StationListBL)(item.Content);
+            //    BO.StationBL station = this.iBL.GetStationById(stationList.Id);
+
+            //    if (station.IsAvaliable == false)
+            //    {
+            //        item.Foreground = Brushes.Red;
+            //    }
+            //}
+
+            //for (int i = 0; i < StationsListView.Items.Count; ++i)
+            //{
+            //    var item = StationsListView.Items[i];
+            //    BO.StationListBL stationList = (BO.StationListBL)item;
+            //    BO.StationBL station = this.iBL.GetStationById(stationList.Id);
+
+            //    if (station.IsAvaliable == false)
+            //    {
+            //        ListViewItem itemContainer = (ListViewItem)StationsListView.ItemContainerGenerator.ContainerFromItem(item);
+            //        itemContainer.Foreground = Brushes.Red;
+            //    }
+            //}
         }
 
         private void InputChanged(object o, EventArgs e)
@@ -87,6 +119,8 @@ namespace PL
                     this.iBL.RemoveStation(((BO.StationListBL)StationsListView.SelectedItem).Id);
 
                     StationsListView.ItemsSource = this.iBL.GetStationsList();
+
+                    SetListViewForeground();
                 }
 
                 else

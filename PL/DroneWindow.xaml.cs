@@ -189,10 +189,18 @@ namespace PL
         {
             string droneModel = drone.Model;
 
-            droneModel = Microsoft.VisualBasic.Interaction.InputBox("Enter value: ", "Drone's model", drone.Model);
+            if(this.drone.IsAvliable == false)
+            {
+                MessageBox.Show("ERROR: drone is not avliable.", "ERROR");
+            }
 
-            iBL.UpdateDroneName(drone.Id, droneModel);
-            DroneLabel.Content = iBL.GetDroneById(drone.Id);
+            else
+            {
+                droneModel = Microsoft.VisualBasic.Interaction.InputBox("Enter value: ", "Drone's model", drone.Model);
+
+                iBL.UpdateDroneName(drone.Id, droneModel);
+                DroneLabel.Content = iBL.GetDroneById(drone.Id);
+            }
         }
 
         private void SecondOnClick(object o, EventArgs e)

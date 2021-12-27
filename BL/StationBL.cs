@@ -14,8 +14,6 @@ namespace BO
 
         private List<DroneChargeBL> _dronesInStation;
 
-        private bool _isAvaliable;
-
         public StationBL(DO.Station station)
         {
             DalApi.IDal idalObj = DalFactory.GetDal();
@@ -24,8 +22,6 @@ namespace BO
 
             _station = station;
 
-            _isAvaliable = true;
-
             foreach (var drone in idalObj.GetDroneList())
             {
                 if (drone.Location == this.Location)
@@ -33,6 +29,11 @@ namespace BO
                     _dronesInStation.Add(new DroneChargeBL(drone, idalObj.IsDroneCharge(drone.Id)));
                 }
             }
+        }
+
+        public void SetAsUnvaliable()
+        {
+            this._station.IsAvaliable = false;
         }
 
         public int Id => _station.Id;
@@ -45,11 +46,7 @@ namespace BO
 
         public List<DroneChargeBL> DronesInStation => _dronesInStation;
 
-        public bool IsAvaliable
-        {
-            get => _isAvaliable;
-            set => _isAvaliable = value;
-        }
+        public bool IsAvaliable => _station.IsAvaliable;
         public override string ToString()
         {
             string strToPrint = string.Format("the id is: {0}\nthe name is: {1}\nthe location is: {2}\n" +

@@ -68,6 +68,7 @@ namespace PL
 
             //initialized drones ListView
             DronesInStationView.ItemsSource = this.station.DronesInStation;
+            SetListViewForeground();
         }
 
         StationWindow(string name, string FreeSlots, BO.StationBL station)
@@ -86,6 +87,21 @@ namespace PL
             NewChargeSlots.Text = FreeSlots;
         }
 
+        private void SetListViewForeground()
+        {
+            //TODO: Try do implement this function (Foreground List View).
+            //The function set the foreground of unvaliable items as red.
+
+            //for (int i = 0; i < DronesInStationView.Items.Count; ++i)
+            //{
+            //    var item = DronesInStationView.ItemContainerGenerator.ContainerFromItem(i) as ListViewItem;
+
+            //    if (((BO.DroneBL)item.Content).IsAvliable == false)
+            //    {
+            //        item.Foreground = Brushes.Red;
+            //    }
+            //}
+        }
         private void AddOnClick(object o, EventArgs e)
         {
             int id = 0;
@@ -213,8 +229,16 @@ namespace PL
 
         private void UpdateOnClick(object o, EventArgs e)
         {
-            StationWindow nextWindow = new StationWindow(station.Name, station.FreeSlots.ToString(), station);
-            App.ShowWindow(nextWindow);
+            if (station.IsAvaliable == false)
+            {
+                MessageBox.Show("ERROR: station is not avaliable.", "ERROR");
+            }
+
+            else
+            {
+                StationWindow nextWindow = new StationWindow(station.Name, station.FreeSlots.ToString(), station);
+                App.ShowWindow(nextWindow);
+            }
         }
 
         private void ConfirmOnClick(object o, EventArgs e)

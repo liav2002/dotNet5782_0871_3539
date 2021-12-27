@@ -14,7 +14,6 @@ namespace BO
         private DO.Costumer _costumer;
         private List<ParcelAtCostumer> _parcelsSender;
         private List<ParcelAtCostumer> _parcelsReciever;
-        private bool _isAvaliable;
 
         public CostumerBL(DO.Costumer costumer)
         {
@@ -23,8 +22,6 @@ namespace BO
             _parcelsReciever = new List<ParcelAtCostumer>();
 
             _costumer = costumer;
-
-            _isAvaliable = true;
 
             DalApi.IDal idalObj = DalFactory.GetDal();
             foreach (DO.Parcel parcel in idalObj.GetParcelsList())
@@ -36,6 +33,10 @@ namespace BO
             }
         }
 
+        public void SetAsUnvaliable()
+        {
+            this._costumer.IsAvaliable = false;
+        }
         public int Id => _costumer.Id;
 
         public string Name => _costumer.Name;
@@ -48,11 +49,7 @@ namespace BO
 
         public List<ParcelAtCostumer> ParcelsReciever => _parcelsReciever;
 
-        public bool IsAvliable
-        {
-            get => _isAvaliable;
-            set => _isAvaliable = value;
-        }
+        public bool IsAvaliable => _costumer.IsAvaliable;
 
         public override string ToString()
         {

@@ -10,6 +10,7 @@ namespace DO
         private string _name;
         private Location _location;
         private int _chargeSlots;
+        private bool _isAvaliable;
 
         public int Id
         {
@@ -44,6 +45,12 @@ namespace DO
             }
         }
 
+        public bool IsAvaliable
+        {
+            get => this._isAvaliable;
+            set => this._isAvaliable = value;
+        }
+
         public override string ToString()
         {
             return string.Format("the id is: {0}\nthe name is: {1}\nthe location is: {2}\n" +
@@ -58,6 +65,7 @@ namespace DO
             this._name = name;
             this._location = location;
             this._chargeSlots = chargeSlots;
+            this._isAvaliable = true;
         }
     }
 }

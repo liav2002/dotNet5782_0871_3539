@@ -26,6 +26,8 @@ namespace DO
 
         private Location _location;
 
+        private bool _isAvaliable;
+
         
         public Drone(int id, string model, WeightCategories maxWeight, double battery)
         {
@@ -35,7 +37,8 @@ namespace DO
             this._maxWeight = maxWeight;
             this._status = DroneStatuses.Available;
             this._battery = battery;
-            this._location = new Location();    
+            this._location = new Location();
+            this._isAvaliable = true;
         }
 
         public int Id
@@ -93,6 +96,11 @@ namespace DO
             }
         }
 
+        public bool IsAvaliable
+        {
+            get => this._isAvaliable;
+            set => this._isAvaliable = value;
+        }
 
         public override string ToString()
         {
