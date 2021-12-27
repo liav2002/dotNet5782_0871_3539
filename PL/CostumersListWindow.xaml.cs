@@ -113,20 +113,20 @@ namespace PL
 
         private void AddCostumerButtonOnClick(object o, EventArgs e)
         {
-            //TODO: Implement CostumerWindow
-            errorMessage.Text = "CostumerWindow has not been developed yet.";
+            CostumerWindow nextWindow = new CostumerWindow(false);
+            App.ShowWindow(nextWindow);
         }
 
         private void RemoveCostumerButtonOnClick(object o, EventArgs e)
         {
-            //TODO: Implement CostumerWindow
+            //TODO: Handle Remove of costumer
             errorMessage.Text = "CostumerWindow has not been developed yet.";
         }
 
         private void CostumerView(object o, EventArgs e)
         {
-            //TODO: Implement CostumerWindow
-            errorMessage.Text = "CostumerWindow has not been developed yet.";
+            CostumerWindow nextWindow = new CostumerWindow(CostumersListView.SelectedItem);
+            App.ShowWindow(nextWindow);
         }
     }
 }

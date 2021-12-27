@@ -54,7 +54,8 @@ namespace PL
 
         public void SignUpOnClick(object o, EventArgs e)
         {
-            App.ShowWindow<SignUpWindow>();
+            CostumerWindow nextWindow = new CostumerWindow(true);
+            App.ShowWindow(nextWindow);
         }
 
         public void SignOutOnClick(object o, EventArgs e)

@@ -1,0 +1,106 @@
+﻿<Window x:Class="PL.CostumerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="CostumerWindow" Height="550" Width="850">
+    <Window.Background>
+        <ImageBrush ImageSource="Graphics/addDroneBackground.jpg" />
+    </Window.Background>
+
+    <Grid x:Name="MainGrid">
+        <Button x:Name="ReturnButton" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Width="50"  Click="ReturnOnClick" Margin="20,20,0,0">
+            <Button.Background>
+                <ImageBrush ImageSource="Graphics/backButton.png" ></ImageBrush>
+            </Button.Background>
+        </Button>
+
+        <Grid x:Name="AddCostumer" Visibility="Hidden">
+            <TextBox x:Name="CostumerEmail" TextChanged="EmailChanged" HorizontalAlignment="Left" Margin="238,120,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" Height="38" TextAlignment="Left" FontSize="20"/>
+            <Label Content="Email" HorizontalAlignment="Left" Margin="89,120,0,0" VerticalAlignment="Top" Height="38" Width="100" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" RenderTransformOrigin="0.479,-0.341"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="EmailError" Margin="435,120,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+
+            <TextBox x:Name="CostumerName" TextChanged="NameChanged" HorizontalAlignment="Left" Margin="238,170,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
+            <Label Content="UserName" HorizontalAlignment="Left" Margin="94,170,0,0" VerticalAlignment="Top" Height="38" Width="130" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="NameError" Margin="435,170,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+
+            <TextBox x:Name="Password" TextChanged="PasswordChanged" HorizontalAlignment="Left" Margin="238,220,0,0" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
+            <Label Content="Password" HorizontalAlignment="Left" Margin="84,220,0,0" VerticalAlignment="Top" Height="38" Width="140" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="PasswordError" Margin="435,220,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+
+            <TextBox x:Name="Id" TextChanged="IdChanged" HorizontalAlignment="Left" Margin="238,270,0,0" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
+            <Label Content="Id" HorizontalAlignment="Left" Margin="72,270,0,0" VerticalAlignment="Top" Height="38" Width="100" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="IdError" Margin="435,270,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+
+            <TextBox x:Name="Phone" TextChanged="PhoneChanged" HorizontalAlignment="Left" Margin="238,320,0,0" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
+            <Label Content="Phone" HorizontalAlignment="Left" Margin="71,320,0,0" VerticalAlignment="Top" Height="38" Width="140" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="PhoneError" Margin="435,320,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+
+            <Button x:Name="ConfirmButton" Content="Confirm" HorizontalAlignment="Left" Margin="190,380,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="ConfirmOnClick" FontSize="30" FontWeight="Bold" Foreground="Black">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/buttonBackground.png" ></ImageBrush>
+                </Button.Background>
+            </Button>
+
+            <Image HorizontalAlignment="Left" Height="242" Width="200" Margin="630,140,0,0" VerticalAlignment="Top" Source="Graphics/costumer.png" Visibility="Visible"/>
+        </Grid>
+
+        <Grid x:Name="CostumerDetails" Visibility="Visible">
+            <Grid Name="UpGrid" Width="850" Grid.Row="0" Margin="0,96,0,250">
+                <TextBlock x:Name="CostumerIDView" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="150" Foreground="Black" FontWeight="Bold" Background="CornflowerBlue" FontSize="20" RenderTransformOrigin="0.479,-0.341"><Run/><LineBreak/><Run Text="ID: "/></TextBlock>
+                <TextBlock x:Name="CostumerNameView" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="10,95,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="300" Foreground="Black" FontWeight="Bold" Background="LightSteelBlue" FontSize="20" RenderTransformOrigin="0.479,-0.341"><Run/><LineBreak/><Run Text="Name: "/></TextBlock>
+                <TextBlock x:Name="CostumerPhoneView" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="165,5,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="265" Foreground="Black" FontWeight="Bold" Background="LightSteelBlue" FontSize="20" RenderTransformOrigin="0.479,-0.341"><Run/><LineBreak/><Run Text="Phone: "/></TextBlock>
+                <TextBlock x:Name="CostumerLocationView" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="315,95,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="310" Foreground="Black" FontWeight="Bold" Background="CornflowerBlue" FontSize="20" RenderTransformOrigin="0.479,-0.341"><Run/><LineBreak/><Run Text="Location: {X}° N, {Y}° E"/></TextBlock>
+
+                <Button x:Name="UpdateButton" Content="  Update &#xD;&#xA;Costumer" HorizontalAlignment="Left" Margin="470,6,0,0" VerticalAlignment="Top" Height="85" Width="138" Click="UpdateOnClick" FontSize="20" FontWeight="Bold" Foreground="Black">
+                    <Button.Background>
+                        <ImageBrush ImageSource="Graphics/buttonBackground.png" ></ImageBrush>
+                    </Button.Background>
+                </Button>
+
+                <Image HorizontalAlignment="Left" Height="172" Width="157" Margin="666,0,0,0" VerticalAlignment="Center" Source="Graphics/profilePhoto.png" Visibility="Visible" RenderTransformOrigin="0.301,0.331"/>
+            </Grid>
+
+            <TextBlock x:Name="ShippedParcels" HorizontalAlignment="Left" Margin="141,281,0,215" Width="170" Foreground="Black" FontWeight="ExtraBold" FontSize="15" RenderTransformOrigin="0.479,-0.341" Text="Shipped Parcels:"/>
+            <ListView x:Name="ShippedParcelsView" MouseDoubleClick="ParcelView" SelectionMode="Single" Foreground="Black" FontFamily="Segoe UI" Margin="0,309,425,94" Width="425">
+                <ListView.Background>
+                    <ImageBrush ImageSource="Graphics/addDroneBackground.jpg" Stretch="UniformToFill"></ImageBrush>
+                </ListView.Background>
+            </ListView>
+
+            <TextBlock x:Name="IncomingParcels" HorizontalAlignment="Left" Margin="569,281,0,215" Width="170" Foreground="Black" FontWeight="ExtraBold" FontSize="15" RenderTransformOrigin="0.479,-0.341" Text="Incoming Parcels:"/>
+            <ListView x:Name="IncomingParcelsView" MouseDoubleClick="ParcelView" SelectionMode="Single" Foreground="Black" FontFamily="Segoe UI" Margin="425,309,0,94" HorizontalAlignment="Left" Width="425">
+                <ListView.Background>
+                    <ImageBrush ImageSource="Graphics/addDroneBackground.jpg" Stretch="UniformToFill"></ImageBrush>
+                </ListView.Background>
+            </ListView>
+        </Grid>
+
+        <Grid x:Name="UpdateCostumer" Visibility="Hidden">
+            <TextBox x:Name="NewCostumerName" TextChanged="NewNameChanged" HorizontalAlignment="Left" Margin="238,110,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
+            <Label Content="Name" HorizontalAlignment="Left" Margin="76,110,0,0" VerticalAlignment="Top" Height="38" Width="130" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
+
+            <TextBox x:Name="NewPhone" TextChanged="NewPhoneChanged" HorizontalAlignment="Left" Margin="238,170,0,0" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
+            <Label Content="Phone" HorizontalAlignment="Left" Margin="73,170,0,0" VerticalAlignment="Top" Height="38" Width="140" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="NewPhoneError" Margin="435,170,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+
+            <TextBox x:Name="NewEmail" TextChanged="NewEmailChanged" HorizontalAlignment="Left" Margin="238,230,0,0" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
+            <Label Content="Email" HorizontalAlignment="Left" Margin="69,230,0,0" VerticalAlignment="Top" Height="38" Width="140" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="NewEmailError" Margin="435,230,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+
+            <TextBox x:Name="NewPassword" TextChanged="NewPasswordChanged" HorizontalAlignment="Left" Margin="238,290,0,0" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
+            <Label Content="Password" HorizontalAlignment="Left" Margin="86,290,0,0" VerticalAlignment="Top" Height="38" Width="140" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="NewPasswordError" Margin="435,290,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+
+            <Button x:Name="ConfirmUpdateButton" Content="Confirm" HorizontalAlignment="Left" Margin="172,357,0,0" VerticalAlignment="Top" Height="53" Width="138" Click="ConfirmUpdateOnClick" FontSize="20" FontWeight="Bold" Foreground="Black">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/buttonBackground.png" ></ImageBrush>
+                </Button.Background>
+            </Button>
+
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="ConfirmError" Margin="141,391,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+        </Grid>
+    </Grid>
+</Window>

@@ -270,7 +270,16 @@ namespace PL
 
         private void ReturnOnClick(object o, EventArgs e)
         {
-            App.ShowWindow<StationsListWindow>();
+            if(UpdateStation.Visibility == Visibility.Visible)
+            {
+                StationWindow nextWindow = new StationWindow(this.station);
+                App.ShowWindow(nextWindow);
+            }
+
+            else
+            {
+                App.ShowWindow<StationsListWindow>();
+            }
         }
     }
 }
