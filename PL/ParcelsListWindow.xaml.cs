@@ -8,26 +8,6 @@ namespace PL
 {
     public partial class ParcelsListWindow : Window
     {
-        private class CostumerView
-        {
-            String _name;
-            int _id;
-
-            public CostumerView(BO.CostumerListBL costumer)
-            {
-                _name = costumer.Name;
-                _id = costumer.Id;
-            }
-
-            public String ToString()
-            {
-                return "Id: " + _id + ", " +
-                       "Name: " + _name + "";
-            }
-
-            public int Id => _id;
-        }
-
         private BlApi.IBL iBL;
 
         IEnumerable<BO.ParcelListBL> parcels;
@@ -43,8 +23,10 @@ namespace PL
             parcels = iBL.GetParcelsList();
             ParcelsListView.ItemsSource = parcels;
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DO.ParcelStatuses));
-            SenderSelector.ItemsSource = iBL.GetCostumerList().Select(costumer => new CostumerView(costumer));
-            TargetSelector.ItemsSource = iBL.GetCostumerList().Select(costumer => new CostumerView(costumer));
+            SenderSelector.ItemsSource = iBL.GetCostumerList()
+                .Select(costumer => ("Id: " + costumer.Id + " " + "Name: " + costumer.Name + ""));
+            TargetSelector.ItemsSource = iBL.GetCostumerList()
+                .Select(costumer => ("Id: " + costumer.Id + " " + "Name: " + costumer.Name + ""));
         }
 
         private void SelectionChanged(object o, EventArgs e)
@@ -61,9 +43,9 @@ namespace PL
                     (StatusSelector.SelectedItem == null ||
                      parcel.Status == (DO.ParcelStatuses) StatusSelector.SelectedItem) &&
                     (SenderSelector.SelectedItem == null ||
-                     parcel.SenderId == Convert.ToInt32(SenderSelector.SelectedItem)) &&
+                     parcel.SenderId == Convert.ToInt32(SenderSelector.SelectedItem.ToString().Split(' ')[1])) &&
                     (TargetSelector.SelectedItem == null ||
-                     parcel.TargetId == Convert.ToInt32(TargetSelector.SelectedItem))
+                     parcel.TargetId == Convert.ToInt32(TargetSelector.SelectedItem.ToString().Split(' ')[1]))
                 );
             }
 
