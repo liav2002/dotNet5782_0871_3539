@@ -541,7 +541,7 @@ namespace BO
         */
         public void RemoveStation(int stationId)
         {
-            this._idalObj.RemoveStation(stationId);
+            GetStationById(stationId).IsAvaliable = false;
         }
 
         /*
@@ -603,7 +603,7 @@ namespace BO
         */
         public void RemoveDrone(int droneId)
         {
-            this._idalObj.RemoveDrone(droneId);
+            GetDroneById(droneId).IsAvliable = false;
         }
 
         /*

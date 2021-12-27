@@ -31,16 +31,6 @@ namespace Dal
         }
 
         /*
-       	*Description: Remove station from data.
-       	*Parameters: station's id.
-       	*Return: None.
-        */
-        public void RemoveStation(int stationId)
-        {
-            DataSource.stations.Remove(GetStationById(stationId));
-        }
-
-        /*
    	    *Description: add new Drone to drones.
        	*Parameters: drone's details.	
        	*Return: None.
@@ -48,16 +38,6 @@ namespace Dal
         public void AddDrone(int id, string model, DO.WeightCategories maxWeight, double battery)
         {
             DataSource.drones.Add(new DO.Drone(id, model, maxWeight, battery));
-        }
-
-        /*
-       	*Description: Remove drone from data.
-       	*Parameters: drone's id.
-       	*Return: None.
-        */
-        public void RemoveDrone(int droneId)
-        {
-            DataSource.drones.Remove(GetDroneById(droneId));
         }
 
         /*

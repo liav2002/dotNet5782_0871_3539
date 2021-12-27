@@ -11,6 +11,7 @@ namespace BO
     {
         private DO.Drone _drone;
         private TransferParcelBL _parcel;
+        private bool _isAvaliable;
 
         public DroneBL(int droneId, int parcelId)
         {
@@ -23,6 +24,8 @@ namespace BO
             }
 
             _drone = idalObj.GetDroneById(droneId);
+
+            _isAvaliable = true;
         }
 
         public int Id => _drone.Id;
@@ -38,6 +41,12 @@ namespace BO
         public TransferParcelBL Parcel => _parcel;
 
         public DO.Location Location => _drone.Location;
+
+        public bool IsAvliable
+        {
+            get => _isAvaliable;
+            set => _isAvaliable = value;
+        }
 
         public override string ToString()
         {

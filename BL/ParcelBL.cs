@@ -15,6 +15,7 @@ namespace BO
         private DroneParcelBL _drone;
         private CostumerInParcel _receiver;
         private CostumerInParcel _sender;
+        private bool _isAvaliable;
 
         public ParcelBL(DO.Parcel parcel)
         {
@@ -27,6 +28,8 @@ namespace BO
             _sender = new CostumerInParcel(idalObj.GetCostumerById(parcel.SenderId));
 
             _drone = (parcel.DroneId != 0) ? new DroneParcelBL(idalObj.GetDroneById(parcel.DroneId)) : null;
+
+            _isAvaliable = true;
         }
 
         public double Id => _parcel.Id;
@@ -48,6 +51,12 @@ namespace BO
         public DateTime? Scheduled => _parcel.Scheduled;
 
         public DateTime? PickedUp => _parcel.PickedUp;
+
+        public bool IsAvliable
+        {
+            get => _isAvaliable;
+            set => _isAvaliable = value;
+        }
 
         public override string ToString()
         {
