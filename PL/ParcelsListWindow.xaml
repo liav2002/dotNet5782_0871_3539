@@ -9,13 +9,9 @@
 
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="209*" />
-            <RowDefinition Height="445*" />
+            <RowDefinition Height="88*" />
+            <RowDefinition Height="179*"/>
         </Grid.RowDefinitions>
-
-        <Grid.Background>
-            <ImageBrush ImageSource="Graphics/background.jpg"></ImageBrush>
-        </Grid.Background>
 
         <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto" RenderTransformOrigin="0.502,0.622">
             <Grid.ColumnDefinitions>
@@ -27,6 +23,10 @@
                 <ColumnDefinition Width="182*" />
             </Grid.ColumnDefinitions>
 
+            <Grid.Background>
+                <ImageBrush ImageSource="Graphics/backgroundUpGrid.jpg"></ImageBrush>
+            </Grid.Background>
+
             <Button x:Name="ReturnButton" Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Top"
                     Margin="0,11,0,0">
                 <Button.Background>
@@ -34,15 +34,15 @@
                 </Button.Background>
             </Button>
 
-            <ComboBox x:Name="StatusSelector" Height="30" Grid.Column="3" Margin="0,10,1,110"
+            <ComboBox x:Name="StatusSelector" Height="30" Grid.Column="3" Margin="0,7,1,136"
                       SelectionChanged="SelectionChanged" BorderBrush="White" FontSize="12" />
-            <ComboBox x:Name="SenderSelector" Height="30" Grid.Column="3" Margin="0,70,1,50"
+            <ComboBox x:Name="SenderSelector" Height="30" Grid.Column="3" Margin="0,69,1,74"
                       SelectionChanged="SelectionChanged" BorderBrush="White" FontSize="12" />
-            <ComboBox x:Name="TargetSelector" Height="30" Grid.Column="3" Margin="0,130,1,-10"
+            <ComboBox x:Name="TargetSelector" Height="30" Grid.Column="3" Margin="0,129,1,14"
                       SelectionChanged="SelectionChanged" BorderBrush="White" FontSize="12" />
 
             <Button x:Name="StatusSelectorClearButton" Height="30" Width="50" Content="Clear" Grid.Column="4"
-                    Margin="13,10,90,0" VerticalAlignment="Top" Click="StatusSelectorClearButtonOnClick"
+                    Margin="13,8,90,0" VerticalAlignment="Top" Click="StatusSelectorClearButtonOnClick"
                     Foreground="White">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
@@ -50,15 +50,15 @@
             </Button>
 
             <Button x:Name="SenderSelectorClearButton" Height="30" Width="50" Content="Clear" Grid.Column="4"
-                    Margin="13,70,90,60" Click="SenderSelectorClearButtonOnClick" Foreground="White"
+                    Margin="13,70,90,71" Click="SenderSelectorClearButtonOnClick" Foreground="White"
                     RenderTransformOrigin="0.414,-0.569">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
                 </Button.Background>
-                
+
             </Button>
             <Button x:Name="TargetSelectorClearButton" Height="30" Width="50" Content="Clear" Grid.Column="4"
-                    Margin="13,130,90,0" Click="TargetSelectorClearButtonOnClick" Foreground="White"
+                    Margin="13,129,90,14" Click="TargetSelectorClearButtonOnClick" Foreground="White"
                     RenderTransformOrigin="0.414,-0.569">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
@@ -90,8 +90,7 @@
         </Grid>
 
         <ListView x:Name="ParcelsListView" MouseDoubleClick="ParcelView" SelectionMode="Single" Foreground="White"
-                  BorderBrush="White" FontFamily="Segoe UI" Height="425" VerticalAlignment="Top" Margin="0,209,0,0"
-                  Grid.RowSpan="2">
+                  BorderBrush="White" FontFamily="Segoe UI" Height="358" VerticalAlignment="Center" Grid.Row="1">
             <ListView.Background>
                 <ImageBrush ImageSource="Graphics/background.jpg"></ImageBrush>
             </ListView.Background>
