@@ -24,7 +24,7 @@ namespace BO
             _drone = idalObj.GetDroneById(droneId);
         }
 
-        public void SetAsUnvaliable()
+        public void SetAsUnAvailable()
         {
             this._drone.IsAvaliable = false;
         }

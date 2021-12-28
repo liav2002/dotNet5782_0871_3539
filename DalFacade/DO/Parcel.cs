@@ -28,6 +28,8 @@ namespace DO
         private DateTime? _pickedUp;
 
         private DateTime? _delivered;
+        
+        private bool _isAvailable;
 
         public int Id
         {
@@ -45,6 +47,12 @@ namespace DO
         {
             get => _targetId;
             set => _targetId = value;
+        }
+
+        public bool IsAvailable
+        {
+            get => this._isAvailable;
+            set => this._isAvailable = value;
         }
 
         public WeightCategories Weight

@@ -25,9 +25,9 @@ namespace Dal
        	*Parameters: station's id, station's name, station's location, charge's slots.
        	*Return: None.
         */
-        public void AddStation(int id, string name, DO.Location location, int charge_solts)
+        public void AddStation(int id, string name, DO.Location location, int chargeSlots)
         {
-            DataSource.stations.Add(new DO.Station(id, name, location, charge_solts));
+            DataSource.stations.Add(new DO.Station(id, name, location, chargeSlots));
         }
 
         /*

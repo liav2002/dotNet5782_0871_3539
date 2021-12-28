@@ -33,7 +33,7 @@ namespace BO
             }
         }
 
-        public void SetAsUnvaliable()
+        public void SetAsUnAvailable()
         {
             this._costumer.IsAvaliable = false;
         }

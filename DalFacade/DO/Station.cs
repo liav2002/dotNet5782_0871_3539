@@ -10,7 +10,7 @@ namespace DO
         private string _name;
         private Location _location;
         private int _chargeSlots;
-        private bool _isAvaliable;
+        private bool _isAvailable;
 
         public int Id
         {
@@ -45,10 +45,10 @@ namespace DO
             }
         }
 
-        public bool IsAvaliable
+        public bool IsAvailable
         {
-            get => this._isAvaliable;
-            set => this._isAvaliable = value;
+            get => this._isAvailable;
+            set => this._isAvailable = value;
         }
 
         public override string ToString()
@@ -65,7 +65,7 @@ namespace DO
             this._name = name;
             this._location = location;
             this._chargeSlots = chargeSlots;
-            this._isAvaliable = true;
+            this._isAvailable = true;
         }
     }
 }

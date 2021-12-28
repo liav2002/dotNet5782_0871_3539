@@ -74,7 +74,7 @@ namespace BO
 
                     else
                     {
-                        minToAvoid = saveMin; // mark this minimum as unvaliable station, so next time avoid him
+                        minToAvoid = saveMin; // mark this minimum as unAvailable station, so next time avoid him
                         numberOfIteration++; // count number of tests
                     }
                 }
@@ -176,20 +176,20 @@ namespace BO
                 switch (parcel.Weight)
                 {
                     case DO.WeightCategories.Heavy:
-                        {
-                            minBattery += d2 * DataSource.Config.heavyPPK;
-                            break;
-                        }
+                    {
+                        minBattery += d2 * DataSource.Config.heavyPPK;
+                        break;
+                    }
                     case DO.WeightCategories.Medium:
-                        {
-                            minBattery += d2 * DataSource.Config.mediumPPK;
-                            break;
-                        }
+                    {
+                        minBattery += d2 * DataSource.Config.mediumPPK;
+                        break;
+                    }
                     case DO.WeightCategories.Light:
-                        {
-                            minBattery += d2 * DataSource.Config.lightPPK;
-                            break;
-                        }
+                    {
+                        minBattery += d2 * DataSource.Config.lightPPK;
+                        break;
+                    }
                 }
             }
 
@@ -234,11 +234,11 @@ namespace BO
 
             if (priority == parcelForAssign.Priority)
             {
-                parcelsAccordingWeight.Enqueue(parcelForAssign, (int)parcelForAssign.Weight);
+                parcelsAccordingWeight.Enqueue(parcelForAssign, (int) parcelForAssign.Weight);
             }
             else
             {
-                this._waitingParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Priority);
+                this._waitingParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Priority);
             }
 
             bool search = true;
@@ -251,13 +251,13 @@ namespace BO
 
                     if (parcelForAssign.Priority == priority)
                     {
-                        parcelsAccordingWeight.Enqueue(parcelForAssign, (int)parcelForAssign.Weight);
+                        parcelsAccordingWeight.Enqueue(parcelForAssign, (int) parcelForAssign.Weight);
                     }
 
                     else
                     {
                         search = false;
-                        this._waitingParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Priority);
+                        this._waitingParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Priority);
                     }
                 }
 
@@ -279,12 +279,12 @@ namespace BO
 
                     if (parcelForAssign.Weight > drone.MaxWeight)
                     {
-                        this._waitingParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Priority);
+                        this._waitingParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Priority);
                     }
 
                     else
                     {
-                        parcelsAccordingWeight.Enqueue(parcelForAssign, (int)parcelForAssign.Weight);
+                        parcelsAccordingWeight.Enqueue(parcelForAssign, (int) parcelForAssign.Weight);
                         search = false;
                     }
                 }
@@ -328,7 +328,7 @@ namespace BO
 
                     else
                     {
-                        this._waitingParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Priority);
+                        this._waitingParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Priority);
                         search = false;
                     }
                 }
@@ -366,7 +366,7 @@ namespace BO
                     DO.Parcel parcel = suitableParcels[i];
                     if (parcel.Id != parcelForAssign.Id)
                     {
-                        this._waitingParcels.Enqueue(parcel, (int)parcel.Priority);
+                        this._waitingParcels.Enqueue(parcel, (int) parcel.Priority);
                     }
                 }
             }
@@ -395,7 +395,7 @@ namespace BO
         private void SetDroneDetails(DO.Drone drone)
         {
             if (drone.Status != DO.DroneStatuses.Shipping) //for all the drones that not in shiping.
-                                                           //I dont care from shiping drones, because I already init there value (battery, location).
+                //I dont care from shiping drones, because I already init there value (battery, location).
             {
                 Random rand = new Random();
                 int status = rand.Next(0, 1);
@@ -494,7 +494,7 @@ namespace BO
 
                 else
                 {
-                    this._waitingParcels.Enqueue(parcel, (int)parcel.Priority);
+                    this._waitingParcels.Enqueue(parcel, (int) parcel.Priority);
                 }
             }
 
@@ -541,7 +541,7 @@ namespace BO
         */
         public void RemoveStation(int stationId)
         {
-            GetStationById(stationId).SetAsUnvaliable();
+            GetStationById(stationId).SetAsUnAvailable();
         }
 
         /*
@@ -590,7 +590,7 @@ namespace BO
 
             Random random = new Random();
             double battery = random.NextDouble() * 20 + 20; // random double in range (20, 40)
-            this._idalObj.AddDrone(id, model, (DO.WeightCategories)maxWeight, battery);
+            this._idalObj.AddDrone(id, model, (DO.WeightCategories) maxWeight, battery);
 
             // after the drone created we send he to the station:
             SendDroneToCharge(id, stationId);
@@ -603,7 +603,22 @@ namespace BO
         */
         public void RemoveDrone(int droneId)
         {
-            GetDroneById(droneId).SetAsUnvaliable();
+            GetDroneById(droneId).SetAsUnAvailable();
+        }
+
+        /*
+            *Description: Remove drone from data.
+            *Parameters: drone's id
+            *Return: None.
+        */
+        public void RemoveParcel(int parcelId)
+        {
+            ParcelBL parcel = GetParcelById(parcelId);
+
+            if (parcel.Status != ParcelStatuses.Created)
+                throw new RemoveError("parcel");
+
+            parcel.SetAsUnAvailable();
         }
 
         /*
@@ -659,7 +674,7 @@ namespace BO
         }
 
         /*
-        *Description: find avaliable drone for deliverd a parcel.
+        *Description: find available drone for deliverd a parcel.
         *Parameters: a parcel.
         *Return: None.
         */
@@ -672,9 +687,9 @@ namespace BO
                 throw new BO.NegetiveValue("Drone's id");
             }
 
-            if(GetDroneById(droneId).IsAvliable == false)
+            if (GetDroneById(droneId).IsAvliable == false)
             {
-                throw new BO.NoAvaliable("drone");
+                throw new BO.NoAvailable("drone");
             }
 
             var drone = this._idalObj.GetDroneById(droneId);
@@ -800,7 +815,7 @@ namespace BO
 
             if (chargeSlots != -1)
             {
-                if(chargeSlots < 0)
+                if (chargeSlots < 0)
                 {
                     throw new BO.NegetiveValue("Charge slots");
                 }
@@ -822,9 +837,9 @@ namespace BO
                 throw new BO.NegetiveValue("Drone's id");
             }
 
-            if(GetDroneById(droneId).IsAvliable == false)
+            if (GetDroneById(droneId).IsAvliable == false)
             {
-                throw new BO.NoAvaliable("drone");
+                throw new BO.NoAvailable("drone");
             }
 
             DO.Drone drone = this._idalObj.GetDroneById(droneId);
@@ -922,9 +937,9 @@ namespace BO
                 throw new BO.NegetiveValue("Station's id");
             }
 
-            if(GetDroneById(droneId).IsAvliable == false)
+            if (GetDroneById(droneId).IsAvliable == false)
             {
-                throw new BO.NoAvaliable("drone");
+                throw new BO.NoAvailable("drone");
             }
 
             DO.Drone drone = this._idalObj.GetDroneById(droneId);

@@ -18,9 +18,16 @@ namespace BO
         }
     }
 
-    public class NoAvaliable : Exception
+    public class NoAvailable : Exception
     {
-        public NoAvaliable(string item) : base("ERROR: " + item + " is not avliable.\n")
+        public NoAvailable(string item) : base("ERROR: " + item + " is not available.\n")
+        {
+        }
+    }
+    
+    public class RemoveError : Exception
+    {
+        public RemoveError(string item) : base("ERROR: " + item + " cannot be deleted.\n")
         {
         }
     }

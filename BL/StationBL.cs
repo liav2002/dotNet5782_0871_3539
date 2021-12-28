@@ -31,9 +31,9 @@ namespace BO
             }
         }
 
-        public void SetAsUnvaliable()
+        public void SetAsUnAvailable()
         {
-            this._station.IsAvaliable = false;
+            this._station.IsAvailable = false;
         }
 
         public int Id => _station.Id;
@@ -46,7 +46,7 @@ namespace BO
 
         public List<DroneChargeBL> DronesInStation => _dronesInStation;
 
-        public bool IsAvaliable => _station.IsAvaliable;
+        public bool IsAvailable => _station.IsAvailable;
         public override string ToString()
         {
             string strToPrint = string.Format("the id is: {0}\nthe name is: {1}\nthe location is: {2}\n" +

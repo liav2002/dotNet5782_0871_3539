@@ -10,7 +10,7 @@
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="88*" />
-            <RowDefinition Height="179*"/>
+            <RowDefinition Height="80*" />
         </Grid.RowDefinitions>
 
         <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto" RenderTransformOrigin="0.502,0.622">
@@ -34,15 +34,15 @@
                 </Button.Background>
             </Button>
 
-            <ComboBox x:Name="StatusSelector" Height="30" Grid.Column="3" Margin="0,7,1,136"
+            <ComboBox x:Name="StatusSelector" Height="30" Grid.Column="3" Margin="0, 7,1, 240"
                       SelectionChanged="SelectionChanged" BorderBrush="White" FontSize="12" />
-            <ComboBox x:Name="SenderSelector" Height="30" Grid.Column="3" Margin="0,69,1,74"
+            <ComboBox x:Name="SenderSelector" Height="30" Grid.Column="3" Margin="0, 69, 1, 180"
                       SelectionChanged="SelectionChanged" BorderBrush="White" FontSize="12" />
-            <ComboBox x:Name="TargetSelector" Height="30" Grid.Column="3" Margin="0,129,1,14"
+            <ComboBox x:Name="TargetSelector" Height="30" Grid.Column="3" Margin="0, 129, 1, 120"
                       SelectionChanged="SelectionChanged" BorderBrush="White" FontSize="12" />
 
             <Button x:Name="StatusSelectorClearButton" Height="30" Width="50" Content="Clear" Grid.Column="4"
-                    Margin="13,8,90,0" VerticalAlignment="Top" Click="StatusSelectorClearButtonOnClick"
+                    Margin="13,10,90,0" VerticalAlignment="Top" Click="StatusSelectorClearButtonOnClick"
                     Foreground="White">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
@@ -50,7 +50,7 @@
             </Button>
 
             <Button x:Name="SenderSelectorClearButton" Height="30" Width="50" Content="Clear" Grid.Column="4"
-                    Margin="13,70,90,71" Click="SenderSelectorClearButtonOnClick" Foreground="White"
+                    Margin="13,-50,90,71" Click="SenderSelectorClearButtonOnClick" Foreground="White"
                     RenderTransformOrigin="0.414,-0.569">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
@@ -58,7 +58,7 @@
 
             </Button>
             <Button x:Name="TargetSelectorClearButton" Height="30" Width="50" Content="Clear" Grid.Column="4"
-                    Margin="13,129,90,14" Click="TargetSelectorClearButtonOnClick" Foreground="White"
+                    Margin="13,20,90,14" Click="TargetSelectorClearButtonOnClick" Foreground="White"
                     RenderTransformOrigin="0.414,-0.569">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
@@ -82,9 +82,16 @@
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
                 </Button.Background>
             </Button>
+            <Button x:Name="RemoveParcelButton" Width="100" Height="50" Content="Remove" Grid.Column="5"
+                    HorizontalAlignment="Center" VerticalAlignment="Top" Click="RemoveParcelButtonOnClick"
+                    Foreground="White" FontSize="14" Margin="0,70,0,0">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
+                </Button.Background>
+            </Button>
 
 
-            <TextBlock TextWrapping="Wrap" Text="" Foreground="Red" Name="errorMessage" Margin="0,170,35,10"
+            <TextBlock TextWrapping="Wrap" Text="" Foreground="Red" Name="errorMessage" Margin="0,100,35,10"
                        Height="30" FontFamily="Arial" FontWeight="Bold" Grid.Column="3" FontSize="14"
                        Grid.ColumnSpan="2" />
         </Grid>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DalApi;
-
+using DO;
 
 
 namespace BO
@@ -12,10 +12,14 @@ namespace BO
     public class ParcelBL
     {
         private DO.Parcel _parcel;
+        
         private DroneParcelBL _drone;
+        
         private CostumerInParcel _receiver;
+        
         private CostumerInParcel _sender;
-        private bool _isAvaliable;
+        
+        private bool _isAvailable;
 
         public ParcelBL(DO.Parcel parcel)
         {
@@ -29,7 +33,7 @@ namespace BO
 
             _drone = (parcel.DroneId != 0) ? new DroneParcelBL(idalObj.GetDroneById(parcel.DroneId)) : null;
 
-            _isAvaliable = true;
+            _isAvailable = true;
         }
 
         public int Id => _parcel.Id;
@@ -51,11 +55,13 @@ namespace BO
         public DateTime? Scheduled => _parcel.Scheduled;
 
         public DateTime? PickedUp => _parcel.PickedUp;
+        public ParcelStatuses Status => _parcel.Status;
 
-        public bool IsAvliable
+        public bool IsAvailable => _parcel.IsAvailable;
+
+        public void SetAsUnAvailable()
         {
-            get => _isAvaliable;
-            set => _isAvaliable = value;
+            this._parcel.IsAvailable = false;
         }
 
         public override string ToString()

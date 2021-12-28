@@ -229,7 +229,7 @@ namespace PL
 
         private void UpdateOnClick(object o, EventArgs e)
         {
-            if (station.IsAvaliable == false)
+            if (station.IsAvailable == false)
             {
                 MessageBox.Show("ERROR: station is not avaliable.", "ERROR");
             }

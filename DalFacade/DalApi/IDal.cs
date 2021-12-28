@@ -7,7 +7,7 @@ namespace DalApi
     public interface IDal
     {
         //general methods
-        public void AddStation(int id, string name, DO.Location location, int charge_solts);
+        public void AddStation(int id, string name, DO.Location location, int chargeSlots);
 
         public void AddDrone(int id, string model, DO.WeightCategories maxWeight, double battery);
 
