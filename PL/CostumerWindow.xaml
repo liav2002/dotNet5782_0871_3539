@@ -56,7 +56,7 @@
             <Image HorizontalAlignment="Left" Height="193" Width="178" Margin="507,208,0,0" VerticalAlignment="Top" Source="Graphics/costumer.png" Visibility="Visible"/>
         </Grid>
 
-        <Grid x:Name="CostumerDetails" Visibility="Hidden">
+        <Grid x:Name="CostumerDetails" Visibility="Visible">
             <Grid Name="UpGrid" Width="850" Grid.Row="0" Margin="0,96,0,250">
                 <TextBlock x:Name="CostumerIDView" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="150" Foreground="Black" FontWeight="Bold" Background="CornflowerBlue" FontSize="20" RenderTransformOrigin="0.479,-0.341"><Run/><LineBreak/><Run Text="ID: "/></TextBlock>
                 <TextBlock x:Name="CostumerNameView" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="10,95,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="300" Foreground="Black" FontWeight="Bold" Background="LightSteelBlue" FontSize="20" RenderTransformOrigin="0.479,-0.341"><Run/><LineBreak/><Run Text="Name: "/></TextBlock>
@@ -87,8 +87,8 @@
             </ListView>
         </Grid>
 
-        <Grid x:Name="UpdateCostumer" Visibility="Visible">
-            <TextBox x:Name="NewCostumerName" TextChanged="NewNameChanged" HorizontalAlignment="Left" Margin="238,110,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
+        <Grid x:Name="UpdateCostumer" Visibility="Hidden">
+            <TextBox x:Name="NewCostumerName" HorizontalAlignment="Left" Margin="238,110,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
             <Label Content="Name" HorizontalAlignment="Left" Margin="76,110,0,0" VerticalAlignment="Top" Height="38" Width="130" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
 
             <TextBox x:Name="NewPhone" TextChanged="NewPhoneChanged" HorizontalAlignment="Left" Margin="238,170,0,0" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>

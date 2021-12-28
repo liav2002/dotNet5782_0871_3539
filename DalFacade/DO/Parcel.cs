@@ -137,6 +137,7 @@ namespace DO
             this._scheduled = scheduled; // we make an assign between drone to parcel.
             this._pickedUp = pickedUp; // parcel is being picked up.
             this._delivered = delivered; // costumer get the parcel.
+            this._isAvailable = true;
 
             if (delivered != null) this._status = ParcelStatuses.Delivered;
             else if (pickedUp != null) this._status = ParcelStatuses.PickedUp;

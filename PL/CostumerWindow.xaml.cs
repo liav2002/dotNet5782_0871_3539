@@ -20,7 +20,7 @@ namespace PL
     /// <summary>
     /// Interaction logic for CostumerWindow.xaml
     /// </summary>
-    public partial class CostumerWindow : Window //TODO: Implemented handlers of CostumerWindow
+    public partial class CostumerWindow : Window
     {
         private BlApi.IBL iBL;
         private BO.CostumerBL costumer;
@@ -154,7 +154,6 @@ namespace PL
             double latitude = 0;
 
             //check email
-            Regex regex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
 
             if (CostumerEmail.Text == "")
             {
@@ -162,7 +161,7 @@ namespace PL
                 addCostumer = false;
             }
 
-            else if(!regex.IsMatch(CostumerEmail.Text))
+            else if(!IsEmailValid(CostumerEmail.Text))
             {
                 EmailError.Text = "Email format must be username@domain.tld";
                 addCostumer = false;
@@ -197,7 +196,6 @@ namespace PL
             }
 
             //check phone number
-            string phonePrefix = Phone.Text.Substring(0, 3);
 
             if (Phone.Text == "")
             {
@@ -205,26 +203,16 @@ namespace PL
                 addCostumer = false;
             }
 
-            else if(Phone.Text.Length != 10)
-            {
-                PhoneError.Text = "Phone number is illegal.";
-                addCostumer = false;
-            }
-
-            else if (phonePrefix != "050" && phonePrefix != "052" && phonePrefix != "053" &&
-                phonePrefix != "054" && phonePrefix != "055" && phonePrefix != "058")
+            else if (!IsPhonePrefixValid(Phone.Text))
             {
                 PhoneError.Text = "An unfamiliar cellular company.";
                 addCostumer = false;
             }
 
-            foreach (var letter in Phone.Text)
+            else if(!IsPhoneValid(Phone.Text))
             {
-                if(!(letter <= '9' && letter >= '0'))
-                {
-                    PhoneError.Text = "Phone number is illegal.";
-                    addCostumer = false;
-                }
+                PhoneError.Text = "Phone number is illegal.";
+                addCostumer = false;
             }
 
             //check longitude
@@ -276,13 +264,21 @@ namespace PL
 
         private void UpdateOnClick(object o, EventArgs e)
         {
-            CostumerWindow nextWindow = new CostumerWindow(CostumerName.Text, Phone.Text, CostumerEmail.Text, Password.Text, costumer);
-            App.ShowWindow(nextWindow);
+            if(costumer.IsAvaliable)
+            {
+                CostumerWindow nextWindow = new CostumerWindow(CostumerName.Text, Phone.Text, CostumerEmail.Text, Password.Text, costumer);
+                App.ShowWindow(nextWindow);
+            }
+
+            else
+            {
+                MessageBox.Show("ERROR: costumer is not available.", "ERROR");
+            }
         }
 
         private void ParcelView(object o, EventArgs e)
         {
-
+            //TODO: Implement ParcelDetails Window
         }
 
         private void NewPhoneChanged(object o, EventArgs e)
@@ -305,12 +301,52 @@ namespace PL
 
         private void ConfirmUpdateOnClick(object o, EventArgs e)
         {
+            bool update = true;
 
+            //check new phone
+            if (!IsPhonePrefixValid(NewPhone.Text))
+            {
+                PhoneError.Text = "An unfamiliar cellular company.";
+                update = false;
+            }
+
+            else if (!IsPhoneValid(NewPhone.Text))
+            {
+                PhoneError.Text = "Phone number is illegal.";
+                update = false;
+            }
+
+            //check new email
+
+            if(!IsEmailValid(NewEmail.Text))
+            {
+                EmailError.Text = "Email format must be username@domain.tld";
+                update = false;
+            }
+
+            try
+            {
+                if(update)
+                {
+                    this.iBL.UpdateCostumer(costumer.Id, NewCostumerName.Text, NewPhone.Text, NewEmail.Text, NewPassword.Text);
+                    CostumerNameView.Text = NewCostumerName.Text;
+                    CostumerPhoneView.Text = NewPhone.Text;
+                }
+            }
+
+            catch(Exception ex)
+            {
+                ConfirmError.Text = ex.Message;
+                return;
+            }
+
+            CostumerWindow nextWindow = new CostumerWindow(costumer);
+            App.ShowWindow(nextWindow);
         }
 
         private void ReturnOnClick(object o, EventArgs e)
         {
-            if(returnMain)
+            if (returnMain)
             {
                 App.BackToMain();
             }
@@ -323,15 +359,48 @@ namespace PL
 
             else
             {
-                App.ShowWindow<CostumersListWindow>();
+                if(this.iBL.GetLoggedUser().IsManager)
+                {
+                    App.ShowWindow<CostumersListWindow>();
+                }
+                else
+                {
+                    App.BackToMain();
+                }
             }
         }
 
-        private bool checkPhonePrefix(string phone)
+        private bool IsPhonePrefixValid(string phone)
         {
+            string phonePrefix = phone.Substring(0, 3);
+
+            return (phonePrefix == "050" || phonePrefix == "052" || phonePrefix == "053" ||
+                phonePrefix == "054" || phonePrefix == "055" || phonePrefix == "058");
+        }
+
+        private bool IsPhoneValid(string phone)
+        {
+            if(phone.Length != 10)
+            {
+                return false;
+            }
+
+            foreach (var letter in phone)
+            {
+                if (!(letter <= '9' && letter >= '0'))
+                {
+                    return false;
+                }
+            }
+
             return true;
         }
 
+        private bool IsEmailValid(string email)
+        {
+            Regex regex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
 
+            return regex.IsMatch(email);
+        }
     }
 }

@@ -18,6 +18,8 @@ namespace PL
         {
             mainWindow = new MainWindow();
             ShowWindow(mainWindow);
+
+            currentWindow = null;
         }
 
         public static void ShowWindow(Window nextWindow)

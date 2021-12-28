@@ -176,4 +176,25 @@ namespace BO
         {
         }
     }
+
+    public class UsernameNotFound : Exception
+    {
+        public UsernameNotFound(string username) : base("ERROR: The username (" + username + ") cannot be found.\n")
+        {
+        }
+    }
+
+    public class FailedSignIn : Exception
+    {
+        public FailedSignIn() : base("ERROR: username or password are incorrect.\n")
+        {
+        }
+    }
+
+    public class UserBlocked : Exception
+    {
+        public UserBlocked() : base("Sorry, you're blocked by managment.\n")
+        {
+        }
+    }
 }

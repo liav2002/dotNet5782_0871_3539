@@ -542,7 +542,14 @@ namespace BO
         */
         public void RemoveStation(int stationId)
         {
-            GetStationById(stationId).SetAsUnAvailable();
+            StationBL station = GetStationById(stationId);
+
+            if(!station.IsAvailable)
+            {
+                throw new NoAvailable("station");
+            }
+
+            station.SetAsUnAvailable();
         }
 
         /*
@@ -604,22 +611,14 @@ namespace BO
         */
         public void RemoveDrone(int droneId)
         {
-            GetDroneById(droneId).SetAsUnAvailable();
-        }
+            DroneBL drone = GetDroneById(droneId);
 
-        /*
-            *Description: Remove drone from data.
-            *Parameters: drone's id
-            *Return: None.
-        */
-        public void RemoveParcel(int parcelId)
-        {
-            ParcelBL parcel = GetParcelById(parcelId);
+            if(!drone.IsAvliable)
+            {
+                throw new NoAvailable("drone");
+            }
 
-            if (parcel.Status != ParcelStatuses.Created)
-                throw new RemoveError("parcel");
-
-            parcel.SetAsUnAvailable();
+            drone.SetAsUnAvailable();
         }
 
         /*
@@ -637,6 +636,11 @@ namespace BO
                 {
                     throw new BO.NonUniqueID("Costumer's id");
                 }
+
+                else if(costumer.Name == name)
+                {
+                    throw new BO.NonUniqueID("Costumer's name");
+                }
             }
 
             if (id < 0)
@@ -645,6 +649,23 @@ namespace BO
             }
 
             this._idalObj.AddCostumer(id, name, phone, new DO.Location(longitude, latitude), email, password);
+        }
+
+        /*
+            *Description: Remove costumer from data.
+            *Parameters: costumer's id
+            *Return: None.
+        */
+        public void RemoveCostumer(int costumerId)
+        {
+            CostumerBL costumer = GetCostumerById(costumerId);
+
+            if (!costumer.IsAvaliable)
+            {
+                throw new NoAvailable("costumer");
+            }
+
+            costumer.SetAsUnAvailable();
         }
 
         /*
@@ -672,6 +693,23 @@ namespace BO
                 null, null);
 
             this._waitingParcels.Enqueue(this._idalObj.GetParcelById(id), priority);
+        }
+
+        /*
+            *Description: Remove drone from data.
+            *Parameters: drone's id
+            *Return: None.
+        */
+        public void RemoveParcel(int parcelId)
+        {
+            ParcelBL parcel = GetParcelById(parcelId);
+
+            if (!parcel.IsAvailable)
+                throw new NoAvailable("parcel");
+            if (parcel.Status != ParcelStatuses.Created)
+                throw new RemoveError("parcel");
+
+            parcel.SetAsUnAvailable();
         }
 
         /*
@@ -753,7 +791,7 @@ namespace BO
         *Parameters: costumer's id, new name, new phone number.
         *Return: None.
         */
-        public void UpdateCostumer(int costumerId, string name, string phoneNumber)
+        public void UpdateCostumer(int costumerId, string name, string phoneNumber, string email, string password)
         {
             //check logic
             if (0 > costumerId)
@@ -762,15 +800,15 @@ namespace BO
             }
 
             DO.Costumer costumer = this._idalObj.GetCostumerById(costumerId);
-            if (costumer.Name == name)
-            {
-                throw new BO.NotNewValue("Costumer Name", name);
-            }
+            //if (costumer.Name == name)
+            //{
+            //    throw new BO.NotNewValue("Costumer Name", name);
+            //}
 
-            if (costumer.Phone == phoneNumber)
-            {
-                throw new BO.NotNewValue("Costumer phone", phoneNumber);
-            }
+            //if (costumer.Phone == phoneNumber)
+            //{
+            //    throw new BO.NotNewValue("Costumer phone", phoneNumber);
+            //}
 
             if (name != "")
             {
@@ -780,6 +818,16 @@ namespace BO
             if (phoneNumber != "")
             {
                 costumer.Phone = phoneNumber;
+            }
+
+            if(email != "")
+            {
+                costumer.Email = email;
+            }
+
+            if(password != "")
+            {
+                costumer.Password = password;
             }
         }
 
@@ -1053,7 +1101,43 @@ namespace BO
             return latitude;
         }
 
+        public void SignIn(string username, string password)
+        {
+            CostumerBL costumer = GetCostumerByUsername(username);
+
+            if(!costumer.IsAvaliable)
+            {
+                throw new UserBlocked();
+            }
+
+            if (costumer.Password == password)
+            {
+                this._idalObj.SignIn(costumer.Id);
+            }
+
+            else
+            {
+                throw new BO.FailedSignIn();
+            }
+        }
+
+        public void SignOut()
+        {
+            this._idalObj.SignOut();
+        }
+
         //getters:
+        public BO.CostumerBL GetLoggedUser()
+        {
+            CostumerBL loggedUser = null;
+
+            if(this._idalObj.GetLoggedUser() != null)
+            {
+                loggedUser = GetCostumerById(this._idalObj.GetLoggedUser().Id);
+            }
+
+            return loggedUser;
+        }
 
         public BO.ParcelBL GetParcelById(int parcelId)
         {
@@ -1209,6 +1293,22 @@ namespace BO
 
             if (parcels.Count == 0) return null; // ERROR, throwing suitable exception
             return parcels[0];
+        }
+
+        private CostumerBL GetCostumerByUsername(string name)
+        {
+            int id = 0;
+
+            foreach(var costumer in GetCostumerList())
+            {
+                if(costumer.Name == name)
+                {
+                    id = costumer.Id;
+                    return new BO.CostumerBL(this._idalObj.GetCostumerById(id));
+                }
+            }
+
+            throw new BO.UsernameNotFound(name);
         }
     }
 }

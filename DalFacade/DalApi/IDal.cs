@@ -8,21 +8,19 @@ namespace DalApi
     {
         //general methods
         public void AddStation(int id, string name, DO.Location location, int chargeSlots);
-
         public void AddDrone(int id, string model, DO.WeightCategories maxWeight, double battery);
-
         public void AddCostumer(int id, string name, string phone, DO.Location location, string email, string password);
-
         public void AddParcel(int id, int senderId, int targetId, int weight, int priority, DateTime? requested,
             int droneId, DateTime? scheduled, DateTime? pickedUp, DateTime? delivered);
-
         public void AddDroneToCharge(int droneId, int stationId);
         public void DroneRelease(int droneId, double hours);
         public double[] PowerRequest();
-
         public bool IsDroneCharge(int droneId);
+        public void SignIn(int costumerId);
+        public void SignOut();
 
         //getters
+        public DO.Costumer GetLoggedUser();
         public DO.Parcel GetParcelById(int id);
         public DO.Costumer GetCostumerById(int id);
         public DO.Station GetStationById(int id);

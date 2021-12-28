@@ -24,6 +24,7 @@ namespace Dal
         internal static List<DO.Costumer> costumers = new List<DO.Costumer>();
         internal static List<DO.Parcel> parcels = new List<DO.Parcel>();
         internal static List<DO.DroneCharge> droneCharge = new List<DO.DroneCharge>();
+        internal static DO.Costumer loggetCostumer = null;
 
         internal static Random rand = new Random();
 
@@ -44,6 +45,15 @@ namespace Dal
             InitializeStation();
             InitializeCostumer();
             InitializeParcel();
+
+            //Set me and eyal as Managers
+            DO.Costumer manager1 = new DO.Costumer(212830871, "liav", "0524295007", new DO.Location(31.778860, 35.203070), "halkadar@g.jct.ac.il", "Aa123456");
+            manager1.IsManger = true;
+            costumers.Add(manager1);
+
+            DO.Costumer manager2 = new DO.Costumer(324863539, "eyal", "0584312212", new DO.Location(31.778860, 35.203070), "eyal@g.jct.ac.il", "Aa123456");
+            manager2.IsManger = true;
+            costumers.Add(manager2);
         }
 
         public static void InitializeDrone()

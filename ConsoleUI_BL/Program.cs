@@ -383,6 +383,8 @@ namespace ConsoleUI_BL
                     int costumerId;
                     string name;
                     string phoneNumber;
+                    string email;
+                    string password;
 
                     Console.WriteLine("Enter costumer's id: ");
                     costumerId = Convert.ToInt32(Console.ReadLine());
@@ -390,11 +392,15 @@ namespace ConsoleUI_BL
                     name = Convert.ToString(Console.ReadLine());
                     Console.WriteLine("Enter costumer's new phone number: ");
                     phoneNumber = Console.ReadLine();
+                    Console.WriteLine("Enter costumer's new email: ");
+                    email = Console.ReadLine();
+                    Console.WriteLine("Enter costumer's new password: ");
+                    password = Console.ReadLine();
                     Console.WriteLine("");
 
                     try
                     {
-                        iBL.UpdateCostumer(costumerId, name, phoneNumber);
+                        iBL.UpdateCostumer(costumerId, name, phoneNumber, email, password);
                         iBL.Sys().SuccessMessage();
                         pause();
                     }

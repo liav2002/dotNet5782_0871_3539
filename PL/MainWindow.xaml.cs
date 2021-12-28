@@ -22,30 +22,76 @@ namespace PL
     public partial class MainWindow : Window
     {
         private BlApi.IBL iBL;
+
         public MainWindow()
         {
             InitializeComponent();
-            menuButtons = new Button[] { DronesButton, ParcelsButton, CostumersButton, StationsButton };
-            SetMenuButtonsActive(false);
+            this.Closing += App.Window_Closing;
+
             this.iBL = BlFactory.GetBl();
+
+            SignoutState.Visibility = Visibility.Visible;
+            SigninAsManagerState.Visibility = Visibility.Hidden;
+            SigninAsCostumerState.Visibility = Visibility.Hidden;
+
+            helloUserLabel.Content = "hello {[name]}";
+            helloUserLabel.Visibility = Visibility.Collapsed;
+        }
+
+        public MainWindow(bool isManager)
+        {
+            InitializeComponent();
+
+            this.iBL = BlFactory.GetBl();
+
+            SignoutState.Visibility = Visibility.Hidden;
+
+            if (isManager)
+            {
+                SigninAsManagerState.Visibility = Visibility.Visible;
+                SigninAsCostumerState.Visibility = Visibility.Hidden;
+            }
+
+            else
+            {
+                SigninAsManagerState.Visibility = Visibility.Hidden;
+                SigninAsCostumerState.Visibility = Visibility.Visible;
+            }
+
+            helloUserLabel.Content = helloUserLabel.Content.ToString().Replace("{[name]}", this.iBL.GetLoggedUser().Name);
+            helloUserLabel.Visibility = Visibility.Visible;
         }
 
         public void SignInOnClick(object o, EventArgs e)
         {
+            if(inputUser.Text == "" || inputPass.Password == "")
+            {
+                errorMessage.Text = "Please enter username and password.";
+                return;
+            }
+
             try
             {
-                //TODO: implemnted data-base, try to sign in
-                //for example: App.SignIn(inputUser.Text, inputPass.Text);
-                //the function get access to sql database and check if the name and passwords are suitable.
-                //if they suitable: init currentUser in DataSource. else: throw suitable exception. 
-                
-                helloUserLabel.Content = helloUserLabel.Content.ToString().Replace("{[name]}", inputUser.Text);
-                helloUserLabel.Visibility = Visibility.Visible;
-                loginCanvas.Visibility = Visibility.Collapsed;
-                signOutButton.Visibility = Visibility.Visible;
-                SetMenuButtonsActive(true);
+                this.iBL.SignIn(inputUser.Text, inputPass.Password);
 
+                helloUserLabel.Content = helloUserLabel.Content.ToString().Replace("{[name]}", this.iBL.GetLoggedUser().Name);
+                helloUserLabel.Visibility = Visibility.Visible;
+
+                SignoutState.Visibility = Visibility.Hidden;
+
+                if (this.iBL.GetLoggedUser().IsManager)
+                {
+                    SigninAsManagerState.Visibility = Visibility.Visible;
+                    SigninAsCostumerState.Visibility = Visibility.Hidden;
+                }
+
+                else
+                {
+                    SigninAsManagerState.Visibility = Visibility.Hidden;
+                    SigninAsCostumerState.Visibility = Visibility.Visible;
+                }
             }
+
             catch(Exception ex)
             {
                 errorMessage.Text = ex.Message;
@@ -60,22 +106,19 @@ namespace PL
 
         public void SignOutOnClick(object o, EventArgs e)
         {
-            loginCanvas.Visibility = Visibility.Visible;
-
-            helloUserLabel.Content = "Hello {[name]}";
-            helloUserLabel.Visibility = Visibility.Collapsed;
-
-            signOutButton.Visibility = Visibility.Collapsed;
-
-            SetMenuButtonsActive(false);
-
             //Resets login details
             inputUser.Text = "";
             inputPass.Password = "";
             errorMessage.Text = "";
 
-            //TODO: Implemted App.SignOut()
-            //the function delete the currentUser variable in dal. make him null.
+            this.iBL.SignOut();
+
+            helloUserLabel.Content = "hello {[name]}";
+            helloUserLabel.Visibility = Visibility.Collapsed;
+
+            SignoutState.Visibility = Visibility.Visible;
+            SigninAsManagerState.Visibility = Visibility.Hidden;
+            SigninAsCostumerState.Visibility = Visibility.Hidden;
         }
 
         public void InputChange(object o, EventArgs e)
@@ -110,14 +153,15 @@ namespace PL
             App.ShowWindow<StationsListWindow>();
         }
 
-        private void SetMenuButtonsActive(bool active)
+        public void MyParcelsOnClick(object o, EventArgs e)
         {
-            for (int i = 0; i < menuButtons.Length; i++)
-            {
-                menuButtons[i].IsEnabled = active;
-            }
+
         }
 
-        private Button[] menuButtons;
+        public void MyDetailsOnClick(object o, EventArgs e)
+        {
+            CostumerWindow nextWindow = new CostumerWindow(this.iBL.GetLoggedUser());
+            App.ShowWindow(nextWindow);
+        }
     }
 }

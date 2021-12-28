@@ -141,6 +141,21 @@ namespace Dal
             return false;
         }
 
+        public void SignIn(int costumerId)
+        {
+            DataSource.loggetCostumer = GetCostumerById(costumerId);
+        }
+
+        public void SignOut()
+        {
+            DataSource.loggetCostumer = null;
+        }
+
+        public DO.Costumer GetLoggedUser()
+        {
+            return DataSource.loggetCostumer;
+        }
+
         public DO.Parcel GetParcelById(int id)
         {
             foreach (var parcel in DataSource.parcels)

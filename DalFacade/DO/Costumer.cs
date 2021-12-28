@@ -12,6 +12,7 @@ namespace DO
         private bool _isAvaliable;
         private string _email;
         private string _password;
+        private bool _isManager;
 
         public int Id
         {
@@ -63,6 +64,12 @@ namespace DO
             set => this._password = value;
         }
 
+        public bool IsManger
+        {
+            get => this._isManager;
+            set => this._isManager = value;
+        }
+
         public override string ToString()
         {
             return string.Format("the id is: {0}\nthe name is: {1}\nthe phone is: {2}\n" +
@@ -80,6 +87,7 @@ namespace DO
             this._isAvaliable = true;
             this._email = email;
             this._password = password;
+            this._isManager = false;
         }
     }
 }

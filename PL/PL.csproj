@@ -17,8 +17,11 @@
     <None Remove="Graphics\drone.png" />
     <None Remove="Graphics\droneStation.png" />
     <None Remove="Graphics\exitButton.png" />
+    <None Remove="Graphics\logo.png" />
+    <None Remove="Graphics\manager.png" />
     <None Remove="Graphics\profilePhoto.png" />
     <None Remove="Graphics\station.png" />
+    <None Remove="Graphics\SystemLogo.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,6 +44,8 @@
     <Resource Include="Graphics\drone.png" />
     <Resource Include="Graphics\droneStation.png" />
     <Resource Include="Graphics\exitButton.png" />
+    <Resource Include="Graphics\logo.png" />
+    <Resource Include="Graphics\manager.png" />
     <Resource Include="Graphics\profilePhoto.png" />
     <Resource Include="Graphics\station.png" />
   </ItemGroup>

@@ -37,6 +37,22 @@ namespace PL
             CostumersListView.ItemsSource = this.costumers;
         }
 
+        private void SetListViewForeground()
+        {
+            //TODO: Try do implement this function (Foreground List View).
+            //The function set the foreground of unvaliable items as red.
+
+            //for (int i = 0; i < DronesListView.Items.Count; ++i)
+            //{
+            //    var item = DronesListView.ItemContainerGenerator.ContainerFromItem(i) as ListViewItem;
+
+            //    if (((BO.DroneBL)item.Content).IsAvliable == false)
+            //    {
+            //        item.Foreground = Brushes.Red;
+            //    }
+            //}
+        }
+
         private void InputChanged(object o, EventArgs e)
         {
             string idStr = CostumerIdInput.Text;
@@ -119,8 +135,25 @@ namespace PL
 
         private void RemoveCostumerButtonOnClick(object o, EventArgs e)
         {
-            //TODO: Handle Remove of costumer
-            errorMessage.Text = "CostumerWindow has not been developed yet.";
+            try
+            {
+                if (CostumersListView.SelectedItem != null)
+                {
+                    this.iBL.RemoveCostumer(((BO.CostumerListBL)CostumersListView.SelectedItem).Id);
+                    CostumersListView.ItemsSource = this.iBL.GetCostumerList();
+                    SetListViewForeground();
+                }
+
+                else
+                {
+                    errorMessage.Text = "You need to select costumer first.";
+                }
+            }
+
+            catch (Exception ex)
+            {
+                errorMessage.Text = ex.Message;
+            }
         }
 
         private void CostumerView(object o, EventArgs e)

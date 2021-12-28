@@ -51,6 +51,10 @@ namespace BO
 
         public bool IsAvaliable => _costumer.IsAvaliable;
 
+        public bool IsManager => _costumer.IsManger;
+
+        public string Password => _costumer.Password;
+
         public override string ToString()
         {
             string strToPrint = string.Format("the id is: {0}\nthe name is: {1}\nthe phone is: {2}\n" +
