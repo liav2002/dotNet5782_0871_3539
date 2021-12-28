@@ -33,7 +33,7 @@ namespace BO
 
         public int TakingSlots => _takingSlots;
 
-        public bool IsAvaliable => _station.IsAvaliable;
+        public bool IsAvailable => _station.IsAvailable;
 
         public override string ToString()
         {
