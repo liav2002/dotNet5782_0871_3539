@@ -68,7 +68,7 @@ namespace PL
                 this.costumer = this.iBL.GetCostumerById(costumerList.Id);
             }
 
-            else if (item is BO.StationBL)
+            else if (item is BO.CostumerBL)
             {
                 this.costumer = (BO.CostumerBL)item;
             }
@@ -107,43 +107,43 @@ namespace PL
         private void EmailChanged(object o, EventArgs e)
         {
             EmailError.Text = "";
-            ConfirmError.Text = "";
+            AddCostumerError.Text = "";
         }
 
         private void NameChanged(object o, EventArgs e)
         {
             NameError.Text = "";
-            ConfirmError.Text = "";
+            AddCostumerError.Text = "";
         }
 
         private void PasswordChanged(object o, EventArgs e)
         {
             PasswordError.Text = "";
-            ConfirmError.Text = "";
+            AddCostumerError.Text = "";
         }
 
         private void IdChanged(object o, EventArgs e)
         {
             IdError.Text = "";
-            ConfirmError.Text = "";
+            AddCostumerError.Text = "";
         }
 
         private void PhoneChanged(object o, EventArgs e)
         {
             PhoneError.Text = "";
-            ConfirmError.Text = "";
+            AddCostumerError.Text = "";
         }
 
         private void LongitudeChanged(object o, EventArgs e)
         {
             LongitudeError.Text = "";
-            ConfirmError.Text = "";
+            AddCostumerError.Text = "";
         }
 
         private void LatitudeChanged(object o, EventArgs e)
         {
             LatitudeError.Text = "";
-            ConfirmError.Text = "";
+            AddCostumerError.Text = "";
         }
 
         private void ConfirmOnClick(object o, EventArgs e)
@@ -276,7 +276,8 @@ namespace PL
 
         private void UpdateOnClick(object o, EventArgs e)
         {
-
+            CostumerWindow nextWindow = new CostumerWindow(CostumerName.Text, Phone.Text, CostumerEmail.Text, Password.Text, costumer);
+            App.ShowWindow(nextWindow);
         }
 
         private void ParcelView(object o, EventArgs e)
@@ -284,24 +285,22 @@ namespace PL
 
         }
 
-        private void NewNameChanged(object o, EventArgs e)
-        {
-
-        }
-
         private void NewPhoneChanged(object o, EventArgs e)
         {
-
+            NewPhoneError.Text = "";
+            ConfirmError.Text = "";
         }
 
         private void NewEmailChanged(object o, EventArgs e)
         {
-
+            NewEmailError.Text = "";
+            ConfirmError.Text = "";
         }
 
         private void NewPasswordChanged(object o, EventArgs e)
         {
-
+            NewPasswordError.Text = "";
+            ConfirmError.Text = "";
         }
 
         private void ConfirmUpdateOnClick(object o, EventArgs e)
@@ -326,6 +325,11 @@ namespace PL
             {
                 App.ShowWindow<CostumersListWindow>();
             }
+        }
+
+        private bool checkPhonePrefix(string phone)
+        {
+            return true;
         }
 
 
