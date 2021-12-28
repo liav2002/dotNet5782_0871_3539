@@ -26,6 +26,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="System.Device">
+      <HintPath>bin\Debug\net5.0-windows\System.Device.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Graphics\addDroneBackground.jpg" />
     <Resource Include="Graphics\backButton.png" />
     <Resource Include="Graphics\background.jpg" />

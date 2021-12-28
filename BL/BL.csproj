@@ -10,4 +10,10 @@
     <ProjectReference Include="..\DalXml\DalXml.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="System.Device">
+      <HintPath>..\PL\bin\Debug\net5.0-windows\System.Device.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
