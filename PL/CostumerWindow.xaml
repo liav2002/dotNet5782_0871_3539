@@ -17,7 +17,7 @@
             </Button.Background>
         </Button>
 
-        <Grid x:Name="AddCostumer" Visibility="Visible">
+        <Grid x:Name="AddCostumer" Visibility="Hidden">
             <TextBox x:Name="CostumerEmail" TextChanged="EmailChanged" HorizontalAlignment="Left" Margin="133,120,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" Height="38" TextAlignment="Left" FontSize="20"/>
             <Label Content="Email" HorizontalAlignment="Left" Margin="0,120,0,0" VerticalAlignment="Top" Height="38" Width="100" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" RenderTransformOrigin="0.479,-0.341"/>
             <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="EmailError" Margin="330,120,0,0" Width="155" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
@@ -87,7 +87,7 @@
             </ListView>
         </Grid>
 
-        <Grid x:Name="UpdateCostumer" Visibility="Hidden">
+        <Grid x:Name="UpdateCostumer" Visibility="Visible">
             <TextBox x:Name="NewCostumerName" TextChanged="NewNameChanged" HorizontalAlignment="Left" Margin="238,110,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
             <Label Content="Name" HorizontalAlignment="Left" Margin="76,110,0,0" VerticalAlignment="Top" Height="38" Width="130" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
 
@@ -109,7 +109,7 @@
                 </Button.Background>
             </Button>
 
-            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="ConfirmError" Margin="141,391,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="ConfirmError" Margin="0,364,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
         </Grid>
     </Grid>
 </Window>
