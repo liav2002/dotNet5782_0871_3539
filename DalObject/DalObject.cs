@@ -45,9 +45,9 @@ namespace Dal
         *Parameters: costumer's details.
         *Return: None.
         */
-        public void AddCostumer(int id, string name, string phone, DO.Location location)
+        public void AddCostumer(int id, string name, string phone, DO.Location location, string email, string password)
         {
-            DataSource.costumers.Add(new DO.Costumer(id, name, phone, location));
+            DataSource.costumers.Add(new DO.Costumer(id, name, phone, location, email, password));
         }
 
         /*

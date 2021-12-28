@@ -224,6 +224,8 @@ namespace ConsoleUI_BL
                     string phone = "";
                     double longitude = 0;
                     double lattitude = 0;
+                    string email = "";
+                    string password = "";
 
                     Console.WriteLine("Costumer's details:\n");
 
@@ -231,6 +233,10 @@ namespace ConsoleUI_BL
                     id = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine("Name: ");
                     name = Console.ReadLine();
+                    Console.WriteLine("Email: ");
+                    email = Console.ReadLine();
+                    Console.WriteLine("Password: ");
+                    password = Console.ReadLine();
                     Console.WriteLine("Phone: ");
                     phone = Console.ReadLine();
                     Console.WriteLine("longitude: ");
@@ -240,7 +246,7 @@ namespace ConsoleUI_BL
 
                     try
                     {
-                        iBL.AddCostumer(id, name, phone, longitude, lattitude);
+                        iBL.AddCostumer(id, name, phone, longitude, lattitude, email, password);
                         iBL.Sys().SuccessMessage();
                         pause();
                     }

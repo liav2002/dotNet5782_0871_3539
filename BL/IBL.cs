@@ -11,7 +11,6 @@ namespace BlApi
         public void RemoveStation(int stationId);
         public void AddDrone(int id, string model, int maxWeight, int stationId);
         public void RemoveDrone(int droneId);
-        public void RemoveParcel(int parcelId);
         public void AddCostumer(int id, string name, string phone, double longitude, double latitude);
         public void AddParcel(int senderId, int targetId, int weight, int priority, int droneId);
         public void AssignParcelToDrone(int droneId);
@@ -22,6 +21,8 @@ namespace BlApi
         public void UpdateDroneName(int droneId, string name);
         public void UpdateStation(int stationId, string name, int chargeSlots);
         public void UpdateCostumer(int costumerId, string name, string phoneNumber);
+        public double GetCurrentLongitude();
+        public double GetCurrentLatitude();
         public List<DO.Parcel> GetWaitingParcels();
 
         //getters

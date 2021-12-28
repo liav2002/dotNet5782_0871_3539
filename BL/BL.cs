@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dal;
 using DO;
+using System.Device.Location;
 
 
 namespace BO
@@ -626,7 +627,7 @@ namespace BO
         *Parameters: costumer's details.
         *Return: None.
         */
-        public void AddCostumer(int id, string name, string phone, double longitude, double latitude)
+        public void AddCostumer(int id, string name, string phone, double longitude, double latitude, string email, string password)
         {
             IEnumerable<DO.Costumer> costumers = _idalObj.GetCostumerList();
 
@@ -643,7 +644,7 @@ namespace BO
                 throw new BO.NegetiveValue("Costumer's id");
             }
 
-            this._idalObj.AddCostumer(id, name, phone, new DO.Location(longitude, latitude));
+            this._idalObj.AddCostumer(id, name, phone, new DO.Location(longitude, latitude), email, password);
         }
 
         /*
@@ -1016,6 +1017,40 @@ namespace BO
             double hours = time.TotalHours;
 
             this._idalObj.DroneRelease(droneId, hours);
+        }
+
+        public double GetCurrentLongitude()
+        {
+            double longitude = 27.2046; //Default longitude to remember
+
+            GeoCoordinateWatcher watcher = new GeoCoordinateWatcher();
+            watcher.TryStart(false, TimeSpan.FromMilliseconds(3000));
+
+            if (!watcher.Position.Location.IsUnknown)
+            {
+                GeoCoordinate coord = watcher.Position.Location;
+                longitude = coord.Longitude;
+                watcher.Stop();
+            }
+
+            return longitude;
+        }
+
+        public double GetCurrentLatitude()
+        {
+            double latitude = 77.4977; //Default latitude to remember
+
+            GeoCoordinateWatcher watcher = new GeoCoordinateWatcher();
+            watcher.TryStart(false, TimeSpan.FromMilliseconds(3000));
+
+            if (!watcher.Position.Location.IsUnknown)
+            {
+                GeoCoordinate coord = watcher.Position.Location;
+                latitude = coord.Latitude;
+                watcher.Stop();
+            }
+
+            return latitude;
         }
 
         //getters:

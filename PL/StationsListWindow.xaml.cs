@@ -35,6 +35,7 @@ namespace PL
             this.stations = this.iBL.GetStationsList();
 
             StationsListView.ItemsSource = this.stations;
+            StationsListView.DataContext = this.stations;
 
             SetListViewForeground();
         }

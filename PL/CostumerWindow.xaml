@@ -17,37 +17,46 @@
             </Button.Background>
         </Button>
 
-        <Grid x:Name="AddCostumer" Visibility="Hidden">
-            <TextBox x:Name="CostumerEmail" TextChanged="EmailChanged" HorizontalAlignment="Left" Margin="238,120,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" Height="38" TextAlignment="Left" FontSize="20"/>
-            <Label Content="Email" HorizontalAlignment="Left" Margin="89,120,0,0" VerticalAlignment="Top" Height="38" Width="100" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" RenderTransformOrigin="0.479,-0.341"/>
-            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="EmailError" Margin="435,120,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+        <Grid x:Name="AddCostumer" Visibility="Visible">
+            <TextBox x:Name="CostumerEmail" TextChanged="EmailChanged" HorizontalAlignment="Left" Margin="133,120,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" Height="38" TextAlignment="Left" FontSize="20"/>
+            <Label Content="Email" HorizontalAlignment="Left" Margin="0,120,0,0" VerticalAlignment="Top" Height="38" Width="100" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" RenderTransformOrigin="0.479,-0.341"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="EmailError" Margin="330,120,0,0" Width="155" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
 
-            <TextBox x:Name="CostumerName" TextChanged="NameChanged" HorizontalAlignment="Left" Margin="238,170,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
-            <Label Content="UserName" HorizontalAlignment="Left" Margin="94,170,0,0" VerticalAlignment="Top" Height="38" Width="130" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
-            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="NameError" Margin="435,170,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+            <TextBox x:Name="CostumerName" TextChanged="NameChanged" HorizontalAlignment="Left" Margin="133,170,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
+            <Label Content="UserName" HorizontalAlignment="Left" Margin="8,170,0,0" VerticalAlignment="Top" Height="38" Width="130" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="NameError" Margin="330,170,0,0" Width="155" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
 
-            <TextBox x:Name="Password" TextChanged="PasswordChanged" HorizontalAlignment="Left" Margin="238,220,0,0" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
-            <Label Content="Password" HorizontalAlignment="Left" Margin="84,220,0,0" VerticalAlignment="Top" Height="38" Width="140" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
-            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="PasswordError" Margin="435,220,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+            <TextBox x:Name="Password" TextChanged="PasswordChanged" HorizontalAlignment="Left" Margin="133,220,0,0" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
+            <Label Content="Password" HorizontalAlignment="Left" Margin="-2,220,0,0" VerticalAlignment="Top" Height="38" Width="140" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="PasswordError" Margin="330,220,0,0" Width="155" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
 
-            <TextBox x:Name="Id" TextChanged="IdChanged" HorizontalAlignment="Left" Margin="238,270,0,0" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
-            <Label Content="Id" HorizontalAlignment="Left" Margin="72,270,0,0" VerticalAlignment="Top" Height="38" Width="100" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
-            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="IdError" Margin="435,270,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+            <TextBox x:Name="Id" TextChanged="IdChanged" HorizontalAlignment="Left" Margin="133,270,0,0" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
+            <Label Content="Id" HorizontalAlignment="Left" Margin="-14,270,0,0" VerticalAlignment="Top" Height="38" Width="100" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="IdError" Margin="330,270,0,0" Width="155" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
 
-            <TextBox x:Name="Phone" TextChanged="PhoneChanged" HorizontalAlignment="Left" Margin="238,320,0,0" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
-            <Label Content="Phone" HorizontalAlignment="Left" Margin="71,320,0,0" VerticalAlignment="Top" Height="38" Width="140" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
-            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="PhoneError" Margin="435,320,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+            <TextBox x:Name="Phone" TextChanged="PhoneChanged" HorizontalAlignment="Left" Margin="133,320,0,0" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
+            <Label Content="Phone" HorizontalAlignment="Left" Margin="-14,320,0,0" VerticalAlignment="Top" Height="38" Width="140" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="PhoneError" Margin="330,320,0,0" Width="155" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
 
-            <Button x:Name="ConfirmButton" Content="Confirm" HorizontalAlignment="Left" Margin="190,380,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="ConfirmOnClick" FontSize="30" FontWeight="Bold" Foreground="Black">
+            <TextBox x:Name="Longitude" TextChanged="LongitudeChanged" HorizontalAlignment="Left" Margin="608,120,0,0" VerticalAlignment="Top" Width="100" Height="38" FontSize="20"/>
+            <Label Content="Longitude" HorizontalAlignment="Left" Margin="485,120,0,0" VerticalAlignment="Top" Height="38" Width="140" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="LongitudeError" Margin="713,120,0,0" Width="127" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+
+            <TextBox x:Name="Latitude" TextChanged="LatitudeChanged" HorizontalAlignment="Left" Margin="608,170,0,0" VerticalAlignment="Top" Width="100" Height="38" FontSize="20"/>
+            <Label Content="Latitude" HorizontalAlignment="Left" Margin="476,170,0,0" VerticalAlignment="Top" Height="38" Width="140" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="LatitudeError" Margin="713,170,0,0" Width="127" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
+
+            <Button x:Name="ConfirmButton" Content="Confirm" HorizontalAlignment="Left" Margin="84,380,0,0" VerticalAlignment="Top" Height="50" Width="150" Click="ConfirmOnClick" FontSize="30" FontWeight="Bold" Foreground="Black">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png" ></ImageBrush>
                 </Button.Background>
             </Button>
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Top" Foreground="Red" Name="AddCostumerError" Margin="345,386,0,0" Width="200" Height="38" FontFamily="Arial" FontWeight="Bold" FontSize="15"/>
 
-            <Image HorizontalAlignment="Left" Height="242" Width="200" Margin="630,140,0,0" VerticalAlignment="Top" Source="Graphics/costumer.png" Visibility="Visible"/>
+            <Image HorizontalAlignment="Left" Height="193" Width="178" Margin="507,208,0,0" VerticalAlignment="Top" Source="Graphics/costumer.png" Visibility="Visible"/>
         </Grid>
 
-        <Grid x:Name="CostumerDetails" Visibility="Visible">
+        <Grid x:Name="CostumerDetails" Visibility="Hidden">
             <Grid Name="UpGrid" Width="850" Grid.Row="0" Margin="0,96,0,250">
                 <TextBlock x:Name="CostumerIDView" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="150" Foreground="Black" FontWeight="Bold" Background="CornflowerBlue" FontSize="20" RenderTransformOrigin="0.479,-0.341"><Run/><LineBreak/><Run Text="ID: "/></TextBlock>
                 <TextBlock x:Name="CostumerNameView" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="10,95,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="300" Foreground="Black" FontWeight="Bold" Background="LightSteelBlue" FontSize="20" RenderTransformOrigin="0.479,-0.341"><Run/><LineBreak/><Run Text="Name: "/></TextBlock>

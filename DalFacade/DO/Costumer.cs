@@ -10,6 +10,8 @@ namespace DO
         private string _phone;
         private Location _location;
         private bool _isAvaliable;
+        private string _email;
+        private string _password;
 
         public int Id
         {
@@ -49,6 +51,18 @@ namespace DO
             set => this._isAvaliable = value;
         }
 
+        public string Email
+        {
+            get => this._email;
+            set => this._email = value;
+        }
+
+        public string Password
+        {
+            get => this._password;
+            set => this._password = value;
+        }
+
         public override string ToString()
         {
             return string.Format("the id is: {0}\nthe name is: {1}\nthe phone is: {2}\n" +
@@ -56,7 +70,7 @@ namespace DO
                 , Id, Name, Phone, Location);
         }
 
-        public Costumer(int id, string name, string phone, Location location)
+        public Costumer(int id, string name, string phone, Location location, string email, string password)
         {
             SysLog.SysLog.GetInstance().AddCostumer(id);
             this._id = id;
@@ -64,6 +78,8 @@ namespace DO
             this._phone = phone;
             this._location = location;
             this._isAvaliable = true;
+            this._email = email;
+            this._password = password;
         }
     }
 }

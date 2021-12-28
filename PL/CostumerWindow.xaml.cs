@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Device.Location;
 using BlApi;
 
 namespace PL
@@ -36,6 +38,16 @@ namespace PL
             this.iBL = BlFactory.GetBl();
             this.costumer = null;
             this.returnMain = returnMain;
+
+            //Example Costumer to add
+
+            CostumerEmail.Text = "name@domain.tld";
+            CostumerName.Text = "User2022";
+            Password.Text = "Aa123456";
+            Id.Text = "123456789";
+            Phone.Text = "0521111111";
+            Longitude.Text = this.iBL.GetCurrentLongitude().ToString();
+            Latitude.Text = this.iBL.GetCurrentLatitude().ToString();
         }
 
         public CostumerWindow(object item)
@@ -94,32 +106,172 @@ namespace PL
 
         private void EmailChanged(object o, EventArgs e)
         {
-
+            EmailError.Text = "";
+            ConfirmError.Text = "";
         }
 
         private void NameChanged(object o, EventArgs e)
         {
-
+            NameError.Text = "";
+            ConfirmError.Text = "";
         }
 
         private void PasswordChanged(object o, EventArgs e)
         {
-
+            PasswordError.Text = "";
+            ConfirmError.Text = "";
         }
 
         private void IdChanged(object o, EventArgs e)
         {
-
+            IdError.Text = "";
+            ConfirmError.Text = "";
         }
 
         private void PhoneChanged(object o, EventArgs e)
         {
+            PhoneError.Text = "";
+            ConfirmError.Text = "";
+        }
 
+        private void LongitudeChanged(object o, EventArgs e)
+        {
+            LongitudeError.Text = "";
+            ConfirmError.Text = "";
+        }
+
+        private void LatitudeChanged(object o, EventArgs e)
+        {
+            LatitudeError.Text = "";
+            ConfirmError.Text = "";
         }
 
         private void ConfirmOnClick(object o, EventArgs e)
         {
+            int id = 0;
+            bool addCostumer = true;
+            double longitude = 0;
+            double latitude = 0;
 
+            //check email
+            Regex regex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+
+            if (CostumerEmail.Text == "")
+            {
+                EmailError.Text = "Email is missing.";
+                addCostumer = false;
+            }
+
+            else if(!regex.IsMatch(CostumerEmail.Text))
+            {
+                EmailError.Text = "Email format must be username@domain.tld";
+                addCostumer = false;
+            }
+
+            //check username
+            if(CostumerName.Text == "")
+            {
+                NameError.Text = "Name is missing.";
+                addCostumer = false;
+            }
+
+            //check password
+            if(Password.Text == "")
+            {
+                PasswordError.Text = "Password is missing.";
+                addCostumer = false;
+            }
+
+
+            //check id
+            if(Id.Text == "")
+            {
+                IdError.Text = "Id is missing.";
+                addCostumer = false;
+            }
+
+            else if (!int.TryParse(Id.Text, out id))
+            {
+                IdError.Text = "Id must be ingeter.";
+                addCostumer = false;
+            }
+
+            //check phone number
+            string phonePrefix = Phone.Text.Substring(0, 3);
+
+            if (Phone.Text == "")
+            {
+                PhoneError.Text = "Phone number is missing";
+                addCostumer = false;
+            }
+
+            else if(Phone.Text.Length != 10)
+            {
+                PhoneError.Text = "Phone number is illegal.";
+                addCostumer = false;
+            }
+
+            else if (phonePrefix != "050" && phonePrefix != "052" && phonePrefix != "053" &&
+                phonePrefix != "054" && phonePrefix != "055" && phonePrefix != "058")
+            {
+                PhoneError.Text = "An unfamiliar cellular company.";
+                addCostumer = false;
+            }
+
+            foreach (var letter in Phone.Text)
+            {
+                if(!(letter <= '9' && letter >= '0'))
+                {
+                    PhoneError.Text = "Phone number is illegal.";
+                    addCostumer = false;
+                }
+            }
+
+            //check longitude
+            if(Longitude.Text == "")
+            {
+                LongitudeError.Text = "Longitude is missing.";
+                addCostumer = false;
+            }
+
+            else if(!double.TryParse(Longitude.Text, out longitude))
+            {
+                LongitudeError.Text = "Longitude must be number";
+                addCostumer = false;
+            }
+
+            //check latitude
+            if (Latitude.Text == "")
+            {
+                LatitudeError.Text = "Latitude is missing.";
+                addCostumer = false;
+            }
+
+            else if (!double.TryParse(Latitude.Text, out latitude))
+            {
+                LongitudeError.Text = "Latitude must be number";
+                addCostumer = false;
+            }
+
+            try
+            {
+                if(addCostumer)
+                {
+                    this.iBL.AddCostumer(id, CostumerName.Text, Phone.Text, longitude, latitude, CostumerEmail.Text, Password.Text);
+                    MessageBox.Show("Costumer added successfully.", "SYSTEM");
+                    App.ShowWindow<CostumersListWindow>();
+                }
+
+                else
+                {
+                    AddCostumerError.Text = "Fix details.";
+                }
+            }
+
+            catch (Exception ex)
+            {
+                AddCostumerError.Text = ex.Message;
+            }
         }
 
         private void UpdateOnClick(object o, EventArgs e)
