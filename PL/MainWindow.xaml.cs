@@ -26,7 +26,6 @@ namespace PL
         public MainWindow()
         {
             InitializeComponent();
-            this.Closing += App.Window_Closing;
 
             this.iBL = BlFactory.GetBl();
 

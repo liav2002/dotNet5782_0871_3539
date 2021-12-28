@@ -247,7 +247,16 @@ namespace PL
                 {
                     this.iBL.AddCostumer(id, CostumerName.Text, Phone.Text, longitude, latitude, CostumerEmail.Text, Password.Text);
                     MessageBox.Show("Costumer added successfully.", "SYSTEM");
-                    App.ShowWindow<CostumersListWindow>();
+
+                    if (this.iBL.GetLoggedUser() == null)
+                    {
+                        App.BackToMain();
+                    }
+
+                    else
+                    {
+                        App.ShowWindow<CostumersListWindow>();
+                    }
                 }
 
                 else
