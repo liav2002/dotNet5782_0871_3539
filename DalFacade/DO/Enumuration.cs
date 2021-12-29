@@ -15,7 +15,7 @@ namespace DO
     public enum ParcelStatuses
     {
         Created,
-        Assign,
+        Assign, 
         PickedUp,
         Delivered,
     };

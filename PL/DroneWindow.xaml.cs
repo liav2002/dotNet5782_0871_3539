@@ -56,6 +56,12 @@ namespace PL
                 this.drone = this.iBL.GetDroneById(((BO.DroneChargeBL)item).Id);
                 this.stationId = stationId;
             }
+            
+            else if (item is BO.DroneBL dbl)
+            {
+                this.drone = dbl;
+                this.stationId = stationId;
+            }
 
             AddDrone.Visibility = Visibility.Hidden;
             UpdateDrone.Visibility = Visibility.Visible;

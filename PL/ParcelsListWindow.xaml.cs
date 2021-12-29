@@ -116,18 +116,24 @@ namespace PL
 
         private void ParcelView(object o, EventArgs e)
         {
+            if (ParcelsListView.SelectedItem == null)
+            {
+                errorMessage.Text = "First, please choose a parcel";
+                return;
+            }
+
+            ParcelWindow nextWindow = new ParcelWindow((ParcelsListView.SelectedItem as BO.ParcelListBL));
+            errorMessage.Text = "";
+
+            StatusSelector.SelectedItem = null;
+            SenderSelector.SelectedItem = null;
+            TargetSelector.SelectedItem = null;
+            App.ShowWindow(nextWindow);
         }
 
         private void SetListViewForeground()
         {
             //TODO: Try do implement this function (Foreground List View).
-            //The function set the foreground of unvaliable items as red.
-            //
-            // foreach (var VARIABLE in ParcelsListView.Items.)
-            // {
-            //     
-            // }
-
         }
     }
 }
