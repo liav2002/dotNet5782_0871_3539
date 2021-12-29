@@ -33,9 +33,9 @@ namespace BO
             }
         }
 
-        public void SetAsUnAvailable()
+        public void SetAvailability(bool availability)
         {
-            this._costumer.IsAvaliable = false;
+            this._costumer.IsAvaliable = availability;
         }
         public int Id => _costumer.Id;
 

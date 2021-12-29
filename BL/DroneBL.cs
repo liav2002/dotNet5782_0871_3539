@@ -24,9 +24,9 @@ namespace BO
             _drone = idalObj.GetDroneById(droneId);
         }
 
-        public void SetAsUnAvailable()
+        public void SetAvailability(bool availability)
         {
-            this._drone.IsAvaliable = false;
+            this._drone.IsAvaliable = availability;
         }
 
         public int Id => _drone.Id;
@@ -43,7 +43,7 @@ namespace BO
 
         public DO.Location Location => _drone.Location;
 
-        public bool IsAvliable => _drone.IsAvaliable;
+        public bool IsAvaliable => _drone.IsAvaliable;
 
         public override string ToString()
         {

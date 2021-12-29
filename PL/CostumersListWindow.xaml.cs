@@ -125,6 +125,7 @@ namespace PL
             CostumerIdInput.Text = "";
             CostumerNameInput.Text = "";
             CostumerPhoneInput.Text = "";
+            CostumersListView.SelectedItem = null;
         }
 
         private void AddCostumerButtonOnClick(object o, EventArgs e)
@@ -133,15 +134,25 @@ namespace PL
             App.ShowWindow(nextWindow);
         }
 
-        private void RemoveCostumerButtonOnClick(object o, EventArgs e)
+        private void BlockCostumerButtonOnClick(object o, EventArgs e)
         {
             try
             {
                 if (CostumersListView.SelectedItem != null)
                 {
-                    this.iBL.RemoveCostumer(((BO.CostumerListBL)CostumersListView.SelectedItem).Id);
-                    CostumersListView.ItemsSource = this.iBL.GetCostumerList();
-                    SetListViewForeground();
+                    if(BlockCostumerButton.Content.ToString() == "Block")
+                    {
+                        this.iBL.RemoveCostumer(((BO.CostumerListBL)CostumersListView.SelectedItem).Id);
+                        CostumersListView.ItemsSource = this.iBL.GetCostumerList();
+                        SetListViewForeground();
+                    }
+
+                    else if(BlockCostumerButton.Content.ToString() == "Unblock")
+                    {
+                        this.iBL.RestoreCostumer(((BO.CostumerListBL)CostumersListView.SelectedItem).Id);
+                        CostumersListView.ItemsSource = this.iBL.GetCostumerList();
+                        SetListViewForeground();
+                    }
                 }
 
                 else
@@ -153,6 +164,31 @@ namespace PL
             catch (Exception ex)
             {
                 errorMessage.Text = ex.Message;
+            }
+        }
+
+        private void CostumerSelected(object o, EventArgs e)
+        {
+            if(CostumersListView.SelectedItem != null)
+            {
+                BO.CostumerBL costumer = this.iBL.GetCostumerById(((BO.CostumerListBL)CostumersListView.SelectedItem).Id);
+
+                BlockCostumerButton.Visibility = Visibility.Visible;
+
+                if (costumer.IsAvaliable)
+                {
+                    BlockCostumerButton.Content = "Block";
+                }
+
+                else
+                {
+                    BlockCostumerButton.Content = "Unblock";
+                }
+            }
+
+            else
+            {
+                BlockCostumerButton.Visibility = Visibility.Collapsed;
             }
         }
 

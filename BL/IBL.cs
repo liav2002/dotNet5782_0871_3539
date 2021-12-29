@@ -9,12 +9,16 @@ namespace BlApi
     {
         public void AddStation(int id, string name, double longitude, double latitude, int charge_solts);
         public void RemoveStation(int stationId);
+        public void RestoreStation(int stationId);
         public void AddDrone(int id, string model, int maxWeight, int stationId);
         public void RemoveDrone(int droneId);
+        public void RestoreDrone(int droneId);
         public void AddCostumer(int id, string name, string phone, double longitude, double latitude, string email, string password);
         public void RemoveCostumer(int costumerId);
+        public void RestoreCostumer(int costumerId);
         public void AddParcel(int senderId, int targetId, int weight, int priority, int droneId);
-        public void RemoveParcel(int droneId);
+        public void RemoveParcel(int parcelId);
+        public void RestoreParcel(int parcelId);
         public void AssignParcelToDrone(int droneId);
         public void ParcelCollection(int droneId);
         public void ParcelDelivered(int droneId);
