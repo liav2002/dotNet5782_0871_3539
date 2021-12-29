@@ -38,6 +38,8 @@ namespace PL
 
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DO.DroneStatuses));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
+
+            RemoveDroneButton.Visibility = Visibility.Collapsed;
         }
 
         private void SetListViewForeground()

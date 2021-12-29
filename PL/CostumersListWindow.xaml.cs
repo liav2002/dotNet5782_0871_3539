@@ -35,6 +35,10 @@ namespace PL
             this.costumers = this.iBL.GetCostumerList();
 
             CostumersListView.ItemsSource = this.costumers;
+
+            BlockCostumerButton.Visibility = Visibility.Collapsed;
+
+            SetListViewForeground();
         }
 
         private void SetListViewForeground()

@@ -37,6 +37,8 @@ namespace PL
             StationsListView.ItemsSource = this.stations;
             StationsListView.DataContext = this.stations;
 
+            RemoveStationButton.Visibility = Visibility.Collapsed;
+
             SetListViewForeground();
         }
 
@@ -98,6 +100,7 @@ namespace PL
         {
             errorMessage.Text = "";
             RequiredSlotsInput.Text = "";
+            StationsListView.SelectedItem = null;
         }
 
         private void StationView(object o, EventArgs e)
@@ -117,11 +120,19 @@ namespace PL
             {
                 if(StationsListView.SelectedItem != null)
                 {
-                    this.iBL.RemoveStation(((BO.StationListBL)StationsListView.SelectedItem).Id);
+                    if(RemoveStationButton.Content.ToString() == "Remove")
+                    {
+                        this.iBL.RemoveStation(((BO.StationListBL)StationsListView.SelectedItem).Id);
+                        StationsListView.ItemsSource = this.iBL.GetStationsList();
+                        SetListViewForeground();
+                    }
 
-                    StationsListView.ItemsSource = this.iBL.GetStationsList();
-
-                    SetListViewForeground();
+                    else if(RemoveStationButton.Content.ToString() == "Restore")
+                    {
+                        this.iBL.RestoreStation(((BO.StationListBL)StationsListView.SelectedItem).Id);
+                        StationsListView.ItemsSource = this.iBL.GetStationsList();
+                        SetListViewForeground();
+                    }
                 }
 
                 else
@@ -133,6 +144,31 @@ namespace PL
             catch(Exception ex)
             {
                 errorMessage.Text = ex.Message;
+            }
+        }
+
+        private void StationSelected(object o, EventArgs e)
+        {
+            if (StationsListView.SelectedItem != null)
+            {
+                BO.StationBL station = this.iBL.GetStationById(((BO.StationListBL)StationsListView.SelectedItem).Id);
+
+                RemoveStationButton.Visibility = Visibility.Visible;
+
+                if (station.IsAvailable)
+                {
+                    RemoveStationButton.Content = "Remove";
+                }
+
+                else
+                {
+                    RemoveStationButton.Content = "Restore";
+                }
+            }
+
+            else
+            {
+                RemoveStationButton.Visibility = Visibility.Collapsed;
             }
         }
 
