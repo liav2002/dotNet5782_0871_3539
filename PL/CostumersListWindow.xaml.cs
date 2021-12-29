@@ -70,44 +70,44 @@ namespace PL
             //case 1: all filters
             if(idStr != "" && name != "" && phone != "")
             {
-                this.costumers = this.iBL.GetCostumerList(costumer => costumer.Id == id &&
-                costumer.Name == name && costumer.Phone == phone );
+                this.costumers = this.iBL.GetCostumerList(costumer => costumer.Id.ToString().Contains(id.ToString()) &&
+                costumer.Name.Contains(name) && costumer.Phone.Contains(phone) );
             }
 
             //case 2: only id and name filtering
             else if (idStr != "" && name != "" && phone == "")
             {
-                this.costumers = this.iBL.GetCostumerList(costumer => costumer.Id == id && costumer.Name == name);
+                this.costumers = this.iBL.GetCostumerList(costumer => costumer.Id.ToString().Contains(id.ToString()) && costumer.Name.Contains(name));
             }
 
             //case 3: only id and phone filtering
             else if (idStr != "" && name == "" && phone != "")
             {
-                this.costumers = this.iBL.GetCostumerList(costumer => costumer.Id == id && costumer.Phone == phone);
+                this.costumers = this.iBL.GetCostumerList(costumer => costumer.Id.ToString().Contains(id.ToString()) && costumer.Phone.Contains(phone));
             }
 
             //case 3: only name and phone filtering
             else if (idStr == "" && name != "" && phone != "")
             {
-                this.costumers = this.iBL.GetCostumerList(costumer => costumer.Name == name && costumer.Phone == phone);
+                this.costumers = this.iBL.GetCostumerList(costumer => costumer.Name.Contains(name) && costumer.Phone.Contains(phone));
             }
 
             //case 4: Only id filtering
             else if (idStr != "" && name == "" && phone == "")
             {
-                this.costumers = this.iBL.GetCostumerList(costumer => costumer.Id == id);
+                this.costumers = this.iBL.GetCostumerList(costumer => costumer.Id.ToString().Contains(id.ToString()));
             }
 
             //case 5: Only name filtering
             else if (idStr == "" && name != "" && phone == "")
             {
-                this.costumers = this.iBL.GetCostumerList(costumer => costumer.Name == name);
+                this.costumers = this.iBL.GetCostumerList(costumer => costumer.Name.Contains(name));
             }
 
             //case 6: Only phone filtering
             else if (idStr == "" && name == "" && phone != "")
             {
-                this.costumers = this.iBL.GetCostumerList(costumer => costumer.Phone == phone);
+                this.costumers = this.iBL.GetCostumerList(costumer => costumer.Phone.Contains(phone));
             }
 
             //Case 7: all filters clear
