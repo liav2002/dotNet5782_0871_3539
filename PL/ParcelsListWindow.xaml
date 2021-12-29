@@ -9,7 +9,7 @@
 
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="88*" />
+            <RowDefinition Height="50*" />
             <RowDefinition Height="80*" />
         </Grid.RowDefinitions>
 
@@ -34,23 +34,23 @@
                 </Button.Background>
             </Button>
 
-            <ComboBox x:Name="StatusSelector" Height="30" Grid.Column="3" Margin="0, 7,1, 240"
+            <ComboBox x:Name="StatusSelector" Height="30" Grid.Column="3" Margin="0,12,1,163"
                       SelectionChanged="SelectionChanged" BorderBrush="White" FontSize="12" />
-            <ComboBox x:Name="SenderSelector" Height="30" Grid.Column="3" Margin="0, 69, 1, 180"
+            <ComboBox x:Name="SenderSelector" Height="30" Grid.Column="3" Margin="0,72,1,103"
                       SelectionChanged="SelectionChanged" BorderBrush="White" FontSize="12" />
-            <ComboBox x:Name="TargetSelector" Height="30" Grid.Column="3" Margin="0, 129, 1, 120"
+            <ComboBox x:Name="TargetSelector" Height="30" Grid.Column="3" Margin="0,132,1,43"
                       SelectionChanged="SelectionChanged" BorderBrush="White" FontSize="12" />
 
             <Button x:Name="StatusSelectorClearButton" Height="30" Width="50" Content="Clear" Grid.Column="4"
                     Margin="13,10,90,0" VerticalAlignment="Top" Click="StatusSelectorClearButtonOnClick"
-                    Foreground="White">
+                    Foreground="White" RenderTransformOrigin="2.204,1.428">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
                 </Button.Background>
             </Button>
 
             <Button x:Name="SenderSelectorClearButton" Height="30" Width="50" Content="Clear" Grid.Column="4"
-                    Margin="13,-50,90,71" Click="SenderSelectorClearButtonOnClick" Foreground="White"
+                    Margin="10,70,93,105" Click="SenderSelectorClearButtonOnClick" Foreground="White"
                     RenderTransformOrigin="0.414,-0.569">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
@@ -58,7 +58,7 @@
 
             </Button>
             <Button x:Name="TargetSelectorClearButton" Height="30" Width="50" Content="Clear" Grid.Column="4"
-                    Margin="13,20,90,14" Click="TargetSelectorClearButtonOnClick" Foreground="White"
+                    Margin="10,132,93,43" Click="TargetSelectorClearButtonOnClick" Foreground="White"
                     RenderTransformOrigin="0.414,-0.569">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
@@ -91,13 +91,13 @@
             </Button>
 
 
-            <TextBlock TextWrapping="Wrap" Text="" Foreground="Red" Name="errorMessage" Margin="0,100,35,10"
+            <TextBlock TextWrapping="Wrap" Text="" Foreground="Red" Name="errorMessage" Margin="0,160,35,10"
                        Height="30" FontFamily="Arial" FontWeight="Bold" Grid.Column="3" FontSize="14"
                        Grid.ColumnSpan="2" />
         </Grid>
 
         <ListView x:Name="ParcelsListView" MouseDoubleClick="ParcelView" SelectionMode="Single" Foreground="White"
-                  BorderBrush="White" FontFamily="Segoe UI" Height="358" VerticalAlignment="Center" Grid.Row="1">
+                  BorderBrush="White" FontFamily="Segoe UI" Height="345" VerticalAlignment="Center" Grid.Row="1">
             <ListView.Background>
                 <ImageBrush ImageSource="Graphics/background.jpg"></ImageBrush>
             </ListView.Background>
