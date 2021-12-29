@@ -31,9 +31,9 @@ namespace BO
             }
         }
 
-        public void SetAsUnAvailable()
+        public void SetAvailability(bool availability)
         {
-            this._station.IsAvailable = false;
+            this._station.IsAvailable = availability;
         }
 
         public int Id => _station.Id;

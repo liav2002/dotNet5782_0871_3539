@@ -189,7 +189,7 @@ namespace PL
         {
             string droneModel = drone.Model;
 
-            if(this.drone.IsAvliable == false)
+            if(this.drone.IsAvaliable == false)
             {
                 MessageBox.Show("ERROR: drone is not avliable.", "ERROR");
             }

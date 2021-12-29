@@ -59,9 +59,9 @@ namespace BO
 
         public bool IsAvailable => _parcel.IsAvailable;
 
-        public void SetAsUnAvailable()
+        public void SetAvailability(bool availability)
         {
-            this._parcel.IsAvailable = false;
+            this._parcel.IsAvailable = availability;
         }
 
         public override string ToString()

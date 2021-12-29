@@ -548,7 +548,19 @@ namespace BO
                 throw new NoAvailable("station");
             }
 
-            station.SetAsUnAvailable();
+            station.SetAvailability(false);
+        }
+
+        /*
+           *Description: Restore station from data.
+           *Parameters: station's id
+           *Return: None.
+        */
+        public void RestoreStation(int stationId)
+        {
+            StationBL station = GetStationById(stationId);
+
+            station.SetAvailability(true);
         }
 
         /*
@@ -612,12 +624,24 @@ namespace BO
         {
             DroneBL drone = GetDroneById(droneId);
 
-            if(!drone.IsAvliable)
+            if(!drone.IsAvaliable)
             {
                 throw new NoAvailable("drone");
             }
 
-            drone.SetAsUnAvailable();
+            drone.SetAvailability(false);
+        }
+
+        /*
+           *Description: Restore drone from data.
+           *Parameters: drone's id
+           *Return: None.
+        */
+        public void RestoreDrone(int droneId)
+        {
+            DroneBL drone = GetDroneById(droneId);
+
+            drone.SetAvailability(true);
         }
 
         /*
@@ -664,7 +688,19 @@ namespace BO
                 throw new NoAvailable("costumer");
             }
 
-            costumer.SetAsUnAvailable();
+            costumer.SetAvailability(false);
+        }
+
+        /*
+           *Description: Restore costumer from data.
+           *Parameters: costumer's id
+           *Return: None.
+        */
+        public void RestoreCostumer(int costumerId)
+        {
+            CostumerBL costumer = GetCostumerById(costumerId);
+
+            costumer.SetAvailability(true);
         }
 
         /*
@@ -708,7 +744,19 @@ namespace BO
             if (parcel.Status != ParcelStatuses.Created)
                 throw new RemoveError("parcel");
 
-            parcel.SetAsUnAvailable();
+            parcel.SetAvailability(false);
+        }
+
+        /*
+            *Description: Remove drone from data.
+            *Parameters: parcel's id
+            *Return: None.
+        */
+        public void RestoreParcel(int parcelId)
+        {
+            ParcelBL parcel = GetParcelById(parcelId);
+
+            parcel.SetAvailability(true);
         }
 
         /*
@@ -725,7 +773,7 @@ namespace BO
                 throw new BO.NegetiveValue("Drone's id");
             }
 
-            if (GetDroneById(droneId).IsAvliable == false)
+            if (GetDroneById(droneId).IsAvaliable == false)
             {
                 throw new BO.NoAvailable("drone");
             }
@@ -885,7 +933,7 @@ namespace BO
                 throw new BO.NegetiveValue("Drone's id");
             }
 
-            if (GetDroneById(droneId).IsAvliable == false)
+            if (GetDroneById(droneId).IsAvaliable == false)
             {
                 throw new BO.NoAvailable("drone");
             }
@@ -985,7 +1033,7 @@ namespace BO
                 throw new BO.NegetiveValue("Station's id");
             }
 
-            if (GetDroneById(droneId).IsAvliable == false)
+            if (GetDroneById(droneId).IsAvaliable == false)
             {
                 throw new BO.NoAvailable("drone");
             }
