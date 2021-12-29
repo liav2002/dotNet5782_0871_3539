@@ -48,6 +48,10 @@
     <Resource Include="Graphics\manager.png" />
     <Resource Include="Graphics\profilePhoto.png" />
     <Resource Include="Graphics\station.png" />
+    <None Remove="Graphics\parcelImage.png" />
+    <Resource Include="Graphics\parcelImage.png" />
+    <None Remove="Graphics\icon.jpg" />
+    <Resource Include="Graphics\icon.jpg" />
   </ItemGroup>
 
 </Project>

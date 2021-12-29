@@ -105,21 +105,17 @@ namespace PL
 
         private void AddParcelButtonOnClick(object o, EventArgs e)
         {
-            // ParcelWindow nextWindow = new ParcelWindow();
+            ParcelWindow nextWindow = new ParcelWindow();
             errorMessage.Text = "";
 
             StatusSelector.SelectedItem = null;
             SenderSelector.SelectedItem = null;
             TargetSelector.SelectedItem = null;
-            // App.ShowWindow(nextWindow);
+            App.ShowWindow(nextWindow);
         }
 
         private void ParcelView(object o, EventArgs e)
         {
-            // ParcelWindow nextWindow = new ParcelWindow(ParcelsListView.SelectedItem);
-            StatusSelector.SelectedItem = null;
-            SenderSelector.SelectedItem = null;
-            // App.ShowWindow(nextWindow);
         }
 
         private void SetListViewForeground()
