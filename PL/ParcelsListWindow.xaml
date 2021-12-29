@@ -68,10 +68,10 @@
             <Label x:Name="StatusLabel" Content="Choose parcel status" HorizontalAlignment="Left" Grid.Column="1"
                    Margin="25,10,0,0" VerticalAlignment="Top" Width="150" Height="30"
                    RenderTransformOrigin="0.441,1.322" FontSize="12" FontWeight="Bold" Foreground="White" />
-            <Label x:Name="SenderLabel" Content="Choose sender id" HorizontalAlignment="Left" Grid.Column="1"
+            <Label x:Name="SenderLabel" Content="Choose sender" HorizontalAlignment="Left" Grid.Column="1"
                    Margin="25,70,0,0" VerticalAlignment="Top" Width="150" Height="30"
                    RenderTransformOrigin="0.441,1.322" FontSize="12" FontWeight="Bold" Foreground="White" />
-            <Label x:Name="TargetLabel" Content="Choose target id" HorizontalAlignment="Left" Grid.Column="1"
+            <Label x:Name="TargetLabel" Content="Choose target" HorizontalAlignment="Left" Grid.Column="1"
                    Margin="25,130,0,0" VerticalAlignment="Top" Width="150" Height="30"
                    RenderTransformOrigin="0.441,1.322" FontSize="12" FontWeight="Bold" Foreground="White" />
 
