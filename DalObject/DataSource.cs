@@ -81,8 +81,9 @@ namespace Dal
             for (int i = 0; i < 10; ++i)
             {
                 costumers.Add(new DO.Costumer(2000 + (i + 1) * 10, "Costumer " + (i + 1).ToString(),
-                    "05" + rand.Next(5).ToString() + "-" + rand.Next(999).ToString() + "-" +
-                    rand.Next(9999).ToString(), new DO.Location(30.234196842399772, 48.74692937085842), "Costumer" + (i + 1).ToString() + "@g.jct.ac.il", "Aa123456"));
+                    "05" + rand.Next(5).ToString() +  rand.Next(9999999).ToString(), 
+                    new DO.Location(30.234196842399772, 48.74692937085842), "Costumer" + 
+                    (i + 1).ToString() + "@g.jct.ac.il", "Aa123456"));
             }
         }
 

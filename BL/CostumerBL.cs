@@ -55,6 +55,8 @@ namespace BO
 
         public string Password => _costumer.Password;
 
+        public string Email => _costumer.Email;
+
         public override string ToString()
         {
             string strToPrint = string.Format("the id is: {0}\nthe name is: {1}\nthe phone is: {2}\n" +

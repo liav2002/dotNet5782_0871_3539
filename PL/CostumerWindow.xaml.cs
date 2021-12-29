@@ -101,7 +101,7 @@ namespace PL
             NewCostumerName.Text = name;
             NewPhone.Text = phone;
             NewEmail.Text = email;
-            NewPassword.Text = password;
+            NewPassword.Password = password;
         }
 
         private void EmailChanged(object o, EventArgs e)
@@ -275,7 +275,7 @@ namespace PL
         {
             if(costumer.IsAvaliable)
             {
-                CostumerWindow nextWindow = new CostumerWindow(CostumerName.Text, Phone.Text, CostumerEmail.Text, Password.Text, costumer);
+                CostumerWindow nextWindow = new CostumerWindow(costumer.Name, costumer.Phone, costumer.Email, costumer.Password, costumer);
                 App.ShowWindow(nextWindow);
             }
 
@@ -315,21 +315,21 @@ namespace PL
             //check new phone
             if (!IsPhonePrefixValid(NewPhone.Text))
             {
-                PhoneError.Text = "An unfamiliar cellular company.";
+                NewPhoneError.Text = "An unfamiliar cellular company.";
                 update = false;
             }
 
             else if (!IsPhoneValid(NewPhone.Text))
             {
-                PhoneError.Text = "Phone number is illegal.";
+                NewPhoneError.Text = "Phone number is illegal.";
                 update = false;
             }
 
             //check new email
 
-            if(!IsEmailValid(NewEmail.Text))
+            if(NewEmail.Text != "" && !IsEmailValid(NewEmail.Text))
             {
-                EmailError.Text = "Email format must be username@domain.tld";
+                NewEmailError.Text = "Email format must be username@domain.tld";
                 update = false;
             }
 
@@ -337,7 +337,7 @@ namespace PL
             {
                 if(update)
                 {
-                    this.iBL.UpdateCostumer(costumer.Id, NewCostumerName.Text, NewPhone.Text, NewEmail.Text, NewPassword.Text);
+                    this.iBL.UpdateCostumer(costumer.Id, NewCostumerName.Text, NewPhone.Text, NewEmail.Text, NewPassword.Password);
                     CostumerNameView.Text = NewCostumerName.Text;
                     CostumerPhoneView.Text = NewPhone.Text;
                 }
@@ -349,8 +349,12 @@ namespace PL
                 return;
             }
 
-            CostumerWindow nextWindow = new CostumerWindow(costumer);
-            App.ShowWindow(nextWindow);
+            if(update)
+            {
+                CostumerWindow nextWindow = new CostumerWindow(costumer);
+                App.ShowWindow(nextWindow);
+            }
+
         }
 
         private void ReturnOnClick(object o, EventArgs e)
