@@ -23,9 +23,6 @@ namespace BlApi
         public void UpdateDroneName(int droneId, string name);
         public void UpdateStation(int stationId, string name, int chargeSlots);
         public void UpdateCostumer(int costumerId, string name, string phoneNumber, string email, string password);
-
-        public double GetCurrentLongitude();
-        public double GetCurrentLatitude();
         public void SignIn(string username, string password);
         public void SignOut();
 

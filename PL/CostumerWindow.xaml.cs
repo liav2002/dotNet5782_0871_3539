@@ -12,7 +12,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.Device.Location;
 using BlApi;
 
 namespace PL
@@ -46,8 +45,8 @@ namespace PL
             Password.Text = "Aa123456";
             Id.Text = "123456789";
             Phone.Text = "0521111111";
-            Longitude.Text = this.iBL.GetCurrentLongitude().ToString();
-            Latitude.Text = this.iBL.GetCurrentLatitude().ToString();
+            Longitude.Text = "31.765";
+            Latitude.Text = "35.191";
         }
 
         public CostumerWindow(object item)
@@ -64,13 +63,13 @@ namespace PL
             BO.CostumerListBL costumerList = null;
             if (item is BO.CostumerListBL)
             {
-                costumerList = (BO.CostumerListBL)item;
+                costumerList = (BO.CostumerListBL) item;
                 this.costumer = this.iBL.GetCostumerById(costumerList.Id);
             }
 
             else if (item is BO.CostumerBL)
             {
-                this.costumer = (BO.CostumerBL)item;
+                this.costumer = (BO.CostumerBL) item;
             }
 
             //initalized text blocks
@@ -161,21 +160,21 @@ namespace PL
                 addCostumer = false;
             }
 
-            else if(!IsEmailValid(CostumerEmail.Text))
+            else if (!IsEmailValid(CostumerEmail.Text))
             {
                 EmailError.Text = "Email format must be username@domain.tld";
                 addCostumer = false;
             }
 
             //check username
-            if(CostumerName.Text == "")
+            if (CostumerName.Text == "")
             {
                 NameError.Text = "Name is missing.";
                 addCostumer = false;
             }
 
             //check password
-            if(Password.Text == "")
+            if (Password.Text == "")
             {
                 PasswordError.Text = "Password is missing.";
                 addCostumer = false;
@@ -183,7 +182,7 @@ namespace PL
 
 
             //check id
-            if(Id.Text == "")
+            if (Id.Text == "")
             {
                 IdError.Text = "Id is missing.";
                 addCostumer = false;
@@ -209,20 +208,20 @@ namespace PL
                 addCostumer = false;
             }
 
-            else if(!IsPhoneValid(Phone.Text))
+            else if (!IsPhoneValid(Phone.Text))
             {
                 PhoneError.Text = "Phone number is illegal.";
                 addCostumer = false;
             }
 
             //check longitude
-            if(Longitude.Text == "")
+            if (Longitude.Text == "")
             {
                 LongitudeError.Text = "Longitude is missing.";
                 addCostumer = false;
             }
 
-            else if(!double.TryParse(Longitude.Text, out longitude))
+            else if (!double.TryParse(Longitude.Text, out longitude))
             {
                 LongitudeError.Text = "Longitude must be number";
                 addCostumer = false;
@@ -243,9 +242,10 @@ namespace PL
 
             try
             {
-                if(addCostumer)
+                if (addCostumer)
                 {
-                    this.iBL.AddCostumer(id, CostumerName.Text, Phone.Text, longitude, latitude, CostumerEmail.Text, Password.Text);
+                    this.iBL.AddCostumer(id, CostumerName.Text, Phone.Text, longitude, latitude, CostumerEmail.Text,
+                        Password.Text);
                     MessageBox.Show("Costumer added successfully.", "SYSTEM");
 
                     if (this.iBL.GetLoggedUser() == null)
@@ -273,9 +273,10 @@ namespace PL
 
         private void UpdateOnClick(object o, EventArgs e)
         {
-            if(costumer.IsAvaliable)
+            if (costumer.IsAvaliable)
             {
-                CostumerWindow nextWindow = new CostumerWindow(costumer.Name, costumer.Phone, costumer.Email, costumer.Password, costumer);
+                CostumerWindow nextWindow = new CostumerWindow(costumer.Name, costumer.Phone, costumer.Email,
+                    costumer.Password, costumer);
                 App.ShowWindow(nextWindow);
             }
 
@@ -327,7 +328,7 @@ namespace PL
 
             //check new email
 
-            if(NewEmail.Text != "" && !IsEmailValid(NewEmail.Text))
+            if (NewEmail.Text != "" && !IsEmailValid(NewEmail.Text))
             {
                 NewEmailError.Text = "Email format must be username@domain.tld";
                 update = false;
@@ -335,26 +336,26 @@ namespace PL
 
             try
             {
-                if(update)
+                if (update)
                 {
-                    this.iBL.UpdateCostumer(costumer.Id, NewCostumerName.Text, NewPhone.Text, NewEmail.Text, NewPassword.Password);
+                    this.iBL.UpdateCostumer(costumer.Id, NewCostumerName.Text, NewPhone.Text, NewEmail.Text,
+                        NewPassword.Password);
                     CostumerNameView.Text = NewCostumerName.Text;
                     CostumerPhoneView.Text = NewPhone.Text;
                 }
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ConfirmError.Text = ex.Message;
                 return;
             }
 
-            if(update)
+            if (update)
             {
                 CostumerWindow nextWindow = new CostumerWindow(costumer);
                 App.ShowWindow(nextWindow);
             }
-
         }
 
         private void ReturnOnClick(object o, EventArgs e)
@@ -372,7 +373,7 @@ namespace PL
 
             else
             {
-                if(this.iBL.GetLoggedUser().IsManager)
+                if (this.iBL.GetLoggedUser().IsManager)
                 {
                     App.ShowWindow<CostumersListWindow>();
                 }
@@ -388,12 +389,12 @@ namespace PL
             string phonePrefix = phone.Substring(0, 3);
 
             return (phonePrefix == "050" || phonePrefix == "052" || phonePrefix == "053" ||
-                phonePrefix == "054" || phonePrefix == "055" || phonePrefix == "058");
+                    phonePrefix == "054" || phonePrefix == "055" || phonePrefix == "058");
         }
 
         private bool IsPhoneValid(string phone)
         {
-            if(phone.Length != 10)
+            if (phone.Length != 10)
             {
                 return false;
             }
