@@ -136,7 +136,6 @@ private void SetListViewForeground()
                     {
                         this.iBL.RestoreStation(((BO.StationListBL) StationsListView.SelectedItem).Id);
                         Initialized();
-
                     }
                 }
 
