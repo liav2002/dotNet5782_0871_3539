@@ -11,7 +11,8 @@
     </Window.Background>
 
     <Grid x:Name="MainGrid">
-        <Button x:Name="ReturnButton" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Width="50" Margin="20,20,0,0" BorderBrush="Transparent">
+        <Button x:Name="ReturnButton" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Width="50"
+                Margin="20,20,0,0" BorderBrush="Transparent">
             <Button.Background>
                 <ImageBrush ImageSource="Graphics/backButton.png"></ImageBrush>
             </Button.Background>
@@ -99,7 +100,7 @@
                 <TextBlock x:Name="StationLocationView" TextWrapping="Wrap" HorizontalAlignment="Left"
                            Margin="315,95,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="310"
                            Foreground="Black" FontWeight="Bold" Background="CornflowerBlue" FontSize="20"
-                           RenderTransformOrigin="0.479,-0.341">
+                           RenderTransformOrigin="0.479, -0.341">
                     <Run /><LineBreak /><Run Text="Location: {X}° N, {Y}° E" />
                 </TextBlock>
 

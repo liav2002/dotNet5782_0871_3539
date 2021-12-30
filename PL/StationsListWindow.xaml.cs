@@ -30,6 +30,11 @@ namespace PL
             ReturnButton.Click += delegate { App.PrevWindow(); };
             this.Closing += App.Window_Closing;
 
+            Initialized();
+        }
+
+        private bool Initialized()
+        {
             this.iBL = BlFactory.GetBl();
 
             this.stations = this.iBL.GetStationsList();
@@ -40,9 +45,10 @@ namespace PL
             RemoveStationButton.Visibility = Visibility.Collapsed;
 
             SetListViewForeground();
-        }
 
-        private void SetListViewForeground()
+            return true;
+        }
+private void SetListViewForeground()
         {
             //TODO: Try do implement this function (Foreground List View).
             //The function set the foreground of unvaliable items as red.
@@ -78,12 +84,12 @@ namespace PL
             int inputSlots = 0;
             errorMessage.Text = "";
 
-            if(slotsStr == "")
+            if (slotsStr == "")
             {
                 this.stations = this.iBL.GetStationsList();
                 StationsListView.ItemsSource = this.stations;
             }
-            
+
             else if (!int.TryParse(slotsStr, out inputSlots))
             {
                 errorMessage.Text = "Charge slots must be integer.";
@@ -106,32 +112,31 @@ namespace PL
         private void StationView(object o, EventArgs e)
         {
             StationWindow nextWindow = new StationWindow(StationsListView.SelectedItem);
-            App.NextWindow(nextWindow);
+            App.NextWindow(nextWindow, Initialized);
         }
 
         private void AddStationButtonOnClick(object o, EventArgs e)
         {
-            App.NextWindow(new StationWindow());
+            App.NextWindow(new StationWindow(), Initialized);
         }
 
         private void RemoveStationButtonOnClick(object o, EventArgs e)
         {
             try
             {
-                if(StationsListView.SelectedItem != null)
+                if (StationsListView.SelectedItem != null)
                 {
-                    if(RemoveStationButton.Content.ToString() == "Remove")
+                    if (RemoveStationButton.Content.ToString() == "Remove")
                     {
-                        this.iBL.RemoveStation(((BO.StationListBL)StationsListView.SelectedItem).Id);
-                        StationsListView.ItemsSource = this.iBL.GetStationsList();
-                        SetListViewForeground();
+                        this.iBL.RemoveStation(((BO.StationListBL) StationsListView.SelectedItem).Id);
+                        Initialized();
                     }
 
-                    else if(RemoveStationButton.Content.ToString() == "Restore")
+                    else if (RemoveStationButton.Content.ToString() == "Restore")
                     {
-                        this.iBL.RestoreStation(((BO.StationListBL)StationsListView.SelectedItem).Id);
-                        StationsListView.ItemsSource = this.iBL.GetStationsList();
-                        SetListViewForeground();
+                        this.iBL.RestoreStation(((BO.StationListBL) StationsListView.SelectedItem).Id);
+                        Initialized();
+
                     }
                 }
 
@@ -141,7 +146,7 @@ namespace PL
                 }
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 errorMessage.Text = ex.Message;
             }
@@ -151,7 +156,7 @@ namespace PL
         {
             if (StationsListView.SelectedItem != null)
             {
-                BO.StationBL station = this.iBL.GetStationById(((BO.StationListBL)StationsListView.SelectedItem).Id);
+                BO.StationBL station = this.iBL.GetStationById(((BO.StationListBL) StationsListView.SelectedItem).Id);
 
                 RemoveStationButton.Visibility = Visibility.Visible;
 

@@ -99,7 +99,7 @@ namespace PL
 
         public void SignUpOnClick(object o, EventArgs e)
         {
-            CostumerWindow nextWindow = new CostumerWindow(true);
+            CostumerWindow nextWindow = new CostumerWindow();
             App.NextWindow(nextWindow);
         }
 
@@ -159,8 +159,9 @@ namespace PL
 
         public void MyDetailsOnClick(object o, EventArgs e)
         {
-            CostumerWindow nextWindow = new CostumerWindow(this.iBL.GetLoggedUser());
+            CostumerWindow nextWindow = new CostumerWindow();
             App.NextWindow(nextWindow);
+
         }
     }
 }

@@ -23,9 +23,9 @@ namespace PL
     {
         private BlApi.IBL iBL;
         private BO.CostumerBL costumer;
-        bool returnMain;
+        private object genericCostumer;
 
-        public CostumerWindow(bool returnMain)
+        public CostumerWindow() // add costumer 
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
@@ -37,7 +37,6 @@ namespace PL
 
             this.iBL = BlFactory.GetBl();
             this.costumer = null;
-            this.returnMain = returnMain;
 
             //Example Costumer to add
 
@@ -55,39 +54,12 @@ namespace PL
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
             this.Closing += App.Window_Closing;
+            genericCostumer = item;
 
-            AddCostumer.Visibility = Visibility.Hidden;
-            CostumerDetails.Visibility = Visibility.Visible;
-            UpdateCostumer.Visibility = Visibility.Hidden;
-
-            this.iBL = BlFactory.GetBl();
-
-            BO.CostumerListBL costumerList = null;
-            if (item is BO.CostumerListBL)
-            {
-                costumerList = (BO.CostumerListBL) item;
-                this.costumer = this.iBL.GetCostumerById(costumerList.Id);
-            }
-
-            else if (item is BO.CostumerBL)
-            {
-                this.costumer = (BO.CostumerBL) item;
-            }
-
-            //initalized text blocks
-            CostumerIDView.Text = "Id: " + this.costumer.Id;
-            CostumerNameView.Text = "Name: " + this.costumer.Name;
-            CostumerPhoneView.Text = "Phone: " + this.costumer.Phone;
-            CostumerLocationView.Text = "Location: " + this.costumer.Location;
-
-            //initialized costumer's shipped parcels ListView
-            ShippedParcelsView.ItemsSource = this.costumer.ParcelsSender;
-
-            //intialized costumer's incoming parcels ListView
-            IncomingParcelsView.ItemsSource = this.costumer.ParcelsReciever;
+            InitializedUpdate();
         }
 
-        CostumerWindow(string name, string phone, string email, string password, BO.CostumerBL costumer)
+        CostumerWindow(string name, string phone, string email, string password, BO.CostumerBL costumer) // update
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
@@ -104,6 +76,41 @@ namespace PL
             NewPhone.Text = phone;
             NewEmail.Text = email;
             NewPassword.Password = password;
+        }
+
+        private bool InitializedUpdate()
+        {
+            AddCostumer.Visibility = Visibility.Hidden;
+            CostumerDetails.Visibility = Visibility.Visible;
+            UpdateCostumer.Visibility = Visibility.Hidden;
+
+            this.iBL = BlFactory.GetBl();
+
+            BO.CostumerListBL costumerList = null;
+            if (genericCostumer is BO.CostumerListBL)
+            {
+                costumerList = (BO.CostumerListBL) genericCostumer;
+                this.costumer = this.iBL.GetCostumerById(costumerList.Id);
+            }
+
+            else if (genericCostumer is BO.CostumerBL)
+            {
+                this.costumer = (BO.CostumerBL) genericCostumer;
+            }
+
+            // initialized text blocks
+            CostumerIDView.Text = "Id: " + this.costumer.Id;
+            CostumerNameView.Text = "Name: " + this.costumer.Name;
+            CostumerPhoneView.Text = "Phone: " + this.costumer.Phone;
+            CostumerLocationView.Text = "Location: " + this.costumer.Location;
+
+            // initialized costumer's shipped parcels ListView
+            ShippedParcelsView.ItemsSource = this.costumer.ParcelsSender;
+
+            // initialized costumer's incoming parcels ListView
+            IncomingParcelsView.ItemsSource = this.costumer.ParcelsReciever;
+            
+            return true;
         }
 
         private void EmailChanged(object o, EventArgs e)
@@ -270,7 +277,8 @@ namespace PL
         {
             if (costumer.IsAvaliable)
             {
-                App.NextWindow(new CostumerWindow(costumer.Name, costumer.Phone, costumer.Email, costumer.Password, costumer));
+                App.NextWindow(new CostumerWindow(costumer.Name, costumer.Phone, costumer.Email, costumer.Password,
+                    costumer), InitializedUpdate);
             }
 
             else

@@ -11,8 +11,9 @@ namespace PL
     {
         private BlApi.IBL iBL;
         private BO.ParcelBL _parcel;
+        private object genericParcel;
 
-        public ParcelWindow()
+        public ParcelWindow() // add
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
@@ -30,7 +31,7 @@ namespace PL
             _parcel = null;
         }
 
-        public ParcelWindow(object item)
+        public ParcelWindow(object item) // show
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
@@ -39,11 +40,17 @@ namespace PL
             ParcelDetails.Visibility = Visibility.Visible;
             AddParcel.Visibility = Visibility.Hidden;
 
+            genericParcel = item;
+            InitializedUpdate();
+        }
+
+        private bool InitializedUpdate()
+        {
             this.iBL = BlFactory.GetBl();
 
-            if (item is BO.ParcelListBL pl)
+            if (genericParcel is BO.ParcelListBL pl)
                 _parcel = iBL.GetParcelById(pl.Id);
-            else if (item is BO.ParcelBL p)
+            else if (genericParcel is BO.ParcelBL p)
                 _parcel = p;
             else
                 throw new ArgumentException("Wrong Argument ParcelWindow");
@@ -52,9 +59,8 @@ namespace PL
             ParcelWeightView.Text = "Weight: " + Enum.GetName(_parcel.Weight);
             ParcelPriorityView.Text = "Priority: " + Enum.GetName(_parcel.Priority);
             ParcelStatusView.Text = "Status: " + Enum.GetName(_parcel.Status);
-            
-            
-            
+
+
             if ((int) _parcel.Status >= 0)
             {
                 Created.Visibility = Visibility.Visible;
@@ -77,8 +83,9 @@ namespace PL
                     }
                 }
             } // end of if
+            
+            return true;
         }
-
 
         private void AddOnClick(object o, EventArgs e)
         {
@@ -108,21 +115,20 @@ namespace PL
 
         private void TargetOnClick(object sender, RoutedEventArgs e)
         {
-            
             CostumerWindow nextWindow = new CostumerWindow(iBL.GetCostumerById(_parcel.Receiver.Id));
-            App.NextWindow(nextWindow);
+            App.NextWindow(nextWindow, InitializedUpdate);
         }
 
         private void SenderOnClick(object sender, RoutedEventArgs e)
         {
             CostumerWindow nextWindow = new CostumerWindow(iBL.GetCostumerById(_parcel.Sender.Id));
-            App.NextWindow(nextWindow);
+            App.NextWindow(nextWindow, InitializedUpdate);
         }
 
         private void DroneOnClick(object sender, RoutedEventArgs e)
         {
             DroneWindow nextWindow = new DroneWindow(iBL.GetDroneById(_parcel.Drone.Id));
-            App.NextWindow(nextWindow);
+            App.NextWindow(nextWindow, InitializedUpdate);
         }
     }
 }

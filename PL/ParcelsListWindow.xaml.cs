@@ -19,7 +19,12 @@ namespace PL
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
             Closing += App.Window_Closing;
+            Initialized();
+        }
 
+
+        private bool Initialized()
+        {
             iBL = BlFactory.GetBl();
 
             parcels = iBL.GetParcelsList();
@@ -29,7 +34,9 @@ namespace PL
                 .Select(costumer => ("Id: " + costumer.Id + " " + "Name: " + costumer.Name + ""));
             TargetSelector.ItemsSource = iBL.GetCostumerList()
                 .Select(costumer => ("Id: " + costumer.Id + " " + "Name: " + costumer.Name + ""));
+            return true;
         }
+
 
         private void SelectionChanged(object o, EventArgs e)
         {
@@ -111,7 +118,7 @@ namespace PL
             StatusSelector.SelectedItem = null;
             SenderSelector.SelectedItem = null;
             TargetSelector.SelectedItem = null;
-            App.NextWindow(nextWindow);
+            App.NextWindow(nextWindow, Initialized);
         }
 
         private void ParcelView(object o, EventArgs e)
@@ -128,7 +135,8 @@ namespace PL
             StatusSelector.SelectedItem = null;
             SenderSelector.SelectedItem = null;
             TargetSelector.SelectedItem = null;
-            App.NextWindow(nextWindow);
+            App.NextWindow(nextWindow, Initialized);
+            this.iBL = BlFactory.GetBl();
         }
 
         private void SetListViewForeground()
