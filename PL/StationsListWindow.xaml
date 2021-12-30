@@ -50,7 +50,7 @@ VerticalAlignment="Stretch" Width="auto" RenderTransformOrigin="0.502,0.622">
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
                 </Button.Background>
             </Button>
-            <Button x:Name="RemoveStationButton" Visibility="Collapsed" Width="130" Height="50" Content="Remove" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Top" Click="RemoveStationButtonOnClick" Foreground="White" FontSize="14" Margin="0,55,0,0">
+            <Button x:Name="RemoveStationButton" Width="130" Height="50" Content="Remove" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Top" Click="RemoveStationButtonOnClick" Foreground="White" FontSize="14" Margin="0,55,0,0" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
                 </Button.Background>
