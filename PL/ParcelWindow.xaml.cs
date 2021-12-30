@@ -48,17 +48,22 @@ namespace PL
             else
                 throw new ArgumentException("Wrong Argument ParcelWindow");
 
-
+            ParcelIdView.Text = "ID: " + _parcel.Id;
             ParcelWeightView.Text = "Weight: " + Enum.GetName(_parcel.Weight);
             ParcelPriorityView.Text = "Priority: " + Enum.GetName(_parcel.Priority);
             ParcelStatusView.Text = "Status: " + Enum.GetName(_parcel.Status);
-            
-            
-            
+
+            Created.Visibility = Visibility.Hidden;
+            DroneDetail.Visibility = Visibility.Hidden;
+            Assign.Visibility = Visibility.Hidden;
+            PickedUp.Visibility = Visibility.Hidden;
+            Delivered.Visibility = Visibility.Hidden;
+
             if ((int) _parcel.Status >= 0)
             {
                 Created.Visibility = Visibility.Visible;
                 Created.Text = "Created: " + _parcel.Requested;
+
                 if ((int) _parcel.Status >= 1)
                 {
                     DroneDetail.Visibility = Visibility.Visible;
@@ -77,6 +82,7 @@ namespace PL
                     }
                 }
             } // end of if
+
         }
 
 

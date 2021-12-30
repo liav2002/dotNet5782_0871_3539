@@ -16,8 +16,8 @@
                 <ImageBrush ImageSource="Graphics/backButton.png"></ImageBrush>
             </Button.Background>
         </Button>
-        
-        <Grid x:Name="AddParcel" Visibility="Visible">
+
+        <Grid x:Name="AddParcel" Visibility="Hidden">
             <ComboBox x:Name="ParcelPriority" HorizontalAlignment="Left" Margin="210,120,0,0"
                       VerticalAlignment="Top" Width="192" Height="38" FontSize="20" />
             <ComboBox x:Name="ParcelWeight" HorizontalAlignment="Left" Margin="210,170,0,0"
@@ -48,82 +48,79 @@
                    Source="Graphics/parcelImage.png" />
         </Grid>
 
-        <Grid x:Name="ParcelDetails" Visibility="Hidden">
+        <Grid x:Name="ParcelDetails" Visibility="Visible">
+            <TextBlock x:Name="ParcelIdView" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="10,98,0,0"
+                           VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="150" Foreground="Black"
+                           FontWeight="Bold" Background="CornflowerBlue" FontSize="20"
+                           RenderTransformOrigin="0.479,-0.341">
+                    <Run /><LineBreak /><Run Text="ID: " />
+            </TextBlock>
 
-            <TextBlock x:Name="Created" Visibility="Hidden" TextWrapping="Wrap" HorizontalAlignment="Left"
-                       Margin="10,284,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="300"
+            <TextBlock x:Name="ParcelWeightView" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="165,98,0,0"
+                           VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="260" Foreground="Black"
+                           FontWeight="Bold" Background="LightSteelBlue" FontSize="20"
+                           RenderTransformOrigin="0.479,-0.341">
+                    <Run /><LineBreak /><Run Text="Weight: " />
+            </TextBlock>
+            <TextBlock x:Name="ParcelPriorityView" TextWrapping="Wrap" HorizontalAlignment="Left"
+                           Margin="313,185,0,0"
+                           VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="300" Foreground="Black"
+                           FontWeight="Bold" Background="CornflowerBlue" FontSize="20"
+                           RenderTransformOrigin="0.479,-0.341">
+                    <Run /><LineBreak /><Run Text="Priority: " />
+            </TextBlock>
+            <TextBlock x:Name="ParcelStatusView" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="10,185,0,0"
+                           VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="300" Foreground="Black"
+                           FontWeight="Bold" Background="LightSteelBlue" FontSize="20"
+                           RenderTransformOrigin="0.479,-0.341">
+                    <Run /><LineBreak /><Run Text="Status: " />
+            </TextBlock>
+
+            <Button x:Name="DroneDetail" Visibility="Visible" HorizontalAlignment="Left"
+                    Margin="463,101,0,0"
+                    VerticalAlignment="Top" Height="78" Width="106" Click="DroneOnClick" FontSize="20"
+                    FontWeight="Bold" Foreground="Black" BorderBrush="Transparent">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/droneButton.png"></ImageBrush>
+                </Button.Background>
+            </Button>
+
+            <Image HorizontalAlignment="Left" Height="167" Width="217" Margin="618,98,0,0" VerticalAlignment="Top"
+                       Source="Graphics/parcel.png" Visibility="Visible" />
+
+            <TextBlock x:Name="Created" Visibility="Visible" TextWrapping="Wrap" HorizontalAlignment="Left"
+                       Margin="10,273,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="300"
                        Foreground="Black" FontWeight="Bold" Background="CornflowerBlue" FontSize="20"
                        RenderTransformOrigin="0.479,-0.341">
                 <Run /><LineBreak /><Run Text="Created: " />
             </TextBlock>
-            <TextBlock x:Name="Assign" Visibility="Hidden" TextWrapping="Wrap" HorizontalAlignment="Left"
-                       Margin="10,374,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="300"
+            <TextBlock x:Name="Assign" Visibility="Visible" TextWrapping="Wrap" HorizontalAlignment="Left"
+                       Margin="10,360,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="300"
                        Foreground="Black" FontWeight="Bold" Background="LightSteelBlue" FontSize="20"
                        RenderTransformOrigin="0.479,-0.341">
                 <Run /><LineBreak /><Run Text="Assign: " />
             </TextBlock>
-            <TextBlock x:Name="PickedUp" Visibility="Hidden" TextWrapping="Wrap" HorizontalAlignment="Left"
-                       Margin="315,284,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="300"
+            <TextBlock x:Name="PickedUp" Visibility="Visible" TextWrapping="Wrap" HorizontalAlignment="Left"
+                       Margin="313,273,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="300"
                        Foreground="Black" FontWeight="Bold" Background="LightSteelBlue" FontSize="20"
                        RenderTransformOrigin="0.479,-0.341">
                 <Run /><LineBreak /><Run Text="PickedUp: " />
             </TextBlock>
-            <TextBlock x:Name="Delivered" Visibility="Hidden" TextWrapping="Wrap" HorizontalAlignment="Left"
-                       Margin="315,374,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="300"
+            <TextBlock x:Name="Delivered" Visibility="Visible" TextWrapping="Wrap" HorizontalAlignment="Left"
+                       Margin="313,360,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="300"
                        Foreground="Black" FontWeight="Bold" Background="CornflowerBlue" FontSize="20"
                        RenderTransformOrigin="0.479,-0.341">
                 <Run /><LineBreak /><Run Text="Delivered: " />
             </TextBlock>
-            
-            <Button x:Name="SenderDetails" Content="Sender" HorizontalAlignment="Left" Margin="680,267,0,0"
-                    VerticalAlignment="Top" Height="85" Width="138" Click="SenderOnClick" FontSize="20"
-                    FontWeight="Bold" Foreground="Black" BorderBrush="Transparent">
-                <Button.Background>
-                    <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
-                </Button.Background>
+
+            <Button x:Name="SenderDetails" Content="Sender" HorizontalAlignment="Left" Margin="615,273,0,0"
+                    VerticalAlignment="Top" Height="85" Width="198" Click="SenderOnClick" FontSize="20"
+                    FontWeight="Bold" Foreground="Black"  BorderBrush="CornflowerBlue" Background="CornflowerBlue">
             </Button>
-            <Button x:Name="TargetDetails" Content="Target" HorizontalAlignment="Left" Margin="680,357,0,0"
-                    VerticalAlignment="Top" Height="85" Width="138" Click="TargetOnClick" FontSize="20"
-                    FontWeight="Bold" Foreground="Black" BorderBrush="Transparent">
-                <Button.Background>
-                    <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
-                </Button.Background>
+            <Button x:Name="TargetDetails" Content="Target" HorizontalAlignment="Left" Margin="615,360,0,0"
+                    VerticalAlignment="Top" Height="85" Width="196" Click="TargetOnClick" FontSize="20"
+                    FontWeight="Bold" Foreground="Black" BorderBrush="LightSteelBlue" Background="LightSteelBlue">
             </Button>
-            <Button x:Name="DroneDetail" Visibility="Hidden" Content="Drone" HorizontalAlignment="Left"
-                    Margin="680,439,0,0"
-                    VerticalAlignment="Top" Height="85" Width="138" Click="DroneOnClick" FontSize="20"
-                    FontWeight="Bold" Foreground="Black" BorderBrush="Transparent">
-                <Button.Background>
-                    <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
-                </Button.Background>
-            </Button>
-
-
-            <Grid Name="UpGrid" Width="850" Grid.Row="0" Margin="0,96,0,250">
-                <TextBlock x:Name="ParcelWeightView" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="10,5,0,0"
-                           VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="150" Foreground="Black"
-                           FontWeight="Bold" Background="CornflowerBlue" FontSize="20"
-                           RenderTransformOrigin="0.479,-0.341">
-                    <Run /><LineBreak /><Run Text="Weight: " />
-                </TextBlock>
-                <TextBlock x:Name="ParcelPriorityView" TextWrapping="Wrap" HorizontalAlignment="Left"
-                           Margin="10,95,0,0"
-                           VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="300" Foreground="Black"
-                           FontWeight="Bold" Background="LightSteelBlue" FontSize="20"
-                           RenderTransformOrigin="0.479,-0.341">
-                    <Run /><LineBreak /><Run Text="Priority: " />
-                </TextBlock>
-                <TextBlock x:Name="ParcelStatusView" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="165,5,0,0"
-                           VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="265" Foreground="Black"
-                           FontWeight="Bold" Background="LightSteelBlue" FontSize="20"
-                           RenderTransformOrigin="0.479,-0.341">
-                    <Run /><LineBreak /><Run Text="Status: " />
-                </TextBlock>
-
-
-                <Image HorizontalAlignment="Left" Height="182" Width="225" Margin="624,19,0,0" VerticalAlignment="Top"
-                       Source="Graphics/parcelImage.png" Visibility="Visible" />
-            </Grid>
 
         </Grid>
 

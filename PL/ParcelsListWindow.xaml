@@ -97,7 +97,7 @@
         </Grid>
 
         <ListView x:Name="ParcelsListView" MouseDoubleClick="ParcelView" SelectionMode="Single" Foreground="White"
-                  BorderBrush="White" FontFamily="Segoe UI" Height="345" VerticalAlignment="Center" Grid.Row="1">
+                  BorderBrush="White" FontFamily="Segoe UI" Height="329" VerticalAlignment="Center" Grid.Row="1" SelectionChanged="ParcelSelected">
             <ListView.Background>
                 <ImageBrush ImageSource="Graphics/background.jpg"></ImageBrush>
             </ListView.Background>

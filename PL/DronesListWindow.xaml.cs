@@ -138,10 +138,13 @@ namespace PL
 
         private void DroneView(object o, EventArgs e)
         {
-            DroneWindow nextWindow = new DroneWindow(DronesListView.SelectedItem);
-            StatusSelector.SelectedItem = null;
-            WeightSelector.SelectedItem = null;
-            App.NextWindow(nextWindow);
+            if(DronesListView.SelectedItem != null)
+            {
+                DroneWindow nextWindow = new DroneWindow(DronesListView.SelectedItem);
+                StatusSelector.SelectedItem = null;
+                WeightSelector.SelectedItem = null;
+                App.NextWindow(nextWindow);
+            }
         }
 
         private void DroneSelected(object o, EventArgs e)

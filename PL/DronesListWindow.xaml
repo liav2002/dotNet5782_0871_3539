@@ -66,7 +66,7 @@
             <TextBlock TextWrapping="Wrap" Text="" Foreground="Red" Name="errorMessage" Margin="0,110,35,10" Height="30" FontFamily="Arial" FontWeight="Bold" Grid.Column="3" FontSize="14" Grid.ColumnSpan="2"/>
         </Grid>
 
-        <ListView x:Name="DronesListView" MouseDoubleClick="DroneView" SelectionChanged="DroneSelected" SelectionMode="Single" Foreground="White" FontFamily="Segoe UI" Height="425" VerticalAlignment="Top" Margin="0,149,0,0" Grid.RowSpan="2" BorderBrush="Transparent">
+        <ListView x:Name="DronesListView" MouseDoubleClick="DroneView" SelectionChanged="DroneSelected" SelectionMode="Single" Foreground="White" FontFamily="Segoe UI" Height="385" VerticalAlignment="Center" BorderBrush="Transparent" Grid.Row="1">
             <ListView.Background>
                 <ImageBrush ImageSource="Graphics/background.jpg"></ImageBrush>
             </ListView.Background>
