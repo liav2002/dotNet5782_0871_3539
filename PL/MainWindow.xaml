@@ -24,12 +24,12 @@
                 <TextBlock TextWrapping="Wrap" TextAlignment="Center" Foreground="Red" x:Name="errorMessage" Margin="100,70,0,0" Width="200" Height="29" Background="White" FontFamily="Arial" FontWeight="Bold"/>
                 <TextBox TextChanged="InputChange" Margin="100, 10" Height="30" Width="200" VerticalContentAlignment="Center" TextWrapping="Wrap" x:Name="inputUser"/>
                 <PasswordBox PasswordChanged="InputChange" Margin="100, 40" Height="30" Width="200" VerticalContentAlignment="Center" x:Name="inputPass"/>
-                <Button Canvas.Right="10" Canvas.Top="5" Width="102" Height="45" Content="Sign in" Click="SignInOnClick" FontSize="24" FontWeight="ExtraBold" Canvas.Left="338">
+                <Button Canvas.Right="10" Canvas.Top="5" Width="102" Height="45" Content="Sign in" Click="SignInOnClick" FontSize="24" FontWeight="ExtraBold" Canvas.Left="338" BorderBrush="Transparent">
                     <Button.Background>
                         <ImageBrush ImageSource="Graphics/buttonBackground.png"/>
                     </Button.Background>
                 </Button>
-                <Button Canvas.Right="10" Canvas.Top="50" Width="102" Height="45" Content="Sign up" Click="SignUpOnClick" FontSize="24" FontWeight="ExtraBold" Canvas.Left="338">
+                <Button Canvas.Right="10" Canvas.Top="50" Width="102" Height="45" Content="Sign up" Click="SignUpOnClick" FontSize="24" FontWeight="ExtraBold" Canvas.Left="338" BorderBrush="Transparent">
                     <Button.Background>
                         <ImageBrush ImageSource="Graphics/buttonBackground.png"/>
                     </Button.Background>
@@ -95,7 +95,7 @@
 
         <Label x:Name="helloUserLabel" Content="Hello {[name]}" Visibility="Collapsed" Foreground="White" FontWeight="ExtraBold" FontSize="42" Margin="0,46,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Arial" VerticalContentAlignment="Center"/>
 
-        <Button Margin="375,426,375,0" VerticalAlignment="Top" Width="100" Height="40" Click="QuitOnClick" Foreground="Black" FontSize="26" FontWeight="ExtraBold">
+        <Button Margin="375,426,375,0" VerticalAlignment="Top" Width="100" Height="40" Click="QuitOnClick" Foreground="Black" FontSize="26" FontWeight="ExtraBold" BorderBrush="Transparent">
             <Button.Background>
                 <ImageBrush ImageSource="Graphics/exitButton.png" />
             </Button.Background>

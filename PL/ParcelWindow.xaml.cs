@@ -15,7 +15,8 @@ namespace PL
         public ParcelWindow()
         {
             InitializeComponent();
-            this.Closing += App.PrevWindow;
+            ReturnButton.Click += delegate { App.PrevWindow(); };
+            this.Closing += App.Window_Closing;
 
             this.iBL = BlFactory.GetBl();
 
@@ -32,7 +33,8 @@ namespace PL
         public ParcelWindow(object item)
         {
             InitializeComponent();
-            this.Closing += App.PrevWindow;
+            ReturnButton.Click += delegate { App.PrevWindow(); };
+            this.Closing += App.Window_Closing;
 
             ParcelDetails.Visibility = Visibility.Visible;
             AddParcel.Visibility = Visibility.Hidden;
@@ -101,11 +103,6 @@ namespace PL
             }
 
             MessageBox.Show("Parcel added successfully.", "SYSTEM");
-            App.ShowWindow<ParcelsListWindow>();
-        }
-
-        private void ReturnOnClick(object o, EventArgs e)
-        {
             App.PrevWindow();
         }
 
@@ -113,19 +110,19 @@ namespace PL
         {
             
             CostumerWindow nextWindow = new CostumerWindow(iBL.GetCostumerById(_parcel.Receiver.Id));
-            App.ShowWindow(nextWindow);
+            App.NextWindow(nextWindow);
         }
 
         private void SenderOnClick(object sender, RoutedEventArgs e)
         {
             CostumerWindow nextWindow = new CostumerWindow(iBL.GetCostumerById(_parcel.Sender.Id));
-            App.ShowWindow(nextWindow);
+            App.NextWindow(nextWindow);
         }
 
         private void DroneOnClick(object sender, RoutedEventArgs e)
         {
             DroneWindow nextWindow = new DroneWindow(iBL.GetDroneById(_parcel.Drone.Id));
-            App.ShowWindow(nextWindow);
+            App.NextWindow(nextWindow);
         }
     }
 }

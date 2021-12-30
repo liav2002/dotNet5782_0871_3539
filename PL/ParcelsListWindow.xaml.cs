@@ -17,7 +17,7 @@ namespace PL
         public ParcelsListWindow()
         {
             InitializeComponent();
-            ReturnButton.Click += delegate { App.BackToMain(); };
+            ReturnButton.Click += delegate { App.PrevWindow(); };
             Closing += App.Window_Closing;
 
             iBL = BlFactory.GetBl();
@@ -111,7 +111,7 @@ namespace PL
             StatusSelector.SelectedItem = null;
             SenderSelector.SelectedItem = null;
             TargetSelector.SelectedItem = null;
-            App.ShowWindow(nextWindow);
+            App.NextWindow(nextWindow);
         }
 
         private void ParcelView(object o, EventArgs e)
@@ -128,7 +128,7 @@ namespace PL
             StatusSelector.SelectedItem = null;
             SenderSelector.SelectedItem = null;
             TargetSelector.SelectedItem = null;
-            App.ShowWindow(nextWindow);
+            App.NextWindow(nextWindow);
         }
 
         private void SetListViewForeground()

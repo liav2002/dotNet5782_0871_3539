@@ -100,7 +100,7 @@ namespace PL
         public void SignUpOnClick(object o, EventArgs e)
         {
             CostumerWindow nextWindow = new CostumerWindow(true);
-            App.ShowWindow(nextWindow);
+            App.NextWindow(nextWindow);
         }
 
         public void SignOutOnClick(object o, EventArgs e)
@@ -133,34 +133,34 @@ namespace PL
 
         public void DronesOnClick(object o, EventArgs e)
         {
-            App.ShowWindow<DronesListWindow>();
+            App.NextWindow(new DronesListWindow());
         }
 
         public void ParcelsOnClick(object o, EventArgs e)
         {
-            App.ShowWindow<ParcelsListWindow>();
+            App.NextWindow(new ParcelsListWindow());
         }
 
         public void CostumersOnClick(object o, EventArgs e)
         {
-            App.ShowWindow<CostumersListWindow>();
+            App.NextWindow(new CostumersListWindow());
 
         }
 
         public void StationsOnClick(object o, EventArgs e)
         {
-            App.ShowWindow<StationsListWindow>();
+            App.NextWindow(new StationsListWindow());
         }
 
         public void MyParcelsOnClick(object o, EventArgs e)
         {
-
+            App.NextWindow(new ParcelsListWindow());
         }
 
         public void MyDetailsOnClick(object o, EventArgs e)
         {
             CostumerWindow nextWindow = new CostumerWindow(this.iBL.GetLoggedUser());
-            App.ShowWindow(nextWindow);
+            App.NextWindow(nextWindow);
         }
     }
 }

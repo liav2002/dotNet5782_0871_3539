@@ -27,7 +27,7 @@ VerticalAlignment="Stretch" Width="auto" RenderTransformOrigin="0.502,0.622">
                 <ColumnDefinition Width="182*"/>
             </Grid.ColumnDefinitions >
 
-            <Button x:Name="ReturnButton" Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button x:Name="ReturnButton" Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/backButton.png" ></ImageBrush>
                 </Button.Background>
@@ -37,7 +37,7 @@ VerticalAlignment="Stretch" Width="auto" RenderTransformOrigin="0.502,0.622">
             <TextBlock TextWrapping="Wrap" TextAlignment="Center" Foreground="Red" Name="errorMessage" Margin="14,59,3,19" Width="200" Height="29" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2" Grid.Column="2" FontSize="12"/>
             <CheckBox x:Name="AvaliableSlotsOnly" Content="Only avliable charge slots." Foreground="White" FontWeight="Bold" FontSize="12" Grid.Column="1" Margin="16,68,4,19" IsChecked="{x:Null}" Click="AvliableChargeSlotsChecked"/>
 
-            <Button x:Name="RequiredSlotsClearButton" Width="50" Height="30" Content="Clear" Grid.Column="4" Margin="13,11,90,0" VerticalAlignment="Top" Click="RequiredSlotsClearButtonOnClick" Foreground="White">
+            <Button x:Name="RequiredSlotsClearButton" Width="50" Height="30" Content="Clear" Grid.Column="4" Margin="13,11,90,0" VerticalAlignment="Top" Click="RequiredSlotsClearButtonOnClick" Foreground="White" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png" ></ImageBrush>
                 </Button.Background>
@@ -45,7 +45,7 @@ VerticalAlignment="Stretch" Width="auto" RenderTransformOrigin="0.502,0.622">
 
             <Label x:Name="ReuiredSlots" Content="Required charge slots" HorizontalAlignment="Left" Grid.Column="1" Margin="25,13,0,0" VerticalAlignment="Top" Width="150" Height="30" RenderTransformOrigin="0.441,1.322" FontSize="12" FontWeight="Bold" Foreground="White"/>
 
-            <Button x:Name="AddStationButton" Width="100" Height="50" Content="Add a Station" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Top" Click="AddStationButtonOnClick" Foreground="White" FontSize="14" Margin="0,3,0,0">
+            <Button x:Name="AddStationButton" Width="100" Height="50" Content="Add a Station" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Top" Click="AddStationButtonOnClick" Foreground="White" FontSize="14" Margin="0,3,0,0" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
                 </Button.Background>

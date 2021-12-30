@@ -11,6 +11,12 @@
     </Window.Background>
 
     <Grid x:Name="MainGrid">
+        <Button x:Name="ReturnButton" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Width="50" Margin="20,20,0,0" BorderBrush="Transparent">
+            <Button.Background>
+                <ImageBrush ImageSource="Graphics/backButton.png" ></ImageBrush>
+            </Button.Background>
+        </Button>
+        
         <Grid x:Name="AddDrone" Visibility="Hidden">
             <TextBox x:Name="DroneID" HorizontalAlignment="Left" Margin="210,120,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" Height="38" TextAlignment="Left" FontSize="20"/>
             <TextBox x:Name="DroneModel" HorizontalAlignment="Left" Margin="210,170,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
@@ -21,15 +27,9 @@
             <Label Content="Drone Weight" HorizontalAlignment="Left" Margin="50,220,0,0" VerticalAlignment="Top" Height="38" Width="140" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
             <Label Content="Station ID" HorizontalAlignment="Left" Margin="50,270,0,0" VerticalAlignment="Top" Height="38" Width="100" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"/>
 
-            <Button x:Name="AddButton" Content="ADD" HorizontalAlignment="Left" Margin="160,350,0,0" VerticalAlignment="Top" Height="50" Width="100" Click="AddOnClick" FontSize="30" FontWeight="Bold" Foreground="Black">
+            <Button x:Name="AddButton" Content="ADD" HorizontalAlignment="Left" Margin="160,350,0,0" VerticalAlignment="Top" Height="50" Width="100" Click="AddOnClick" FontSize="30" FontWeight="Bold" Foreground="Black" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png" ></ImageBrush>
-                </Button.Background>
-            </Button>
-
-            <Button x:Name="ReturnButton" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Width="50"  Click="ReturnOnClick" Margin="20,20,0,0">
-                <Button.Background>
-                    <ImageBrush ImageSource="Graphics/backButton.png" ></ImageBrush>
                 </Button.Background>
             </Button>
 
@@ -39,25 +39,19 @@
         <Grid x:Name="UpdateDrone" Visibility="Hidden">
             <Label x:Name="DroneLabel" Content="" HorizontalAlignment="Left" Margin="32,0,0,0" VerticalAlignment="Center" Height="300" Width="450" VerticalContentAlignment="Top" Foreground="White" FontSize="15"/>
 
-            <Button x:Name="UpdateButton" Content="Update" HorizontalAlignment="Left" Margin="570,230,0,0" VerticalAlignment="Top" Height="60" Width="260" Foreground="Black" FontSize="23" FontWeight="Bold" Click="UpdateOnClick">
+            <Button x:Name="UpdateButton" Content="Update" HorizontalAlignment="Left" Margin="570,230,0,0" VerticalAlignment="Top" Height="60" Width="260" Foreground="Black" FontSize="23" FontWeight="Bold" Click="UpdateOnClick" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png" ></ImageBrush>
                 </Button.Background>
             </Button>
 
-            <Button x:Name="ReturnButton2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Width="50"  Click="ReturnOnClick" Margin="20,20,0,0">
-                <Button.Background>
-                    <ImageBrush ImageSource="Graphics/backButton.png" ></ImageBrush>
-                </Button.Background>
-            </Button>
-
-            <Button x:Name="FirstButton" Content="" HorizontalAlignment="Left" Margin="570,290,0,0" VerticalAlignment="Top" Height="60" Width="260" Foreground="Black" FontSize="23" FontWeight="Bold" Click="FirstOnClick">
+            <Button x:Name="FirstButton" Content="" HorizontalAlignment="Left" Margin="570,290,0,0" VerticalAlignment="Top" Height="60" Width="260" Foreground="Black" FontSize="23" FontWeight="Bold" Click="FirstOnClick" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png" ></ImageBrush>
                 </Button.Background>
             </Button>
 
-            <Button x:Name="SecondButton" Content="" HorizontalAlignment="Left" Margin="570,350,0,0" VerticalAlignment="Top" Height="60" Width="260" Foreground="Black" FontSize="23" FontWeight="Bold" Click="SecondOnClick">
+            <Button x:Name="SecondButton" Content="" HorizontalAlignment="Left" Margin="570,350,0,0" VerticalAlignment="Top" Height="60" Width="260" Foreground="Black" FontSize="23" FontWeight="Bold" Click="SecondOnClick" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png" ></ImageBrush>
                 </Button.Background>

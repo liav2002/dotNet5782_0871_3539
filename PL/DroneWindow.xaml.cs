@@ -28,7 +28,8 @@ namespace PL
         public DroneWindow()
         {
             InitializeComponent();
-            this.Closing += App.PrevWindow;
+            ReturnButton.Click += delegate { App.PrevWindow(); };
+            this.Closing += App.Window_Closing;
 
             this.iBL = BlFactory.GetBl();
             AddDrone.Visibility = Visibility.Visible;
@@ -42,7 +43,8 @@ namespace PL
         public DroneWindow(object item, int stationId = 0)
         {
             InitializeComponent();
-            this.Closing += App.PrevWindow;
+            ReturnButton.Click += delegate { App.PrevWindow(); };
+            this.Closing += App.Window_Closing;
 
             this.iBL = BlFactory.GetBl();
 
@@ -120,23 +122,7 @@ namespace PL
             }
 
             MessageBox.Show("Drone added successfully.", "SYSTEM");
-            App.ShowWindow<DronesListWindow>();
-        }
-
-        private void ReturnOnClick(object o, EventArgs e)
-        {
             App.PrevWindow();
-
-            // if(stationId == 0)
-            // {
-            //     App.ShowWindow<DronesListWindow>();
-            // }
-            //
-            // else
-            // {
-            //     StationWindow nextWindow = new StationWindow(this.iBL.GetStationById(stationId));
-            //     App.ShowWindow(nextWindow);
-            // }
         }
 
         private void FirstOnClick(object o, EventArgs e)

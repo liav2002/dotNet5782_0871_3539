@@ -27,8 +27,8 @@ namespace PL
         public DronesListWindow()
         {
             InitializeComponent();
-            ReturnButton.Click += delegate { App.BackToMain(); };
-            this.Closing += App.PrevWindow;
+            ReturnButton.Click += delegate { App.PrevWindow(); };
+            this.Closing += App.Window_Closing;
 
             this.iBL = BlFactory.GetBl();
 
@@ -100,7 +100,7 @@ namespace PL
             DroneWindow nextWindow = new DroneWindow();
             StatusSelector.SelectedItem = null;
             WeightSelector.SelectedItem = null;
-            App.ShowWindow(nextWindow);
+            App.NextWindow(nextWindow);
         }
 
         private void RemoveDroneButtonOnClick(object o, EventArgs e)
@@ -141,7 +141,7 @@ namespace PL
             DroneWindow nextWindow = new DroneWindow(DronesListView.SelectedItem);
             StatusSelector.SelectedItem = null;
             WeightSelector.SelectedItem = null;
-            App.ShowWindow(nextWindow);
+            App.NextWindow(nextWindow);
         }
 
         private void DroneSelected(object o, EventArgs e)

@@ -27,7 +27,7 @@
                 </ImageBrush>
             </Grid.Background>
 
-            <Button x:Name="ReturnButton" Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button x:Name="ReturnButton" Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/backButton.png" ></ImageBrush>
                 </Button.Background>
@@ -44,13 +44,13 @@
 
             <TextBlock TextWrapping="Wrap" Text="" TextAlignment="Center" Foreground="Red" Name="errorMessage" Margin="352,110,18,11" FontFamily="Arial" FontWeight="Bold" Grid.Column="1" FontSize="12"/>
 
-            <Button x:Name="RequiredSlotsClearButton" Height="30" Content="Clear Filters" Grid.Column="1" Margin="416,0,18,0" VerticalAlignment="Center" Click="ClearButtonOnClick" Foreground="White">
+            <Button x:Name="RequiredSlotsClearButton" Height="30" Content="Clear Filters" Grid.Column="1" Margin="416,0,18,0" VerticalAlignment="Center" Click="ClearButtonOnClick" Foreground="White" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png" ></ImageBrush>
                 </Button.Background>
             </Button>
 
-            <Button x:Name="AddCostumerButton" Width="130" Height="50" Content="Add a Costumer" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddCostumerButtonOnClick" Foreground="White" FontSize="14" Margin="79,24,0,0">
+            <Button x:Name="AddCostumerButton" Width="130" Height="50" Content="Add a Costumer" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddCostumerButtonOnClick" Foreground="White" FontSize="14" Margin="79,24,0,0" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
                 </Button.Background>

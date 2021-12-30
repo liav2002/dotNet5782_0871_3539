@@ -27,7 +27,8 @@ namespace PL
         public StationWindow()
         {
             InitializeComponent();
-            this.Closing += App.PrevWindow;
+            ReturnButton.Click += delegate { App.PrevWindow(); };
+            this.Closing += App.Window_Closing;
 
             AddStation.Visibility = Visibility.Visible;
             StationDetails.Visibility = Visibility.Hidden;
@@ -40,7 +41,8 @@ namespace PL
         public StationWindow(object item)
         {
             InitializeComponent();
-            this.Closing += App.PrevWindow;
+            ReturnButton.Click += delegate { App.PrevWindow(); };
+            this.Closing += App.Window_Closing;
 
             AddStation.Visibility = Visibility.Hidden;
             StationDetails.Visibility = Visibility.Visible;
@@ -74,7 +76,8 @@ namespace PL
         StationWindow(string name, string FreeSlots, BO.StationBL station)
         {
             InitializeComponent();
-            this.Closing += App.PrevWindow;
+            ReturnButton.Click += delegate { App.PrevWindow(); };
+            this.Closing += App.Window_Closing;
 
             this.iBL = BlFactory.GetBl();
             this.station = station;
@@ -175,7 +178,7 @@ namespace PL
                 {
                     this.iBL.AddStation(id, StationID.Text, longitude, lattitude, chargeSlots);
                     MessageBox.Show("Station added successfully.", "SYSTEM");
-                    App.ShowWindow<StationsListWindow>();
+                    App.PrevWindow();
                 }
             }
 
@@ -224,7 +227,7 @@ namespace PL
         private void DroneView(object o, EventArgs e)
         {
             DroneWindow nextWindow = new DroneWindow(DronesInStationView.SelectedItem, station.Id);
-            App.ShowWindow(nextWindow);
+            App.NextWindow(nextWindow);
         }
 
         private void UpdateOnClick(object o, EventArgs e)
@@ -237,7 +240,7 @@ namespace PL
             else
             {
                 StationWindow nextWindow = new StationWindow(station.Name, station.FreeSlots.ToString(), station);
-                App.ShowWindow(nextWindow);
+                App.NextWindow(nextWindow);
             }
         }
 
@@ -264,24 +267,7 @@ namespace PL
                 return;
             }
 
-            StationWindow nextWindow = new StationWindow(station);
-            App.ShowWindow(nextWindow);
-        }
-
-        private void ReturnOnClick(object o, EventArgs e)
-        {
             App.PrevWindow();
-
-            // if(UpdateStation.Visibility == Visibility.Visible)
-            // {
-            //     StationWindow nextWindow = new StationWindow(this.station);
-            //     App.ShowWindow(nextWindow);
-            // }
-            //
-            // else
-            // {
-            //     App.ShowWindow<StationsListWindow>();
-            // }
         }
     }
 }

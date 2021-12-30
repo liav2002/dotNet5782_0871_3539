@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Collections;
 
 namespace PL
 {
@@ -16,51 +17,48 @@ namespace PL
     {
         void Application_Startup(object sender, StartupEventArgs e)
         {
-            mainWindow = new MainWindow();
-            ShowWindow(mainWindow);
-
-            currentWindow = null;
+            windows = new Stack<Window>();
+            NextWindow(new MainWindow());
         }
 
-        public static void ShowWindow(Window nextWindow)
+        public static void NextWindow(Window nextWindow)
         {
-            if (currentWindow != null)
+            if(windows.Count != 0)
             {
+                Window currentWindow = windows.Peek();
+
                 nextWindow.Left = currentWindow.Left;
                 nextWindow.Top = currentWindow.Top;
                 currentWindow.Hide();
             }
 
+            windows.Push(nextWindow);
             nextWindow.Show();
-
-            currentWindow = nextWindow;
         }
 
-        public static void ShowWindow<MyWindow>() where MyWindow : Window, new()
+        public static void PrevWindow()
         {
-            MyWindow nextWindow = new MyWindow();
-            ShowWindow(nextWindow);
-        }
+            Window currentWindow = windows.Pop();
+            Window prevWindow = windows.Peek();
 
-        public static MainWindow GetMainWindow()
-        {
-            return mainWindow;
+            prevWindow.Left = currentWindow.Left;
+            prevWindow.Top = currentWindow.Top;
+            currentWindow.Hide();
+
+            prevWindow.Show();
         }
 
         public static void Window_Closing(object o, EventArgs e)
         {
-            mainWindow.Close();
+            while(windows.Count != 0)
+            {
+                windows.Pop().Close();
+            }
+
             Application.Current.Shutdown();
         }
 
-        public static void BackToMain()
-        {
-            mainWindow.errorMessage.Text = "";
-            ShowWindow(mainWindow);
-        }
-
-        private static MainWindow mainWindow;
-        private static Window currentWindow;
+        private static Stack<Window> windows;
     }
 
     

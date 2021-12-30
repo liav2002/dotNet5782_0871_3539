@@ -28,7 +28,8 @@ namespace PL
         public CostumerWindow(bool returnMain)
         {
             InitializeComponent();
-            this.Closing += App.PrevWindow;
+            ReturnButton.Click += delegate { App.PrevWindow(); };
+            this.Closing += App.Window_Closing;
 
             AddCostumer.Visibility = Visibility.Visible;
             CostumerDetails.Visibility = Visibility.Hidden;
@@ -52,7 +53,8 @@ namespace PL
         public CostumerWindow(object item)
         {
             InitializeComponent();
-            this.Closing += App.PrevWindow;
+            ReturnButton.Click += delegate { App.PrevWindow(); };
+            this.Closing += App.Window_Closing;
 
             AddCostumer.Visibility = Visibility.Hidden;
             CostumerDetails.Visibility = Visibility.Visible;
@@ -88,7 +90,8 @@ namespace PL
         CostumerWindow(string name, string phone, string email, string password, BO.CostumerBL costumer)
         {
             InitializeComponent();
-            this.Closing += App.PrevWindow;
+            ReturnButton.Click += delegate { App.PrevWindow(); };
+            this.Closing += App.Window_Closing;
 
             this.iBL = BlFactory.GetBl();
             this.costumer = costumer;
@@ -248,15 +251,7 @@ namespace PL
                         Password.Text);
                     MessageBox.Show("Costumer added successfully.", "SYSTEM");
 
-                    if (this.iBL.GetLoggedUser() == null)
-                    {
-                        App.BackToMain();
-                    }
-
-                    else
-                    {
-                        App.NextWindow(CostumersListWindow);
-                    }
+                    App.PrevWindow();
                 }
 
                 else
@@ -275,9 +270,7 @@ namespace PL
         {
             if (costumer.IsAvaliable)
             {
-                CostumerWindow nextWindow = new CostumerWindow(costumer.Name, costumer.Phone, costumer.Email,
-                    costumer.Password, costumer);
-                App.NextWindow(nextWindow);
+                App.NextWindow(new CostumerWindow(costumer.Name, costumer.Phone, costumer.Email, costumer.Password, costumer));
             }
 
             else
@@ -353,37 +346,8 @@ namespace PL
 
             if (update)
             {
-                CostumerWindow nextWindow = new CostumerWindow(costumer);
-                App.NextWindow(nextWindow);
+                App.PrevWindow();
             }
-        }
-
-        private void ReturnOnClick(object o, EventArgs e)
-        {
-            App.PrevWindow();
-
-            // if (returnMain)
-            // {
-            //     App.BackToMain();
-            // }
-            //
-            // else if (UpdateCostumer.Visibility == Visibility.Visible)
-            // {
-            //     CostumerWindow nextWindow = new CostumerWindow(this.costumer);
-            //     App.ShowWindow(nextWindow);
-            // }
-            //
-            // else
-            // {
-            //     if (this.iBL.GetLoggedUser().IsManager)
-            //     {
-            //         App.ShowWindow<CostumersListWindow>();
-            //     }
-            //     else
-            //     {
-            //         App.BackToMain();
-            //     }
-            // }
         }
 
         private bool IsPhonePrefixValid(string phone)

@@ -27,8 +27,8 @@ namespace PL
         public CostumersListWindow()
         {
             InitializeComponent();
-            ReturnButton.Click += delegate { App.BackToMain(); };
-            this.Closing += App.PrevWindow;
+            ReturnButton.Click += delegate { App.PrevWindow(); };
+            this.Closing += App.Window_Closing;
 
             this.iBL = BlFactory.GetBl();
 
@@ -135,7 +135,7 @@ namespace PL
         private void AddCostumerButtonOnClick(object o, EventArgs e)
         {
             CostumerWindow nextWindow = new CostumerWindow(false);
-            App.ShowWindow(nextWindow);
+            App.NextWindow(nextWindow);
         }
 
         private void BlockCostumerButtonOnClick(object o, EventArgs e)
@@ -199,7 +199,7 @@ namespace PL
         private void CostumerView(object o, EventArgs e)
         {
             CostumerWindow nextWindow = new CostumerWindow(CostumersListView.SelectedItem);
-            App.ShowWindow(nextWindow);
+            App.NextWindow(nextWindow);
         }
     }
 }
