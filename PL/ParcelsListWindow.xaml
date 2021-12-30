@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="DronesList" Height="550" Width="850" ShowInTaskbar="False">
+        Title="ParcelsList" Height="550" Width="850" ShowInTaskbar="False">
 
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
@@ -97,7 +97,7 @@
         </Grid>
 
         <ListView x:Name="ParcelsListView" MouseDoubleClick="ParcelView" SelectionMode="Single" Foreground="White"
-                  BorderBrush="White" FontFamily="Segoe UI" Height="345" VerticalAlignment="Center" Grid.Row="1">
+                  BorderBrush="White" FontFamily="Segoe UI" Height="328" VerticalAlignment="Center" Grid.Row="1" SelectionChanged="ParcelSelected">
             <ListView.Background>
                 <ImageBrush ImageSource="Graphics/background.jpg"></ImageBrush>
             </ListView.Background>

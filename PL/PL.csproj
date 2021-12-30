@@ -15,10 +15,12 @@
     <None Remove="Graphics\buttonBackground.png" />
     <None Remove="Graphics\costumer.png" />
     <None Remove="Graphics\drone.png" />
+    <None Remove="Graphics\droneButton.png" />
     <None Remove="Graphics\droneStation.png" />
     <None Remove="Graphics\exitButton.png" />
     <None Remove="Graphics\logo.png" />
     <None Remove="Graphics\manager.png" />
+    <None Remove="Graphics\parcel.png" />
     <None Remove="Graphics\profilePhoto.png" />
     <None Remove="Graphics\station.png" />
     <None Remove="Graphics\SystemLogo.png" />
@@ -42,10 +44,12 @@
     <Resource Include="Graphics\buttonBackground.png" />
     <Resource Include="Graphics\costumer.png" />
     <Resource Include="Graphics\drone.png" />
+    <Resource Include="Graphics\droneButton.png" />
     <Resource Include="Graphics\droneStation.png" />
     <Resource Include="Graphics\exitButton.png" />
     <Resource Include="Graphics\logo.png" />
     <Resource Include="Graphics\manager.png" />
+    <Resource Include="Graphics\parcel.png" />
     <Resource Include="Graphics\profilePhoto.png" />
     <Resource Include="Graphics\station.png" />
     <None Remove="Graphics\parcelImage.png" />

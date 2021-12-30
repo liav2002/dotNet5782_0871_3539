@@ -204,7 +204,7 @@ namespace Dal
         {
             foreach (var parcel in DataSource.parcels)
             {
-                if (parcel.DroneId == droneId)
+                if (parcel.DroneId == droneId && parcel.Delivered == null)
                     return parcel;
             }
 

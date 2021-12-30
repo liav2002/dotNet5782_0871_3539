@@ -235,8 +235,11 @@ namespace PL
 
         private void DroneView(object o, EventArgs e)
         {
-            DroneWindow nextWindow = new DroneWindow(DronesInStationView.SelectedItem, station.Id);
-            App.NextWindow(nextWindow);
+            if (DronesInStationView.SelectedItem != null)
+            {
+                DroneWindow nextWindow = new DroneWindow(DronesInStationView.SelectedItem, station.Id);
+                App.NextWindow(nextWindow);
+            }
         }
 
         private void UpdateOnClick(object o, EventArgs e)

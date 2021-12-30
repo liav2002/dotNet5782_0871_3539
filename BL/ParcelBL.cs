@@ -18,8 +18,6 @@ namespace BO
         private CostumerInParcel _receiver;
         
         private CostumerInParcel _sender;
-        
-        private bool _isAvailable;
 
         public ParcelBL(DO.Parcel parcel)
         {
@@ -32,8 +30,6 @@ namespace BO
             _sender = new CostumerInParcel(idalObj.GetCostumerById(parcel.SenderId));
 
             _drone = (parcel.DroneId != 0) ? new DroneParcelBL(idalObj.GetDroneById(parcel.DroneId)) : null;
-
-            _isAvailable = true;
         }
 
         public int Id => _parcel.Id;
