@@ -105,20 +105,20 @@ namespace PL
 
         private void RemoveDroneButtonOnClick(object o, EventArgs e)
         {
-            try 
+            try
             {
-                if(DronesListView.SelectedItem != null)
+                if (DronesListView.SelectedItem != null)
                 {
-                    if(RemoveDroneButton.Content.ToString() == "Remove")
+                    if (RemoveDroneButton.Content.ToString() == "Remove")
                     {
-                        this.iBL.RemoveDrone(((BO.DroneListBL)DronesListView.SelectedItem).Id);
+                        this.iBL.RemoveDrone(((BO.DroneListBL) DronesListView.SelectedItem).Id);
                         DronesListView.ItemsSource = this.iBL.GetDroneList();
                         SetListViewForeground();
                     }
 
-                    else if(RemoveDroneButton.Content.ToString() == "Restore")
+                    else if (RemoveDroneButton.Content.ToString() == "Restore")
                     {
-                        this.iBL.RestoreDrone(((BO.DroneListBL)DronesListView.SelectedItem).Id);
+                        this.iBL.RestoreDrone(((BO.DroneListBL) DronesListView.SelectedItem).Id);
                         DronesListView.ItemsSource = this.iBL.GetDroneList();
                         SetListViewForeground();
                     }
@@ -130,7 +130,7 @@ namespace PL
                 }
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 errorMessage.Text = ex.Message;
             }
@@ -138,7 +138,7 @@ namespace PL
 
         private void DroneView(object o, EventArgs e)
         {
-            if(DronesListView.SelectedItem != null)
+            if (DronesListView.SelectedItem != null)
             {
                 DroneWindow nextWindow = new DroneWindow(DronesListView.SelectedItem);
                 StatusSelector.SelectedItem = null;
@@ -151,7 +151,7 @@ namespace PL
         {
             if (DronesListView.SelectedItem != null)
             {
-                BO.DroneBL drone = this.iBL.GetDroneById(((BO.DroneListBL)DronesListView.SelectedItem).Id);
+                BO.DroneBL drone = this.iBL.GetDroneById(((BO.DroneListBL) DronesListView.SelectedItem).Id);
 
                 RemoveDroneButton.Visibility = Visibility.Visible;
 
