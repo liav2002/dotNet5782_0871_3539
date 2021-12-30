@@ -40,31 +40,31 @@
         </Grid>
 
         <Grid x:Name="SigninAsManagerState" Visibility="Hidden">
-            <Button Margin="250,164,250,0"  VerticalAlignment="Top" Width="350" Height="40" Content="Drones" x:Name="DronesButton" Click="DronesOnClick" FontSize="22" FontWeight="ExtraBold">
+            <Button Margin="250,164,250,0"  VerticalAlignment="Top" Width="350" Height="40" Content="Drones" x:Name="DronesButton" Click="DronesOnClick" FontSize="22" FontWeight="ExtraBold" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"/>
                 </Button.Background>
             </Button>
 
-            <Button Margin="250,209,250,0" VerticalAlignment="Top" Width="350" Height="40" Content="Parcels" x:Name="ParcelsButton" Click="ParcelsOnClick" FontSize="22" FontWeight="ExtraBold">
+            <Button Margin="250,209,250,0" VerticalAlignment="Top" Width="350" Height="40" Content="Parcels" x:Name="ParcelsButton" Click="ParcelsOnClick" FontSize="22" FontWeight="ExtraBold" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"/>
                 </Button.Background>
             </Button>
 
-            <Button Margin="250,254,250,0" VerticalAlignment="Top" Width="350" Height="40" Content="Costumers" x:Name="CostumersButton" Click="CostumersOnClick" FontSize="22" FontWeight="ExtraBold">
+            <Button Margin="250,254,250,0" VerticalAlignment="Top" Width="350" Height="40" Content="Costumers" x:Name="CostumersButton" Click="CostumersOnClick" FontSize="22" FontWeight="ExtraBold" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"/>
                 </Button.Background>
             </Button>
 
-            <Button Margin="250,294,250,0" VerticalAlignment="Top" Width="350" Height="40" Content="Stations" x:Name="StationsButton" Click="StationsOnClick" FontSize="22" FontWeight="ExtraBold">
+            <Button Margin="250,294,250,0" VerticalAlignment="Top" Width="350" Height="40" Content="Stations" x:Name="StationsButton" Click="StationsOnClick" FontSize="22" FontWeight="ExtraBold" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"/>
                 </Button.Background>
             </Button>
 
-            <Button Margin="250,339,250,0" VerticalAlignment="Top" Width="350" Height="40" x:Name="signOutButton" Click="SignOutOnClick" Foreground="Black" FontSize="22" FontWeight="ExtraBold" Content="Sign Out">
+            <Button Margin="250,339,250,0" VerticalAlignment="Top" Width="350" Height="40" x:Name="signOutButton" Click="SignOutOnClick" Foreground="Black" FontSize="22" FontWeight="ExtraBold" Content="Sign Out" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png" />
                 </Button.Background>
@@ -74,19 +74,19 @@
         </Grid>
 
         <Grid x:Name="SigninAsCostumerState" Visibility="Hidden">
-            <Button Margin="250,164,250,0" VerticalAlignment="Top" Width="350" Height="40" x:Name="MyParcelsButton" Click="MyParcelsOnClick" Foreground="Black" FontSize="22" FontWeight="ExtraBold" Content="My Parcels">
+            <Button Margin="250,164,250,0" VerticalAlignment="Top" Width="350" Height="40" x:Name="MyParcelsButton" Click="MyParcelsOnClick" Foreground="Black" FontSize="22" FontWeight="ExtraBold" Content="My Parcels" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png" />
                 </Button.Background>
             </Button>
 
-            <Button Margin="250,209,250,0" VerticalAlignment="Top" Width="350" Height="40" x:Name="MyDetailsButton" Click="MyDetailsOnClick" Foreground="Black" FontSize="22" FontWeight="ExtraBold" Content="My Details">
+            <Button Margin="250,209,250,0" VerticalAlignment="Top" Width="350" Height="40" x:Name="MyDetailsButton" Click="MyDetailsOnClick" Foreground="Black" FontSize="22" FontWeight="ExtraBold" Content="My Details" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png" />
                 </Button.Background>
             </Button>
 
-            <Button Margin="250,254,250,0" VerticalAlignment="Top" Width="350" Height="40" Content="Sign Out" x:Name="SignOutButton2" Click="SignOutOnClick" FontSize="22" FontWeight="ExtraBold">
+            <Button Margin="250,254,250,0" VerticalAlignment="Top" Width="350" Height="40" Content="Sign Out" x:Name="SignOutButton2" Click="SignOutOnClick" FontSize="22" FontWeight="ExtraBold" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"/>
                 </Button.Background>
