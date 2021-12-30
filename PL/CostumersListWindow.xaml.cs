@@ -29,7 +29,12 @@ namespace PL
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
             this.Closing += App.Window_Closing;
+            Initialized();
 
+        }
+
+        private bool Initialized()
+        {
             this.iBL = BlFactory.GetBl();
 
             this.costumers = this.iBL.GetCostumerList();
@@ -39,22 +44,13 @@ namespace PL
             BlockCostumerButton.Visibility = Visibility.Collapsed;
 
             SetListViewForeground();
+
+            return true;
         }
 
         private void SetListViewForeground()
         {
             //TODO: Try do implement this function (Foreground List View).
-            //The function set the foreground of unvaliable items as red.
-
-            //for (int i = 0; i < DronesListView.Items.Count; ++i)
-            //{
-            //    var item = DronesListView.ItemContainerGenerator.ContainerFromItem(i) as ListViewItem;
-
-            //    if (((BO.DroneBL)item.Content).IsAvliable == false)
-            //    {
-            //        item.Foreground = Brushes.Red;
-            //    }
-            //}
         }
 
         private void InputChanged(object o, EventArgs e)
@@ -63,7 +59,7 @@ namespace PL
             int id = 0;
             string name = CostumerNameInput.Text;
             string phone = CostumerPhoneInput.Text;
-            
+
             errorMessage.Text = "";
 
             if (idStr != "" && !int.TryParse(idStr, out id))
@@ -72,28 +68,32 @@ namespace PL
             }
 
             //case 1: all filters
-            if(idStr != "" && name != "" && phone != "")
+            if (idStr != "" && name != "" && phone != "")
             {
                 this.costumers = this.iBL.GetCostumerList(costumer => costumer.Id.ToString().Contains(id.ToString()) &&
-                costumer.Name.Contains(name) && costumer.Phone.Contains(phone) );
+                                                                      costumer.Name.Contains(name) &&
+                                                                      costumer.Phone.Contains(phone));
             }
 
             //case 2: only id and name filtering
             else if (idStr != "" && name != "" && phone == "")
             {
-                this.costumers = this.iBL.GetCostumerList(costumer => costumer.Id.ToString().Contains(id.ToString()) && costumer.Name.Contains(name));
+                this.costumers = this.iBL.GetCostumerList(costumer =>
+                    costumer.Id.ToString().Contains(id.ToString()) && costumer.Name.Contains(name));
             }
 
             //case 3: only id and phone filtering
             else if (idStr != "" && name == "" && phone != "")
             {
-                this.costumers = this.iBL.GetCostumerList(costumer => costumer.Id.ToString().Contains(id.ToString()) && costumer.Phone.Contains(phone));
+                this.costumers = this.iBL.GetCostumerList(costumer =>
+                    costumer.Id.ToString().Contains(id.ToString()) && costumer.Phone.Contains(phone));
             }
 
             //case 3: only name and phone filtering
             else if (idStr == "" && name != "" && phone != "")
             {
-                this.costumers = this.iBL.GetCostumerList(costumer => costumer.Name.Contains(name) && costumer.Phone.Contains(phone));
+                this.costumers = this.iBL.GetCostumerList(costumer =>
+                    costumer.Name.Contains(name) && costumer.Phone.Contains(phone));
             }
 
             //case 4: Only id filtering
@@ -134,8 +134,8 @@ namespace PL
 
         private void AddCostumerButtonOnClick(object o, EventArgs e)
         {
-            CostumerWindow nextWindow = new CostumerWindow(false);
-            App.NextWindow(nextWindow);
+            CostumerWindow nextWindow = new CostumerWindow();
+            App.NextWindow(nextWindow, Initialized);
         }
 
         private void BlockCostumerButtonOnClick(object o, EventArgs e)
@@ -144,16 +144,16 @@ namespace PL
             {
                 if (CostumersListView.SelectedItem != null)
                 {
-                    if(BlockCostumerButton.Content.ToString() == "Block")
+                    if (BlockCostumerButton.Content.ToString() == "Block")
                     {
-                        this.iBL.RemoveCostumer(((BO.CostumerListBL)CostumersListView.SelectedItem).Id);
+                        this.iBL.RemoveCostumer(((BO.CostumerListBL) CostumersListView.SelectedItem).Id);
                         CostumersListView.ItemsSource = this.iBL.GetCostumerList();
                         SetListViewForeground();
                     }
 
-                    else if(BlockCostumerButton.Content.ToString() == "Unblock")
+                    else if (BlockCostumerButton.Content.ToString() == "Unblock")
                     {
-                        this.iBL.RestoreCostumer(((BO.CostumerListBL)CostumersListView.SelectedItem).Id);
+                        this.iBL.RestoreCostumer(((BO.CostumerListBL) CostumersListView.SelectedItem).Id);
                         CostumersListView.ItemsSource = this.iBL.GetCostumerList();
                         SetListViewForeground();
                     }
@@ -173,9 +173,10 @@ namespace PL
 
         private void CostumerSelected(object o, EventArgs e)
         {
-            if(CostumersListView.SelectedItem != null)
+            if (CostumersListView.SelectedItem != null)
             {
-                BO.CostumerBL costumer = this.iBL.GetCostumerById(((BO.CostumerListBL)CostumersListView.SelectedItem).Id);
+                BO.CostumerBL costumer =
+                    this.iBL.GetCostumerById(((BO.CostumerListBL) CostumersListView.SelectedItem).Id);
 
                 BlockCostumerButton.Visibility = Visibility.Visible;
 
@@ -200,6 +201,7 @@ namespace PL
         {
             CostumerWindow nextWindow = new CostumerWindow(CostumersListView.SelectedItem);
             App.NextWindow(nextWindow);
+            Initialized();
         }
     }
 }

@@ -20,14 +20,19 @@ namespace PL
             ReturnButton.Click += delegate { App.PrevWindow(); };
             Closing += App.Window_Closing;
 
-            iBL = BlFactory.GetBl();
+            Initialized();
+        }
 
+
+        private bool Initialized()
+        {
+            iBL = BlFactory.GetBl();
             if(iBL.GetLoggedUser().IsManager)
             {
                 parcels = iBL.GetParcelsList();
 
                 SenderSelector.ItemsSource = iBL.GetCostumerList()
-                .Select(costumer => ("Id: " + costumer.Id + " " + "Name: " + costumer.Name + ""));
+                    .Select(costumer => ("Id: " + costumer.Id + " " + "Name: " + costumer.Name + ""));
                 TargetSelector.ItemsSource = iBL.GetCostumerList()
                     .Select(costumer => ("Id: " + costumer.Id + " " + "Name: " + costumer.Name + ""));
             }
@@ -46,6 +51,7 @@ namespace PL
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DO.ParcelStatuses));
 
             RemoveParcelButton.Visibility = Visibility.Collapsed;
+            return true;
         }
 
         private void SelectionChanged(object o, EventArgs e)
@@ -91,13 +97,12 @@ namespace PL
 
             ParcelsListView.ItemsSource = parcels;
         }
-
         private void StatusSelectorClearButtonOnClick(object o, EventArgs e)
         {
             errorMessage.Text = "";
 
             StatusSelector.SelectedItem = null;
-
+            
             ParcelsListView.SelectedItem = null;
         }
 
@@ -106,8 +111,9 @@ namespace PL
             errorMessage.Text = "";
 
             SenderSelector.SelectedItem = null;
-
+            
             ParcelsListView.SelectedItem = null;
+
         }
 
         private void TargetSelectorClearButtonOnClick(object o, EventArgs e)
@@ -115,9 +121,11 @@ namespace PL
             errorMessage.Text = "";
 
             TargetSelector.SelectedItem = null;
-
+            
             ParcelsListView.SelectedItem = null;
+
         }
+
 
         private void RemoveParcelButtonOnClick(object o, EventArgs e)
         {
@@ -157,6 +165,7 @@ namespace PL
             }
         }
 
+
         private void AddParcelButtonOnClick(object o, EventArgs e)
         {
             ParcelWindow nextWindow = new ParcelWindow();
@@ -178,15 +187,15 @@ namespace PL
                 StatusSelector.SelectedItem = null;
                 SenderSelector.SelectedItem = null;
                 TargetSelector.SelectedItem = null;
-                App.NextWindow(nextWindow);
-            }
+                App.NextWindow(nextWindow, Initialized);
+                this.iBL = BlFactory.GetBl();            }
         }
 
         private void SetListViewForeground()
         {
             //TODO: Try do implement this function (Foreground List View).
         }
-
+        
         private void ParcelSelected(object o, EventArgs e)
         {
             if (ParcelsListView.SelectedItem != null)

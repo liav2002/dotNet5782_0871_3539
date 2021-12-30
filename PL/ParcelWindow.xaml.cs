@@ -11,8 +11,9 @@ namespace PL
     {
         private BlApi.IBL iBL;
         private BO.ParcelBL _parcel;
+        private object genericParcel;
 
-        public ParcelWindow()
+        public ParcelWindow() // add
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
@@ -30,7 +31,7 @@ namespace PL
             _parcel = null;
         }
 
-        public ParcelWindow(object item)
+        public ParcelWindow(object item) // show
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
@@ -39,24 +40,30 @@ namespace PL
             ParcelDetails.Visibility = Visibility.Visible;
             AddParcel.Visibility = Visibility.Hidden;
 
+
+            genericParcel = item;
+            InitializedUpdate();
+        }
+        private bool InitializedUpdate()
+        {
             this.iBL = BlFactory.GetBl();
 
-            if (item is BO.ParcelListBL)
+            if (genericParcel is BO.ParcelListBL)
             {
                 BO.ParcelListBL parcelList = null;
-                parcelList = (BO.ParcelListBL)item;
+                parcelList = (BO.ParcelListBL)genericParcel;
                 this._parcel = this.iBL.GetParcelById(parcelList.Id);
             }
 
-            else if (item is BO.ParcelBL)
+            else if (genericParcel is BO.ParcelBL)
             {
-                this._parcel = (BO.ParcelBL)item;
+                this._parcel = (BO.ParcelBL)genericParcel;
             }
 
-            else if(item is BO.ParcelAtCostumer)
+            else if(genericParcel is BO.ParcelAtCostumer)
             {
                 BO.ParcelAtCostumer parcelAtCostumer = null;
-                parcelAtCostumer = (BO.ParcelAtCostumer)item;
+                parcelAtCostumer = (BO.ParcelAtCostumer)genericParcel;
                 this._parcel = this.iBL.GetParcelById(parcelAtCostumer.Id);
             }
 
@@ -95,9 +102,8 @@ namespace PL
                     }
                 }
             } // end of if
-
+            return true;
         }
-
 
         private void AddOnClick(object o, EventArgs e)
         {
