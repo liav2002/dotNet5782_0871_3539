@@ -67,18 +67,42 @@ namespace PL
 
             AddDrone.Visibility = Visibility.Hidden;
             UpdateDrone.Visibility = Visibility.Visible;
+
             DroneLabel.Content = this.drone;
+
+            if (!iBL.GetLoggedUser().IsManager)
+            {
+                UpdateButton.Visibility = Visibility.Hidden;
+            }
 
             if (drone.Status == DO.DroneStatuses.Available)
             {
-                FirstButton.Content = "Send to charge";
-                SecondButton.Content = "Send to delivery";
+                if(iBL.GetLoggedUser().IsManager)
+                {
+                    FirstButton.Content = "Send to charge";
+                    SecondButton.Content = "Send to delivery";
+                }
+
+                else
+                {
+                    FirstButton.Visibility = Visibility.Hidden;
+                    SecondButton.Visibility = Visibility.Hidden;
+                }
             }
 
             else if (drone.Status == DO.DroneStatuses.Maintenance)
             {
-                FirstButton.Content = "Release from charge";
-                SecondButton.Visibility = Visibility.Hidden;
+                if (iBL.GetLoggedUser().IsManager)
+                {
+                    FirstButton.Content = "Release from charge";
+                    SecondButton.Visibility = Visibility.Hidden;
+                }
+
+                else
+                {
+                    FirstButton.Visibility = Visibility.Hidden;
+                    SecondButton.Visibility = Visibility.Hidden;
+                }
             }
 
             else
@@ -165,6 +189,7 @@ namespace PL
                 try
                 {
                     iBL.ParcelCollection(drone.Id);
+                    FirstButton.Visibility = Visibility.Hidden;
                 }
 
                 catch (Exception ex)
@@ -212,8 +237,13 @@ namespace PL
                     return;
                 }
 
+                FirstButton.Visibility = Visibility.Visible;
+                SecondButton.Visibility = Visibility.Visible;
+
                 FirstButton.Content = "Collect delivery";
                 SecondButton.Content = "Deliver parcel";
+
+                DroneLabel.Content = iBL.GetDroneById(drone.Id);
             }
 
             else //Deliver parcel
@@ -222,6 +252,19 @@ namespace PL
                 {
                     iBL.ParcelDelivered(drone.Id);
                     DroneLabel.Content = iBL.GetDroneById(drone.Id);
+                    MessageBox.Show("Parcel delivered successfuly.", "SYSTEM");
+
+                    if(iBL.GetLoggedUser().IsManager)
+                    {
+                        FirstButton.Visibility = Visibility.Visible;
+                        SecondButton.Visibility = Visibility.Visible;
+                    }
+
+                    else
+                    {
+                        App.PrevWindow();
+                    }
+                    
                     FirstButton.Content = "Send to charge";
                     SecondButton.Content = "Send to delivery";
                 }

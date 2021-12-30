@@ -281,7 +281,25 @@ namespace PL
 
         private void ParcelView(object o, EventArgs e)
         {
-            //TODO: Implement ParcelDetails Window
+            if(ShippedParcelsView.SelectedItem != null)
+            {
+                App.NextWindow(new ParcelWindow(ShippedParcelsView.SelectedItem));
+            }
+
+            else if(IncomingParcelsView.SelectedItem != null)
+            {
+                App.NextWindow(new ParcelWindow(IncomingParcelsView.SelectedItem));
+            }
+        }
+
+        private void ShippedParcelsSelected(object o, EventArgs e)
+        {
+            IncomingParcelsView.SelectedItem = null;
+        }
+
+        private void IncomingParcelsSelected(object o, EventArgs e)
+        {
+            ShippedParcelsView.SelectedItem = null;
         }
 
         private void NewPhoneChanged(object o, EventArgs e)

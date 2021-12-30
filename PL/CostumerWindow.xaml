@@ -56,7 +56,7 @@
             <Image HorizontalAlignment="Left" Height="193" Width="178" Margin="507,208,0,0" VerticalAlignment="Top" Source="Graphics/costumer.png" Visibility="Visible"/>
         </Grid>
 
-        <Grid x:Name="CostumerDetails" Visibility="Hidden">
+        <Grid x:Name="CostumerDetails" Visibility="Visible">
             <Grid Name="UpGrid" Width="850" Grid.Row="0" Margin="0,96,0,250">
                 <TextBlock x:Name="CostumerIDView" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="150" Foreground="Black" FontWeight="Bold" Background="CornflowerBlue" FontSize="20" RenderTransformOrigin="0.479,-0.341"><Run/><LineBreak/><Run Text="ID: "/></TextBlock>
                 <TextBlock x:Name="CostumerNameView" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="10,95,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="300" Foreground="Black" FontWeight="Bold" Background="LightSteelBlue" FontSize="20" RenderTransformOrigin="0.479,-0.341"><Run/><LineBreak/><Run Text="Name: "/></TextBlock>
@@ -73,14 +73,14 @@
             </Grid>
 
             <TextBlock x:Name="ShippedParcels" HorizontalAlignment="Left" Margin="141,281,0,215" Width="170" Foreground="Black" FontWeight="ExtraBold" FontSize="15" RenderTransformOrigin="0.479,-0.341" Text="Shipped Parcels:"/>
-            <ListView x:Name="ShippedParcelsView" MouseDoubleClick="ParcelView" SelectionMode="Single" Foreground="Black" FontFamily="Segoe UI" Margin="0,309,425,94" Width="425">
+            <ListView x:Name="ShippedParcelsView" SelectionChanged="ShippedParcelsSelected" MouseDoubleClick="ParcelView" SelectionMode="Single" Foreground="Black" FontFamily="Segoe UI" Margin="0,309,425,94" Width="425">
                 <ListView.Background>
                     <ImageBrush ImageSource="Graphics/addDroneBackground.jpg" Stretch="UniformToFill"></ImageBrush>
                 </ListView.Background>
             </ListView>
 
             <TextBlock x:Name="IncomingParcels" HorizontalAlignment="Left" Margin="569,281,0,215" Width="170" Foreground="Black" FontWeight="ExtraBold" FontSize="15" RenderTransformOrigin="0.479,-0.341" Text="Incoming Parcels:"/>
-            <ListView x:Name="IncomingParcelsView" MouseDoubleClick="ParcelView" SelectionMode="Single" Foreground="Black" FontFamily="Segoe UI" Margin="425,309,0,94" HorizontalAlignment="Left" Width="425">
+            <ListView x:Name="IncomingParcelsView" SelectionChanged="IncomingParcelsSelected" MouseDoubleClick="ParcelView" SelectionMode="Single" Foreground="Black" FontFamily="Segoe UI" Margin="425,309,0,94" HorizontalAlignment="Left" Width="425">
                 <ListView.Background>
                     <ImageBrush ImageSource="Graphics/addDroneBackground.jpg" Stretch="UniformToFill"></ImageBrush>
                 </ListView.Background>

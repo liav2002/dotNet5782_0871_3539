@@ -41,12 +41,24 @@ namespace PL
 
             this.iBL = BlFactory.GetBl();
 
-            if (item is BO.ParcelListBL pl)
-                _parcel = iBL.GetParcelById(pl.Id);
-            else if (item is BO.ParcelBL p)
-                _parcel = p;
-            else
-                throw new ArgumentException("Wrong Argument ParcelWindow");
+            if (item is BO.ParcelListBL)
+            {
+                BO.ParcelListBL parcelList = null;
+                parcelList = (BO.ParcelListBL)item;
+                this._parcel = this.iBL.GetParcelById(parcelList.Id);
+            }
+
+            else if (item is BO.ParcelBL)
+            {
+                this._parcel = (BO.ParcelBL)item;
+            }
+
+            else if(item is BO.ParcelAtCostumer)
+            {
+                BO.ParcelAtCostumer parcelAtCostumer = null;
+                parcelAtCostumer = (BO.ParcelAtCostumer)item;
+                this._parcel = this.iBL.GetParcelById(parcelAtCostumer.Id);
+            }
 
             ParcelIdView.Text = "ID: " + _parcel.Id;
             ParcelWeightView.Text = "Weight: " + Enum.GetName(_parcel.Weight);
@@ -78,6 +90,7 @@ namespace PL
                         {
                             Delivered.Visibility = Visibility.Visible;
                             Delivered.Text = "Delivered: " + _parcel.Delivered;
+                            DroneDetail.Visibility = Visibility.Hidden;
                         }
                     }
                 }

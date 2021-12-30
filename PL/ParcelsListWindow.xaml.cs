@@ -22,13 +22,28 @@ namespace PL
 
             iBL = BlFactory.GetBl();
 
-            parcels = iBL.GetParcelsList();
+            if(iBL.GetLoggedUser().IsManager)
+            {
+                parcels = iBL.GetParcelsList();
+
+                SenderSelector.ItemsSource = iBL.GetCostumerList()
+                .Select(costumer => ("Id: " + costumer.Id + " " + "Name: " + costumer.Name + ""));
+                TargetSelector.ItemsSource = iBL.GetCostumerList()
+                    .Select(costumer => ("Id: " + costumer.Id + " " + "Name: " + costumer.Name + ""));
+            }
+            else
+            {
+                parcels = iBL.GetParcelsList(parcel => parcel.TargetId == iBL.GetLoggedUser().Id || parcel.SenderId == iBL.GetLoggedUser().Id);
+                SenderSelector.Visibility = Visibility.Hidden;
+                SenderLabel.Visibility = Visibility.Hidden;
+                SenderSelectorClearButton.Visibility = Visibility.Hidden;
+                TargetSelector.Visibility = Visibility.Hidden;
+                TargetLabel.Visibility = Visibility.Hidden;
+                TargetSelectorClearButton.Visibility = Visibility.Hidden;
+            }
+
             ParcelsListView.ItemsSource = parcels;
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DO.ParcelStatuses));
-            SenderSelector.ItemsSource = iBL.GetCostumerList()
-                .Select(costumer => ("Id: " + costumer.Id + " " + "Name: " + costumer.Name + ""));
-            TargetSelector.ItemsSource = iBL.GetCostumerList()
-                .Select(costumer => ("Id: " + costumer.Id + " " + "Name: " + costumer.Name + ""));
 
             RemoveParcelButton.Visibility = Visibility.Collapsed;
         }
@@ -38,19 +53,40 @@ namespace PL
             if (StatusSelector.SelectedItem == null && SenderSelector.SelectedItem == null &&
                 TargetSelector.SelectedItem == null)
             {
-                parcels = iBL.GetParcelsList();
+                if(iBL.GetLoggedUser().IsManager)
+                {
+                    parcels = iBL.GetParcelsList();
+                }
+
+                else
+                {
+                    parcels = iBL.GetParcelsList(parcel => parcel.TargetId == iBL.GetLoggedUser().Id || parcel.SenderId == iBL.GetLoggedUser().Id);
+                }
             }
             else
-
             {
-                parcels = iBL.GetParcelsList(parcel =>
+                if (iBL.GetLoggedUser().IsManager)
+                {
+                    parcels = iBL.GetParcelsList(parcel =>
                     (StatusSelector.SelectedItem == null ||
-                     parcel.Status == (DO.ParcelStatuses) StatusSelector.SelectedItem) &&
+                     parcel.Status == (DO.ParcelStatuses)StatusSelector.SelectedItem) &&
                     (SenderSelector.SelectedItem == null ||
                      parcel.SenderId == Convert.ToInt32(SenderSelector.SelectedItem.ToString().Split(' ')[1])) &&
                     (TargetSelector.SelectedItem == null ||
-                     parcel.TargetId == Convert.ToInt32(TargetSelector.SelectedItem.ToString().Split(' ')[1]))
-                );
+                     parcel.TargetId == Convert.ToInt32(TargetSelector.SelectedItem.ToString().Split(' ')[1])));
+                }
+
+                else
+                {
+                    parcels = iBL.GetParcelsList(parcel =>
+                    (StatusSelector.SelectedItem == null ||
+                     parcel.Status == (DO.ParcelStatuses)StatusSelector.SelectedItem) &&
+                    (SenderSelector.SelectedItem == null ||
+                     parcel.SenderId == Convert.ToInt32(SenderSelector.SelectedItem.ToString().Split(' ')[1])) &&
+                    (TargetSelector.SelectedItem == null ||
+                     parcel.TargetId == Convert.ToInt32(TargetSelector.SelectedItem.ToString().Split(' ')[1])) && 
+                     (parcel.TargetId == iBL.GetLoggedUser().Id || parcel.SenderId == iBL.GetLoggedUser().Id));
+                }
             }
 
             ParcelsListView.ItemsSource = parcels;
@@ -174,6 +210,8 @@ namespace PL
             {
                 RemoveParcelButton.Visibility = Visibility.Collapsed;
             }
+
+            errorMessage.Text = "";
         }
     }
 }

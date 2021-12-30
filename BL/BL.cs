@@ -225,10 +225,11 @@ namespace BO
         /*
          *I use this function only on AssignParcelToDrone() metohd. 
          */
-        private DO.Parcel findSuitableParcel(DO.Drone drone, int lessPriority = 0)
+        private DO.Parcel findSuitableParcel(int droneId, int lessPriority = 0)
         {
             //first create a priority queue with all the parcels with highest priority
             PriorityQueue<DO.Parcel> parcelsAccordingWeight = new PriorityQueue<DO.Parcel>();
+            DO.Drone drone = this._idalObj.GetDroneById(droneId);
             DO.Parcel parcelForAssign = this._waitingParcels.Dequeue();
             DO.Priorities priority = parcelForAssign.Priority - lessPriority;
 
@@ -299,7 +300,7 @@ namespace BO
             {
                 if (lessPriority >= 0 && lessPriority <= 2)
                 {
-                    return findSuitableParcel(drone, lessPriority + 1);
+                    return findSuitableParcel(drone.Id, lessPriority + 1);
                 }
 
                 else
@@ -374,22 +375,65 @@ namespace BO
             return parcelForAssign;
         }
 
-        private void HandleAssignParcel(DO.Parcel parcel, DO.Drone drone)
+        private void HandleAssignParcel(int parcelId, int droneId, bool isFromTheConatiner = false)
         {
+            DO.Parcel parcel = this._idalObj.GetParcelById(parcelId);
+            DO.Drone drone = this._idalObj.GetDroneById(droneId);
+
             parcel.Scheduled = DateTime.Now;
             parcel.Status = DO.ParcelStatuses.Assign;
 
             parcel.DroneId = drone.Id;
 
             var sender = _idalObj.GetCostumerById(parcel.SenderId);
-            var nearStation =
+            var startNearStation =
                 _idalObj.GetStationById(_GetNearestStation(sender.Location));
+
+            var target = _idalObj.GetCostumerById(parcel.TargetId);
+            var endNearestStation =
+                _idalObj.GetStationById(_GetNearestStation(target.Location));
 
             drone.Status = DO.DroneStatuses.Shipping; // change the drone status to Shipping
 
-            _InitDroneLocation(drone, parcel, nearStation); // set drone's location
+            _InitDroneLocation(drone, parcel, startNearStation); // set drone's location
 
-            _InitBattery(drone, parcel, nearStation); // set drone's battery
+            //check drone's battery
+
+            if(isFromTheConatiner)
+            {
+                _InitBattery(drone, parcel, startNearStation);
+            }
+
+            else
+            {
+                double d1 = startNearStation.Location.Distance(sender.Location); // first distance: drone (from start station point) --> sender (without parcel == without weight)
+
+                double d2 = sender.Location.Distance(target.Location); //second distance: drone(from sender) --> target (with parcel == with weight)
+
+                double d3 = target.Location.Distance(endNearestStation.Location); //third distance: drone(from target) --> end station point. (without parcel == without weight)
+
+                double batteryConsumption = (d1 + d3) * DataSource.Config.avilablePPK;
+
+                if (parcel.Weight == WeightCategories.Light)
+                {
+                    batteryConsumption += d2 * DataSource.Config.lightPPK;
+                }
+
+                else if (parcel.Weight == WeightCategories.Medium)
+                {
+                    batteryConsumption += d2 * DataSource.Config.mediumPPK;
+                }
+
+                else
+                {
+                    batteryConsumption += d3 * DataSource.Config.heavyPPK;
+                }
+
+                if (drone.Battery - batteryConsumption <= 0)
+                {
+                    throw new DroneNotEnoughBattery(droneId);
+                }
+            }
         }
 
         private void SetDroneDetails(DO.Drone drone)
@@ -489,7 +533,8 @@ namespace BO
                     parcel.DroneId !=
                     0) // the parcel has been assigned to drone, in this part I handle all the shiping drones.
                 {
-                    HandleAssignParcel(parcel, _idalObj.GetDroneById(parcel.DroneId));
+                    HandleAssignParcel(parcel.Id, parcel.DroneId, true);
+
                 }
 
                 else
@@ -791,10 +836,10 @@ namespace BO
             }
 
             //check which parcel we prefer to assign to these drone.
-            DO.Parcel parcelForAssign = findSuitableParcel(drone);
+            DO.Parcel parcel = findSuitableParcel(drone.Id);
 
             //making the assign
-            HandleAssignParcel(parcelForAssign, drone);
+            HandleAssignParcel(parcel.Id, drone.Id);
         }
 
         /*
@@ -1195,7 +1240,7 @@ namespace BO
 
             foreach (var parcel in parcels)
             {
-                if (parcel.DroneId == droneId)
+                if (parcel.DroneId == droneId && parcel.Delivered == null)
                 {
                     parcelOfDroneId = parcel.Id;
                     break;
