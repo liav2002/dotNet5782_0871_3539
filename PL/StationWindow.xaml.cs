@@ -27,7 +27,7 @@ namespace PL
         public StationWindow()
         {
             InitializeComponent();
-            this.Closing += App.Window_Closing;
+            this.Closing += App.PrevWindow;
 
             AddStation.Visibility = Visibility.Visible;
             StationDetails.Visibility = Visibility.Hidden;
@@ -40,7 +40,7 @@ namespace PL
         public StationWindow(object item)
         {
             InitializeComponent();
-            this.Closing += App.Window_Closing;
+            this.Closing += App.PrevWindow;
 
             AddStation.Visibility = Visibility.Hidden;
             StationDetails.Visibility = Visibility.Visible;
@@ -74,7 +74,7 @@ namespace PL
         StationWindow(string name, string FreeSlots, BO.StationBL station)
         {
             InitializeComponent();
-            this.Closing += App.Window_Closing;
+            this.Closing += App.PrevWindow;
 
             this.iBL = BlFactory.GetBl();
             this.station = station;
@@ -270,16 +270,18 @@ namespace PL
 
         private void ReturnOnClick(object o, EventArgs e)
         {
-            if(UpdateStation.Visibility == Visibility.Visible)
-            {
-                StationWindow nextWindow = new StationWindow(this.station);
-                App.ShowWindow(nextWindow);
-            }
+            App.PrevWindow();
 
-            else
-            {
-                App.ShowWindow<StationsListWindow>();
-            }
+            // if(UpdateStation.Visibility == Visibility.Visible)
+            // {
+            //     StationWindow nextWindow = new StationWindow(this.station);
+            //     App.ShowWindow(nextWindow);
+            // }
+            //
+            // else
+            // {
+            //     App.ShowWindow<StationsListWindow>();
+            // }
         }
     }
 }

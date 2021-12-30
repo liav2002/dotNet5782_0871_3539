@@ -28,7 +28,7 @@ namespace PL
         public DroneWindow()
         {
             InitializeComponent();
-            this.Closing += App.Window_Closing;
+            this.Closing += App.PrevWindow;
 
             this.iBL = BlFactory.GetBl();
             AddDrone.Visibility = Visibility.Visible;
@@ -42,21 +42,21 @@ namespace PL
         public DroneWindow(object item, int stationId = 0)
         {
             InitializeComponent();
-            this.Closing += App.Window_Closing;
+            this.Closing += App.PrevWindow;
 
             this.iBL = BlFactory.GetBl();
 
             if (item is BO.DroneListBL)
             {
-                this.drone = this.iBL.GetDroneById(((BO.DroneListBL)item).Id);
+                this.drone = this.iBL.GetDroneById(((BO.DroneListBL) item).Id);
             }
 
             else if (item is BO.DroneChargeBL)
             {
-                this.drone = this.iBL.GetDroneById(((BO.DroneChargeBL)item).Id);
+                this.drone = this.iBL.GetDroneById(((BO.DroneChargeBL) item).Id);
                 this.stationId = stationId;
             }
-            
+
             else if (item is BO.DroneBL dbl)
             {
                 this.drone = dbl;
@@ -125,16 +125,18 @@ namespace PL
 
         private void ReturnOnClick(object o, EventArgs e)
         {
-            if(stationId == 0)
-            {
-                App.ShowWindow<DronesListWindow>();
-            }
+            App.PrevWindow();
 
-            else
-            {
-                StationWindow nextWindow = new StationWindow(this.iBL.GetStationById(stationId));
-                App.ShowWindow(nextWindow);
-            }
+            // if(stationId == 0)
+            // {
+            //     App.ShowWindow<DronesListWindow>();
+            // }
+            //
+            // else
+            // {
+            //     StationWindow nextWindow = new StationWindow(this.iBL.GetStationById(stationId));
+            //     App.ShowWindow(nextWindow);
+            // }
         }
 
         private void FirstOnClick(object o, EventArgs e)
@@ -148,14 +150,14 @@ namespace PL
                     SecondButton.Visibility = Visibility.Hidden;
                 }
 
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "ERROR");
                 }
             }
 
             else if ((string) FirstButton.Content == "Release from charge")
-            {                
+            {
                 try
                 {
                     iBL.DroneRelease(drone.Id);
@@ -195,7 +197,7 @@ namespace PL
         {
             string droneModel = drone.Model;
 
-            if(this.drone.IsAvaliable == false)
+            if (this.drone.IsAvaliable == false)
             {
                 MessageBox.Show("ERROR: drone is not avliable.", "ERROR");
             }

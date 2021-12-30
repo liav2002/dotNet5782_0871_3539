@@ -28,7 +28,7 @@ namespace PL
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.BackToMain(); };
-            this.Closing += App.Window_Closing;
+            this.Closing += App.PrevWindow;
 
             this.iBL = BlFactory.GetBl();
 

@@ -15,7 +15,7 @@ namespace PL
         public ParcelWindow()
         {
             InitializeComponent();
-            this.Closing += App.Window_Closing;
+            this.Closing += App.PrevWindow;
 
             this.iBL = BlFactory.GetBl();
 
@@ -32,7 +32,7 @@ namespace PL
         public ParcelWindow(object item)
         {
             InitializeComponent();
-            this.Closing += App.Window_Closing;
+            this.Closing += App.PrevWindow;
 
             ParcelDetails.Visibility = Visibility.Visible;
             AddParcel.Visibility = Visibility.Hidden;
@@ -106,11 +106,12 @@ namespace PL
 
         private void ReturnOnClick(object o, EventArgs e)
         {
-            App.ShowWindow<ParcelsListWindow>();
+            App.PrevWindow();
         }
 
         private void TargetOnClick(object sender, RoutedEventArgs e)
         {
+            
             CostumerWindow nextWindow = new CostumerWindow(iBL.GetCostumerById(_parcel.Receiver.Id));
             App.ShowWindow(nextWindow);
         }
