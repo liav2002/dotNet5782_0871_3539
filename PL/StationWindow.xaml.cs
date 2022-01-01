@@ -22,9 +22,10 @@ namespace PL
     {
         private BlApi.IBL iBL;
         private BO.StationBL station;
- 
+        private object genericStation;
 
-        public StationWindow()
+
+        public StationWindow() // add
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
@@ -38,7 +39,7 @@ namespace PL
             this.station = null;
         }
 
-        public StationWindow(object item)
+        public StationWindow(object item) // view
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
@@ -47,19 +48,24 @@ namespace PL
             AddStation.Visibility = Visibility.Hidden;
             StationDetails.Visibility = Visibility.Visible;
             UpdateStation.Visibility = Visibility.Hidden;
+            genericStation = item;
+            InitializeView();
+        }
 
+        private bool InitializeView()
+        {
             this.iBL = BlFactory.GetBl();
 
             BO.StationListBL stationList = null;
-            if (item is BO.StationListBL)
+            if (genericStation is BO.StationListBL)
             {
-                stationList = (BO.StationListBL)item;
+                stationList = (BO.StationListBL) genericStation;
                 this.station = this.iBL.GetStationById(stationList.Id);
             }
 
-            else if(item is BO.StationBL)
+            else if (genericStation is BO.StationBL)
             {
-                this.station = (BO.StationBL)item;
+                this.station = (BO.StationBL) genericStation;
             }
 
             //initalized text blocks
@@ -71,9 +77,11 @@ namespace PL
             //initialized drones ListView
             DronesInStationView.ItemsSource = this.station.DronesInStation;
             SetListViewForeground();
+
+            return true;
         }
 
-        StationWindow(string name, string FreeSlots, BO.StationBL station)
+        StationWindow(string name, string FreeSlots, BO.StationBL station) // update
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
@@ -105,6 +113,7 @@ namespace PL
             //    }
             //}
         }
+
         private void AddOnClick(object o, EventArgs e)
         {
             int id = 0;
@@ -114,59 +123,59 @@ namespace PL
             bool tryToAdd = true;
 
             //handle id
-            if(StationID.Text == "")
+            if (StationID.Text == "")
             {
                 IdError.Text = "Id is missing";
                 tryToAdd = false;
             }
 
-            else if(!int.TryParse(StationID.Text, out id))
+            else if (!int.TryParse(StationID.Text, out id))
             {
                 IdError.Text = "Id must be integer.";
                 tryToAdd = false;
             }
 
             //handle name
-            if(StationID.Text == "")
+            if (StationID.Text == "")
             {
                 NameError.Text = "Name is missing.";
                 tryToAdd = false;
             }
 
             //handle longitude
-            if(Longitude.Text == "")
+            if (Longitude.Text == "")
             {
                 LongitudeError.Text = "Longitude is missing.";
                 tryToAdd = false;
             }
 
-            else if(!double.TryParse(Longitude.Text, out longitude))
+            else if (!double.TryParse(Longitude.Text, out longitude))
             {
                 LongitudeError.Text = "Longitude must be number.";
                 tryToAdd = false;
             }
 
             //handle lattiude
-            if(Lattitude.Text == "")
+            if (Lattitude.Text == "")
             {
                 LattitudeError.Text = "Lattitude is missing.";
                 tryToAdd = false;
             }
 
-            else if(!double.TryParse(Lattitude.Text, out lattitude))
+            else if (!double.TryParse(Lattitude.Text, out lattitude))
             {
                 LattitudeError.Text = "Lattitude must be number.";
                 tryToAdd = false;
             }
 
             //handle charges slots
-            if(ChargeSlots.Text == "")
+            if (ChargeSlots.Text == "")
             {
                 ChargeSlotsError.Text = "Charge slots is missing.";
                 tryToAdd = false;
             }
 
-            else if(!int.TryParse(ChargeSlots.Text, out chargeSlots))
+            else if (!int.TryParse(ChargeSlots.Text, out chargeSlots))
             {
                 ChargeSlotsError.Text = "Charge slots must be integer.";
                 tryToAdd = false;
@@ -182,10 +191,10 @@ namespace PL
                 }
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "ERROR");
-            }           
+            }
         }
 
         private void IdChanged(object o, EventArgs e)
@@ -243,7 +252,7 @@ namespace PL
             else
             {
                 StationWindow nextWindow = new StationWindow(station.Name, station.FreeSlots.ToString(), station);
-                App.NextWindow(nextWindow);
+                App.NextWindow(nextWindow, InitializeView);
             }
         }
 

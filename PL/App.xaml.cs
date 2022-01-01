@@ -13,53 +13,65 @@ namespace PL
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
+    internal class Pair
+    {
+        public Window win;
+        public Func<bool> func;
+
+        public Pair(Window w, Func<bool> f)
+        {
+            win = w;
+            func = f;
+        }
+    }
+
     public partial class App : Application
     {
         void Application_Startup(object sender, StartupEventArgs e)
         {
-            windows = new Stack<Window>();
+            windows = new Stack<Pair>();
             NextWindow(new MainWindow());
         }
 
-        public static void NextWindow(Window nextWindow)
+        public static void NextWindow(Window nextWindow, Func<bool> onPop = null)
+        // the onPop parameter: when the nextWindow is pop the onPop will called
         {
-            if(windows.Count != 0)
+            if (windows.Count != 0)
             {
-                Window currentWindow = windows.Peek();
+                Window currentWindow = windows.Peek().win;
 
                 nextWindow.Left = currentWindow.Left;
                 nextWindow.Top = currentWindow.Top;
                 currentWindow.Hide();
             }
 
-            windows.Push(nextWindow);
+            windows.Push(new Pair(nextWindow, onPop));
             nextWindow.Show();
         }
 
         public static void PrevWindow()
         {
-            Window currentWindow = windows.Pop();
-            Window prevWindow = windows.Peek();
+            Pair current = windows.Pop();
+            Window prevWindow = windows.Peek().win;
 
-            prevWindow.Left = currentWindow.Left;
-            prevWindow.Top = currentWindow.Top;
-            currentWindow.Hide();
+            prevWindow.Left = current.win.Left;
+            prevWindow.Top = current.win.Top;
+            current.win.Hide();
 
             prevWindow.Show();
+            if(current.func != null) current.func();
         }
 
         public static void Window_Closing(object o, EventArgs e)
         {
-            while(windows.Count != 0)
+            while (windows.Count != 0)
             {
-                windows.Pop().Close();
+                windows.Pop().win.Close();
             }
 
             Application.Current.Shutdown();
         }
 
-        private static Stack<Window> windows;
+        private static Stack<Pair> windows;
     }
-
-    
 }
