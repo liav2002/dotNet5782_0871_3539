@@ -159,7 +159,7 @@ namespace PL
 
         public void MyDetailsOnClick(object o, EventArgs e)
         {
-            CostumerWindow nextWindow = new CostumerWindow();
+            CostumerWindow nextWindow = new CostumerWindow(this.iBL.GetLoggedUser());
             App.NextWindow(nextWindow);
 
         }
