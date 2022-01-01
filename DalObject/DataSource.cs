@@ -46,14 +46,21 @@ namespace Dal
             InitializeCostumer();
             InitializeParcel();
 
-            //Set me and eyal as Managers
-            DO.Costumer manager1 = new DO.Costumer(212830871, "liav", "0524295007", new DO.Location(31.778860, 35.203070), "halkadar@g.jct.ac.il", "Aa123456");
+            // set the managers
+            DO.Costumer manager1 = new DO.Costumer(212830871, "liav", "0524295007",
+                new DO.Location(31.778860, 35.203070), "halkadar@g.jct.ac.il", "Aa123456");
             manager1.IsManger = true;
             costumers.Add(manager1);
 
-            DO.Costumer manager2 = new DO.Costumer(324863539, "eyal", "0584312212", new DO.Location(31.778860, 35.203070), "eyal@g.jct.ac.il", "Aa123456");
+            DO.Costumer manager2 = new DO.Costumer(324863539, "eyal", "0584312212",
+                new DO.Location(31.778860, 35.203070), "eyal@g.jct.ac.il", "Aa123456");
             manager2.IsManger = true;
             costumers.Add(manager2);
+
+            DO.Costumer manager3 = new DO.Costumer(012345678, "test", "0587654321",
+                new DO.Location(31.778860, 35.203070), "test@g.jct.ac.il", "Aa123456");
+            manager3.IsManger = true;
+            costumers.Add(manager3);
         }
 
         public static void InitializeDrone()
@@ -81,9 +88,10 @@ namespace Dal
             for (int i = 0; i < 10; ++i)
             {
                 costumers.Add(new DO.Costumer(2000 + (i + 1) * 10, "Costumer " + (i + 1).ToString(),
-                    "05" + rand.Next(5).ToString() +  rand.Next(9999999).ToString(), 
-                    new DO.Location(30.234196842399772, 48.74692937085842), "Costumer" + 
-                    (i + 1).ToString() + "@g.jct.ac.il", "Aa123456"));
+                    "05" + rand.Next(5).ToString() + rand.Next(9999999).ToString(),
+                    new DO.Location(30.234196842399772, 48.74692937085842), "Costumer" +
+                                                                            (i + 1).ToString() + "@g.jct.ac.il",
+                    "Aa123456"));
             }
         }
 
@@ -116,8 +124,8 @@ namespace Dal
                 }
 
                 parcels.Add(new DO.Parcel(rand.Next(50, 100), costumers[sender].Id, costumers[target].Id,
-                    (DO.WeightCategories)rand.Next(3),
-                    (DO.Priorities)rand.Next(3), DateTime.Now, droneId, null,
+                    (DO.WeightCategories) rand.Next(3),
+                    (DO.Priorities) rand.Next(3), DateTime.Now, droneId, null,
                     null, null));
             }
         }

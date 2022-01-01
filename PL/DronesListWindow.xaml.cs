@@ -164,9 +164,5 @@ namespace PL
                 RemoveDroneButton.Visibility = Visibility.Collapsed;
             }
         }
-        private void DroneSelected(object sender, SelectionChangedEventArgs e)
-        {
-            //
-        }
     }
 }
