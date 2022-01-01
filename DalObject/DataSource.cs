@@ -59,8 +59,8 @@ namespace Dal
 
             DO.Costumer manager3 = new DO.Costumer(012345678, "test", "0587654321",
                 new DO.Location(31.778860, 35.203070), "test@g.jct.ac.il", "Aa123456");
-            manager2.IsManger = true;
-            costumers.Add(manager2);
+            manager3.IsManger = true;
+            costumers.Add(manager3);
         }
 
         public static void InitializeDrone()
