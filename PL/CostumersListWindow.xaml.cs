@@ -200,8 +200,7 @@ namespace PL
         private void CostumerView(object o, EventArgs e)
         {
             CostumerWindow nextWindow = new CostumerWindow(CostumersListView.SelectedItem);
-            App.NextWindow(nextWindow);
-            Initialized();
+            App.NextWindow(nextWindow, Initialized);
         }
     }
 }
