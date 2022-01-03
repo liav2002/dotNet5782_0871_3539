@@ -13,7 +13,7 @@ namespace PL
         private BO.ParcelBL _parcel;
         private object genericParcel;
 
-        public ParcelWindow() // add
+        public ParcelWindow() // add parcel
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
@@ -31,7 +31,7 @@ namespace PL
             _parcel = null;
         }
 
-        public ParcelWindow(object item) // show
+        public ParcelWindow(object item) // parcel deatils
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };

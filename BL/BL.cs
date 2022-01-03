@@ -11,7 +11,6 @@ namespace BO
     public sealed class BL : BlApi.IBL
     {
         //Singleton design pattern
-        // internal static BL _instance = null;
 
         internal static readonly Lazy<BlApi.IBL> _instance = new Lazy<BlApi.IBL>(() => new BL());
 
@@ -21,16 +20,20 @@ namespace BO
         }
 
 
-        private PriorityQueue<DO.Parcel> _waitingParcels = new PriorityQueue<DO.Parcel>();
+        private PriorityQueue<DO.Parcel> _waitingParcels = new PriorityQueue<DO.Parcel>(); //We use it for find suitable parcel for drone.
+                                                                                           //First, according to priority.
+                                                                                           //Second, according to distance. (between the drone to the parcel).
+                                                                                           //Third, according to parcel's weight. 
+                                                                                           //The full algorithem in findSuitableParce() method.
 
-        private DalApi.IDal _idalObj;
+        private DalApi.IDal _idalObj; //According to the layers model, BL should be able to access to DAL.
 
-        private double _chargeRate = Dal.DataSource.Config.chargeRatePH; // to all the drones
+        private double _chargeRate = Dal.DataSource.Config.chargeRatePH; //to all the drones (defines the drone's battery charge rate).
 
-        private double _lightPPK = Dal.DataSource.Config.lightPPK;
-        private double _mediumPPK = Dal.DataSource.Config.mediumPPK;
-        private double _heavyPPK = Dal.DataSource.Config.heavyPPK;
-        private double _avilablePPK = Dal.DataSource.Config.avilablePPK;
+        private double _lightPPK = Dal.DataSource.Config.lightPPK; //defines the power consumption for light parcel carrying.
+        private double _mediumPPK = Dal.DataSource.Config.mediumPPK;//defines the power consumption for medium parcel carrying.
+        private double _heavyPPK = Dal.DataSource.Config.heavyPPK;//defines the power consumption for heavy parcel carrying.
+        private double _avilablePPK = Dal.DataSource.Config.avilablePPK;//defines the power consumption for empty drone.
 
         /**********************************************************************************************
          * Details: this function find the nearest avilable station to drone.                         *
@@ -42,26 +45,37 @@ namespace BO
             int stationId = -1;
             var stations = _idalObj.GetStationsList();
             double min = -1;
-            int numberOfIteration = 0;
+            int numberOfIteration = 0; //count number of iterations in the main while loop.
+                                       //In order to know when to stop the loop.
+                                       //(when we understand that all the station are not avilable).
             bool stopSearch = false;
 
-            if (!stations.Any() || stations == null) throw new NonItems("Stations");
+            if (!stations.Any() || stations == null) throw new NonItems("Stations"); //check if there is stations in database.
 
-            double minToAvoid = -1;
+            double minToAvoid = -1; //if we find near station but witout avilable charge slots. we want to avoid it in order to find the next nearest station.
             double saveMin = 0;
 
+            //start the algorithem for find the nearest avilable station.
             while (!stopSearch)
             {
+                //move all the station in the database
                 var station = stations.GetEnumerator();
                 while (station.MoveNext())
                 {
-                    double distance = station.Current.Location.Distance(location);
+                    double distance = station.Current.Location.Distance(location); //caclulate the distance of current station in the list to our location.
 
-                    if ((min > distance || min == -1) && distance > minToAvoid)
+                    if ((min > distance || min == -1) && distance > minToAvoid) // if thr current caculate min is bigger, we need to replace it with distance.
+                                                                                // for keep the variable min with the minimum distance.
+                                                                                // if min is -1, I know that we calculate the first distance, so mark him as minimum
+                                                                                // and keep check another stations.
+                                                                                // We always want the distance to be bigger than the minimum we want to avoid.
+                                                                                // Why to avoid him ? only if the station dont have avilable charge slots.
                     {
-                        saveMin = distance;
-                        min = station.Current.ChargeSlots > 0 ? distance : -1;
-                        stationId = station.Current.ChargeSlots > 0 ? station.Current.Id : -1;
+                        saveMin = distance; // I always save the calculate minimum, for remember which minimum
+                                            // to avoid in case that the station doesn't have avilable charge slots.
+
+                        min = station.Current.ChargeSlots > 0 ? distance : -1; // if the station doesn't have avilable charge slots marke it with min = -1.
+                        stationId = station.Current.ChargeSlots > 0 ? station.Current.Id : -1; //and also about the statin id.
                     }
                 }
 
@@ -99,23 +113,22 @@ namespace BO
             int stationId = -1;
             var stations = _idalObj.GetStationsList();
 
-            if (!stations.Any() || stations == null) throw new NonItems("Stations");
+            if (!stations.Any() || stations == null) throw new NonItems("Stations"); //check if there is station in the database.
 
             var station = stations.GetEnumerator();
-
             if (station.MoveNext())
             {
-                double min = station.Current.Location.Distance(location);
-                stationId = station.Current.Id;
+                double min = station.Current.Location.Distance(location); //calculate distance from current station.
+                stationId = station.Current.Id; // save the station's id.
 
-                while (station.MoveNext())
+                while (station.MoveNext()) //move all the stations and check which station is the nearest.
                 {
-                    double distance = station.Current.Location.Distance(location);
+                    double distance = station.Current.Location.Distance(location); //calculate distance from current station.
 
-                    if (min > distance)
+                    if (min > distance) // we always wnat min to have the minimum distance, so if is bigger...
                     {
-                        min = distance;
-                        stationId = station.Current.Id;
+                        min = distance; // set the new minimum distance
+                        stationId = station.Current.Id; // save the station's id.
                     }
                 }
             }
@@ -222,9 +235,11 @@ namespace BO
             return count;
         }
 
-        /*
-         *I use this function only on AssignParcelToDrone() metohd. 
-         */
+        /**********************************************************************************************
+         * Details: this function find the most suitable parcel to be assign to drone.                *
+         * Parameters: drone's id, lessPriority - the priority we prefer                              *
+         * Return: parcel to assign.                                                                  *
+         **********************************************************************************************/
         private DO.Parcel findSuitableParcel(int droneId, int lessPriority = 0)
         {
             //first create a priority queue with all the parcels with highest priority
@@ -375,31 +390,38 @@ namespace BO
             return parcelForAssign;
         }
 
-        private void HandleAssignParcel(int parcelId, int droneId, bool isFromTheConatiner = false)
+        /**********************************************************************************************
+         * Details: this function handle the parcel and the drone we assign to.                       *
+         * Parameters: parcel's id, drone's id, isFromTheContainer - will be true only in the         *
+         *             constructor of BL.                                                               *
+         * Return: None.                                                                              *
+         **********************************************************************************************/
+        private void HandleAssignParcel(int parcelId, int droneId, bool isFromTheConstructor = false)
         {
             DO.Parcel parcel = this._idalObj.GetParcelById(parcelId);
             DO.Drone drone = this._idalObj.GetDroneById(droneId);
 
+            //update parcel's details
             parcel.Scheduled = DateTime.Now;
             parcel.Status = DO.ParcelStatuses.Assign;
-
             parcel.DroneId = drone.Id;
 
+            //finds the station where the drone begins.
             var sender = _idalObj.GetCostumerById(parcel.SenderId);
             var startNearStation =
                 _idalObj.GetStationById(_GetNearestStation(sender.Location));
 
+            //finds the station where the drone ends
             var target = _idalObj.GetCostumerById(parcel.TargetId);
             var endNearestStation =
                 _idalObj.GetStationById(_GetNearestStation(target.Location));
 
+            //update drone's details
             drone.Status = DO.DroneStatuses.Shipping; // change the drone status to Shipping
-
             _InitDroneLocation(drone, parcel, startNearStation); // set drone's location
 
-            //check drone's battery
-
-            if(isFromTheConatiner)
+            //update drone's battery
+            if(isFromTheConstructor)
             {
                 _InitBattery(drone, parcel, startNearStation);
             }
@@ -436,6 +458,13 @@ namespace BO
             }
         }
 
+        /**********************************************************************************************
+         * Details: this function intialised drones details from the datasource.                      *   
+         *          I use the function only from the BL constructor.                                  *
+         * Parameters: parcel's id, drone's id, isFromTheContainer - will be true only in the         *
+         *             container of BL.                                                               *
+         * Return: None.                                                                              *
+         **********************************************************************************************/
         private void SetDroneDetails(DO.Drone drone)
         {
             if (drone.Status != DO.DroneStatuses.Shipping) //for all the drones that not in shiping.
@@ -1158,16 +1187,22 @@ namespace BO
 
             this._idalObj.DroneRelease(droneId, hours);
         }
+
+        /*
+        *Description: Try to Sign in to the system with given username and password.
+        *Parameters: username, password.
+        *Return: None.
+        */
         public void SignIn(string username, string password)
         {
             CostumerBL costumer = GetCostumerByUsername(username);
 
-            if(!costumer.IsAvaliable)
+            if(!costumer.IsAvaliable) // check if the costumer is not blocked
             {
                 throw new UserBlocked();
             }
 
-            if (costumer.Password == password)
+            if (costumer.Password == password) // check if the password is correct
             {
                 this._idalObj.SignIn(costumer.Id);
             }
@@ -1178,12 +1213,18 @@ namespace BO
             }
         }
 
+        /*
+        *Description: Sign out from the system.
+        *Parameters: None.
+        *Return: None.
+        */
         public void SignOut()
         {
-            this._idalObj.SignOut();
+            this._idalObj.SignOut(); //call to signout from dal, in dal I initalize the currentLoggedUser variable with null.
         }
 
         //getters:
+
         public BO.CostumerBL GetLoggedUser()
         {
             CostumerBL loggedUser = null;
@@ -1332,6 +1373,11 @@ namespace BO
             return SysLog.SysLog.GetInstance();
         }
 
+        /*
+        *This function not used, it's can replace the findSuitableParcel() method.
+        *We prefer use findSuitableParcel() although it is longer in terms of code.
+        *Because it's more efficient in terms of runtime.
+        */
         private DO.Parcel _bestParcel(List<DO.Parcel> parcels, DO.Drone drone)
         {
             // filter the parcels list to contain just the one's who the drone can carry

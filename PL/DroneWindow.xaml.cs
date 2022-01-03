@@ -25,7 +25,7 @@ namespace PL
         private BO.DroneBL drone;
         private int stationId;
 
-        public DroneWindow()
+        public DroneWindow() //add drone
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
@@ -40,7 +40,7 @@ namespace PL
             stationId = 0;
         }
 
-        public DroneWindow(object item, int stationId = 0)
+        public DroneWindow(object item, int stationId = 0) //update drone (and alsop drone details)
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };

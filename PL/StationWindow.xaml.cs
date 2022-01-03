@@ -25,7 +25,7 @@ namespace PL
         private object genericStation;
 
 
-        public StationWindow() // add
+        public StationWindow() // add station
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
@@ -39,7 +39,7 @@ namespace PL
             this.station = null;
         }
 
-        public StationWindow(object item) // view
+        public StationWindow(object item) // station details
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
@@ -81,7 +81,7 @@ namespace PL
             return true;
         }
 
-        StationWindow(string name, string FreeSlots, BO.StationBL station) // update
+        StationWindow(string name, string FreeSlots, BO.StationBL station) // update station
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };

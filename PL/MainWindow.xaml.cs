@@ -23,7 +23,7 @@ namespace PL
     {
         private BlApi.IBL iBL;
 
-        public MainWindow()
+        public MainWindow() //signout state
         {
             InitializeComponent();
 
@@ -37,7 +37,7 @@ namespace PL
             helloUserLabel.Visibility = Visibility.Collapsed;
         }
 
-        public MainWindow(bool isManager)
+        public MainWindow(bool isManager) //signin state
         {
             InitializeComponent();
 

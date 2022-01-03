@@ -25,7 +25,7 @@ namespace PL
         private BO.CostumerBL costumer;
         private object genericCostumer;
 
-        public CostumerWindow() // add costumer 
+        public CostumerWindow() // add costumer
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
@@ -49,17 +49,32 @@ namespace PL
             Latitude.Text = "35.191";
         }
 
-        public CostumerWindow(object item)
+        public CostumerWindow(object item) // costumer's details
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
             this.Closing += App.Window_Closing;
+
+            AddCostumer.Visibility = Visibility.Hidden;
+            CostumerDetails.Visibility = Visibility.Visible;
+            UpdateCostumer.Visibility = Visibility.Hidden;
+
             genericCostumer = item;
 
             InitializedUpdate();
+
+            if(((BO.CostumerBL)genericCostumer).Id != this.iBL.GetLoggedUser().Id) // if we show detayls of different costumer
+            {
+                //Defines permissions according to cistuner's type
+                UpdateButton.Visibility = this.iBL.GetLoggedUser().IsManager ? Visibility.Visible : Visibility.Hidden;
+                IncomingParcels.Visibility = this.iBL.GetLoggedUser().IsManager ? Visibility.Visible : Visibility.Hidden;
+                IncomingParcelsView.Visibility = this.iBL.GetLoggedUser().IsManager ? Visibility.Visible : Visibility.Hidden;
+                ShippedParcels.Visibility = this.iBL.GetLoggedUser().IsManager ? Visibility.Visible : Visibility.Hidden;
+                ShippedParcelsView.Visibility = this.iBL.GetLoggedUser().IsManager ? Visibility.Visible : Visibility.Hidden;
+            }
         }
 
-        CostumerWindow(string name, string phone, string email, string password, BO.CostumerBL costumer) // update
+        CostumerWindow(string name, string phone, string email, string password, BO.CostumerBL costumer) // update costumer
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
@@ -80,10 +95,6 @@ namespace PL
 
         private bool InitializedUpdate()
         {
-            AddCostumer.Visibility = Visibility.Hidden;
-            CostumerDetails.Visibility = Visibility.Visible;
-            UpdateCostumer.Visibility = Visibility.Hidden;
-
             this.iBL = BlFactory.GetBl();
 
             BO.CostumerListBL costumerList = null;

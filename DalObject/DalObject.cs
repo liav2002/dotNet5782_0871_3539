@@ -8,6 +8,8 @@ namespace Dal
 {
     internal sealed class DalObject : DalApi.IDal
     {
+        //singeltone design pattern
+
         internal static readonly Lazy<DalApi.IDal> _instance = new Lazy<DalApi.IDal>(() => new DalObject());
 
         public static DalApi.IDal GetInstance
@@ -130,6 +132,28 @@ namespace Dal
             };
             return arr;
         }
+        
+        /*
+        *Description: Sign in to system. 
+        *Parameters: costumer's id of logged user.
+        *Return: None.
+        */
+        public void SignIn(int costumerId)
+        {
+            DataSource.loggetCostumer = GetCostumerById(costumerId);
+        }
+
+        /*
+        *Description: Sign out from system. 
+        *Parameters: None.
+        *Return: None.
+        */
+        public void SignOut()
+        {
+            DataSource.loggetCostumer = null;
+        }
+
+        //getters
 
         public bool IsDroneCharge(int droneId)
         {
@@ -139,16 +163,6 @@ namespace Dal
             }
 
             return false;
-        }
-
-        public void SignIn(int costumerId)
-        {
-            DataSource.loggetCostumer = GetCostumerById(costumerId);
-        }
-
-        public void SignOut()
-        {
-            DataSource.loggetCostumer = null;
         }
 
         public DO.Costumer GetLoggedUser()
