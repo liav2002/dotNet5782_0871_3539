@@ -11,6 +11,7 @@ namespace BO
     public sealed class BL : BlApi.IBL
     {
         //Singleton design pattern
+        // internal static BL _instance = null;
 
         internal static readonly Lazy<BlApi.IBL> _instance = new Lazy<BlApi.IBL>(() => new BL());
 
@@ -20,20 +21,16 @@ namespace BO
         }
 
 
-        private PriorityQueue<DO.Parcel> _waitingParcels = new PriorityQueue<DO.Parcel>(); //We use it for find suitable parcel for drone.
-                                                                                           //First, according to priority.
-                                                                                           //Second, according to distance. (between the drone to the parcel).
-                                                                                           //Third, according to parcel's weight. 
-                                                                                           //The full algorithem in findSuitableParce() method.
+        private PriorityQueue<DO.Parcel> _waitingParcels = new PriorityQueue<DO.Parcel>();
 
-        private DalApi.IDal _idal; //According to the layers model, BL should be able to access to DAL.
+        private DalApi.IDal _idalObj;
 
-        private double _chargeRate = Dal.DataSource.Config.chargeRatePH; //to all the drones (defines the drone's battery charge rate).
+        private double _chargeRate = Dal.DataSource.Config.chargeRatePH; // to all the drones
 
-        private double _lightPPK = Dal.DataSource.Config.lightPPK; //defines the power consumption for light parcel carrying.
-        private double _mediumPPK = Dal.DataSource.Config.mediumPPK;//defines the power consumption for medium parcel carrying.
-        private double _heavyPPK = Dal.DataSource.Config.heavyPPK;//defines the power consumption for heavy parcel carrying.
-        private double _avilablePPK = Dal.DataSource.Config.avilablePPK;//defines the power consumption for empty drone.
+        private double _lightPPK = Dal.DataSource.Config.lightPPK;
+        private double _mediumPPK = Dal.DataSource.Config.mediumPPK;
+        private double _heavyPPK = Dal.DataSource.Config.heavyPPK;
+        private double _avilablePPK = Dal.DataSource.Config.avilablePPK;
 
         /**********************************************************************************************
          * Details: this function find the nearest avilable station to drone.                         *
@@ -43,39 +40,28 @@ namespace BO
         private int _GetNearestAvilableStation(DO.Location location)
         {
             int stationId = -1;
-            var stations = _idal.GetStationsList();
+            var stations = _idalObj.GetStationsList();
             double min = -1;
-            int numberOfIteration = 0; //count number of iterations in the main while loop.
-                                       //In order to know when to stop the loop.
-                                       //(when we understand that all the station are not avilable).
+            int numberOfIteration = 0;
             bool stopSearch = false;
 
-            if (!stations.Any() || stations == null) throw new NonItems("Stations"); //check if there is stations in database.
+            if (!stations.Any() || stations == null) throw new NonItems("Stations");
 
-            double minToAvoid = -1; //if we find near station but witout avilable charge slots. we want to avoid it in order to find the next nearest station.
+            double minToAvoid = -1;
             double saveMin = 0;
 
-            //start the algorithem for find the nearest avilable station.
             while (!stopSearch)
             {
-                //move all the station in the database
                 var station = stations.GetEnumerator();
                 while (station.MoveNext())
                 {
-                    double distance = station.Current.Location.Distance(location); //caclulate the distance of current station in the list to our location.
+                    double distance = station.Current.Location.Distance(location);
 
-                    if ((min > distance || min == -1) && distance > minToAvoid) // if thr current caculate min is bigger, we need to replace it with distance.
-                                                                                // for keep the variable min with the minimum distance.
-                                                                                // if min is -1, I know that we calculate the first distance, so mark him as minimum
-                                                                                // and keep check another stations.
-                                                                                // We always want the distance to be bigger than the minimum we want to avoid.
-                                                                                // Why to avoid him ? only if the station dont have avilable charge slots.
+                    if ((min > distance || min == -1) && distance > minToAvoid)
                     {
-                        saveMin = distance; // I always save the calculate minimum, for remember which minimum
-                                            // to avoid in case that the station doesn't have avilable charge slots.
-
-                        min = station.Current.ChargeSlots > 0 ? distance : -1; // if the station doesn't have avilable charge slots marke it with min = -1.
-                        stationId = station.Current.ChargeSlots > 0 ? station.Current.Id : -1; //and also about the statin id.
+                        saveMin = distance;
+                        min = station.Current.ChargeSlots > 0 ? distance : -1;
+                        stationId = station.Current.ChargeSlots > 0 ? station.Current.Id : -1;
                     }
                 }
 
@@ -111,24 +97,25 @@ namespace BO
         private int _GetNearestStation(DO.Location location)
         {
             int stationId = -1;
-            var stations = _idal.GetStationsList();
+            var stations = _idalObj.GetStationsList();
 
-            if (!stations.Any() || stations == null) throw new NonItems("Stations"); //check if there is station in the database.
+            if (!stations.Any() || stations == null) throw new NonItems("Stations");
 
             var station = stations.GetEnumerator();
+
             if (station.MoveNext())
             {
-                double min = station.Current.Location.Distance(location); //calculate distance from current station.
-                stationId = station.Current.Id; // save the station's id.
+                double min = station.Current.Location.Distance(location);
+                stationId = station.Current.Id;
 
-                while (station.MoveNext()) //move all the stations and check which station is the nearest.
+                while (station.MoveNext())
                 {
-                    double distance = station.Current.Location.Distance(location); //calculate distance from current station.
+                    double distance = station.Current.Location.Distance(location);
 
-                    if (min > distance) // we always wnat min to have the minimum distance, so if is bigger...
+                    if (min > distance)
                     {
-                        min = distance; // set the new minimum distance
-                        stationId = station.Current.Id; // save the station's id.
+                        min = distance;
+                        stationId = station.Current.Id;
                     }
                 }
             }
@@ -150,7 +137,7 @@ namespace BO
 
             else if (parcel.Delivered == null) // the parcel is not delivered yet (but it's picked up)
             {
-                var sender = _idal.GetCostumerById(parcel.SenderId);
+                var sender = _idalObj.GetCostumerById(parcel.SenderId);
                 drone.Location = station.Location;
             }
         }
@@ -167,12 +154,12 @@ namespace BO
             double d1 = 0;
             double d2 = 0;
             double d3 = 0;
-            var sender = _idal.GetCostumerById(parcel.SenderId);
-            var target = _idal.GetCostumerById(parcel.TargetId);
+            var sender = _idalObj.GetCostumerById(parcel.SenderId);
+            var target = _idalObj.GetCostumerById(parcel.TargetId);
 
             if (drone.Status == DO.DroneStatuses.Shipping)
             {
-                station = this._idal.GetStationById(_GetNearestStation(target.Location));
+                station = this._idalObj.GetStationById(_GetNearestStation(target.Location));
 
 
                 // first fly - base to parcel (maybe the drone is already in base, it doesn't affect)
@@ -235,16 +222,14 @@ namespace BO
             return count;
         }
 
-        /**********************************************************************************************
-         * Details: this function find the most suitable parcel to be assign to drone.                *
-         * Parameters: drone's id, lessPriority - the priority we prefer                              *
-         * Return: parcel to assign.                                                                  *
-         **********************************************************************************************/
+        /*
+         *I use this function only on AssignParcelToDrone() metohd. 
+         */
         private DO.Parcel findSuitableParcel(int droneId, int lessPriority = 0)
         {
             //first create a priority queue with all the parcels with highest priority
             PriorityQueue<DO.Parcel> parcelsAccordingWeight = new PriorityQueue<DO.Parcel>();
-            DO.Drone drone = this._idal.GetDroneById(droneId);
+            DO.Drone drone = this._idalObj.GetDroneById(droneId);
             DO.Parcel parcelForAssign = this._waitingParcels.Dequeue();
             DO.Priorities priority = parcelForAssign.Priority - lessPriority;
 
@@ -362,13 +347,13 @@ namespace BO
             if (suitableParcels.Count > 1)
             {
                 double minDistance =
-                    drone.Location.Distance(this._idal.GetCostumerById(parcelForAssign.SenderId).Location);
+                    drone.Location.Distance(this._idalObj.GetCostumerById(parcelForAssign.SenderId).Location);
 
                 for (int i = 1; i < suitableParcels.Count; ++i)
                 {
                     DO.Parcel parcel = suitableParcels[i];
                     double currentDistance =
-                        drone.Location.Distance(this._idal.GetCostumerById(parcel.SenderId).Location);
+                        drone.Location.Distance(this._idalObj.GetCostumerById(parcel.SenderId).Location);
 
                     if (currentDistance < minDistance)
                     {
@@ -390,38 +375,31 @@ namespace BO
             return parcelForAssign;
         }
 
-        /**********************************************************************************************
-         * Details: this function handle the parcel and the drone we assign to.                       *
-         * Parameters: parcel's id, drone's id, isFromTheContainer - will be true only in the         *
-         *             constructor of BL.                                                               *
-         * Return: None.                                                                              *
-         **********************************************************************************************/
-        private void HandleAssignParcel(int parcelId, int droneId, bool isFromTheConstructor = false)
+        private void HandleAssignParcel(int parcelId, int droneId, bool isFromTheConatiner = false)
         {
-            DO.Parcel parcel = this._idal.GetParcelById(parcelId);
-            DO.Drone drone = this._idal.GetDroneById(droneId);
+            DO.Parcel parcel = this._idalObj.GetParcelById(parcelId);
+            DO.Drone drone = this._idalObj.GetDroneById(droneId);
 
-            //update parcel's details
             parcel.Scheduled = DateTime.Now;
             parcel.Status = DO.ParcelStatuses.Assign;
+
             parcel.DroneId = drone.Id;
 
-            //finds the station where the drone begins.
-            var sender = _idal.GetCostumerById(parcel.SenderId);
+            var sender = _idalObj.GetCostumerById(parcel.SenderId);
             var startNearStation =
-                _idal.GetStationById(_GetNearestStation(sender.Location));
+                _idalObj.GetStationById(_GetNearestStation(sender.Location));
 
-            //finds the station where the drone ends
-            var target = _idal.GetCostumerById(parcel.TargetId);
+            var target = _idalObj.GetCostumerById(parcel.TargetId);
             var endNearestStation =
-                _idal.GetStationById(_GetNearestStation(target.Location));
+                _idalObj.GetStationById(_GetNearestStation(target.Location));
 
-            //update drone's details
             drone.Status = DO.DroneStatuses.Shipping; // change the drone status to Shipping
+
             _InitDroneLocation(drone, parcel, startNearStation); // set drone's location
 
-            //update drone's battery
-            if(isFromTheConstructor)
+            //check drone's battery
+
+            if(isFromTheConatiner)
             {
                 _InitBattery(drone, parcel, startNearStation);
             }
@@ -458,13 +436,6 @@ namespace BO
             }
         }
 
-        /**********************************************************************************************
-         * Details: this function intialised drones details from the datasource.                      *   
-         *          I use the function only from the BL constructor.                                  *
-         * Parameters: parcel's id, drone's id, isFromTheContainer - will be true only in the         *
-         *             container of BL.                                                               *
-         * Return: None.                                                                              *
-         **********************************************************************************************/
         private void SetDroneDetails(DO.Drone drone)
         {
             if (drone.Status != DO.DroneStatuses.Shipping) //for all the drones that not in shiping.
@@ -487,7 +458,7 @@ namespace BO
             if (drone.Status == DO.DroneStatuses.Maintenance) // handle the maintance drones.
             {
                 Random rand = new Random();
-                var stations = _idal.GetStationsList();
+                var stations = _idalObj.GetStationsList();
                 int counter = _LengthIEnumerator<DO.Station>(stations);
                 int index = rand.Next(0, counter - 1);
 
@@ -510,7 +481,7 @@ namespace BO
 
             else if (drone.Status == DO.DroneStatuses.Available) // handle the avilable drones.
             {
-                IEnumerable<DO.Parcel> parcels = _idal.GetParcelsList();
+                IEnumerable<DO.Parcel> parcels = _idalObj.GetParcelsList();
                 Random rand = new Random();
 
                 // get a list of delivered parcels.
@@ -530,7 +501,7 @@ namespace BO
                     DO.Parcel randParcel = deliveredParcels[index];
 
                     // get the target from the random delivered parcel
-                    DO.Costumer randTarget = _idal.GetCostumerById(randParcel.TargetId);
+                    DO.Costumer randTarget = _idalObj.GetCostumerById(randParcel.TargetId);
 
                     // set drone's location
 
@@ -538,7 +509,7 @@ namespace BO
 
                     //get the nearest base station to the target
                     DO.Station nearStation =
-                        _idal.GetStationById(_GetNearestStation(drone.Location));
+                        _idalObj.GetStationById(_GetNearestStation(drone.Location));
 
                     //according to the nearest base station, get random battery and set it in drone's battery
                     _InitBattery(drone, randParcel, nearStation);
@@ -549,12 +520,12 @@ namespace BO
         private BL()
         {
             // handle all drones, init their values (location, battery, etc):
-            this._idal = DalFactory.GetDal();
+            this._idalObj = DalFactory.GetDal();
 
-            IEnumerable<DO.Drone> drones = _idal.GetDroneList();
+            IEnumerable<DO.Drone> drones = _idalObj.GetDroneList();
 
             //find all the drones which was assign to a parcel, and change there status to Shiping
-            IEnumerable<DO.Parcel> parcels = _idal.GetParcelsList();
+            IEnumerable<DO.Parcel> parcels = _idalObj.GetParcelsList();
 
             foreach (var parcel in parcels)
             {
@@ -585,7 +556,7 @@ namespace BO
         */
         public void AddStation(int id, string name, double longitude, double latitude, int charge_solts)
         {
-            IEnumerable<DO.Station> stations = this._idal.GetStationsList();
+            IEnumerable<DO.Station> stations = this._idalObj.GetStationsList();
 
             foreach (var station in stations)
             {
@@ -605,7 +576,7 @@ namespace BO
                 throw new BO.NegetiveValue("Charge's slots");
             }
 
-            this._idal.AddStation(id, name, new DO.Location(latitude, longitude), charge_solts);
+            this._idalObj.AddStation(id, name, new DO.Location(latitude, longitude), charge_solts);
         }
 
         /*
@@ -644,8 +615,8 @@ namespace BO
         */
         public void AddDrone(int id, string model, int maxWeight, int stationId)
         {
-            IEnumerable<DO.Drone> drones = _idal.GetDroneList();
-            IEnumerable<DO.Station> stations = _idal.GetStationsList();
+            IEnumerable<DO.Drone> drones = _idalObj.GetDroneList();
+            IEnumerable<DO.Station> stations = _idalObj.GetStationsList();
 
             foreach (var drone in drones)
             {
@@ -683,7 +654,7 @@ namespace BO
 
             Random random = new Random();
             double battery = random.NextDouble() * 20 + 20; // random double in range (20, 40)
-            this._idal.AddDrone(id, model, (DO.WeightCategories) maxWeight, battery);
+            this._idalObj.AddDrone(id, model, (DO.WeightCategories) maxWeight, battery);
 
             // after the drone created we send he to the station:
             SendDroneToCharge(id, stationId);
@@ -725,7 +696,7 @@ namespace BO
         */
         public void AddCostumer(int id, string name, string phone, double longitude, double latitude, string email, string password)
         {
-            IEnumerable<DO.Costumer> costumers = _idal.GetCostumerList();
+            IEnumerable<DO.Costumer> costumers = _idalObj.GetCostumerList();
 
             foreach (var costumer in costumers)
             {
@@ -745,7 +716,7 @@ namespace BO
                 throw new BO.NegetiveValue("Costumer's id");
             }
 
-            this._idal.AddCostumer(id, name, phone, new DO.Location(longitude, latitude), email, password);
+            this._idalObj.AddCostumer(id, name, phone, new DO.Location(longitude, latitude), email, password);
         }
 
         /*
@@ -784,7 +755,7 @@ namespace BO
         */
         public void AddParcel(int senderId, int targetId, int weight, int priority, int droneId)
         {
-            IEnumerable<DO.Parcel> parcels = _idal.GetParcelsList();
+            IEnumerable<DO.Parcel> parcels = _idalObj.GetParcelsList();
 
             if (targetId == senderId)
             {
@@ -797,11 +768,11 @@ namespace BO
             }
 
             int id = DataSource.ParcelsLength() + 1;
-            this._idal.AddParcel(id, senderId, targetId, weight,
+            this._idalObj.AddParcel(id, senderId, targetId, weight,
                 priority, DateTime.Now, droneId, null,
                 null, null);
 
-            this._waitingParcels.Enqueue(this._idal.GetParcelById(id), priority);
+            this._waitingParcels.Enqueue(this._idalObj.GetParcelById(id), priority);
         }
 
         /*
@@ -852,7 +823,7 @@ namespace BO
                 throw new BO.NoAvailable("drone");
             }
 
-            var drone = this._idal.GetDroneById(droneId);
+            var drone = this._idalObj.GetDroneById(droneId);
 
             if (drone.Status != DO.DroneStatuses.Available)
             {
@@ -884,9 +855,9 @@ namespace BO
             }
 
 
-            DO.Parcel parcel = this._idal.GetParcelByDroneId(droneId);
-            DO.Drone drone = this._idal.GetDroneById(droneId);
-            DO.Costumer sender = this._idal.GetCostumerById(parcel.SenderId);
+            DO.Parcel parcel = this._idalObj.GetParcelByDroneId(droneId);
+            DO.Drone drone = this._idalObj.GetDroneById(droneId);
+            DO.Costumer sender = this._idalObj.GetCostumerById(parcel.SenderId);
 
             if (parcel.Scheduled == null)
             {
@@ -920,7 +891,7 @@ namespace BO
                 throw new BO.NegetiveValue("Costumer's id");
             }
 
-            DO.Costumer costumer = this._idal.GetCostumerById(costumerId);
+            DO.Costumer costumer = this._idalObj.GetCostumerById(costumerId);
             //if (costumer.Name == name)
             //{
             //    throw new BO.NotNewValue("Costumer Name", name);
@@ -966,7 +937,7 @@ namespace BO
                 throw new BO.NegetiveValue("Station's id");
             }
 
-            DO.Station station = this._idal.GetStationById(stationId);
+            DO.Station station = this._idalObj.GetStationById(stationId);
 
             //if (station.Name == name)
             //{
@@ -1012,7 +983,7 @@ namespace BO
                 throw new BO.NoAvailable("drone");
             }
 
-            DO.Drone drone = this._idal.GetDroneById(droneId);
+            DO.Drone drone = this._idalObj.GetDroneById(droneId);
 
             //if (drone.Model == name)
             //{
@@ -1038,9 +1009,9 @@ namespace BO
                 throw new BO.NegetiveValue("Drone's id");
             }
 
-            DO.Drone drone = _idal.GetDroneById(droneId);
+            DO.Drone drone = _idalObj.GetDroneById(droneId);
             if (drone.Status != DroneStatuses.Shipping) throw new DroneNotShipping(droneId);
-            DO.Parcel parcel = _idal.GetParcelByDroneId(droneId);
+            DO.Parcel parcel = _idalObj.GetParcelByDroneId(droneId);
 
 
             if (parcel.PickedUp == null)
@@ -1060,9 +1031,9 @@ namespace BO
             //update drone's details
 
 
-            DO.Costumer target = this._idal.GetCostumerById(parcel.TargetId);
+            DO.Costumer target = this._idalObj.GetCostumerById(parcel.TargetId);
             DO.Station station =
-                this._idal.GetStationById(this._GetNearestStation(target.Location));
+                this._idalObj.GetStationById(this._GetNearestStation(target.Location));
 
             drone.Status = DO.DroneStatuses.Available;
 
@@ -1112,7 +1083,7 @@ namespace BO
                 throw new BO.NoAvailable("drone");
             }
 
-            DO.Drone drone = this._idal.GetDroneById(droneId);
+            DO.Drone drone = this._idalObj.GetDroneById(droneId);
             if (drone.Status != DO.DroneStatuses.Available)
             {
                 throw new BO.DroneNotAvliable(droneId);
@@ -1122,7 +1093,7 @@ namespace BO
 
             if (stationId == -1)
             {
-                station = this._idal.GetStationById(this._GetNearestAvilableStation(drone.Location));
+                station = this._idalObj.GetStationById(this._GetNearestAvilableStation(drone.Location));
                 double distance = drone.Location.Distance(station.Location);
                 double minBattery = distance * Dal.DataSource.Config.avilablePPK;
 
@@ -1139,12 +1110,12 @@ namespace BO
 
                 station.ChargeSlots--;
 
-                this._idal.AddDroneToCharge(droneId, station.Id);
+                this._idalObj.AddDroneToCharge(droneId, station.Id);
             }
 
             else
             {
-                station = this._idal.GetStationById(stationId);
+                station = this._idalObj.GetStationById(stationId);
 
                 if (station.ChargeSlots <= 0)
                 {
@@ -1155,7 +1126,7 @@ namespace BO
 
                 drone.Location = station.Location;
 
-                this._idal.AddDroneToCharge(drone.Id, station.Id);
+                this._idalObj.AddDroneToCharge(drone.Id, station.Id);
 
                 drone.Status = DO.DroneStatuses.Maintenance;
             }
@@ -1173,38 +1144,32 @@ namespace BO
                 throw new BO.NegetiveValue("Drone's id");
             }
 
-            DO.Drone drone = this._idal.GetDroneById(droneId);
+            DO.Drone drone = this._idalObj.GetDroneById(droneId);
 
             if (drone.Status != DO.DroneStatuses.Maintenance)
             {
                 throw new BO.DroneNotInMaintenance(droneId);
             }
 
-            DO.DroneCharge dc = this._idal.GetDroneChargeByDroneId(droneId);
+            DO.DroneCharge dc = this._idalObj.GetDroneChargeByDroneId(droneId);
 
             TimeSpan time = DateTime.Now.Subtract(dc.StartTime);
             double hours = time.TotalHours;
 
-            this._idal.DroneRelease(droneId, hours);
+            this._idalObj.DroneRelease(droneId, hours);
         }
-
-        /*
-        *Description: Try to Sign in to the system with given username and password.
-        *Parameters: username, password.
-        *Return: None.
-        */
         public void SignIn(string username, string password)
         {
             CostumerBL costumer = GetCostumerByUsername(username);
 
-            if(!costumer.IsAvaliable) // check if the costumer is not blocked
+            if(!costumer.IsAvaliable)
             {
                 throw new UserBlocked();
             }
 
-            if (costumer.Password == password) // check if the password is correct
+            if (costumer.Password == password)
             {
-                this._idal.SignIn(costumer.Id);
+                this._idalObj.SignIn(costumer.Id);
             }
 
             else
@@ -1213,25 +1178,19 @@ namespace BO
             }
         }
 
-        /*
-        *Description: Sign out from the system.
-        *Parameters: None.
-        *Return: None.
-        */
         public void SignOut()
         {
-            this._idal.SignOut(); //call to signout from dal, in dal I initalize the currentLoggedUser variable with null.
+            this._idalObj.SignOut();
         }
 
         //getters:
-
         public BO.CostumerBL GetLoggedUser()
         {
             CostumerBL loggedUser = null;
 
-            if(this._idal.GetLoggedUser() != null)
+            if(this._idalObj.GetLoggedUser() != null)
             {
-                loggedUser = GetCostumerById(this._idal.GetLoggedUser().Id);
+                loggedUser = GetCostumerById(this._idalObj.GetLoggedUser().Id);
             }
 
             return loggedUser;
@@ -1244,7 +1203,7 @@ namespace BO
                 throw new BO.NegetiveValue("Parcel's id");
             }
 
-            return new BO.ParcelBL(this._idal.GetParcelById(parcelId));
+            return new BO.ParcelBL(this._idalObj.GetParcelById(parcelId));
         }
 
         public BO.CostumerBL GetCostumerById(int id)
@@ -1254,7 +1213,7 @@ namespace BO
                 throw new BO.NegetiveValue("Costumer's id");
             }
 
-            return new BO.CostumerBL(this._idal.GetCostumerById(id));
+            return new BO.CostumerBL(this._idalObj.GetCostumerById(id));
         }
 
         public BO.StationBL GetStationById(int id)
@@ -1264,7 +1223,7 @@ namespace BO
                 throw new BO.NegetiveValue("Station's id");
             }
 
-            return new BO.StationBL(this._idal.GetStationById(id));
+            return new BO.StationBL(this._idalObj.GetStationById(id));
         }
 
         public BO.DroneBL GetDroneById(int droneId)
@@ -1275,8 +1234,8 @@ namespace BO
             }
 
             //get the parcel which the drone is assign to...
-            DO.Drone drone = this._idal.GetDroneById(droneId);
-            IEnumerable<DO.Parcel> parcels = this._idal.GetParcelsList();
+            DO.Drone drone = this._idalObj.GetDroneById(droneId);
+            IEnumerable<DO.Parcel> parcels = this._idalObj.GetParcelsList();
             int parcelOfDroneId = 0;
 
             foreach (var parcel in parcels)
@@ -1298,13 +1257,13 @@ namespace BO
                 throw new BO.NegetiveValue("Drone's id");
             }
 
-            return new BO.DroneChargeBL(this._idal.GetDroneById(id));
+            return new BO.DroneChargeBL(this._idalObj.GetDroneById(id));
         }
 
         public IEnumerable<BO.StationListBL> GetStationsList(Func<DO.Station, bool> filter = null)
         {
             List<BO.StationListBL> stationList = new List<BO.StationListBL>();
-            IEnumerable<DO.Station> stations = this._idal.GetStationsList(filter);
+            IEnumerable<DO.Station> stations = this._idalObj.GetStationsList(filter);
 
             foreach (var station in stations)
             {
@@ -1317,7 +1276,7 @@ namespace BO
         public IEnumerable<BO.CostumerListBL> GetCostumerList(Func<DO.Costumer, bool> filter = null)
         {
             List<BO.CostumerListBL> costumerList = new List<BO.CostumerListBL>();
-            IEnumerable<DO.Costumer> costumers = this._idal.GetCostumerList(filter);
+            IEnumerable<DO.Costumer> costumers = this._idalObj.GetCostumerList(filter);
 
             foreach (var costumer in costumers)
             {
@@ -1344,7 +1303,7 @@ namespace BO
         public IEnumerable<BO.ParcelListBL> GetParcelsList(Func<DO.Parcel, bool> filter = null)
         {
             List<BO.ParcelListBL> parcelList = new List<BO.ParcelListBL>();
-            IEnumerable<DO.Parcel> parcels = this._idal.GetParcelsList(filter);
+            IEnumerable<DO.Parcel> parcels = this._idalObj.GetParcelsList(filter);
 
             foreach (var parcel in parcels)
             {
@@ -1358,7 +1317,7 @@ namespace BO
         public IEnumerable<BO.DroneListBL> GetDroneList(Func<DO.Drone, bool> filter = null)
         {
             List<BO.DroneListBL> droneList = new List<BO.DroneListBL>();
-            IEnumerable<DO.Drone> drones = this._idal.GetDroneList(filter);
+            IEnumerable<DO.Drone> drones = this._idalObj.GetDroneList(filter);
 
             foreach (var drone in drones)
             {
@@ -1373,11 +1332,6 @@ namespace BO
             return SysLog.SysLog.GetInstance();
         }
 
-        /*
-        *This function not used, it's can replace the findSuitableParcel() method.
-        *We prefer use findSuitableParcel() although it is longer in terms of code.
-        *Because it's more efficient in terms of runtime.
-        */
         private DO.Parcel _bestParcel(List<DO.Parcel> parcels, DO.Drone drone)
         {
             // filter the parcels list to contain just the one's who the drone can carry
@@ -1386,7 +1340,7 @@ namespace BO
 
             // firstly: we sort by the distance => the latest influencing parameter
             parcels = parcels.OrderBy(parcel =>
-                _idal.GetCostumerById(parcel.SenderId).Location.Distance(drone.Location)).ToList();
+                _idalObj.GetCostumerById(parcel.SenderId).Location.Distance(drone.Location)).ToList();
 
             // secondly: we sort by the [parcel.Weight] => the second most influencing parameter
             parcels = parcels.OrderBy(parcel => -1 * (int) parcel.Weight).ToList(); // in desc order: 3, 2, 1...
@@ -1407,7 +1361,7 @@ namespace BO
                 if(costumer.Name == name)
                 {
                     id = costumer.Id;
-                    return new BO.CostumerBL(this._idal.GetCostumerById(id));
+                    return new BO.CostumerBL(this._idalObj.GetCostumerById(id));
                 }
             }
 
