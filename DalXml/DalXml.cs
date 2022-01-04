@@ -110,10 +110,10 @@ namespace Dal
 
             XElement parcels = XmlTools.LoadListFromXMLElement(parcelPath);
 
-            DO.Parcel parcel = new DO.Parcel(id, senderId, targetId, (DO.WeightCategories)weight,
-                (DO.Priorities)priority, requested,
+            DO.Parcel parcel = new DO.Parcel(id, senderId, targetId, (DO.WeightCategories) weight,
+                (DO.Priorities) priority, requested,
                 droneId, scheduled, pickedUp, delivered);
-            
+
             parcels.Add(createParcelElement(parcel));
 
             XmlTools.SaveListToXMLElement(parcels, parcelPath);
@@ -127,7 +127,7 @@ namespace Dal
         public void AddDroneToCharge(int droneId, int stationId)
         {
             try
-            { 
+            {
                 XElement dronesCharge = XmlTools.LoadListFromXMLElement(droneChargePath);
 
                 DO.DroneCharge dc = new DO.DroneCharge(droneId, stationId);
@@ -136,7 +136,10 @@ namespace Dal
                 XmlTools.SaveListToXMLElement(dronesCharge, droneChargePath);
             }
 
-            catch { throw new Exception("Failed to send drone to charge."); }
+            catch
+            {
+                throw new Exception("Failed to send drone to charge.");
+            }
         }
 
         /*
@@ -159,12 +162,15 @@ namespace Dal
             {
                 XElement dronesCharge = XmlTools.LoadListFromXMLElement(droneChargePath);
                 (from droneInCharge in dronesCharge.Elements()
-                 let id = int.Parse(droneInCharge.Element("DroneId").Value)
-                 where id == dc.DroneId
-                 select droneInCharge).FirstOrDefault().Remove();
+                    let id = int.Parse(droneInCharge.Element("DroneId").Value)
+                    where id == dc.DroneId
+                    select droneInCharge).FirstOrDefault().Remove();
                 XmlTools.SaveListToXMLElement(dronesCharge, droneChargePath);
             }
-            catch { throw new Exception("Failed to release drone."); }
+            catch
+            {
+                throw new Exception("Failed to release drone.");
+            }
 
             //handle the station
             station.ChargeSlots++;
@@ -198,16 +204,16 @@ namespace Dal
             DO.DroneCharge dc = new DO.DroneCharge();
 
             dc = (from drone in dronesCharge.Elements()
-                  let id = int.Parse(drone.Element("DroneId").Value)
-                  where droneId == id
-                  select new DO.DroneCharge()
-                  {
-                      DroneId = int.Parse(drone.Element("DroneId").Value),
-                      StationId = int.Parse(drone.Element("StationId").Value),
-                      StartTime = DateTime.Parse(drone.Element("StartTime").Value)
-                  }).FirstOrDefault();
+                let id = int.Parse(drone.Element("DroneId").Value)
+                where droneId == id
+                select new DO.DroneCharge()
+                {
+                    DroneId = int.Parse(drone.Element("DroneId").Value),
+                    StationId = int.Parse(drone.Element("StationId").Value),
+                    StartTime = DateTime.Parse(drone.Element("StartTime").Value)
+                }).FirstOrDefault();
 
-            if(dc.DroneId != 0)
+            if (dc.DroneId != 0)
             {
                 return true;
             }
@@ -264,23 +270,26 @@ namespace Dal
             DO.Parcel parcel = new DO.Parcel();
 
             parcel = (from currentParcel in parcels.Elements()
-                       let parcelId = int.Parse(currentParcel.Element("Id").Value)
-                       where id == parcelId
-                       select new DO.Parcel()
-                       {
-                           Id = int.Parse(currentParcel.Element("Id").Value),
-                           DroneId = int.Parse(currentParcel.Element("DroneId").Value),
-                           SenderId = int.Parse(currentParcel.Element("SenderId").Value),
-                           TargetId = int.Parse(currentParcel.Element("TargetId").Value),
-                           Status = (DO.ParcelStatuses)Enum.Parse(typeof(DO.ParcelStatuses), currentParcel.Element("Status").Value),
-                           Weight = (DO.WeightCategories)Enum.Parse(typeof(DO.WeightCategories), currentParcel.Element("Weight").Value),
-                           Priority = (DO.Priorities)Enum.Parse(typeof(DO.Priorities), currentParcel.Element("Priority").Value),
-                           Requested = DateTime.Parse(currentParcel.Element("Requested").Value),
-                           Scheduled = DateTime.Parse(currentParcel.Element("Scheduled").Value),
-                           PickedUp = DateTime.Parse(currentParcel.Element("PickedUp").Value),
-                           Delivered = DateTime.Parse(currentParcel.Element("Delivered").Value),
-                           IsAvailable = bool.Parse(currentParcel.Element("IsAvailable").Value)
-                       }).FirstOrDefault();
+                let parcelId = int.Parse(currentParcel.Element("Id").Value)
+                where id == parcelId
+                select new DO.Parcel()
+                {
+                    Id = int.Parse(currentParcel.Element("Id").Value),
+                    DroneId = int.Parse(currentParcel.Element("DroneId").Value),
+                    SenderId = int.Parse(currentParcel.Element("SenderId").Value),
+                    TargetId = int.Parse(currentParcel.Element("TargetId").Value),
+                    Status = (DO.ParcelStatuses) Enum.Parse(typeof(DO.ParcelStatuses),
+                        currentParcel.Element("Status").Value),
+                    Weight = (DO.WeightCategories) Enum.Parse(typeof(DO.WeightCategories),
+                        currentParcel.Element("Weight").Value),
+                    Priority = (DO.Priorities) Enum.Parse(typeof(DO.Priorities),
+                        currentParcel.Element("Priority").Value),
+                    Requested = DateTime.Parse(currentParcel.Element("Requested").Value),
+                    Scheduled = DateTime.Parse(currentParcel.Element("Scheduled").Value),
+                    PickedUp = DateTime.Parse(currentParcel.Element("PickedUp").Value),
+                    Delivered = DateTime.Parse(currentParcel.Element("Delivered").Value),
+                    IsAvailable = bool.Parse(currentParcel.Element("IsAvailable").Value)
+                }).FirstOrDefault();
 
             if (parcel.Id == 0)
             {
@@ -302,19 +311,20 @@ namespace Dal
             DO.Costumer costumer = new DO.Costumer();
 
             costumer = (from currentCostumer in costumers.Elements()
-                       let costumerId = int.Parse(currentCostumer.Element("Id").Value)
-                       where id == costumerId
-                       select new DO.Costumer()
-                       {
-                           Id = int.Parse(currentCostumer.Element("Id").Value),
-                           Name = currentCostumer.Element("Name").Value,
-                           Phone = currentCostumer.Element("Phone").Value,
-                           Location = new DO.Location(double.Parse(currentCostumer.Element("Latitude").Value), double.Parse(currentCostumer.Element("Longitude").Value)),
-                           IsAvaliable = bool.Parse(currentCostumer.Element("IsAvailable").Value),
-                           Email = currentCostumer.Element("Email").Value,
-                           Password = currentCostumer.Element("Password").Value,
-                           IsManger = bool.Parse(currentCostumer.Element("IsManager").Value)
-                       }).FirstOrDefault();
+                let costumerId = int.Parse(currentCostumer.Element("Id").Value)
+                where id == costumerId
+                select new DO.Costumer()
+                {
+                    Id = int.Parse(currentCostumer.Element("Id").Value),
+                    Name = currentCostumer.Element("Name").Value,
+                    Phone = currentCostumer.Element("Phone").Value,
+                    Location = new DO.Location(double.Parse(currentCostumer.Element("Latitude").Value),
+                        double.Parse(currentCostumer.Element("Longitude").Value)),
+                    IsAvaliable = bool.Parse(currentCostumer.Element("IsAvailable").Value),
+                    Email = currentCostumer.Element("Email").Value,
+                    Password = currentCostumer.Element("Password").Value,
+                    IsManger = bool.Parse(currentCostumer.Element("IsManager").Value)
+                }).FirstOrDefault();
 
             if (costumer.Id == 0)
             {
@@ -336,16 +346,17 @@ namespace Dal
             DO.Station station = new DO.Station();
 
             station = (from currentStation in stations.Elements()
-                       let stationId = int.Parse(currentStation.Element("Id").Value)
-                       where id == stationId
-                       select new DO.Station()
-                       {
-                           Id = int.Parse(currentStation.Element("Id").Value),
-                           Name = currentStation.Element("Name").Value,
-                           Location = new DO.Location(double.Parse(currentStation.Element("Latitude").Value), double.Parse(currentStation.Element("Longitude").Value)),
-                           ChargeSlots = int.Parse(currentStation.Element("ChargeSlots").Value),
-                           IsAvailable = bool.Parse(currentStation.Element("IsAvailable").Value)
-                       }).FirstOrDefault();
+                let stationId = int.Parse(currentStation.Element("Id").Value)
+                where id == stationId
+                select new DO.Station()
+                {
+                    Id = int.Parse(currentStation.Element("Id").Value),
+                    Name = currentStation.Element("Name").Value,
+                    Location = new DO.Location(double.Parse(currentStation.Element("Latitude").Value),
+                        double.Parse(currentStation.Element("Longitude").Value)),
+                    ChargeSlots = int.Parse(currentStation.Element("ChargeSlots").Value),
+                    IsAvailable = bool.Parse(currentStation.Element("IsAvailable").Value)
+                }).FirstOrDefault();
 
             if (station.Id == 0)
             {
@@ -367,18 +378,21 @@ namespace Dal
             DO.Drone drone = new DO.Drone();
 
             drone = (from currentDrone in drones.Elements()
-                     let droneId = int.Parse(currentDrone.Element("Id").Value)
-                     where id == droneId
-                     select new DO.Drone()
-                     {
-                         Id = int.Parse(currentDrone.Element("Id").Value),
-                         Model = currentDrone.Element("Model").Value,
-                         MaxWeight = (DO.WeightCategories)Enum.Parse(typeof(DO.WeightCategories), currentDrone.Element("MaxWeight").Value),
-                         Status = (DO.DroneStatuses)Enum.Parse(typeof(DO.DroneStatuses), currentDrone.Element("Status").Value),
-                         Battery = double.Parse(currentDrone.Element("Battery").Value),
-                         Location = new DO.Location(double.Parse(currentDrone.Element("Latitude").Value), double.Parse(currentDrone.Element("Longitude").Value)),
-                         IsAvaliable = bool.Parse(currentDrone.Element("IsAvailable").Value)
-                     }).FirstOrDefault();
+                let droneId = int.Parse(currentDrone.Element("Id").Value)
+                where id == droneId
+                select new DO.Drone()
+                {
+                    Id = int.Parse(currentDrone.Element("Id").Value),
+                    Model = currentDrone.Element("Model").Value,
+                    MaxWeight = (DO.WeightCategories) Enum.Parse(typeof(DO.WeightCategories),
+                        currentDrone.Element("MaxWeight").Value),
+                    Status = (DO.DroneStatuses) Enum.Parse(typeof(DO.DroneStatuses),
+                        currentDrone.Element("Status").Value),
+                    Battery = double.Parse(currentDrone.Element("Battery").Value),
+                    Location = new DO.Location(double.Parse(currentDrone.Element("Latitude").Value),
+                        double.Parse(currentDrone.Element("Longitude").Value)),
+                    IsAvaliable = bool.Parse(currentDrone.Element("IsAvailable").Value)
+                }).FirstOrDefault();
 
             if (drone.Id == 0)
             {
@@ -400,25 +414,28 @@ namespace Dal
             DO.Parcel parcel = new DO.Parcel();
 
             parcel = (from currentParcel in parcels.Elements()
-                      let id = int.Parse(currentParcel.Element("DroneId").Value)
-                      where id == droneId
-                      select new DO.Parcel()
-                      {
-                          Id = int.Parse(currentParcel.Element("Id").Value),
-                          DroneId = int.Parse(currentParcel.Element("DroneId").Value),
-                          SenderId = int.Parse(currentParcel.Element("SenderId").Value),
-                          TargetId = int.Parse(currentParcel.Element("TargetId").Value),
-                          Status = (DO.ParcelStatuses)Enum.Parse(typeof(DO.ParcelStatuses), currentParcel.Element("Status").Value),
-                          Weight = (DO.WeightCategories)Enum.Parse(typeof(DO.WeightCategories), currentParcel.Element("Weight").Value),
-                          Priority = (DO.Priorities)Enum.Parse(typeof(DO.Priorities), currentParcel.Element("Priority").Value),
-                          Requested = DateTime.Parse(currentParcel.Element("Requested").Value),
-                          Scheduled = DateTime.Parse(currentParcel.Element("Scheduled").Value),
-                          PickedUp = DateTime.Parse(currentParcel.Element("PickedUp").Value),
-                          Delivered = DateTime.Parse(currentParcel.Element("Delivered").Value),
-                          IsAvailable = bool.Parse(currentParcel.Element("IsAvailable").Value)
-                      }).FirstOrDefault();
+                let id = int.Parse(currentParcel.Element("DroneId").Value)
+                where id == droneId
+                select new DO.Parcel()
+                {
+                    Id = int.Parse(currentParcel.Element("Id").Value),
+                    DroneId = int.Parse(currentParcel.Element("DroneId").Value),
+                    SenderId = int.Parse(currentParcel.Element("SenderId").Value),
+                    TargetId = int.Parse(currentParcel.Element("TargetId").Value),
+                    Status = (DO.ParcelStatuses) Enum.Parse(typeof(DO.ParcelStatuses),
+                        currentParcel.Element("Status").Value),
+                    Weight = (DO.WeightCategories) Enum.Parse(typeof(DO.WeightCategories),
+                        currentParcel.Element("Weight").Value),
+                    Priority = (DO.Priorities) Enum.Parse(typeof(DO.Priorities),
+                        currentParcel.Element("Priority").Value),
+                    Requested = DateTime.Parse(currentParcel.Element("Requested").Value),
+                    Scheduled = DateTime.Parse(currentParcel.Element("Scheduled").Value),
+                    PickedUp = DateTime.Parse(currentParcel.Element("PickedUp").Value),
+                    Delivered = DateTime.Parse(currentParcel.Element("Delivered").Value),
+                    IsAvailable = bool.Parse(currentParcel.Element("IsAvailable").Value)
+                }).FirstOrDefault();
 
-            if(parcel.Id == 0)
+            if (parcel.Id == 0)
             {
                 throw new DO.ItemNotFound("parcel");
             }
@@ -438,14 +455,14 @@ namespace Dal
             DO.DroneCharge dc = new DO.DroneCharge();
 
             dc = (from drone in dronesCharge.Elements()
-                  let droneId = int.Parse(drone.Element("DroneId").Value)
-                  where droneId == id
-                  select new DO.DroneCharge()
-                  {
-                      DroneId = int.Parse(drone.Element("DroneId").Value),
-                      StationId = int.Parse(drone.Element("StationId").Value),
-                      StartTime = DateTime.Parse(drone.Element("StartTime").Value)
-                  }).FirstOrDefault();
+                let droneId = int.Parse(drone.Element("DroneId").Value)
+                where droneId == id
+                select new DO.DroneCharge()
+                {
+                    DroneId = int.Parse(drone.Element("DroneId").Value),
+                    StationId = int.Parse(drone.Element("StationId").Value),
+                    StartTime = DateTime.Parse(drone.Element("StartTime").Value)
+                }).FirstOrDefault();
 
             if (dc.DroneId == 0)
             {
@@ -468,17 +485,20 @@ namespace Dal
                 XElement dronesCharge = XmlTools.LoadListFromXMLElement(droneChargePath);
 
                 return from drone in dronesCharge.Elements()
-                       let currentDrone = new DO.DroneCharge()
-                       {
-                           DroneId = int.Parse(drone.Element("DroneId").Value),
-                           StationId = int.Parse(drone.Element("StationId").Value),
-                           StartTime = DateTime.Parse(drone.Element("StartTime").Value)
-                       }
-                       where (filter == null) ? true : filter(currentDrone)
-                       select currentDrone;
+                    let currentDrone = new DO.DroneCharge()
+                    {
+                        DroneId = int.Parse(drone.Element("DroneId").Value),
+                        StationId = int.Parse(drone.Element("StationId").Value),
+                        StartTime = DateTime.Parse(drone.Element("StartTime").Value)
+                    }
+                    where (filter == null) ? true : filter(currentDrone)
+                    select currentDrone;
             }
 
-            catch { throw new DO.ItemNotFound("DronesCharge list"); }
+            catch
+            {
+                throw new DO.ItemNotFound("DronesCharge list");
+            }
         }
 
         /*
@@ -494,19 +514,23 @@ namespace Dal
                 XElement stations = XmlTools.LoadListFromXMLElement(stationPath);
 
                 return from station in stations.Elements()
-                       let currentStation = new DO.Station()
-                       {
-                           Id = int.Parse(station.Element("Id").Value),
-                           Name = station.Element("Name").Value,
-                           Location = new DO.Location(double.Parse(station.Element("Latitude").Value), double.Parse(station.Element("Longitude").Value)),
-                           ChargeSlots = int.Parse(station.Element("ChargeSlots").Value),
-                           IsAvailable = bool.Parse(station.Element("IsAvailable").Value)
-                       }
-                       where (filter == null) ? true : filter(currentStation)
-                       select currentStation;
+                    let currentStation = new DO.Station()
+                    {
+                        Id = int.Parse(station.Element("Id").Value),
+                        Name = station.Element("Name").Value,
+                        Location = new DO.Location(double.Parse(station.Element("Latitude").Value),
+                            double.Parse(station.Element("Longitude").Value)),
+                        ChargeSlots = int.Parse(station.Element("ChargeSlots").Value),
+                        IsAvailable = bool.Parse(station.Element("IsAvailable").Value)
+                    }
+                    where (filter == null) ? true : filter(currentStation)
+                    select currentStation;
             }
 
-            catch { throw new DO.ItemNotFound("Station's list"); }
+            catch
+            {
+                throw new DO.ItemNotFound("Station's list");
+            }
         }
 
         /*
@@ -522,22 +546,26 @@ namespace Dal
                 XElement costumers = XmlTools.LoadListFromXMLElement(costumerPath);
 
                 return from costumer in costumers.Elements()
-                       let currentCostumer = new DO.Costumer()
-                       {
-                           Id = int.Parse(costumer.Element("Id").Value),
-                           Name = costumer.Element("Name").Value,
-                           Phone = costumer.Element("Phone").Value,
-                           Location = new DO.Location(double.Parse(costumer.Element("Latitude").Value), double.Parse(costumer.Element("Longitude").Value)),
-                           IsAvaliable = bool.Parse(costumer.Element("IsAvailable").Value),
-                           Email = costumer.Element("Email").Value,
-                           Password = costumer.Element("Password").Value,
-                           IsManger = bool.Parse(costumer.Element("IsManager").Value)
-                       }
-                       where (filter == null) ? true : filter(currentCostumer)
-                       select currentCostumer;
+                    let currentCostumer = new DO.Costumer()
+                    {
+                        Id = int.Parse(costumer.Element("Id").Value),
+                        Name = costumer.Element("Name").Value,
+                        Phone = costumer.Element("Phone").Value,
+                        Location = new DO.Location(double.Parse(costumer.Element("Latitude").Value),
+                            double.Parse(costumer.Element("Longitude").Value)),
+                        IsAvaliable = bool.Parse(costumer.Element("IsAvailable").Value),
+                        Email = costumer.Element("Email").Value,
+                        Password = costumer.Element("Password").Value,
+                        IsManger = bool.Parse(costumer.Element("IsManager").Value)
+                    }
+                    where (filter == null) ? true : filter(currentCostumer)
+                    select currentCostumer;
             }
 
-            catch { throw new DO.ItemNotFound("Costumer's list"); }
+            catch
+            {
+                throw new DO.ItemNotFound("Costumer's list");
+            }
         }
 
         /*
@@ -553,26 +581,31 @@ namespace Dal
                 XElement parcels = XmlTools.LoadListFromXMLElement(parcelPath);
 
                 return from parcel in parcels.Elements()
-                       let currentParcel = new DO.Parcel()
-                       {
-                           Id = int.Parse(parcel.Element("Id").Value),
-                           DroneId = int.Parse(parcel.Element("DroneId").Value),
-                           SenderId = int.Parse(parcel.Element("SenderId").Value),
-                           TargetId = int.Parse(parcel.Element("TargetId").Value),
-                           Status = (DO.ParcelStatuses)Enum.Parse(typeof(DO.ParcelStatuses), parcel.Element("Status").Value),
-                           Weight = (DO.WeightCategories)Enum.Parse(typeof(DO.WeightCategories), parcel.Element("Weight").Value),
-                           Priority = (DO.Priorities)Enum.Parse(typeof(DO.Priorities), parcel.Element("Priority").Value),
-                           Requested = DateTime.Parse(parcel.Element("Requested").Value),
-                           Scheduled = DateTime.Parse(parcel.Element("Scheduled").Value),
-                           PickedUp = DateTime.Parse(parcel.Element("PickedUp").Value),
-                           Delivered = DateTime.Parse(parcel.Element("Delivered").Value),
-                           IsAvailable = bool.Parse(parcel.Element("IsAvailable").Value)
-                       }
-                       where (filter == null) ? true : filter(currentParcel)
-                       select currentParcel;
+                    let currentParcel = new DO.Parcel()
+                    {
+                        Id = int.Parse(parcel.Element("Id").Value),
+                        DroneId = int.Parse(parcel.Element("DroneId").Value),
+                        SenderId = int.Parse(parcel.Element("SenderId").Value),
+                        TargetId = int.Parse(parcel.Element("TargetId").Value),
+                        Status = (DO.ParcelStatuses) Enum.Parse(typeof(DO.ParcelStatuses),
+                            parcel.Element("Status").Value),
+                        Weight = (DO.WeightCategories) Enum.Parse(typeof(DO.WeightCategories),
+                            parcel.Element("Weight").Value),
+                        Priority = (DO.Priorities) Enum.Parse(typeof(DO.Priorities), parcel.Element("Priority").Value),
+                        Requested = DateTime.Parse(parcel.Element("Requested").Value),
+                        Scheduled = DateTime.Parse(parcel.Element("Scheduled").Value),
+                        PickedUp = DateTime.Parse(parcel.Element("PickedUp").Value),
+                        Delivered = DateTime.Parse(parcel.Element("Delivered").Value),
+                        IsAvailable = bool.Parse(parcel.Element("IsAvailable").Value)
+                    }
+                    where (filter == null) ? true : filter(currentParcel)
+                    select currentParcel;
             }
 
-            catch { throw new DO.ItemNotFound("Parcel's list"); }
+            catch
+            {
+                throw new DO.ItemNotFound("Parcel's list");
+            }
         }
 
         /*
@@ -588,21 +621,26 @@ namespace Dal
                 XElement drones = XmlTools.LoadListFromXMLElement(dronePath);
 
                 return from drone in drones.Elements()
-                       let currentDrone = new DO.Drone()
-                       {
-                           Id = int.Parse(drone.Element("Id").Value),
-                           Model = drone.Element("Model").Value,
-                           MaxWeight = (DO.WeightCategories)Enum.Parse(typeof(DO.WeightCategories), drone.Element("MaxWeight").Value),
-                           Status = (DO.DroneStatuses)Enum.Parse(typeof(DO.DroneStatuses), drone.Element("Status").Value),
-                           Battery = double.Parse(drone.Element("Battery").Value),
-                           Location = new DO.Location(double.Parse(drone.Element("Latitude").Value), double.Parse(drone.Element("Longitude").Value)),
-                           IsAvaliable = bool.Parse(drone.Element("IsAvailable").Value)
-                       }
-                       where (filter == null) ? true : filter(currentDrone)
-                       select currentDrone;
+                    let currentDrone = new DO.Drone()
+                    {
+                        Id = int.Parse(drone.Element("Id").Value),
+                        Model = drone.Element("Model").Value,
+                        MaxWeight = (DO.WeightCategories) Enum.Parse(typeof(DO.WeightCategories),
+                            drone.Element("MaxWeight").Value),
+                        Status = (DO.DroneStatuses) Enum.Parse(typeof(DO.DroneStatuses), drone.Element("Status").Value),
+                        Battery = double.Parse(drone.Element("Battery").Value),
+                        Location = new DO.Location(double.Parse(drone.Element("Latitude").Value),
+                            double.Parse(drone.Element("Longitude").Value)),
+                        IsAvaliable = bool.Parse(drone.Element("IsAvailable").Value)
+                    }
+                    where (filter == null) ? true : filter(currentDrone)
+                    select currentDrone;
             }
 
-            catch { throw new DO.ItemNotFound("Drone's list"); }
+            catch
+            {
+                throw new DO.ItemNotFound("Drone's list");
+            }
         }
 
         /*****************************
@@ -612,65 +650,65 @@ namespace Dal
         XElement createDroneChargeElement(DO.DroneCharge dc)
         {
             return new XElement("DroneCharge",
-                                new XElement("DroneId", dc.DroneId),
-                                new XElement("StationId", dc.StationId),
-                                new XElement("StartTime", dc.StartTime));
+                new XElement("DroneId", dc.DroneId),
+                new XElement("StationId", dc.StationId),
+                new XElement("StartTime", dc.StartTime));
         }
 
         XElement createDroneElement(DO.Drone drone)
         {
             return new XElement("Drone",
-                                new XElement("Id", drone.Id),
-                                new XElement("Model", drone.Model),
-                                new XElement("MaxWeight", drone.MaxWeight),
-                                new XElement("Status", drone.Status),
-                                new XElement("Battery", drone.Battery),
-                                new XElement("Longitude", drone.Location.Longitude),
-                                new XElement("Latitude", drone.Location.Latitude),
-                                new XElement("Latitude", drone.Location.Latitude),
-                                new XElement("IsAvailable", drone.IsAvaliable));
+                new XElement("Id", drone.Id),
+                new XElement("Model", drone.Model),
+                new XElement("MaxWeight", drone.MaxWeight),
+                new XElement("Status", drone.Status),
+                new XElement("Battery", drone.Battery),
+                new XElement("Longitude", drone.Location.Longitude),
+                new XElement("Latitude", drone.Location.Latitude),
+                new XElement("Latitude", drone.Location.Latitude),
+                new XElement("IsAvailable", drone.IsAvaliable));
         }
 
         XElement createParcelElement(DO.Parcel parcel)
         {
             return new XElement("Parcel",
-                                new XElement("Id", parcel.Id),
-                                new XElement("DroneId", parcel.DroneId),
-                                new XElement("SenderId", parcel.SenderId),
-                                new XElement("TargetId", parcel.TargetId),
-                                new XElement("Status", parcel.Status),
-                                new XElement("Weight", parcel.Weight),
-                                new XElement("Priority", parcel.Priority),
-                                new XElement("Requested", parcel.Requested),
-                                new XElement("Scheduled", parcel.Scheduled),
-                                new XElement("PickedUp", parcel.PickedUp),
-                                new XElement("Delivered", parcel.Delivered),
-                                new XElement("IsAvailable", parcel.IsAvailable));
+                new XElement("Id", parcel.Id),
+                new XElement("DroneId", parcel.DroneId),
+                new XElement("SenderId", parcel.SenderId),
+                new XElement("TargetId", parcel.TargetId),
+                new XElement("Status", parcel.Status),
+                new XElement("Weight", parcel.Weight),
+                new XElement("Priority", parcel.Priority),
+                new XElement("Requested", parcel.Requested == null ? default(DateTime) : parcel.Requested),
+                new XElement("Scheduled", parcel.Scheduled == null ? default(DateTime) : parcel.Scheduled),
+                new XElement("PickedUp", parcel.PickedUp == null ? default(DateTime) : parcel.PickedUp),
+                new XElement("Delivered", parcel.Delivered == null ? default(DateTime) : parcel.Delivered),
+                new XElement("IsAvailable", parcel.IsAvailable));
         }
 
         XElement createStationElement(DO.Station station)
         {
             return new XElement("Station",
-                                new XElement("Id", station.Id),
-                                new XElement("Name", station.Name),
-                                new XElement("Longitude", station.Location.Longitude),
-                                new XElement("Latitude", station.Location.Latitude),
-                                new XElement("ChargeSlots", station.ChargeSlots),
-                                new XElement("IsAvailable", station.IsAvailable));
+                new XElement("Id", station.Id),
+                new XElement("Name", station.Name),
+                new XElement("Longitude", station.Location.Longitude),
+                new XElement("Latitude", station.Location.Latitude),
+                new XElement("ChargeSlots", station.ChargeSlots),
+                new XElement("IsAvailable", station.IsAvailable));
         }
 
         XElement createCostumerElement(DO.Costumer costumer)
         {
             return new XElement("Costumer",
-                                new XElement("Id", costumer.Id),
-                                new XElement("Name", costumer.Name),
-                                new XElement("Phone", costumer.Phone),
-                                new XElement("Longitude", costumer.Location.Longitude),
-                                new XElement("Latitude", costumer.Location.Latitude),
-                                new XElement("IsAvailable", costumer.IsAvaliable),
-                                new XElement("Email", costumer.Email),
-                                new XElement("Password", costumer.Password),
-                                new XElement("IsManager", costumer.IsManger));
+                new XElement("Id", costumer.Id),
+                new XElement("Name", costumer.Name),
+                new XElement("Phone", costumer.Phone),
+                new XElement("Longitude", costumer.Location.Longitude),
+                new XElement("Latitude", costumer.Location.Latitude),
+                new XElement("IsAvailable", costumer.IsAvaliable),
+                new XElement("Email", costumer.Email),
+                new XElement("Password", costumer.Password),
+                new XElement("IsManager", costumer.IsManger));
         }
     }
 }

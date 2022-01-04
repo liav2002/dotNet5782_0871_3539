@@ -26,6 +26,7 @@ namespace Dal
         }
 
         #region SaveLoadWithXElement
+
         /// <summary>
         /// Saving XElement in xml file
         /// </summary>
@@ -35,13 +36,14 @@ namespace Dal
         {
             try
             {
-                rootElem.Save(dir + filePath);
+                rootElem.Save(filePath);
             }
             catch (Exception)
             {
                 throw new DO.XMLFileCreateFailed(filePath);
             }
         }
+
         /// <summary>
         /// Load XElement from file
         /// </summary>
@@ -51,14 +53,14 @@ namespace Dal
         {
             try
             {
-                if (File.Exists(dir + filePath))
+                if (File.Exists(filePath))
                 {
-                    return XElement.Load(dir + filePath);
+                    return XElement.Load(filePath);
                 }
                 else
                 {
-                    XElement rootElem = new XElement(dir + filePath);
-                    rootElem.Save(dir + filePath);
+                    XElement rootElem = new XElement(filePath.Split("\\").Last().Split('.')[0]);
+                    rootElem.Save(filePath);
                     return rootElem;
                 }
             }
@@ -67,9 +69,11 @@ namespace Dal
                 throw new DO.XMLFileLoadFailed(filePath);
             }
         }
+
         #endregion
 
         #region SaveLoadWithXMLSerializer
+
         /// <summary>
         /// Save generic list in xml file using Serializer
         /// </summary>
@@ -90,6 +94,7 @@ namespace Dal
                 throw new DO.XMLFileCreateFailed(filePath);
             }
         }
+
         /// <summary>
         /// Load generic list from xml file using Serializer
         /// </summary>
@@ -105,7 +110,7 @@ namespace Dal
                     List<T> list;
                     XmlSerializer x = new XmlSerializer(typeof(List<T>));
                     FileStream file = new FileStream(dir + filePath, FileMode.Open);
-                    list = (List<T>)x.Deserialize(file);
+                    list = (List<T>) x.Deserialize(file);
                     file.Close();
                     return list;
                 }
@@ -117,6 +122,7 @@ namespace Dal
                 throw new DO.XMLFileLoadFailed(filePath);
             }
         }
+
         #endregion
     }
 }

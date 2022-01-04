@@ -174,7 +174,7 @@ namespace PL
             StatusSelector.SelectedItem = null;
             SenderSelector.SelectedItem = null;
             TargetSelector.SelectedItem = null;
-            App.NextWindow(nextWindow);
+            App.NextWindow(nextWindow, Initialized);
         }
 
         private void ParcelView(object o, EventArgs e)
