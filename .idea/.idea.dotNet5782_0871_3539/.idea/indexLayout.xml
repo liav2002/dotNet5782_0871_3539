@@ -2,7 +2,13 @@
 <project version="4">
   <component name="UserContentModel">
     <attachedFolders />
-    <explicitIncludes />
+    <explicitIncludes>
+      <Path>xml/CostumerXml.xml</Path>
+      <Path>xml/DroneChargeXml.xml</Path>
+      <Path>xml/DroneXml.xml</Path>
+      <Path>xml/ParcelXml.xml</Path>
+      <Path>xml/StationXml.xml</Path>
+    </explicitIncludes>
     <explicitExcludes />
   </component>
 </project>

@@ -35,8 +35,8 @@ namespace Dal
         private DalXml()
         {
             string str = Assembly.GetExecutingAssembly().Location;
-            localPath = Path.GetDirectoryName(str);
-            localPath += @"\Data";
+            localPath = Path.GetDirectoryName(str).Split("PL")[0];
+            localPath += @"xml";
 
             dronePath = localPath + @"\DroneXml.xml";
             droneChargePath = localPath + @"\DroneChargeXml.xml";
@@ -73,7 +73,7 @@ namespace Dal
             XElement drones = XmlTools.LoadListFromXMLElement(dronePath);
             DO.Drone drone = new DO.Drone(id, model, maxWeight, battery);
             drones.Add(createDroneElement(drone));
-            XmlTools.SaveListToXMLElement(drones, costumerPath);
+            XmlTools.SaveListToXMLElement(drones, dronePath);
         }
 
         /*
@@ -326,7 +326,7 @@ namespace Dal
                     IsManger = bool.Parse(currentCostumer.Element("IsManager").Value)
                 }).FirstOrDefault();
 
-            if (costumer.Id == 0)
+            if (costumer == null)
             {
                 throw new DO.ItemNotFound("costumer");
             }

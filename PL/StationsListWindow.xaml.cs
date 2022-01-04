@@ -115,13 +115,13 @@ namespace PL
             if (StationsListView.SelectedItem != null)
             {
                 StationWindow nextWindow = new StationWindow(StationsListView.SelectedItem);
-                App.NextWindow(nextWindow);
+                App.NextWindow(nextWindow, Initialized);
             }
         }
 
         private void AddStationButtonOnClick(object o, EventArgs e)
         {
-            App.NextWindow(new StationWindow());
+            App.NextWindow(new StationWindow(), Initialized);
         }
 
         private void RemoveStationButtonOnClick(object o, EventArgs e)

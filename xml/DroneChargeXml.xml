@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DroneChargeXml>
+  <DroneCharge>
+    <DroneId>1234567</DroneId>
+    <StationId>12</StationId>
+    <StartTime>2022-01-04T21:50:05.5914927+02:00</StartTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>132</DroneId>
+    <StationId>12</StationId>
+    <StartTime>2022-01-04T21:50:21.1972751+02:00</StartTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>1212121</DroneId>
+    <StationId>12</StationId>
+    <StartTime>2022-01-04T21:55:38.4761418+02:00</StartTime>
+  </DroneCharge>
+</DroneChargeXml>

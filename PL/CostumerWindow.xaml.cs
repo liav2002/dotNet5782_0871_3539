@@ -63,18 +63,25 @@ namespace PL
 
             InitializedUpdate();
 
-            if(((BO.CostumerBL)genericCostumer).Id != this.iBL.GetLoggedUser().Id) // if we show detayls of different costumer
+            if (genericCostumer.GetType().Name == "CostumerBL"
+                    ? ((BO.CostumerBL) genericCostumer).Id != this.iBL.GetLoggedUser().Id
+                    : ((BO.CostumerListBL) genericCostumer).Id != this.iBL.GetLoggedUser().Id
+               ) // if we show detayls of different costumer
             {
                 //Defines permissions according to cistuner's type
                 UpdateButton.Visibility = this.iBL.GetLoggedUser().IsManager ? Visibility.Visible : Visibility.Hidden;
-                IncomingParcels.Visibility = this.iBL.GetLoggedUser().IsManager ? Visibility.Visible : Visibility.Hidden;
-                IncomingParcelsView.Visibility = this.iBL.GetLoggedUser().IsManager ? Visibility.Visible : Visibility.Hidden;
+                IncomingParcels.Visibility =
+                    this.iBL.GetLoggedUser().IsManager ? Visibility.Visible : Visibility.Hidden;
+                IncomingParcelsView.Visibility =
+                    this.iBL.GetLoggedUser().IsManager ? Visibility.Visible : Visibility.Hidden;
                 ShippedParcels.Visibility = this.iBL.GetLoggedUser().IsManager ? Visibility.Visible : Visibility.Hidden;
-                ShippedParcelsView.Visibility = this.iBL.GetLoggedUser().IsManager ? Visibility.Visible : Visibility.Hidden;
+                ShippedParcelsView.Visibility =
+                    this.iBL.GetLoggedUser().IsManager ? Visibility.Visible : Visibility.Hidden;
             }
         }
 
-        CostumerWindow(string name, string phone, string email, string password, BO.CostumerBL costumer) // update costumer
+        CostumerWindow(string name, string phone, string email, string password,
+            BO.CostumerBL costumer) // update costumer
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
@@ -120,7 +127,7 @@ namespace PL
 
             // initialized costumer's incoming parcels ListView
             IncomingParcelsView.ItemsSource = this.costumer.ParcelsReciever;
-            
+
             return true;
         }
 
@@ -300,12 +307,12 @@ namespace PL
 
         private void ParcelView(object o, EventArgs e)
         {
-            if(ShippedParcelsView.SelectedItem != null)
+            if (ShippedParcelsView.SelectedItem != null)
             {
                 App.NextWindow(new ParcelWindow(ShippedParcelsView.SelectedItem));
             }
 
-            else if(IncomingParcelsView.SelectedItem != null)
+            else if (IncomingParcelsView.SelectedItem != null)
             {
                 App.NextWindow(new ParcelWindow(IncomingParcelsView.SelectedItem));
             }

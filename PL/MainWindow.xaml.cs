@@ -23,7 +23,7 @@ namespace PL
     {
         private BlApi.IBL iBL;
 
-        public MainWindow() //signout state
+        public MainWindow() // signout state
         {
             InitializeComponent();
 
@@ -57,13 +57,14 @@ namespace PL
                 SigninAsCostumerState.Visibility = Visibility.Visible;
             }
 
-            helloUserLabel.Content = helloUserLabel.Content.ToString().Replace("{[name]}", this.iBL.GetLoggedUser().Name);
+            helloUserLabel.Content =
+                helloUserLabel.Content.ToString().Replace("{[name]}", this.iBL.GetLoggedUser().Name);
             helloUserLabel.Visibility = Visibility.Visible;
         }
 
         public void SignInOnClick(object o, EventArgs e)
         {
-            if(inputUser.Text == "" || inputPass.Password == "")
+            if (inputUser.Text == "" || inputPass.Password == "")
             {
                 errorMessage.Text = "Please enter username and password.";
                 return;
@@ -73,7 +74,8 @@ namespace PL
             {
                 this.iBL.SignIn(inputUser.Text, inputPass.Password);
 
-                helloUserLabel.Content = helloUserLabel.Content.ToString().Replace("{[name]}", this.iBL.GetLoggedUser().Name);
+                helloUserLabel.Content =
+                    helloUserLabel.Content.ToString().Replace("{[name]}", this.iBL.GetLoggedUser().Name);
                 helloUserLabel.Visibility = Visibility.Visible;
 
                 SignoutState.Visibility = Visibility.Hidden;
@@ -91,7 +93,7 @@ namespace PL
                 }
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 errorMessage.Text = ex.Message;
             }
@@ -144,7 +146,6 @@ namespace PL
         public void CostumersOnClick(object o, EventArgs e)
         {
             App.NextWindow(new CostumersListWindow());
-
         }
 
         public void StationsOnClick(object o, EventArgs e)
@@ -161,7 +162,6 @@ namespace PL
         {
             CostumerWindow nextWindow = new CostumerWindow(this.iBL.GetLoggedUser());
             App.NextWindow(nextWindow);
-
         }
     }
 }
