@@ -89,5 +89,17 @@ namespace DO
             this._password = password;
             this._isManager = false;
         }
+
+        public Costumer()
+        {
+            this._id = 0;
+            this._name = "";
+            this._phone = "";
+            this._location = null;
+            this._isAvaliable = false;
+            this._email = "";
+            this._password = "";
+            this._isManager = false;
+        }
     }
 }

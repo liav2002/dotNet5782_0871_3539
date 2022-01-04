@@ -41,6 +41,17 @@ namespace DO
             this._isAvaliable = true;
         }
 
+        public Drone()
+        {
+            this._id = 0;
+            this._model = "";
+            this._maxWeight = default;
+            this._status = default;
+            this._battery = 0;
+            this._location = null;
+            this._isAvaliable = false;
+        }
+
         public int Id
         {
             get => _id;

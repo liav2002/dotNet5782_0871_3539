@@ -26,4 +26,18 @@ namespace DO
         {
         }
     }
+
+    public class XMLFileCreateFailed : Exception
+    {
+        public XMLFileCreateFailed(string filePath) : base($"ERROR: failed to create xml file: {filePath}.")
+        {
+        }
+    }
+
+    public class XMLFileLoadFailed : Exception
+    {
+        public XMLFileLoadFailed(string filePath) : base($"ERROR: failed to load xml file: {filePath}.")
+        {
+        }
+    }
 }

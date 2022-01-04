@@ -67,5 +67,14 @@ namespace DO
             this._chargeSlots = chargeSlots;
             this._isAvailable = true;
         }
+
+        public Station()
+        {
+            this._id = 0;
+            this._name = "";
+            this._location = null;
+            this._chargeSlots = 0;
+            this._isAvailable = false;
+        }
     }
 }

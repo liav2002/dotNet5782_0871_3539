@@ -11,6 +11,13 @@ namespace DO
         private int _stationId;
         DateTime _startTime;
 
+        public DroneCharge()
+        {
+            this._droneId = 0;
+            this._stationId = 0;
+            this._startTime = default;
+        }
+
         public DroneCharge(int droneId, int stationId)
         {
             SysLog.SysLog.GetInstance().DroneToCharge(droneId, stationId);
@@ -35,6 +42,7 @@ namespace DO
         public DateTime StartTime
         {
             get => _startTime;
+            set => _startTime = value; //setter used only in DalXml
         }
 
         public override string ToString()

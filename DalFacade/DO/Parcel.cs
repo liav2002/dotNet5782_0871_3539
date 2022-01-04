@@ -144,5 +144,21 @@ namespace DO
             else if (scheduled != null) this._status = ParcelStatuses.Assign;
             else if (requested != null) this._status = ParcelStatuses.Created;
         }
+
+        public Parcel()
+        {
+            this._droneId = 0;
+            this._id = 0;
+            this._isAvailable = false;
+            this._senderId = 0;
+            this._targetId = 0;
+            this._priority = default;
+            this._weight = default;
+            this._delivered = default;
+            this._scheduled = default;
+            this._pickedUp = default;
+            this._requested = default;
+            this._status = default;
+        }
     }
 }
