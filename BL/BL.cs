@@ -767,7 +767,7 @@ namespace BO
                 throw new BO.NegetiveValue("Id");
             }
 
-            int id = DataSource.ParcelsLength() + 1;
+            int id = _idalObj.GetParcelsList().Count() + 1;
             this._idalObj.AddParcel(id, senderId, targetId, weight,
                 priority, DateTime.Now, droneId, null,
                 null, null);
