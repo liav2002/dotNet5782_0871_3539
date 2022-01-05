@@ -805,9 +805,9 @@ namespace Dal
         {
             XElement root = XmlTools.LoadListFromXMLElement(droneChargePath);
             IEnumerable<XElement> selectedDrone = from obj in root.Descendants("DroneId")
-                                                  where obj.Value != null
-                                                        && obj.Value == dc.DroneId.ToString()
-                                                  select obj;
+                where obj.Value != null
+                      && obj.Value == dc.DroneId.ToString()
+                select obj;
 
             if (selectedDrone.Count() == 0)
                 return;
@@ -820,7 +820,7 @@ namespace Dal
             );
 
             root.Elements()
-                .Where(x => (string)x.Attribute("DroneId") == (string)xDrone.Parent.Attribute("DroneId"))
+                .Where(x => (string) x.Attribute("DroneId") == (string) xDrone.Parent.Attribute("DroneId"))
                 .FirstOrDefault()
                 .AddAfterSelf(newDrone);
 

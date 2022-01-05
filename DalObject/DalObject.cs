@@ -49,8 +49,8 @@ namespace Dal
         *Description: add new Costumer to costumers.
         *Parameters: costumer's details.
         *Return: None.
-        */[MethodImpl(MethodImplOptions.Synchronized)]
-
+        */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCostumer(int id, string name, string phone, DO.Location location, string email, string password)
         {
             DataSource.costumers.Add(new DO.Costumer(id, name, phone, location, email, password));
@@ -60,8 +60,8 @@ namespace Dal
         *Description: add new Parcel to parcels.
         *Parameters: parcel's detatils.
         *Return: None.
-        */[MethodImpl(MethodImplOptions.Synchronized)]
-
+        */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(int id, int senderId, int targetId, int weight, int priority, DateTime? requested,
             int droneId, DateTime? scheduled, DateTime? pickedUp, DateTime? delivered)
         {
@@ -85,8 +85,8 @@ namespace Dal
         *Description: Send drone to charge's station.
         *Parameters: a drone, a station
         *Return: None.
-        */[MethodImpl(MethodImplOptions.Synchronized)]
-
+        */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDroneToCharge(int droneId, int stationId)
         {
             DO.DroneCharge dc = new DO.DroneCharge(droneId, stationId);
@@ -101,8 +101,8 @@ namespace Dal
         *Description: release drone from station. 
         *Parameters: a drone.
         *Return: None.
-        */[MethodImpl(MethodImplOptions.Synchronized)]
-
+        */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneRelease(int droneId, double hours)
         {
             DO.DroneCharge dc;
@@ -148,8 +148,8 @@ namespace Dal
         *Description: Sign in to system. 
         *Parameters: costumer's id of logged user.
         *Return: None.
-        */[MethodImpl(MethodImplOptions.Synchronized)]
-
+        */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void SignIn(int costumerId)
         {
             DataSource.loggetCostumer = GetCostumerById(costumerId);
@@ -159,8 +159,8 @@ namespace Dal
         *Description: Sign out from system. 
         *Parameters: None.
         *Return: None.
-        */[MethodImpl(MethodImplOptions.Synchronized)]
-
+        */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void SignOut()
         {
             DataSource.loggetCostumer = null;
@@ -168,7 +168,6 @@ namespace Dal
 
         //getters
         [MethodImpl(MethodImplOptions.Synchronized)]
-
         public bool IsDroneCharge(int droneId)
         {
             foreach (var droneCharge in DataSource.droneCharge)
@@ -178,14 +177,14 @@ namespace Dal
 
             return false;
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DO.Costumer GetLoggedUser()
         {
             return DataSource.loggetCostumer;
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DO.Parcel GetParcelById(int id)
         {
             foreach (var parcel in DataSource.parcels)
@@ -196,8 +195,8 @@ namespace Dal
 
             throw new DO.ItemNotFound("Parcel");
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DO.Costumer GetCostumerById(int id)
         {
             foreach (var costumer in DataSource.costumers)
@@ -208,8 +207,8 @@ namespace Dal
 
             throw new DO.ItemNotFound("Costumer");
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DO.Station GetStationById(int id)
         {
             foreach (var station in DataSource.stations)
@@ -220,8 +219,8 @@ namespace Dal
 
             throw new DO.ItemNotFound("Station");
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DO.Drone GetDroneById(int id)
         {
             foreach (var drone in DataSource.drones)
@@ -232,8 +231,8 @@ namespace Dal
 
             throw new DO.ItemNotFound("Drone");
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DO.Parcel GetParcelByDroneId(int droneId)
         {
             foreach (var parcel in DataSource.parcels)
@@ -244,8 +243,8 @@ namespace Dal
 
             throw new DO.ItemNotFound("Parcel");
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DO.DroneCharge GetDroneChargeByDroneId(int id)
         {
             foreach (var dc in DataSource.droneCharge)
@@ -256,33 +255,32 @@ namespace Dal
 
             throw new DO.ItemNotFound("Drone");
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DO.DroneCharge> GetDroneChargeList(Func<DO.DroneCharge, bool> filter = null)
         {
             return filter == null ? DataSource.droneCharge : DataSource.droneCharge.Where(filter);
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DO.Station> GetStationsList(Func<DO.Station, bool> filter = null)
         {
             return filter == null ? DataSource.stations : DataSource.stations.Where(filter);
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DO.Costumer> GetCostumerList(Func<DO.Costumer, bool> filter = null)
         {
             return filter == null ? DataSource.costumers : DataSource.costumers.Where(filter);
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DO.Parcel> GetParcelsList(Func<DO.Parcel, bool> filter = null)
         {
             return filter == null ? DataSource.parcels : DataSource.parcels.Where(filter);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-
         public IEnumerable<DO.Drone> GetDroneList(Func<DO.Drone, bool> filter = null)
         {
             return filter == null ? DataSource.drones : DataSource.drones.Where(filter);

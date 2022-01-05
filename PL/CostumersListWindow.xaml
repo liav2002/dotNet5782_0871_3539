@@ -10,16 +10,16 @@
     <!--TODO:Implemnt this window-->
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="150*"/>
-            <RowDefinition Height="350*"/>
+            <RowDefinition Height="150*" />
+            <RowDefinition Height="350*" />
         </Grid.RowDefinitions>
 
-        <Grid Name="UpGrid"  Height="auto" Grid.Row="0" Width="auto" RenderTransformOrigin="0.443,0.522">
+        <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto" RenderTransformOrigin="0.443,0.522">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30*"/>
-                <ColumnDefinition Width="230*"/>
-                <ColumnDefinition Width="90*"/>
-            </Grid.ColumnDefinitions >
+                <ColumnDefinition Width="30*" />
+                <ColumnDefinition Width="230*" />
+                <ColumnDefinition Width="90*" />
+            </Grid.ColumnDefinitions>
 
             <Grid.Background>
                 <ImageBrush ImageSource="Graphics/backgroundUpGrid.jpg">
@@ -27,49 +27,70 @@
                 </ImageBrush>
             </Grid.Background>
 
-            <Button x:Name="ReturnButton" Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Transparent">
+            <Button x:Name="ReturnButton" Width="50" Height="50" HorizontalAlignment="Center"
+                    VerticalAlignment="Center" BorderBrush="Transparent">
                 <Button.Background>
-                    <ImageBrush ImageSource="Graphics/backButton.png" ></ImageBrush>
+                    <ImageBrush ImageSource="Graphics/backButton.png"></ImageBrush>
                 </Button.Background>
             </Button>
 
-            <Label x:Name="CostumerIdToSearch" Content="Filter by costumer's id:" HorizontalAlignment="Left" Grid.Column="1" Margin="60,10,0,0" VerticalAlignment="Top" Width="150" Height="30" RenderTransformOrigin="0.441,1.322" FontSize="12" FontWeight="Bold" Foreground="White"/>
-            <TextBox x:Name="CostumerIdInput" Grid.Column="1" Margin="238,10,220,120" TextChanged="InputChanged" BorderBrush="White" Height="30" Width="100" FontSize="15"/>
+            <Label x:Name="CostumerIdToSearch" Content="Filter by costumer's id:" HorizontalAlignment="Left"
+                   Grid.Column="1" Margin="60,10,0,0" VerticalAlignment="Top" Width="150" Height="30"
+                   RenderTransformOrigin="0.441,1.322" FontSize="12" FontWeight="Bold" Foreground="White" />
+            <TextBox x:Name="CostumerIdInput" Grid.Column="1" Margin="238,10,220,120" TextChanged="InputChanged"
+                     BorderBrush="White" Height="30" Width="100" FontSize="15" />
 
-            <Label x:Name="CostumerNameToSearch" Content="Filter by costumer's name:" HorizontalAlignment="Left" Grid.Column="1" Margin="60,0,0,0" VerticalAlignment="Center" Width="160" Height="30" RenderTransformOrigin="0.441,1.322" FontSize="12" FontWeight="Bold" Foreground="White"/>
-            <TextBox x:Name="CostumerNameInput" Grid.Column="1" Margin="238,64,220,66" TextChanged="InputChanged" BorderBrush="White" Height="30" FontSize="15"/>
+            <Label x:Name="CostumerNameToSearch" Content="Filter by costumer's name:" HorizontalAlignment="Left"
+                   Grid.Column="1" Margin="60,0,0,0" VerticalAlignment="Center" Width="160" Height="30"
+                   RenderTransformOrigin="0.441,1.322" FontSize="12" FontWeight="Bold" Foreground="White" />
+            <TextBox x:Name="CostumerNameInput" Grid.Column="1" Margin="238,64,220,66" TextChanged="InputChanged"
+                     BorderBrush="White" Height="30" FontSize="15" />
 
-            <Label x:Name="CostumerPhoneToSearch" Content="Filter by phone number:" HorizontalAlignment="Left" Grid.Column="1" Margin="60,120,0,0" VerticalAlignment="Top" Width="160" Height="30" RenderTransformOrigin="0.441,1.322" FontSize="12" FontWeight="Bold" Foreground="White"/>
-            <TextBox x:Name="CostumerPhoneInput" Grid.Column="1" Margin="238,120,220,10" TextChanged="InputChanged" BorderBrush="White" Height="30" FontSize="15"/>
+            <Label x:Name="CostumerPhoneToSearch" Content="Filter by phone number:" HorizontalAlignment="Left"
+                   Grid.Column="1" Margin="60,120,0,0" VerticalAlignment="Top" Width="160" Height="30"
+                   RenderTransformOrigin="0.441,1.322" FontSize="12" FontWeight="Bold" Foreground="White" />
+            <TextBox x:Name="CostumerPhoneInput" Grid.Column="1" Margin="238,120,220,10" TextChanged="InputChanged"
+                     BorderBrush="White" Height="30" FontSize="15" />
 
-            <TextBlock TextWrapping="Wrap" Text="" TextAlignment="Center" Foreground="Red" Name="errorMessage" Margin="352,110,18,11" FontFamily="Arial" FontWeight="Bold" Grid.Column="1" FontSize="12"/>
+            <TextBlock TextWrapping="Wrap" Text="" TextAlignment="Center" Foreground="Red" Name="errorMessage"
+                       Margin="352,110,18,11" FontFamily="Arial" FontWeight="Bold" Grid.Column="1" FontSize="12" />
 
-            <Button x:Name="RequiredSlotsClearButton" Height="30" Content="Clear Filters" Grid.Column="1" Margin="416,0,18,0" VerticalAlignment="Center" Click="ClearButtonOnClick" Foreground="White" BorderBrush="Transparent">
-                <Button.Background>
-                    <ImageBrush ImageSource="Graphics/buttonBackground.png" ></ImageBrush>
-                </Button.Background>
-            </Button>
-
-            <Button x:Name="AddCostumerButton" Width="130" Height="50" Content="Add a Costumer" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddCostumerButtonOnClick" Foreground="White" FontSize="14" Margin="79,2,0,0" BorderBrush="Transparent">
+            <Button x:Name="RequiredSlotsClearButton" Height="30" Content="Clear Filters" Grid.Column="1"
+                    Margin="416,0,18,0" VerticalAlignment="Center" Click="ClearButtonOnClick" Foreground="White"
+                    BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
                 </Button.Background>
             </Button>
 
-            <Button x:Name="BlockCostumerButton" Width="130" Height="50" Content="Block" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Click="BlockCostumerButtonOnClick" Foreground="White" FontSize="14" Margin="79,52,0,0" BorderBrush="Transparent">
+            <Button x:Name="AddCostumerButton" Width="130" Height="50" Content="Add a Costumer" Grid.Column="2"
+                    HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddCostumerButtonOnClick"
+                    Foreground="White" FontSize="14" Margin="79,2,0,0" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
                 </Button.Background>
             </Button>
 
-            <Button x:Name="SetManagerButton" Width="130" Height="50" Content="Set As Manager" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Click="SetManagerButtonOnClick" Foreground="White" FontSize="14" Margin="79,102,0,0" BorderBrush="Transparent">
+            <Button x:Name="BlockCostumerButton" Width="130" Height="50" Content="Block" Grid.Column="2"
+                    HorizontalAlignment="Left" VerticalAlignment="Top" Click="BlockCostumerButtonOnClick"
+                    Foreground="White" FontSize="14" Margin="79,52,0,0" BorderBrush="Transparent">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
+                </Button.Background>
+            </Button>
+
+            <Button x:Name="SetManagerButton" Width="130" Height="50" Content="Set As Manager" Grid.Column="2"
+                    HorizontalAlignment="Left" VerticalAlignment="Top" Click="SetManagerButtonOnClick"
+                    Foreground="White" FontSize="14" Margin="79,102,0,0" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
                 </Button.Background>
             </Button>
         </Grid>
 
-        <ListView x:Name="CostumersListView" Grid.Row="1" MouseDoubleClick="CostumerView" SelectionChanged="CostumerSelected"  SelectionMode="Single" Foreground="White" BorderBrush="White" FontFamily="Segoe UI">
+        <ListView x:Name="CostumersListView" Grid.Row="1" MouseDoubleClick="CostumerView"
+                  SelectionChanged="CostumerSelected" SelectionMode="Single" Foreground="White" BorderBrush="White"
+                  FontFamily="Segoe UI">
             <ListView.Background>
                 <ImageBrush ImageSource="Graphics/background.jpg"></ImageBrush>
             </ListView.Background>

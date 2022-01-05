@@ -28,7 +28,7 @@ namespace DO
 
         private bool _isAvaliable;
 
-        
+
         public Drone(int id, string model, WeightCategories maxWeight, double battery)
         {
             SysLog.SysLog.GetInstance().AddDrone(id);

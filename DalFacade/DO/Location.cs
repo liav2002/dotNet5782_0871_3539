@@ -65,8 +65,8 @@ namespace DO
 
         public override string ToString()
         {
-            return String.Format("{0:F3}", Latitude) + 
-                "° N, " + String.Format("{0:F3}", Longitude) + "° E";
+            return String.Format("{0:F3}", Latitude) +
+                   "° N, " + String.Format("{0:F3}", Longitude) + "° E";
 
             // the format: {X.xxx}° N, {Y.yyy}° E
         }

@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31105.61
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Targil0", "Targil0\Targil0.csproj", "{04FDC0C5-1F65-402E-9428-B99531BB7B87}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{92127105-12BC-47F0-8E2F-E25DA58EB61E}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
@@ -12,8 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL", "BL\BL.csproj", "{A7FDBBD4-0C95-4841-99A8-E8384AD2A7DF}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleUI_BL", "ConsoleUI_BL\ConsoleUI_BL.csproj", "{7FEB1E56-285B-439D-83E8-A50B821CBB21}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PL", "PL\PL.csproj", "{4B76C5EF-23E5-49A6-9D0E-A9A2824CF511}"
 EndProject
@@ -39,18 +35,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{04FDC0C5-1F65-402E-9428-B99531BB7B87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04FDC0C5-1F65-402E-9428-B99531BB7B87}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04FDC0C5-1F65-402E-9428-B99531BB7B87}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04FDC0C5-1F65-402E-9428-B99531BB7B87}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A7FDBBD4-0C95-4841-99A8-E8384AD2A7DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A7FDBBD4-0C95-4841-99A8-E8384AD2A7DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7FDBBD4-0C95-4841-99A8-E8384AD2A7DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7FDBBD4-0C95-4841-99A8-E8384AD2A7DF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7FEB1E56-285B-439D-83E8-A50B821CBB21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7FEB1E56-285B-439D-83E8-A50B821CBB21}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7FEB1E56-285B-439D-83E8-A50B821CBB21}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7FEB1E56-285B-439D-83E8-A50B821CBB21}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4B76C5EF-23E5-49A6-9D0E-A9A2824CF511}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4B76C5EF-23E5-49A6-9D0E-A9A2824CF511}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B76C5EF-23E5-49A6-9D0E-A9A2824CF511}.Release|Any CPU.ActiveCfg = Release|Any CPU

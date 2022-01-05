@@ -28,7 +28,7 @@ namespace DO
         private DateTime? _pickedUp;
 
         private DateTime? _delivered;
-        
+
         private bool _isAvailable;
 
         public int Id

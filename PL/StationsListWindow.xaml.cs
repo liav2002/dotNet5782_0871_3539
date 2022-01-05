@@ -45,7 +45,6 @@ namespace PL
             RemoveStationButton.Visibility = Visibility.Collapsed;
 
             SetListViewForeground();
-
         }
 
         private void SetListViewForeground()

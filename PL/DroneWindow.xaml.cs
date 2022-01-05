@@ -44,7 +44,7 @@ namespace PL
             UpdateDrone.Visibility = Visibility.Hidden;
             DroneWeight.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
             DroneStation.ItemsSource = this.iBL.GetStationsList(station => true);
-            
+
             //unnecessary variables
             this.drone = null;
             stationId = 0;
@@ -160,48 +160,52 @@ namespace PL
             DroneBatteryView.Text = "Battery: ";
             if (drone.Battery <= 20)
             {
-                DroneBatteryView.Inlines.Add(new Run(String.Format("{0:F3}", drone.Battery) + " %") { Foreground = Brushes.Red });
+                DroneBatteryView.Inlines.Add(new Run(String.Format("{0:F3}", drone.Battery) + " %")
+                    {Foreground = Brushes.Red});
             }
-            else if(drone.Battery > 20 && drone.Battery <= 50)
+            else if (drone.Battery > 20 && drone.Battery <= 50)
             {
-                DroneBatteryView.Inlines.Add(new Run(String.Format("{0:F3}", drone.Battery) + " %") { Foreground = Brushes.Yellow });
+                DroneBatteryView.Inlines.Add(new Run(String.Format("{0:F3}", drone.Battery) + " %")
+                    {Foreground = Brushes.Yellow});
             }
             else
             {
-                DroneBatteryView.Inlines.Add(new Run(String.Format("{0:F3}", drone.Battery) + " %") { Foreground = Brushes.Green });
+                DroneBatteryView.Inlines.Add(new Run(String.Format("{0:F3}", drone.Battery) + " %")
+                    {Foreground = Brushes.Green});
             }
 
             //set drone's weight
             DroneWeightView.Text = "Max Weight: ";
-            if(drone.Weight == DO.WeightCategories.Heavy)
+            if (drone.Weight == DO.WeightCategories.Heavy)
             {
-                DroneWeightView.Inlines.Add(new Run(Enum.GetName(drone.Weight)) { Foreground = Brushes.Red });
+                DroneWeightView.Inlines.Add(new Run(Enum.GetName(drone.Weight)) {Foreground = Brushes.Red});
             }
-            else if(drone.Weight == DO.WeightCategories.Medium)
+            else if (drone.Weight == DO.WeightCategories.Medium)
             {
-                DroneWeightView.Inlines.Add(new Run(Enum.GetName(drone.Weight)) { Foreground = Brushes.Yellow });
+                DroneWeightView.Inlines.Add(new Run(Enum.GetName(drone.Weight)) {Foreground = Brushes.Yellow});
             }
             else
             {
-                DroneWeightView.Inlines.Add(new Run(Enum.GetName(drone.Weight)) { Foreground = Brushes.Green });
+                DroneWeightView.Inlines.Add(new Run(Enum.GetName(drone.Weight)) {Foreground = Brushes.Green});
             }
 
             //set drone's location
-            DroneLocationView.Text = $"Location: {String.Format("{0:F3}", drone.Location.Longitude)}° N, {String.Format("{0:F3}", drone.Location.Latitude)}° E";
+            DroneLocationView.Text =
+                $"Location: {String.Format("{0:F3}", drone.Location.Longitude)}° N, {String.Format("{0:F3}", drone.Location.Latitude)}° E";
 
             //set drone's status
             DroneStatusView.Text = "Status: ";
-            if(drone.Status == DO.DroneStatuses.Shipping)
+            if (drone.Status == DO.DroneStatuses.Shipping)
             {
-                DroneStatusView.Inlines.Add(new Run(Enum.GetName(drone.Status)) { Foreground = Brushes.Red });
+                DroneStatusView.Inlines.Add(new Run(Enum.GetName(drone.Status)) {Foreground = Brushes.Red});
             }
-            else if(drone.Status == DO.DroneStatuses.Maintenance)
+            else if (drone.Status == DO.DroneStatuses.Maintenance)
             {
-                DroneStatusView.Inlines.Add(new Run(Enum.GetName(drone.Status)) { Foreground = Brushes.Yellow });
+                DroneStatusView.Inlines.Add(new Run(Enum.GetName(drone.Status)) {Foreground = Brushes.Yellow});
             }
             else
             {
-                DroneStatusView.Inlines.Add(new Run(Enum.GetName(drone.Status)) { Foreground = Brushes.Green });
+                DroneStatusView.Inlines.Add(new Run(Enum.GetName(drone.Status)) {Foreground = Brushes.Green});
             }
 
             //set drone's parcel
@@ -217,9 +221,9 @@ namespace PL
 
         private void ReturnOnClick(object o, EventArgs e)
         {
-            if(UpdateDrone.Visibility == Visibility.Visible)
+            if (UpdateDrone.Visibility == Visibility.Visible)
             {
-                if(!_shouldStop)
+                if (!_shouldStop)
                 {
                     MessageBox.Show("You need to stop the simulator first.", "Alert");
                 }
@@ -249,7 +253,8 @@ namespace PL
                 worker.WorkerReportsProgress = true;
                 worker.WorkerSupportsCancellation = true;
 
-                if (drone.Status == DO.DroneStatuses.Maintenance) // update starting charge time to now, for the simulator
+                if (drone.Status ==
+                    DO.DroneStatuses.Maintenance) // update starting charge time to now, for the simulator
                 {
                     this.iBL.SetDroneStartTimeOfCharge(drone.Id);
                 }
@@ -267,7 +272,8 @@ namespace PL
                 Scroller.Visibility = Visibility.Visible;
 
                 MessageBox.Show("Simulator has been starting", "System Message");
-                SimulatorLogger.Inlines.Add(new Run("\nSYS_LOG: Simulator has been starting\n") { Foreground = Brushes.Green, FontWeight = FontWeights.Normal, FontSize = 12 });
+                SimulatorLogger.Inlines.Add(new Run("\nSYS_LOG: Simulator has been starting\n")
+                    {Foreground = Brushes.Green, FontWeight = FontWeights.Normal, FontSize = 12});
                 _loggerCounter++;
             }
             catch (Exception ex)
@@ -280,7 +286,8 @@ namespace PL
         {
             try
             {
-                SimulatorLogger.Inlines.Add(new Run("SYS_LOG: Request to stop the simulator was received\n") { Foreground = Brushes.Green, FontWeight = FontWeights.Normal, FontSize = 12 });
+                SimulatorLogger.Inlines.Add(new Run("SYS_LOG: Request to stop the simulator was received\n")
+                    {Foreground = Brushes.Green, FontWeight = FontWeights.Normal, FontSize = 12});
                 _loggerCounter++;
                 _shouldStop = true;
             }
@@ -397,7 +404,7 @@ namespace PL
                 droneModel = Microsoft.VisualBasic.Interaction.InputBox("Enter value: ", "Drone's model", drone.Model);
 
                 iBL.UpdateDroneName(drone.Id, droneModel);
-                this.drone =  iBL.GetDroneById(drone.Id);
+                this.drone = iBL.GetDroneById(drone.Id);
                 updateDroeDetailsPL();
             }
         }
@@ -462,9 +469,15 @@ namespace PL
 
         private void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            try { Thread.Sleep(3000); } catch (Exception) { } // 3 sec sleep
-           
-            while(!_shouldStop)
+            try
+            {
+                Thread.Sleep(3000);
+            }
+            catch (Exception)
+            {
+            } // 3 sec sleep
+
+            while (!_shouldStop)
             {
                 try
                 {
@@ -477,7 +490,7 @@ namespace PL
                     worker.ReportProgress(3); //report for charging, the only case without SYS_LOG
                 }
 
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     _stringToLogger = ex.Message;
 
@@ -487,20 +500,26 @@ namespace PL
                         worker.ReportProgress(1);
                     }
 
-                    else 
+                    else
                     {
                         worker.ReportProgress(2);
                     }
                 }
-                
-                for(int i = 0; i < _secondsToSleep && !_shouldStop; ++i)
+
+                for (int i = 0; i < _secondsToSleep && !_shouldStop; ++i)
                 {
-                    try { Thread.Sleep(1000); } catch (Exception) { } // 1 sec sleep
+                    try
+                    {
+                        Thread.Sleep(1000);
+                    }
+                    catch (Exception)
+                    {
+                    } // 1 sec sleep
                 }
             }
 
             worker.ReportProgress(95);
-            for(int p = 96; p <= 100; ++p) // 5 sec delay
+            for (int p = 96; p <= 100; ++p) // 5 sec delay
             {
                 Thread.Sleep(1000);
                 worker.ReportProgress(p);
@@ -509,67 +528,69 @@ namespace PL
 
         private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            if(e.ProgressPercentage == 1)
+            if (e.ProgressPercentage == 1)
             {
-                SimulatorLogger.Inlines.Add(new Run(_stringToLogger) { Foreground = Brushes.Red, FontWeight = FontWeights.Normal, FontSize = 12 });
+                SimulatorLogger.Inlines.Add(new Run(_stringToLogger)
+                    {Foreground = Brushes.Red, FontWeight = FontWeights.Normal, FontSize = 12});
                 _loggerCounter++;
             }
-            
-            else if(e.ProgressPercentage == 2)
+
+            else if (e.ProgressPercentage == 2)
             {
                 this.drone = iBL.GetDroneById(drone.Id);
 
-                switch(drone.Status)
+                switch (drone.Status)
                 {
                     case DO.DroneStatuses.Available:
-                        {
-                            FirstButton.Content = "Send to charge";
-                            SecondButton.Content = "Send to delivery";
-                            break;
-                        }
+                    {
+                        FirstButton.Content = "Send to charge";
+                        SecondButton.Content = "Send to delivery";
+                        break;
+                    }
 
                     case DO.DroneStatuses.Maintenance:
-                        {
-                            FirstButton.Content = "Release from charge";
-                            SecondButton.Content = "";
-                            break;
-                        }
+                    {
+                        FirstButton.Content = "Release from charge";
+                        SecondButton.Content = "";
+                        break;
+                    }
 
                     case DO.DroneStatuses.Shipping:
+                    {
+                        if (drone.Parcel.IsOnTheWay)
                         {
-                            if(drone.Parcel.IsOnTheWay)
-                            {
-                                FirstButton.Content = "Collect delivery";
-                                SecondButton.Content = "Deliver parcel";
-                            }
-                            else
-                            {
-                                FirstButton.Content = "";
-                                SecondButton.Content = "Deliver parcel";
-                            }
-                            
-                            break;
+                            FirstButton.Content = "Collect delivery";
+                            SecondButton.Content = "Deliver parcel";
                         }
+                        else
+                        {
+                            FirstButton.Content = "";
+                            SecondButton.Content = "Deliver parcel";
+                        }
+
+                        break;
+                    }
                 }
 
                 updateDroeDetailsPL();
-                SimulatorLogger.Inlines.Add(new Run(_stringToLogger) { Foreground = Brushes.Green, FontWeight = FontWeights.Normal, FontSize = 12 });
+                SimulatorLogger.Inlines.Add(new Run(_stringToLogger)
+                    {Foreground = Brushes.Green, FontWeight = FontWeights.Normal, FontSize = 12});
                 _loggerCounter++;
             }
 
-            else if(e.ProgressPercentage == 3)
+            else if (e.ProgressPercentage == 3)
             {
                 this.drone = iBL.GetDroneById(drone.Id);
                 updateDroeDetailsPL();
             }
-            
+
             else
             {
                 TimerToStopSimulator.Visibility = Visibility.Visible;
                 TimerToStopSimulator.Text = "Stop in: " + (100 - e.ProgressPercentage);
             }
 
-            if(_loggerCounter > 8 && (e.ProgressPercentage == 1 || e.ProgressPercentage == 2))
+            if (_loggerCounter > 8 && (e.ProgressPercentage == 1 || e.ProgressPercentage == 2))
             {
                 SimulatorLogger.Height += 15;
             }
@@ -600,4 +621,4 @@ namespace PL
             MessageBox.Show("Simulator has been stopped", "System Message");
         }
     }
-}   
+}

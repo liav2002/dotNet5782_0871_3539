@@ -41,7 +41,8 @@ namespace PL
             }
             else
             {
-                parcels = iBL.GetParcelsList(parcel => parcel.TargetId == iBL.GetLoggedUser().Id || parcel.SenderId == iBL.GetLoggedUser().Id);
+                parcels = iBL.GetParcelsList(parcel =>
+                    parcel.TargetId == iBL.GetLoggedUser().Id || parcel.SenderId == iBL.GetLoggedUser().Id);
                 SenderSelector.Visibility = Visibility.Hidden;
                 SenderLabel.Visibility = Visibility.Hidden;
                 SenderSelectorClearButton.Visibility = Visibility.Hidden;
@@ -54,21 +55,22 @@ namespace PL
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DO.ParcelStatuses));
 
             RemoveParcelButton.Visibility = Visibility.Collapsed;
-       }
+        }
 
         private void SelectionChanged(object o, EventArgs e)
         {
             if (StatusSelector.SelectedItem == null && SenderSelector.SelectedItem == null &&
                 TargetSelector.SelectedItem == null)
             {
-                if(isManager)
+                if (isManager)
                 {
                     parcels = iBL.GetParcelsList();
                 }
 
                 else
                 {
-                    parcels = iBL.GetParcelsList(parcel => parcel.TargetId == iBL.GetLoggedUser().Id || parcel.SenderId == iBL.GetLoggedUser().Id);
+                    parcels = iBL.GetParcelsList(parcel =>
+                        parcel.TargetId == iBL.GetLoggedUser().Id || parcel.SenderId == iBL.GetLoggedUser().Id);
                 }
             }
             else
@@ -76,35 +78,36 @@ namespace PL
                 if (isManager)
                 {
                     parcels = iBL.GetParcelsList(parcel =>
-                    (StatusSelector.SelectedItem == null ||
-                     parcel.Status == (DO.ParcelStatuses)StatusSelector.SelectedItem) &&
-                    (SenderSelector.SelectedItem == null ||
-                     parcel.SenderId == Convert.ToInt32(SenderSelector.SelectedItem.ToString().Split(' ')[1])) &&
-                    (TargetSelector.SelectedItem == null ||
-                     parcel.TargetId == Convert.ToInt32(TargetSelector.SelectedItem.ToString().Split(' ')[1])));
+                        (StatusSelector.SelectedItem == null ||
+                         parcel.Status == (DO.ParcelStatuses) StatusSelector.SelectedItem) &&
+                        (SenderSelector.SelectedItem == null ||
+                         parcel.SenderId == Convert.ToInt32(SenderSelector.SelectedItem.ToString().Split(' ')[1])) &&
+                        (TargetSelector.SelectedItem == null ||
+                         parcel.TargetId == Convert.ToInt32(TargetSelector.SelectedItem.ToString().Split(' ')[1])));
                 }
 
                 else
                 {
                     parcels = iBL.GetParcelsList(parcel =>
-                    (StatusSelector.SelectedItem == null ||
-                     parcel.Status == (DO.ParcelStatuses)StatusSelector.SelectedItem) &&
-                    (SenderSelector.SelectedItem == null ||
-                     parcel.SenderId == Convert.ToInt32(SenderSelector.SelectedItem.ToString().Split(' ')[1])) &&
-                    (TargetSelector.SelectedItem == null ||
-                     parcel.TargetId == Convert.ToInt32(TargetSelector.SelectedItem.ToString().Split(' ')[1])) && 
-                     (parcel.TargetId == iBL.GetLoggedUser().Id || parcel.SenderId == iBL.GetLoggedUser().Id));
+                        (StatusSelector.SelectedItem == null ||
+                         parcel.Status == (DO.ParcelStatuses) StatusSelector.SelectedItem) &&
+                        (SenderSelector.SelectedItem == null ||
+                         parcel.SenderId == Convert.ToInt32(SenderSelector.SelectedItem.ToString().Split(' ')[1])) &&
+                        (TargetSelector.SelectedItem == null ||
+                         parcel.TargetId == Convert.ToInt32(TargetSelector.SelectedItem.ToString().Split(' ')[1])) &&
+                        (parcel.TargetId == iBL.GetLoggedUser().Id || parcel.SenderId == iBL.GetLoggedUser().Id));
                 }
             }
 
             ParcelsListView.ItemsSource = parcels;
         }
+
         private void StatusSelectorClearButtonOnClick(object o, EventArgs e)
         {
             errorMessage.Text = "";
 
             StatusSelector.SelectedItem = null;
-            
+
             ParcelsListView.SelectedItem = null;
         }
 
@@ -113,9 +116,8 @@ namespace PL
             errorMessage.Text = "";
 
             SenderSelector.SelectedItem = null;
-            
-            ParcelsListView.SelectedItem = null;
 
+            ParcelsListView.SelectedItem = null;
         }
 
         private void TargetSelectorClearButtonOnClick(object o, EventArgs e)
@@ -123,9 +125,8 @@ namespace PL
             errorMessage.Text = "";
 
             TargetSelector.SelectedItem = null;
-            
-            ParcelsListView.SelectedItem = null;
 
+            ParcelsListView.SelectedItem = null;
         }
 
 
@@ -142,14 +143,14 @@ namespace PL
                 {
                     if (RemoveParcelButton.Content.ToString() == "Remove")
                     {
-                        this.iBL.RemoveParcel(((BO.ParcelListBL)ParcelsListView.SelectedItem).Id);
+                        this.iBL.RemoveParcel(((BO.ParcelListBL) ParcelsListView.SelectedItem).Id);
                         ParcelsListView.ItemsSource = this.iBL.GetParcelsList();
                         SetListViewForeground();
                     }
 
                     else if (RemoveParcelButton.Content.ToString() == "Restore")
                     {
-                        this.iBL.RestoreParcel(((BO.ParcelListBL)ParcelsListView.SelectedItem).Id);
+                        this.iBL.RestoreParcel(((BO.ParcelListBL) ParcelsListView.SelectedItem).Id);
                         ParcelsListView.ItemsSource = this.iBL.GetParcelsList();
                         SetListViewForeground();
                     }
@@ -190,19 +191,20 @@ namespace PL
                 SenderSelector.SelectedItem = null;
                 TargetSelector.SelectedItem = null;
                 App.NextWindow(nextWindow, Initialized);
-                this.iBL = BlFactory.GetBl();            }
+                this.iBL = BlFactory.GetBl();
+            }
         }
 
         private void SetListViewForeground()
         {
             //TODO: Try do implement this function (Foreground List View).
         }
-        
+
         private void ParcelSelected(object o, EventArgs e)
         {
             if (ParcelsListView.SelectedItem != null)
             {
-                BO.ParcelBL parcel = this.iBL.GetParcelById(((BO.ParcelListBL)ParcelsListView.SelectedItem).Id);
+                BO.ParcelBL parcel = this.iBL.GetParcelById(((BO.ParcelListBL) ParcelsListView.SelectedItem).Id);
 
                 RemoveParcelButton.Visibility = Visibility.Visible;
 

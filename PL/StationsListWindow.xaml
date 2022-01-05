@@ -8,8 +8,8 @@
         Title="StationsListWindow" Height="550" Width="850">
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="100*"/>
-            <RowDefinition Height="400*"/>
+            <RowDefinition Height="100*" />
+            <RowDefinition Height="400*" />
         </Grid.RowDefinitions>
 
         <Grid.Background>
@@ -17,47 +17,63 @@
         </Grid.Background>
 
         <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
-VerticalAlignment="Stretch" Width="auto" RenderTransformOrigin="0.502,0.622">
+              VerticalAlignment="Stretch" Width="auto" RenderTransformOrigin="0.502,0.622">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="110*"/>
-                <ColumnDefinition Width="188*"/>
-                <ColumnDefinition Width="15*"/>
-                <ColumnDefinition Width="202*"/>
-                <ColumnDefinition Width="153*"/>
-                <ColumnDefinition Width="182*"/>
-            </Grid.ColumnDefinitions >
+                <ColumnDefinition Width="110*" />
+                <ColumnDefinition Width="188*" />
+                <ColumnDefinition Width="15*" />
+                <ColumnDefinition Width="202*" />
+                <ColumnDefinition Width="153*" />
+                <ColumnDefinition Width="182*" />
+            </Grid.ColumnDefinitions>
 
-            <Button x:Name="ReturnButton" Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Transparent">
+            <Button x:Name="ReturnButton" Width="50" Height="50" HorizontalAlignment="Center"
+                    VerticalAlignment="Center" BorderBrush="Transparent">
                 <Button.Background>
-                    <ImageBrush ImageSource="Graphics/backButton.png" ></ImageBrush>
+                    <ImageBrush ImageSource="Graphics/backButton.png"></ImageBrush>
                 </Button.Background>
             </Button>
 
-            <TextBox x:Name="RequiredSlotsInput" Grid.Column="3" Margin="0,8,3,64" TextChanged="InputChanged" BorderBrush="White" FontSize="15"/>
-            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Foreground="Red" Name="errorMessage" Margin="14,59,3,19" Width="200" Height="29" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2" Grid.Column="2" FontSize="12"/>
-            <CheckBox x:Name="AvaliableSlotsOnly" Content="Only avliable charge slots." Foreground="White" FontWeight="Bold" FontSize="12" Grid.Column="1" Margin="16,68,4,19" IsChecked="{x:Null}" Click="AvliableChargeSlotsChecked"/>
+            <TextBox x:Name="RequiredSlotsInput" Grid.Column="3" Margin="0,8,3,64" TextChanged="InputChanged"
+                     BorderBrush="White" FontSize="15" />
+            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Foreground="Red" Name="errorMessage"
+                       Margin="14,59,3,19" Width="200" Height="29" FontFamily="Arial" FontWeight="Bold"
+                       Grid.ColumnSpan="2" Grid.Column="2" FontSize="12" />
+            <CheckBox x:Name="AvaliableSlotsOnly" Content="Only avliable charge slots." Foreground="White"
+                      FontWeight="Bold" FontSize="12" Grid.Column="1" Margin="16,68,4,19" IsChecked="{x:Null}"
+                      Click="AvliableChargeSlotsChecked" />
 
-            <Button x:Name="RequiredSlotsClearButton" Width="50" Height="30" Content="Clear" Grid.Column="4" Margin="13,11,90,0" VerticalAlignment="Top" Click="RequiredSlotsClearButtonOnClick" Foreground="White" BorderBrush="Transparent">
-                <Button.Background>
-                    <ImageBrush ImageSource="Graphics/buttonBackground.png" ></ImageBrush>
-                </Button.Background>
-            </Button>
-
-            <Label x:Name="ReuiredSlots" Content="Required charge slots" HorizontalAlignment="Left" Grid.Column="1" Margin="25,13,0,0" VerticalAlignment="Top" Width="150" Height="30" RenderTransformOrigin="0.441,1.322" FontSize="12" FontWeight="Bold" Foreground="White"/>
-
-            <Button x:Name="AddStationButton" Width="100" Height="50" Content="Add a Station" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Top" Click="AddStationButtonOnClick" Foreground="White" FontSize="14" Margin="0,3,0,0" BorderBrush="Transparent">
+            <Button x:Name="RequiredSlotsClearButton" Width="50" Height="30" Content="Clear" Grid.Column="4"
+                    Margin="13,11,90,0" VerticalAlignment="Top" Click="RequiredSlotsClearButtonOnClick"
+                    Foreground="White" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
                 </Button.Background>
             </Button>
-            <Button x:Name="RemoveStationButton" Width="130" Height="50" Content="Remove" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Top" Click="RemoveStationButtonOnClick" Foreground="White" FontSize="14" Margin="0,55,0,0" BorderBrush="Transparent">
+
+            <Label x:Name="ReuiredSlots" Content="Required charge slots" HorizontalAlignment="Left" Grid.Column="1"
+                   Margin="25,13,0,0" VerticalAlignment="Top" Width="150" Height="30"
+                   RenderTransformOrigin="0.441,1.322" FontSize="12" FontWeight="Bold" Foreground="White" />
+
+            <Button x:Name="AddStationButton" Width="100" Height="50" Content="Add a Station" Grid.Column="5"
+                    HorizontalAlignment="Center" VerticalAlignment="Top" Click="AddStationButtonOnClick"
+                    Foreground="White" FontSize="14" Margin="0,3,0,0" BorderBrush="Transparent">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
+                </Button.Background>
+            </Button>
+            <Button x:Name="RemoveStationButton" Width="130" Height="50" Content="Remove" Grid.Column="5"
+                    HorizontalAlignment="Center" VerticalAlignment="Top" Click="RemoveStationButtonOnClick"
+                    Foreground="White" FontSize="14" Margin="0,55,0,0" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png"></ImageBrush>
                 </Button.Background>
             </Button>
         </Grid>
 
-        <ListView x:Name="StationsListView" Grid.Row="1" SelectionChanged="StationSelected" MouseDoubleClick="StationView" SelectionMode="Single" Foreground="White" BorderBrush="White" FontFamily="Segoe UI">
+        <ListView x:Name="StationsListView" Grid.Row="1" SelectionChanged="StationSelected"
+                  MouseDoubleClick="StationView" SelectionMode="Single" Foreground="White" BorderBrush="White"
+                  FontFamily="Segoe UI">
             <ListView.Background>
                 <ImageBrush ImageSource="Graphics/background.jpg"></ImageBrush>
             </ListView.Background>

@@ -24,7 +24,7 @@ namespace BO
         {
         }
     }
-    
+
     public class RemoveError : Exception
     {
         public RemoveError(string item) : base("ERROR: " + item + " cannot be deleted.\n")
@@ -170,7 +170,7 @@ namespace BO
         }
     }
 
-    public class CantRemoveUsedSlots : Exception 
+    public class CantRemoveUsedSlots : Exception
     {
         public CantRemoveUsedSlots() : base("ERROR: you are trying to remove used slots.")
         {
@@ -191,12 +191,14 @@ namespace BO
         {
         }
     }
+
     public class StartSimulateException : Exception
     {
         public StartSimulateException() : base("ERROR: Simulator already running")
         {
         }
-    }    
+    }
+
     public class StopSimulateException : Exception
     {
         public StopSimulateException() : base("ERROR: Simulator is not running")

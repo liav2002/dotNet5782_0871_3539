@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="550" Width="850"
         Name="win" ResizeMode="CanMinimize">
-    
+
     <Window.Background>
         <ImageBrush ImageSource="Graphics/background.jpg"></ImageBrush>
     </Window.Background>
@@ -15,87 +15,122 @@
     <Grid x:Name="MainGrid">
         <Grid x:Name="SignoutState" Visibility="Visible">
             <Grid.RowDefinitions>
-                <RowDefinition Height="154*"/>
-                <RowDefinition Height="113*"/>
+                <RowDefinition Height="154*" />
+                <RowDefinition Height="113*" />
             </Grid.RowDefinitions>
-            <Canvas x:Name="loginCanvas" HorizontalAlignment="Center" Margin="0,167,0,0" VerticalAlignment="Top" Width="450" Height="100" Background="White">
-                <Label Content="User name" Margin="10,10,0,0" Width="90" Height="30" Background="White" HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FontFamily="Arial" FontWeight="Bold" VerticalContentAlignment="Center"/>
-                <Label Content="Password" Margin="10,40,0,0" Width="90" Height="30" Background="White" HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FontFamily="Arial" FontWeight="Bold" VerticalContentAlignment="Center"/>
-                <TextBlock TextWrapping="Wrap" TextAlignment="Center" Foreground="Red" x:Name="errorMessage" Margin="100,70,0,0" Width="200" Height="29" Background="White" FontFamily="Arial" FontWeight="Bold"/>
-                <TextBox TextChanged="InputChange" Margin="100, 10" Height="30" Width="200" VerticalContentAlignment="Center" TextWrapping="Wrap" x:Name="inputUser"/>
-                <PasswordBox PasswordChanged="InputChange" Margin="100, 40" Height="30" Width="200" VerticalContentAlignment="Center" x:Name="inputPass"/>
-                <Button Canvas.Right="10" Canvas.Top="5" Width="102" Height="45" Content="Sign in" Click="SignInOnClick" FontSize="24" FontWeight="ExtraBold" Canvas.Left="338" BorderBrush="Transparent">
+            <Canvas x:Name="loginCanvas" HorizontalAlignment="Center" Margin="0,167,0,0" VerticalAlignment="Top"
+                    Width="450" Height="100" Background="White">
+                <Label Content="User name" Margin="10,10,0,0" Width="90" Height="30" Background="White"
+                       HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center"
+                       FontFamily="Arial" FontWeight="Bold" VerticalContentAlignment="Center" />
+                <Label Content="Password" Margin="10,40,0,0" Width="90" Height="30" Background="White"
+                       HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Center"
+                       FontFamily="Arial" FontWeight="Bold" VerticalContentAlignment="Center" />
+                <TextBlock TextWrapping="Wrap" TextAlignment="Center" Foreground="Red" x:Name="errorMessage"
+                           Margin="100,70,0,0" Width="200" Height="29" Background="White" FontFamily="Arial"
+                           FontWeight="Bold" />
+                <TextBox TextChanged="InputChange" Margin="100, 10" Height="30" Width="200"
+                         VerticalContentAlignment="Center" TextWrapping="Wrap" x:Name="inputUser" />
+                <PasswordBox PasswordChanged="InputChange" Margin="100, 40" Height="30" Width="200"
+                             VerticalContentAlignment="Center" x:Name="inputPass" />
+                <Button Canvas.Right="10" Canvas.Top="5" Width="102" Height="45" Content="Sign in"
+                        Click="SignInOnClick" FontSize="24" FontWeight="ExtraBold" Canvas.Left="338"
+                        BorderBrush="Transparent">
                     <Button.Background>
-                        <ImageBrush ImageSource="Graphics/buttonBackground.png"/>
+                        <ImageBrush ImageSource="Graphics/buttonBackground.png" />
                     </Button.Background>
                 </Button>
-                <Button Canvas.Right="10" Canvas.Top="50" Width="102" Height="45" Content="Sign up" Click="SignUpOnClick" FontSize="24" FontWeight="ExtraBold" Canvas.Left="338" BorderBrush="Transparent">
+                <Button Canvas.Right="10" Canvas.Top="50" Width="102" Height="45" Content="Sign up"
+                        Click="SignUpOnClick" FontSize="24" FontWeight="ExtraBold" Canvas.Left="338"
+                        BorderBrush="Transparent">
                     <Button.Background>
-                        <ImageBrush ImageSource="Graphics/buttonBackground.png"/>
+                        <ImageBrush ImageSource="Graphics/buttonBackground.png" />
                     </Button.Background>
                 </Button>
             </Canvas>
 
-            <Image HorizontalAlignment="Left" Height="157" Width="594" Margin="112,10,0,0" VerticalAlignment="Top" Source="Graphics/logo.png" Stretch="UniformToFill"/>
+            <Image HorizontalAlignment="Left" Height="157" Width="594" Margin="112,10,0,0" VerticalAlignment="Top"
+                   Source="Graphics/logo.png" Stretch="UniformToFill" />
         </Grid>
 
         <Grid x:Name="SigninAsManagerState" Visibility="Hidden">
-            <Button Margin="250,164,250,0"  VerticalAlignment="Top" Width="350" Height="40" Content="Drones" x:Name="DronesButton" Click="DronesOnClick" FontSize="22" FontWeight="ExtraBold" BorderBrush="Transparent">
-                <Button.Background>
-                    <ImageBrush ImageSource="Graphics/buttonBackground.png"/>
-                </Button.Background>
-            </Button>
-
-            <Button Margin="250,209,250,0" VerticalAlignment="Top" Width="350" Height="40" Content="Parcels" x:Name="ParcelsButton" Click="ParcelsOnClick" FontSize="22" FontWeight="ExtraBold" BorderBrush="Transparent">
-                <Button.Background>
-                    <ImageBrush ImageSource="Graphics/buttonBackground.png"/>
-                </Button.Background>
-            </Button>
-
-            <Button Margin="250,254,250,0" VerticalAlignment="Top" Width="350" Height="40" Content="Costumers" x:Name="CostumersButton" Click="CostumersOnClick" FontSize="22" FontWeight="ExtraBold" BorderBrush="Transparent">
-                <Button.Background>
-                    <ImageBrush ImageSource="Graphics/buttonBackground.png"/>
-                </Button.Background>
-            </Button>
-
-            <Button Margin="250,294,250,0" VerticalAlignment="Top" Width="350" Height="40" Content="Stations" x:Name="StationsButton" Click="StationsOnClick" FontSize="22" FontWeight="ExtraBold" BorderBrush="Transparent">
-                <Button.Background>
-                    <ImageBrush ImageSource="Graphics/buttonBackground.png"/>
-                </Button.Background>
-            </Button>
-
-            <Button Margin="250,339,250,0" VerticalAlignment="Top" Width="350" Height="40" x:Name="signOutButton" Click="SignOutOnClick" Foreground="Black" FontSize="22" FontWeight="ExtraBold" Content="Sign Out" BorderBrush="Transparent">
+            <Button Margin="250,164,250,0" VerticalAlignment="Top" Width="350" Height="40" Content="Drones"
+                    x:Name="DronesButton" Click="DronesOnClick" FontSize="22" FontWeight="ExtraBold"
+                    BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png" />
                 </Button.Background>
             </Button>
 
-            <Image HorizontalAlignment="Left" Height="89" Width="116" Margin="10,15,0,0" VerticalAlignment="Top" Source="Graphics/manager.png"/>
+            <Button Margin="250,209,250,0" VerticalAlignment="Top" Width="350" Height="40" Content="Parcels"
+                    x:Name="ParcelsButton" Click="ParcelsOnClick" FontSize="22" FontWeight="ExtraBold"
+                    BorderBrush="Transparent">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/buttonBackground.png" />
+                </Button.Background>
+            </Button>
+
+            <Button Margin="250,254,250,0" VerticalAlignment="Top" Width="350" Height="40" Content="Costumers"
+                    x:Name="CostumersButton" Click="CostumersOnClick" FontSize="22" FontWeight="ExtraBold"
+                    BorderBrush="Transparent">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/buttonBackground.png" />
+                </Button.Background>
+            </Button>
+
+            <Button Margin="250,294,250,0" VerticalAlignment="Top" Width="350" Height="40" Content="Stations"
+                    x:Name="StationsButton" Click="StationsOnClick" FontSize="22" FontWeight="ExtraBold"
+                    BorderBrush="Transparent">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/buttonBackground.png" />
+                </Button.Background>
+            </Button>
+
+            <Button Margin="250,339,250,0" VerticalAlignment="Top" Width="350" Height="40" x:Name="signOutButton"
+                    Click="SignOutOnClick" Foreground="Black" FontSize="22" FontWeight="ExtraBold" Content="Sign Out"
+                    BorderBrush="Transparent">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/buttonBackground.png" />
+                </Button.Background>
+            </Button>
+
+            <Image HorizontalAlignment="Left" Height="89" Width="116" Margin="10,15,0,0" VerticalAlignment="Top"
+                   Source="Graphics/manager.png" />
         </Grid>
 
         <Grid x:Name="SigninAsCostumerState" Visibility="Hidden">
-            <Button Margin="250,164,250,0" VerticalAlignment="Top" Width="350" Height="40" x:Name="MyParcelsButton" Click="MyParcelsOnClick" Foreground="Black" FontSize="22" FontWeight="ExtraBold" Content="My Parcels" BorderBrush="Transparent">
+            <Button Margin="250,164,250,0" VerticalAlignment="Top" Width="350" Height="40" x:Name="MyParcelsButton"
+                    Click="MyParcelsOnClick" Foreground="Black" FontSize="22" FontWeight="ExtraBold"
+                    Content="My Parcels" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png" />
                 </Button.Background>
             </Button>
 
-            <Button Margin="250,209,250,0" VerticalAlignment="Top" Width="350" Height="40" x:Name="MyDetailsButton" Click="MyDetailsOnClick" Foreground="Black" FontSize="22" FontWeight="ExtraBold" Content="My Details" BorderBrush="Transparent">
+            <Button Margin="250,209,250,0" VerticalAlignment="Top" Width="350" Height="40" x:Name="MyDetailsButton"
+                    Click="MyDetailsOnClick" Foreground="Black" FontSize="22" FontWeight="ExtraBold"
+                    Content="My Details" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/buttonBackground.png" />
                 </Button.Background>
             </Button>
 
-            <Button Margin="250,254,250,0" VerticalAlignment="Top" Width="350" Height="40" Content="Sign Out" x:Name="SignOutButton2" Click="SignOutOnClick" FontSize="22" FontWeight="ExtraBold" BorderBrush="Transparent">
+            <Button Margin="250,254,250,0" VerticalAlignment="Top" Width="350" Height="40" Content="Sign Out"
+                    x:Name="SignOutButton2" Click="SignOutOnClick" FontSize="22" FontWeight="ExtraBold"
+                    BorderBrush="Transparent">
                 <Button.Background>
-                    <ImageBrush ImageSource="Graphics/buttonBackground.png"/>
+                    <ImageBrush ImageSource="Graphics/buttonBackground.png" />
                 </Button.Background>
             </Button>
         </Grid>
 
-        <Label x:Name="helloUserLabel" Content="Hello {[name]}" Visibility="Collapsed" Foreground="White" FontWeight="ExtraBold" FontSize="42" Margin="0,46,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Arial" VerticalContentAlignment="Center"/>
+        <Label x:Name="helloUserLabel" Content="Hello {[name]}" Visibility="Collapsed" Foreground="White"
+               FontWeight="ExtraBold" FontSize="42" Margin="0,46,0,0" HorizontalAlignment="Center"
+               VerticalAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Arial"
+               VerticalContentAlignment="Center" />
 
-        <Button Margin="375,426,375,0" VerticalAlignment="Top" Width="100" Height="40" Click="QuitOnClick" Foreground="Black" FontSize="26" FontWeight="ExtraBold" BorderBrush="Transparent">
+        <Button Margin="375,426,375,0" VerticalAlignment="Top" Width="100" Height="40" Click="QuitOnClick"
+                Foreground="Black" FontSize="26" FontWeight="ExtraBold" BorderBrush="Transparent">
             <Button.Background>
                 <ImageBrush ImageSource="Graphics/exitButton.png" />
             </Button.Background>

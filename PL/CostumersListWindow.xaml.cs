@@ -30,7 +30,6 @@ namespace PL
             ReturnButton.Click += delegate { App.PrevWindow(); };
             this.Closing += App.Window_Closing;
             Initialized();
-
         }
 
         private void Initialized()
@@ -142,7 +141,7 @@ namespace PL
         {
             try
             {
-                BO.CostumerListBL selectedCostumer = (BO.CostumerListBL)CostumersListView.SelectedItem;
+                BO.CostumerListBL selectedCostumer = (BO.CostumerListBL) CostumersListView.SelectedItem;
 
                 if (CostumersListView.SelectedItem != null)
                 {
@@ -177,7 +176,7 @@ namespace PL
         {
             try
             {
-                BO.CostumerListBL selectedCostumer = (BO.CostumerListBL)CostumersListView.SelectedItem;
+                BO.CostumerListBL selectedCostumer = (BO.CostumerListBL) CostumersListView.SelectedItem;
 
                 if (CostumersListView.SelectedItem != null)
                 {
@@ -210,14 +209,14 @@ namespace PL
 
         private void CostumerSelected(object o, EventArgs e)
         {
-            BO.CostumerListBL selectedCostumer = (BO.CostumerListBL)CostumersListView.SelectedItem;
+            BO.CostumerListBL selectedCostumer = (BO.CostumerListBL) CostumersListView.SelectedItem;
 
             if (CostumersListView.SelectedItem != null)
             {
                 BO.CostumerBL costumer =
                     this.iBL.GetCostumerById(selectedCostumer.Id);
 
-                if(costumer.Id != this.iBL.GetLoggedUser().Id)
+                if (costumer.Id != this.iBL.GetLoggedUser().Id)
                 {
                     BlockCostumerButton.Visibility = Visibility.Visible;
                     SetManagerButton.Visibility = Visibility.Visible;
@@ -228,7 +227,7 @@ namespace PL
                     return;
                 }
 
-                
+
                 if (costumer.IsAvaliable)
                 {
                     BlockCostumerButton.Content = "Block";
@@ -239,7 +238,7 @@ namespace PL
                     BlockCostumerButton.Content = "Unblock";
                 }
 
-                if(costumer.IsManager)
+                if (costumer.IsManager)
                 {
                     SetManagerButton.Content = "Non-Managment";
                 }

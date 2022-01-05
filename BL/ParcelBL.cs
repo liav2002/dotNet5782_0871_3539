@@ -12,11 +12,11 @@ namespace BO
     public class ParcelBL
     {
         private DO.Parcel _parcel;
-        
+
         private DroneParcelBL _drone;
-        
+
         private CostumerInParcel _receiver;
-        
+
         private CostumerInParcel _sender;
 
         public ParcelBL(DO.Parcel parcel)

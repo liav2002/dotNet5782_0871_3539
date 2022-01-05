@@ -233,9 +233,10 @@ namespace BO
         {
             //first create a priority queue with all the parcels with highest priority
             PriorityQueue<DO.Parcel> parcelsAccordingWeight = new PriorityQueue<DO.Parcel>();
-            PriorityQueue<DO.Parcel> saveParcels = new PriorityQueue<DO.Parcel>(); // in case we call the function not in the first time,
-                                                                                   // we want to search parcel with the next highest prioriry,
-                                                                                   // so, I save the real highest prioirty in different queue.
+            PriorityQueue<DO.Parcel>
+                saveParcels = new PriorityQueue<DO.Parcel>(); // in case we call the function not in the first time,
+            // we want to search parcel with the next highest prioriry,
+            // so, I save the real highest prioirty in different queue.
             DO.Drone drone = this._idalObj.GetDroneById(droneId);
             DO.Parcel parcelForAssign = this._waitingParcels.Dequeue();
             DO.Priorities priority = parcelForAssign.Priority - lessPriority;
@@ -244,9 +245,9 @@ namespace BO
             {
                 parcelsAccordingWeight.Enqueue(parcelForAssign, (int) parcelForAssign.Weight);
             }
-            else if(priority < parcelForAssign.Priority)
+            else if (priority < parcelForAssign.Priority)
             {
-                saveParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Weight);
+                saveParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Weight);
             }
             else
             {
@@ -267,7 +268,7 @@ namespace BO
                     }
                     else if (priority < parcelForAssign.Priority)
                     {
-                        saveParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Weight);
+                        saveParcels.Enqueue(parcelForAssign, (int) parcelForAssign.Weight);
                     }
                     else
                     {
@@ -317,7 +318,7 @@ namespace BO
                     for (int i = 0; i < saveParcels.Count; ++i)
                     {
                         DO.Parcel savedParcel = saveParcels.Dequeue();
-                        _waitingParcels.Enqueue(savedParcel, (int)savedParcel.Priority);
+                        _waitingParcels.Enqueue(savedParcel, (int) savedParcel.Priority);
                     }
 
                     return findSuitableParcel(drone.Id, lessPriority + 1);
@@ -328,7 +329,7 @@ namespace BO
                     for (int i = 0; i < saveParcels.Count; ++i)
                     {
                         DO.Parcel savedParcel = saveParcels.Dequeue();
-                        _waitingParcels.Enqueue(savedParcel, (int)savedParcel.Priority);
+                        _waitingParcels.Enqueue(savedParcel, (int) savedParcel.Priority);
                     }
 
                     throw new BO.NoSuitableParcelForDrone(drone.Id);
@@ -401,7 +402,7 @@ namespace BO
             for (int i = 0; i < saveParcels.Count; ++i)
             {
                 DO.Parcel savedParcel = saveParcels.Dequeue();
-                _waitingParcels.Enqueue(savedParcel, (int)savedParcel.Priority);
+                _waitingParcels.Enqueue(savedParcel, (int) savedParcel.Priority);
             }
 
             return parcelForAssign;
@@ -470,7 +471,7 @@ namespace BO
 
                 if (drone.Battery - batteryConsumption <= 0)
                 {
-                    if(drone.Battery != 100)
+                    if (drone.Battery != 100)
                     {
                         throw new DroneNotEnoughBattery(droneId);
                     }
@@ -479,7 +480,6 @@ namespace BO
                     {
                         throw new Exception("ERROR: the distance to long for the drone.\n");
                     }
-                    
                 }
             }
 
@@ -605,13 +605,14 @@ namespace BO
                 }
             }
 
-            else if(this._idalObj.type() == DalTypes.DalXml)
+            else if (this._idalObj.type() == DalTypes.DalXml)
             {
-                IEnumerable<DO.Parcel> waitParcelsList = _idalObj.GetParcelsList(parcel => parcel.Status == ParcelStatuses.Created);
+                IEnumerable<DO.Parcel> waitParcelsList =
+                    _idalObj.GetParcelsList(parcel => parcel.Status == ParcelStatuses.Created);
 
-                foreach(var parcel in waitParcelsList)
+                foreach (var parcel in waitParcelsList)
                 {
-                    _waitingParcels.Enqueue(parcel, (int)parcel.Priority);
+                    _waitingParcels.Enqueue(parcel, (int) parcel.Priority);
                 }
             }
         }
@@ -1335,76 +1336,75 @@ namespace BO
             switch (drone.Status)
             {
                 case DroneStatuses.Available:
+                {
+                    try
                     {
-                        try
+                        AssignParcelToDrone(drone.Id);
+                        throw new Exception("SYS_LOG: parcel succesfully assigned.\n");
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex is BO.DroneNotEnoughBattery)
                         {
-                            AssignParcelToDrone(drone.Id);
-                            throw new Exception("SYS_LOG: parcel succesfully assigned.\n");
+                            //Thread.Sleep((int)((drone.Location.Distance(station.Location) / DataSource.Config.droneSpeedKMPH)) * 60 * 60 * 1000); //wait for the drone for arriving the station.  --> to much time, it's simulator not real time
+                            Thread.Sleep(2000);
+                            SendDroneToCharge(drone.Id);
+                            throw new Exception("SYS_LOG: drone succesfully connected for charging.\n");
                         }
-                        catch (Exception ex)
-                        { 
-                            if(ex is BO.DroneNotEnoughBattery)
-                            {
-                                //Thread.Sleep((int)((drone.Location.Distance(station.Location) / DataSource.Config.droneSpeedKMPH)) * 60 * 60 * 1000); //wait for the drone for arriving the station.  --> to much time, it's simulator not real time
-                                Thread.Sleep(2000);
-                                SendDroneToCharge(drone.Id);
-                                throw new Exception("SYS_LOG: drone succesfully connected for charging.\n");
-                            }
-                            else
-                            {
-                                throw new Exception(ex.Message);
-                            }
+                        else
+                        {
+                            throw new Exception(ex.Message);
                         }
                     }
+                }
 
                 case DroneStatuses.Maintenance:
+                {
+                    if (drone.Battery == 100)
                     {
-                        if (drone.Battery == 100)
-                        {
-                            DroneRelease(drone.Id);
-                            throw new Exception("SYS_LOG: drone succesfully released from charge.\n");
-                        }
-
-                        else
-                        {
-                            DroneCharging(drone.Id);
-                        }
-
-                        break;
+                        DroneRelease(drone.Id);
+                        throw new Exception("SYS_LOG: drone succesfully released from charge.\n");
                     }
+
+                    else
+                    {
+                        DroneCharging(drone.Id);
+                    }
+
+                    break;
+                }
 
                 case DroneStatuses.Shipping:
+                {
+                    if (!drone.Parcel.IsOnTheWay && !drone.Parcel.IsDelivered)
                     {
-                        if (!drone.Parcel.IsOnTheWay && !drone.Parcel.IsDelivered)
-                        {
-                            //Thread.Sleep((int)((drone.Location.Distance(sender.Location) / DataSource.Config.droneSpeedKMPH)) * 60 * 60 * 1000); //wait for the drone for arriving the sender person. --> to much time, it's simulator not real time
-                            Thread.Sleep(2000);
-                            ParcelCollection(drone.Id);
-                            throw new Exception("SYS_LOG: parcel succesfully collected.\n");
-                        }
-
-                        else if (drone.Parcel.IsOnTheWay)
-                        {
-                            //Thread.Sleep((int)((drone.Location.Distance(target.Location) / DataSource.Config.droneSpeedKMPH)) * 60 * 60 * 1000); //wait for the drone for arriving the target.  --> to much time, it's simulator not real time
-                            Thread.Sleep(2000);
-
-                            //Thread.Sleep((int)((target.Location.Distance(station.Location) / DataSource.Config.droneSpeedKMPH)) * 60 * 60 * 1000); //wait for the drone for arriving the station (end point).  --> to much time, it's simulator not real time
-                            Thread.Sleep(1000);
-
-                            ParcelDelivered(drone.Id);
-                            throw new Exception("SYS_LOG: parcel succesfully delivered.\n");
-                        }
-
-                        else
-                        {
-                            DO.Drone droneDal = this._idalObj.GetDroneById(drone.Id);
-                            droneDal.Status = DroneStatuses.Available;
-                            this._idalObj.UpdateDrone(droneDal);
-                            throw new Exception("ERROR: drone was in status: Shipping althrogh he was avilable.\n");
-                        }
+                        //Thread.Sleep((int)((drone.Location.Distance(sender.Location) / DataSource.Config.droneSpeedKMPH)) * 60 * 60 * 1000); //wait for the drone for arriving the sender person. --> to much time, it's simulator not real time
+                        Thread.Sleep(2000);
+                        ParcelCollection(drone.Id);
+                        throw new Exception("SYS_LOG: parcel succesfully collected.\n");
                     }
-            }
 
+                    else if (drone.Parcel.IsOnTheWay)
+                    {
+                        //Thread.Sleep((int)((drone.Location.Distance(target.Location) / DataSource.Config.droneSpeedKMPH)) * 60 * 60 * 1000); //wait for the drone for arriving the target.  --> to much time, it's simulator not real time
+                        Thread.Sleep(2000);
+
+                        //Thread.Sleep((int)((target.Location.Distance(station.Location) / DataSource.Config.droneSpeedKMPH)) * 60 * 60 * 1000); //wait for the drone for arriving the station (end point).  --> to much time, it's simulator not real time
+                        Thread.Sleep(1000);
+
+                        ParcelDelivered(drone.Id);
+                        throw new Exception("SYS_LOG: parcel succesfully delivered.\n");
+                    }
+
+                    else
+                    {
+                        DO.Drone droneDal = this._idalObj.GetDroneById(drone.Id);
+                        droneDal.Status = DroneStatuses.Available;
+                        this._idalObj.UpdateDrone(droneDal);
+                        throw new Exception("ERROR: drone was in status: Shipping althrogh he was avilable.\n");
+                    }
+                }
+            }
         }
 
         public void SetDroneStartTimeOfCharge(int droneId)
