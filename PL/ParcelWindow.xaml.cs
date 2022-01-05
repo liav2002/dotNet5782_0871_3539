@@ -44,7 +44,7 @@ namespace PL
             genericParcel = item;
             InitializedUpdate();
         }
-        private bool InitializedUpdate()
+        private void InitializedUpdate()
         {
             this.iBL = BlFactory.GetBl();
 
@@ -102,7 +102,7 @@ namespace PL
                     }
                 }
             } // end of if
-            return true;
+            
         }
 
         private void AddOnClick(object o, EventArgs e)

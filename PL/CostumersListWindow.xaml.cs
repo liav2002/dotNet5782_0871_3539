@@ -33,7 +33,7 @@ namespace PL
 
         }
 
-        private bool Initialized()
+        private void Initialized()
         {
             this.iBL = BlFactory.GetBl();
 
@@ -44,8 +44,6 @@ namespace PL
             BlockCostumerButton.Visibility = Visibility.Collapsed;
 
             SetListViewForeground();
-
-            return true;
         }
 
         private void SetListViewForeground()

@@ -16,9 +16,9 @@ namespace PL
     internal class Pair
     {
         public Window win;
-        public Func<bool> func;
+        public Action func;
 
-        public Pair(Window w, Func<bool> f)
+        public Pair(Window w, Action f)
         {
             win = w;
             func = f;
@@ -33,7 +33,7 @@ namespace PL
             NextWindow(new MainWindow());
         }
 
-        public static void NextWindow(Window nextWindow, Func<bool> onPop = null)
+        public static void NextWindow(Window nextWindow, Action onPop = null)
         // the onPop parameter: when the nextWindow is pop the onPop will called
         {
             if (windows.Count != 0)
@@ -59,7 +59,8 @@ namespace PL
             current.win.Hide();
 
             prevWindow.Show();
-            if(current.func != null) current.func();
+            if(current.func != null) 
+                current.func();
         }
 
         public static void Window_Closing(object o, EventArgs e)

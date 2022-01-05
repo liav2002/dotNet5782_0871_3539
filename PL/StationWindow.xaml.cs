@@ -52,7 +52,7 @@ namespace PL
             InitializeView();
         }
 
-        private bool InitializeView()
+        private void InitializeView()
         {
             this.iBL = BlFactory.GetBl();
 
@@ -78,7 +78,6 @@ namespace PL
             DronesInStationView.ItemsSource = this.station.DronesInStation;
             SetListViewForeground();
 
-            return true;
         }
 
         StationWindow(string name, string FreeSlots, BO.StationBL station) // update station

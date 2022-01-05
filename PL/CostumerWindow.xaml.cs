@@ -100,7 +100,7 @@ namespace PL
             NewPassword.Password = password;
         }
 
-        private bool InitializedUpdate()
+        private void InitializedUpdate()
         {
             this.iBL = BlFactory.GetBl();
 
@@ -127,8 +127,6 @@ namespace PL
 
             // initialized costumer's incoming parcels ListView
             IncomingParcelsView.ItemsSource = this.costumer.ParcelsReciever;
-
-            return true;
         }
 
         private void EmailChanged(object o, EventArgs e)

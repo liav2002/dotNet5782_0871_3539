@@ -24,7 +24,7 @@ namespace PL
         }
 
 
-        private bool Initialized()
+        private void Initialized()
         {
             iBL = BlFactory.GetBl();
             if(iBL.GetLoggedUser().IsManager)
@@ -51,8 +51,7 @@ namespace PL
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DO.ParcelStatuses));
 
             RemoveParcelButton.Visibility = Visibility.Collapsed;
-            return true;
-        }
+       }
 
         private void SelectionChanged(object o, EventArgs e)
         {

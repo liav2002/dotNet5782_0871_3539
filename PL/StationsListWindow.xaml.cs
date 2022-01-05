@@ -33,7 +33,7 @@ namespace PL
             Initialized();
         }
 
-        private bool Initialized()
+        private void Initialized()
         {
             this.iBL = BlFactory.GetBl();
 
@@ -46,7 +46,6 @@ namespace PL
 
             SetListViewForeground();
 
-            return true;
         }
 
         private void SetListViewForeground()

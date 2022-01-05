@@ -33,7 +33,7 @@ namespace PL
             Initialized();
         }
 
-        private bool Initialized()
+        private void Initialized()
         {
             this.iBL = BlFactory.GetBl();
 
@@ -45,8 +45,6 @@ namespace PL
             WeightSelector.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
 
             RemoveDroneButton.Visibility = Visibility.Collapsed;
-
-            return true;
         }
 
         private void SetListViewForeground()
