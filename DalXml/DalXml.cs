@@ -665,7 +665,6 @@ namespace Dal
                 new XElement("Battery", drone.Battery),
                 new XElement("Longitude", drone.Location.Longitude),
                 new XElement("Latitude", drone.Location.Latitude),
-                new XElement("Latitude", drone.Location.Latitude),
                 new XElement("IsAvailable", drone.IsAvaliable));
         }
 
@@ -709,6 +708,125 @@ namespace Dal
                 new XElement("Email", costumer.Email),
                 new XElement("Password", costumer.Password),
                 new XElement("IsManager", costumer.IsManger));
+        }
+
+        public void UpdateDrone(DO.Drone drone)
+        {
+            XElement root = XmlTools.LoadListFromXMLElement(dronePath);
+            IEnumerable<XElement> selectedDrone = from obj in root.Descendants("Id")
+                where obj.Value != null
+                      && obj.Value == drone.Id.ToString()
+                select obj;
+
+            if (selectedDrone.Count() == 0)
+                return;
+
+            XElement xDrone = selectedDrone.First();
+            XElement newDrone = new XElement("Drone",
+                new XElement("Id", drone.Id),
+                new XElement("Longitude", drone.Location.Longitude),
+                new XElement("Latitude", drone.Location.Latitude),
+                new XElement("Model", drone.Model),
+                new XElement("Battery", drone.Battery),
+                new XElement("IsAvailable", drone.IsAvaliable),
+                new XElement("Status", drone.Status),
+                new XElement("MaxWeight", drone.MaxWeight)
+            );
+
+
+            xDrone.Parent.Remove();
+            root.Add(newDrone);
+            root.Save(dronePath);
+        }
+
+
+        public void UpdateCostumer(DO.Costumer costumer)
+        {
+            XElement root = XmlTools.LoadListFromXMLElement(costumerPath);
+
+            var selectedCostumer = from obj in root.Descendants("Id")
+                where obj.Value != null
+                      && obj.Value == costumer.Id.ToString()
+                select obj;
+
+            if (selectedCostumer.Count() == 0)
+                return;
+
+            XElement xCostumer = selectedCostumer.First();
+            XElement newCostumer = new XElement("Costumer",
+                new XElement("Name", costumer.Name),
+                new XElement("Phone", costumer.Phone),
+                new XElement("Email", costumer.Email),
+                new XElement("IsManager", costumer.IsManger.ToString()),
+                new XElement("Password", costumer.Password),
+                new XElement("Id", costumer.Id),
+                new XElement("Longitude", costumer.Location.Longitude),
+                new XElement("Latitude", costumer.Location.Latitude),
+                new XElement("IsAvailable", costumer.IsAvaliable)
+            );
+
+            xCostumer.Parent.Remove();
+            root.Add(newCostumer);
+            root.Save(costumerPath);
+        }
+
+        public void UpdateStation(DO.Station station)
+        {
+            XElement root = XmlTools.LoadListFromXMLElement(stationPath);
+
+            var selectedStation = from obj in root.Descendants("Id")
+                where obj.Value != null
+                      && obj.Value == station.Id.ToString()
+                select obj;
+
+            if (selectedStation.Count() == 0)
+                return;
+
+            XElement xStation = selectedStation.First();
+            XElement newStation = new XElement("Costumer",
+                new XElement("Id", station.Id),
+                new XElement("Name", station.Name),
+                new XElement("Longitude", station.Location.Longitude),
+                new XElement("Latitude", station.Location.Latitude),
+                new XElement("ChargeSlots", station.ChargeSlots),
+                new XElement("IsAvailable", station.IsAvailable)
+            );
+
+            xStation.Parent.Remove();
+            root.Add(newStation);
+            root.Save(stationPath);
+        }
+
+        public void UpdateParcel(DO.Parcel parcel)
+        {
+            XElement root = XmlTools.LoadListFromXMLElement(parcelPath);
+
+            var selectedParcel = from obj in root.Descendants("Id")
+                where obj.Value != null
+                      && obj.Value == parcel.Id.ToString()
+                select obj;
+
+            if (selectedParcel.Count() == 0)
+                return;
+            XElement xParcel = selectedParcel.First();
+
+            XElement newParcel = new XElement("Costumer",
+                new XElement("Id", parcel.Id),
+                new XElement("SenderId", parcel.SenderId),
+                new XElement("TargetId", parcel.TargetId),
+                new XElement("Status", parcel.Status),
+                new XElement("Weight", parcel.Weight),
+                new XElement("Priority", parcel.Priority),
+                new XElement("Requested", parcel.Requested),
+                new XElement("Scheduled", parcel.Scheduled),
+                new XElement("PickedUp", parcel.PickedUp),
+                new XElement("Delivered", parcel.Delivered),
+                new XElement("IsAvailable", parcel.IsAvailable)
+            );
+
+            xParcel.Parent.Remove();
+            root.Add(newParcel);
+            root.Save(parcelPath);
         }
     }
 }

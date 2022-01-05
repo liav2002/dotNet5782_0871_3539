@@ -1,36 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DroneXml>
   <Drone>
-    <Id>1234567</Id>
-    <Model>Model-A</Model>
-    <MaxWeight>Medium</MaxWeight>
-    <Status>Available</Status>
-    <Battery>35.06020820469605</Battery>
-    <Longitude>0</Longitude>
-    <Latitude>0</Latitude>
-    <Latitude>0</Latitude>
+    <Id>1212121</Id>
+    <Longitude>35.191</Longitude>
+    <Latitude>31.765</Latitude>
+    <Model>12121</Model>
+    <Battery>18.747970727213545</Battery>
     <IsAvailable>true</IsAvailable>
+    <Status>Available</Status>
+    <MaxWeight>Light</MaxWeight>
+  </Drone>
+  <Drone>
+    <Id>1234567</Id>
+    <Longitude>35.191</Longitude>
+    <Latitude>31.765</Latitude>
+    <Model>Model-A</Model>
+    <Battery>84.17657201573486</Battery>
+    <IsAvailable>true</IsAvailable>
+    <Status>Available</Status>
+    <MaxWeight>Medium</MaxWeight>
   </Drone>
   <Drone>
     <Id>132</Id>
-    <Model>Model-Q</Model>
-    <MaxWeight>Light</MaxWeight>
-    <Status>Available</Status>
-    <Battery>28.586080599849147</Battery>
-    <Longitude>0</Longitude>
-    <Latitude>0</Latitude>
-    <Latitude>0</Latitude>
+    <Longitude>35.191</Longitude>
+    <Latitude>31.765</Latitude>
+    <Model>Model-Q11</Model>
+    <Battery>72.0260934723289</Battery>
     <IsAvailable>true</IsAvailable>
-  </Drone>
-  <Drone>
-    <Id>1212121</Id>
-    <Model>12121</Model>
-    <MaxWeight>Light</MaxWeight>
     <Status>Available</Status>
-    <Battery>30.920601389799547</Battery>
-    <Longitude>0</Longitude>
-    <Latitude>0</Latitude>
-    <Latitude>0</Latitude>
-    <IsAvailable>true</IsAvailable>
+    <MaxWeight>Light</MaxWeight>
   </Drone>
 </DroneXml>

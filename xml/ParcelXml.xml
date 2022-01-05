@@ -1,2 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ParcelXml/>
+<ParcelXml>
+  <Parcel>
+    <Id>1</Id>
+    <DroneId>0</DroneId>
+    <SenderId>123</SenderId>
+      <TargetId>123456789</TargetId>
+    <Status>Created</Status>
+    <Weight>Medium</Weight>
+    <Priority>Regular</Priority>
+    <Requested>2022-01-05T15:39:10.6669749+02:00</Requested>
+    <Scheduled>0001-01-01T00:00:00</Scheduled>
+    <PickedUp>0001-01-01T00:00:00</PickedUp>
+    <Delivered>0001-01-01T00:00:00</Delivered>
+    <IsAvailable>true</IsAvailable>
+  </Parcel>
+</ParcelXml>

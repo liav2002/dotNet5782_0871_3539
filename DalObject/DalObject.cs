@@ -132,7 +132,7 @@ namespace Dal
             };
             return arr;
         }
-        
+
         /*
         *Description: Sign in to system. 
         *Parameters: costumer's id of logged user.
@@ -260,6 +260,22 @@ namespace Dal
         public IEnumerable<DO.Drone> GetDroneList(Func<DO.Drone, bool> filter = null)
         {
             return filter == null ? DataSource.drones : DataSource.drones.Where(filter);
+        }
+
+        public void UpdateDrone(DO.Drone drone)
+        {
+        }
+
+        public void UpdateCostumer(DO.Costumer costumer)
+        {
+        }
+
+        public void UpdateStation(DO.Station station)
+        {
+        }
+
+        public void UpdateParcel(DO.Parcel parcel)
+        {
         }
     }
 }

@@ -140,6 +140,8 @@ namespace BO
                 var sender = _idalObj.GetCostumerById(parcel.SenderId);
                 drone.Location = station.Location;
             }
+
+            _idalObj.UpdateDrone(drone);
         }
 
         /**********************************************************************************************
@@ -206,6 +208,7 @@ namespace BO
 
             // set the drone's battery random value between minBattery to 100
             drone.Battery = (rand.NextDouble() * (100 - minBattery)) + minBattery;
+            _idalObj.UpdateDrone(drone);
         }
 
 
@@ -399,18 +402,25 @@ namespace BO
 
             //check drone's battery
 
-            if(isFromTheConatiner)
+            if (isFromTheConatiner)
             {
                 _InitBattery(drone, parcel, startNearStation);
             }
 
             else
             {
-                double d1 = startNearStation.Location.Distance(sender.Location); // first distance: drone (from start station point) --> sender (without parcel == without weight)
+                double
+                    d1 = startNearStation.Location
+                        .Distance(sender
+                            .Location); // first distance: drone (from start station point) --> sender (without parcel == without weight)
 
-                double d2 = sender.Location.Distance(target.Location); //second distance: drone(from sender) --> target (with parcel == with weight)
+                double
+                    d2 = sender.Location.Distance(target
+                        .Location); //second distance: drone(from sender) --> target (with parcel == with weight)
 
-                double d3 = target.Location.Distance(endNearestStation.Location); //third distance: drone(from target) --> end station point. (without parcel == without weight)
+                double
+                    d3 = target.Location.Distance(endNearestStation
+                        .Location); //third distance: drone(from target) --> end station point. (without parcel == without weight)
 
                 double batteryConsumption = (d1 + d3) * DataSource.Config.avilablePPK;
 
@@ -434,6 +444,9 @@ namespace BO
                     throw new DroneNotEnoughBattery(droneId);
                 }
             }
+
+            _idalObj.UpdateDrone(drone);
+            _idalObj.UpdateParcel(parcel);
         }
 
         private void SetDroneDetails(DO.Drone drone)
@@ -477,6 +490,8 @@ namespace BO
 
                 //set battery
                 drone.Battery = rand.NextDouble() * 20;
+
+                _idalObj.UpdateDrone(drone);
             }
 
             else if (drone.Status == DO.DroneStatuses.Available) // handle the avilable drones.
@@ -515,6 +530,8 @@ namespace BO
                     _InitBattery(drone, randParcel, nearStation);
                 }
             }
+
+            _idalObj.UpdateDrone(drone);
         }
 
         private BL()
@@ -534,7 +551,6 @@ namespace BO
                     0) // the parcel has been assigned to drone, in this part I handle all the shiping drones.
                 {
                     HandleAssignParcel(parcel.Id, parcel.DroneId, true);
-
                 }
 
                 else
@@ -588,12 +604,14 @@ namespace BO
         {
             StationBL station = GetStationById(stationId);
 
-            if(!station.IsAvailable)
+            if (!station.IsAvailable)
             {
                 throw new NoAvailable("station");
             }
 
             station.SetAvailability(false);
+            DO.Station dalStation = _idalObj.GetStationById(stationId);
+            _idalObj.UpdateStation(dalStation);
         }
 
         /*
@@ -604,8 +622,9 @@ namespace BO
         public void RestoreStation(int stationId)
         {
             StationBL station = GetStationById(stationId);
-
             station.SetAvailability(true);
+            DO.Station dalStation = _idalObj.GetStationById(stationId);
+            _idalObj.UpdateStation(dalStation);
         }
 
         /*
@@ -669,12 +688,14 @@ namespace BO
         {
             DroneBL drone = GetDroneById(droneId);
 
-            if(!drone.IsAvaliable)
+            if (!drone.IsAvaliable)
             {
                 throw new NoAvailable("drone");
             }
 
             drone.SetAvailability(false);
+            DO.Drone dalDrone = _idalObj.GetDroneById(droneId);
+            _idalObj.UpdateDrone(dalDrone);
         }
 
         /*
@@ -687,6 +708,9 @@ namespace BO
             DroneBL drone = GetDroneById(droneId);
 
             drone.SetAvailability(true);
+
+            DO.Drone dalDrone = _idalObj.GetDroneById(droneId);
+            _idalObj.UpdateDrone(dalDrone);
         }
 
         /*
@@ -694,7 +718,8 @@ namespace BO
         *Parameters: costumer's details.
         *Return: None.
         */
-        public void AddCostumer(int id, string name, string phone, double longitude, double latitude, string email, string password)
+        public void AddCostumer(int id, string name, string phone, double longitude, double latitude, string email,
+            string password)
         {
             IEnumerable<DO.Costumer> costumers = _idalObj.GetCostumerList();
 
@@ -705,7 +730,7 @@ namespace BO
                     throw new BO.NonUniqueID("Costumer's id");
                 }
 
-                else if(costumer.Name == name)
+                else if (costumer.Name == name)
                 {
                     throw new BO.NonUniqueID("Costumer's name");
                 }
@@ -734,6 +759,8 @@ namespace BO
             }
 
             costumer.SetAvailability(false);
+            DO.Costumer dalCostumer = _idalObj.GetCostumerById(costumerId);
+            _idalObj.UpdateCostumer(dalCostumer);
         }
 
         /*
@@ -746,6 +773,9 @@ namespace BO
             CostumerBL costumer = GetCostumerById(costumerId);
 
             costumer.SetAvailability(true);
+
+            DO.Costumer dalCostumer = _idalObj.GetCostumerById(costumerId);
+            _idalObj.UpdateCostumer(dalCostumer);
         }
 
         /*
@@ -790,6 +820,8 @@ namespace BO
                 throw new RemoveError("parcel");
 
             parcel.SetAvailability(false);
+            DO.Parcel dalParcel = _idalObj.GetParcelById(parcelId);
+            _idalObj.UpdateParcel(dalParcel);
         }
 
         /*
@@ -802,6 +834,9 @@ namespace BO
             ParcelBL parcel = GetParcelById(parcelId);
 
             parcel.SetAvailability(true);
+
+            DO.Parcel dalParcel = _idalObj.GetParcelById(parcelId);
+            _idalObj.UpdateParcel(dalParcel);
         }
 
         /*
@@ -876,6 +911,9 @@ namespace BO
 
             parcel.PickedUp = DateTime.Now;
             parcel.Status = DO.ParcelStatuses.PickedUp;
+
+            _idalObj.UpdateParcel(parcel);
+            _idalObj.UpdateDrone(drone);
         }
 
         /*
@@ -912,15 +950,17 @@ namespace BO
                 costumer.Phone = phoneNumber;
             }
 
-            if(email != "")
+            if (email != "")
             {
                 costumer.Email = email;
             }
 
-            if(password != "")
+            if (password != "")
             {
                 costumer.Password = password;
             }
+
+            _idalObj.UpdateCostumer(costumer);
         }
 
         /*
@@ -963,6 +1003,8 @@ namespace BO
 
                 station.ChargeSlots = chargeSlots;
             }
+
+            _idalObj.UpdateStation(station);
         }
 
         /*
@@ -994,6 +1036,8 @@ namespace BO
             {
                 drone.Model = name;
             }
+
+            _idalObj.UpdateDrone(drone);
         }
 
         /*
@@ -1158,11 +1202,12 @@ namespace BO
 
             this._idalObj.DroneRelease(droneId, hours);
         }
+
         public void SignIn(string username, string password)
         {
             CostumerBL costumer = GetCostumerByUsername(username);
 
-            if(!costumer.IsAvaliable)
+            if (!costumer.IsAvaliable)
             {
                 throw new UserBlocked();
             }
@@ -1188,7 +1233,7 @@ namespace BO
         {
             CostumerBL loggedUser = null;
 
-            if(this._idalObj.GetLoggedUser() != null)
+            if (this._idalObj.GetLoggedUser() != null)
             {
                 loggedUser = GetCostumerById(this._idalObj.GetLoggedUser().Id);
             }
@@ -1356,9 +1401,9 @@ namespace BO
         {
             int id = 0;
 
-            foreach(var costumer in GetCostumerList())
+            foreach (var costumer in GetCostumerList())
             {
-                if(costumer.Name == name)
+                if (costumer.Name == name)
                 {
                     id = costumer.Id;
                     return new BO.CostumerBL(this._idalObj.GetCostumerById(id));
