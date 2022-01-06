@@ -534,34 +534,36 @@ namespace BO
             _idalObj.UpdateDrone(drone);
         }
 
-        private BL()
+        private BL() //Constructor
         {
-            // handle all drones, init their values (location, battery, etc):
             this._idalObj = DalFactory.GetDal();
 
-            IEnumerable<DO.Drone> drones = _idalObj.GetDroneList();
-
-            //find all the drones which was assign to a parcel, and change there status to Shiping
-            IEnumerable<DO.Parcel> parcels = _idalObj.GetParcelsList();
-
-            foreach (var parcel in parcels)
+            if (this._idalObj.type() == DalTypes.DalObj) // handle all drones, init their values (location, battery, etc): 
             {
-                if (
-                    parcel.DroneId !=
-                    0) // the parcel has been assigned to drone, in this part I handle all the shiping drones.
+                IEnumerable<DO.Drone> drones = _idalObj.GetDroneList();
+
+                //find all the drones which was assign to a parcel, and change there status to Shiping
+                IEnumerable<DO.Parcel> parcels = _idalObj.GetParcelsList();
+
+                foreach (var parcel in parcels)
                 {
-                    HandleAssignParcel(parcel.Id, parcel.DroneId, true);
+                    if (
+                        parcel.DroneId !=
+                        0) // the parcel has been assigned to drone, in this part I handle all the shiping drones.
+                    {
+                        HandleAssignParcel(parcel.Id, parcel.DroneId, true);
+                    }
+
+                    else
+                    {
+                        this._waitingParcels.Enqueue(parcel, (int)parcel.Priority);
+                    }
                 }
 
-                else
+                foreach (var drone in drones)
                 {
-                    this._waitingParcels.Enqueue(parcel, (int) parcel.Priority);
+                    SetDroneDetails(drone);
                 }
-            }
-
-            foreach (var drone in drones)
-            {
-                SetDroneDetails(drone);
             }
         }
 
@@ -609,8 +611,9 @@ namespace BO
                 throw new NoAvailable("station");
             }
 
-            station.SetAvailability(false);
             DO.Station dalStation = _idalObj.GetStationById(stationId);
+            station.SetAvailability(false); //for dalObject mode. (without database).
+            dalStation.IsAvailable = false; 
             _idalObj.UpdateStation(dalStation);
         }
 
@@ -622,8 +625,9 @@ namespace BO
         public void RestoreStation(int stationId)
         {
             StationBL station = GetStationById(stationId);
-            station.SetAvailability(true);
+            station.SetAvailability(true); //for dalObject mode. (without database).
             DO.Station dalStation = _idalObj.GetStationById(stationId);
+            dalStation.IsAvailable = true;
             _idalObj.UpdateStation(dalStation);
         }
 
@@ -693,8 +697,9 @@ namespace BO
                 throw new NoAvailable("drone");
             }
 
-            drone.SetAvailability(false);
+            drone.SetAvailability(false); //for dalObject mode. (without database).
             DO.Drone dalDrone = _idalObj.GetDroneById(droneId);
+            dalDrone.IsAvaliable = false;
             _idalObj.UpdateDrone(dalDrone);
         }
 
@@ -707,9 +712,10 @@ namespace BO
         {
             DroneBL drone = GetDroneById(droneId);
 
-            drone.SetAvailability(true);
+            drone.SetAvailability(true); //for dalObject mode. (without database).
 
             DO.Drone dalDrone = _idalObj.GetDroneById(droneId);
+            dalDrone.IsAvaliable = true;
             _idalObj.UpdateDrone(dalDrone);
         }
 
@@ -758,8 +764,9 @@ namespace BO
                 throw new NoAvailable("costumer");
             }
 
-            costumer.SetAvailability(false);
+            costumer.SetAvailability(false); //for dalObject mode. (without database).
             DO.Costumer dalCostumer = _idalObj.GetCostumerById(costumerId);
+            dalCostumer.IsAvaliable = false;
             _idalObj.UpdateCostumer(dalCostumer);
         }
 
@@ -772,9 +779,42 @@ namespace BO
         {
             CostumerBL costumer = GetCostumerById(costumerId);
 
-            costumer.SetAvailability(true);
+            costumer.SetAvailability(true); //for dalObject mode. (without database).
 
             DO.Costumer dalCostumer = _idalObj.GetCostumerById(costumerId);
+            dalCostumer.IsAvaliable = true;
+            _idalObj.UpdateCostumer(dalCostumer);
+        }
+
+        /*
+           *Description: Set costumer as manager.
+           *Parameters: costumer's id
+           *Return: None.
+        */
+        public void SetAsManager(int costumerId)
+        {
+            CostumerBL costumer = GetCostumerById(costumerId);
+
+            costumer.SetMangementStatus(true); //for dalObject mode. (without database).
+
+            DO.Costumer dalCostumer = _idalObj.GetCostumerById(costumerId);
+            dalCostumer.IsManger = true;
+            _idalObj.UpdateCostumer(dalCostumer);
+        }
+
+        /*
+           *Description: Set costumer as regular costumer.
+           *Parameters: costumer's id
+           *Return: None.
+        */
+        public void NonManagement(int costumerId)
+        {
+            CostumerBL costumer = GetCostumerById(costumerId);
+
+            costumer.SetMangementStatus(false); //for dalObject mode. (without database).
+
+            DO.Costumer dalCostumer = _idalObj.GetCostumerById(costumerId);
+            dalCostumer.IsManger = false;
             _idalObj.UpdateCostumer(dalCostumer);
         }
 
@@ -819,8 +859,9 @@ namespace BO
             if (parcel.Status != ParcelStatuses.Created)
                 throw new RemoveError("parcel");
 
-            parcel.SetAvailability(false);
+            parcel.SetAvailability(false); //for dalObject mode. (without database).
             DO.Parcel dalParcel = _idalObj.GetParcelById(parcelId);
+            dalParcel.IsAvailable = false;
             _idalObj.UpdateParcel(dalParcel);
         }
 
@@ -833,9 +874,10 @@ namespace BO
         {
             ParcelBL parcel = GetParcelById(parcelId);
 
-            parcel.SetAvailability(true);
+            parcel.SetAvailability(true); //for dalObject mode. (without database).
 
-            DO.Parcel dalParcel = _idalObj.GetParcelById(parcelId);
+            DO.Parcel dalParcel = _idalObj.GetParcelById(parcelId); 
+            dalParcel.IsAvailable = true;
             _idalObj.UpdateParcel(dalParcel);
         }
 
@@ -1285,7 +1327,7 @@ namespace BO
 
             foreach (var parcel in parcels)
             {
-                if (parcel.DroneId == droneId && parcel.Delivered == null)
+                if (parcel.DroneId == droneId && (parcel.Delivered == null || parcel.Delivered == default(DateTime)))
                 {
                     parcelOfDroneId = parcel.Id;
                     break;
@@ -1400,8 +1442,9 @@ namespace BO
         private CostumerBL GetCostumerByUsername(string name)
         {
             int id = 0;
+            IEnumerable<BO.CostumerListBL> costumers = GetCostumerList();
 
-            foreach (var costumer in GetCostumerList())
+            foreach (var costumer in costumers)
             {
                 if (costumer.Name == name)
                 {

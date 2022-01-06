@@ -14,6 +14,8 @@ namespace PL
 
         IEnumerable<BO.ParcelListBL> parcels;
 
+        bool isManager;
+
         public ParcelsListWindow()
         {
             InitializeComponent();
@@ -27,7 +29,8 @@ namespace PL
         private void Initialized()
         {
             iBL = BlFactory.GetBl();
-            if(iBL.GetLoggedUser().IsManager)
+            isManager = iBL.GetLoggedUser().IsManager;
+            if (isManager)
             {
                 parcels = iBL.GetParcelsList();
 
@@ -58,7 +61,7 @@ namespace PL
             if (StatusSelector.SelectedItem == null && SenderSelector.SelectedItem == null &&
                 TargetSelector.SelectedItem == null)
             {
-                if(iBL.GetLoggedUser().IsManager)
+                if(isManager)
                 {
                     parcels = iBL.GetParcelsList();
                 }
@@ -70,7 +73,7 @@ namespace PL
             }
             else
             {
-                if (iBL.GetLoggedUser().IsManager)
+                if (isManager)
                 {
                     parcels = iBL.GetParcelsList(parcel =>
                     (StatusSelector.SelectedItem == null ||

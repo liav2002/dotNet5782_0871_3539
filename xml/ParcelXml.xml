@@ -1,10 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ParcelXml>
   <Parcel>
+    <Id>2</Id>
+    <DroneId>0</DroneId>
+    <SenderId>212830871</SenderId>
+    <TargetId>12345</TargetId>
+    <Status>Created</Status>
+    <Weight>Heavy</Weight>
+    <Priority>Emergency</Priority>
+    <Requested>2022-01-06T14:09:24.0613348+02:00</Requested>
+    <Scheduled>0001-01-01T00:00:00</Scheduled>
+    <PickedUp>0001-01-01T00:00:00</PickedUp>
+    <Delivered>0001-01-01T00:00:00</Delivered>
+    <IsAvailable>true</IsAvailable>
+  </Parcel>
+  <Parcel>
+    <Id>3</Id>
+    <DroneId>1212121</DroneId>
+    <SenderId>212830871</SenderId>
+    <TargetId>123</TargetId>
+    <Status>Assign</Status>
+    <Weight>Light</Weight>
+    <Priority>Fast</Priority>
+    <Requested>2022-01-06T16:01:18.9732274+02:00</Requested>
+    <Scheduled>2022-01-06T16:02:02.7127575+02:00</Scheduled>
+    <PickedUp>0001-01-01T00:00:00</PickedUp>
+    <Delivered>0001-01-01T00:00:00</Delivered>
+    <IsAvailable>true</IsAvailable>
+  </Parcel>
+  <Parcel>
     <Id>1</Id>
     <DroneId>0</DroneId>
     <SenderId>123</SenderId>
-      <TargetId>123456789</TargetId>
+    <TargetId>123456789</TargetId>
     <Status>Created</Status>
     <Weight>Medium</Weight>
     <Priority>Regular</Priority>

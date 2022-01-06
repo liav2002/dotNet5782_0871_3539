@@ -154,10 +154,10 @@ namespace DO
             this._targetId = 0;
             this._priority = default;
             this._weight = default;
-            this._delivered = default;
-            this._scheduled = default;
-            this._pickedUp = default;
-            this._requested = default;
+            this._delivered = null;
+            this._scheduled = null;
+            this._pickedUp = null;
+            this._requested = null;
             this._status = default;
         }
     }

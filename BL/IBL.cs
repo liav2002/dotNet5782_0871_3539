@@ -16,6 +16,8 @@ namespace BlApi
         public void AddCostumer(int id, string name, string phone, double longitude, double latitude, string email, string password);
         public void RemoveCostumer(int costumerId);
         public void RestoreCostumer(int costumerId);
+        public void SetAsManager(int costumerId);
+        public void NonManagement(int costumerId);
         public void AddParcel(int senderId, int targetId, int weight, int priority, int droneId);
         public void RemoveParcel(int parcelId);
         public void RestoreParcel(int parcelId);

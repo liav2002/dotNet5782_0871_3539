@@ -19,7 +19,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PL", "PL\PL.csproj", "{4B76
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xml", "xml", "{C190F2A4-F590-4DB4-913F-82E933D93A44}"
 	ProjectSection(SolutionItems) = preProject
+		xml\CostumerXml.xml = xml\CostumerXml.xml
 		xml\dal-config.xml = xml\dal-config.xml
+		xml\DroneChargeXml.xml = xml\DroneChargeXml.xml
+		xml\DroneXml.xml = xml\DroneXml.xml
+		xml\ParcelXml.xml = xml\ParcelXml.xml
+		xml\StationXml.xml = xml\StationXml.xml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalFacade", "DalFacade\DalFacade.csproj", "{A3B48E1B-84DF-43FB-99B7-8AAC6FFEC410}"

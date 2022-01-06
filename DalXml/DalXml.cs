@@ -643,6 +643,11 @@ namespace Dal
             }
         }
 
+        public DO.DalTypes type()
+        {
+            return DO.DalTypes.DalXml;
+        }
+
         /*****************************
          * private metohds for help  * 
          *****************************/
@@ -724,18 +729,22 @@ namespace Dal
             XElement xDrone = selectedDrone.First();
             XElement newDrone = new XElement("Drone",
                 new XElement("Id", drone.Id),
+                new XElement("Model", drone.Model),
+                new XElement("MaxWeight", drone.MaxWeight),
+                new XElement("Status", drone.Status),
+                new XElement("Battery", drone.Battery),
                 new XElement("Longitude", drone.Location.Longitude),
                 new XElement("Latitude", drone.Location.Latitude),
-                new XElement("Model", drone.Model),
-                new XElement("Battery", drone.Battery),
-                new XElement("IsAvailable", drone.IsAvaliable),
-                new XElement("Status", drone.Status),
-                new XElement("MaxWeight", drone.MaxWeight)
+                new XElement("IsAvailable", drone.IsAvaliable)
             );
 
+            root.Elements()
+                .Where(x => (string)x.Attribute("Id") == (string)xDrone.Parent.Attribute("Id"))
+                .FirstOrDefault()
+                .AddAfterSelf(newDrone);
 
             xDrone.Parent.Remove();
-            root.Add(newDrone);
+
             root.Save(dronePath);
         }
 
@@ -754,19 +763,24 @@ namespace Dal
 
             XElement xCostumer = selectedCostumer.First();
             XElement newCostumer = new XElement("Costumer",
+                new XElement("Id", costumer.Id),
                 new XElement("Name", costumer.Name),
                 new XElement("Phone", costumer.Phone),
-                new XElement("Email", costumer.Email),
-                new XElement("IsManager", costumer.IsManger.ToString()),
-                new XElement("Password", costumer.Password),
-                new XElement("Id", costumer.Id),
                 new XElement("Longitude", costumer.Location.Longitude),
                 new XElement("Latitude", costumer.Location.Latitude),
-                new XElement("IsAvailable", costumer.IsAvaliable)
+                new XElement("IsAvailable", costumer.IsAvaliable),
+                new XElement("Email", costumer.Email),
+                new XElement("Password", costumer.Password),
+                new XElement("IsManager", costumer.IsManger)
             );
 
+            root.Elements()
+                .Where(x => (string)x.Attribute("Id") == (string)xCostumer.Parent.Attribute("Id"))
+                .FirstOrDefault()
+                .AddAfterSelf(newCostumer);
+
             xCostumer.Parent.Remove();
-            root.Add(newCostumer);
+
             root.Save(costumerPath);
         }
 
@@ -783,7 +797,7 @@ namespace Dal
                 return;
 
             XElement xStation = selectedStation.First();
-            XElement newStation = new XElement("Costumer",
+            XElement newStation = new XElement("Station",
                 new XElement("Id", station.Id),
                 new XElement("Name", station.Name),
                 new XElement("Longitude", station.Location.Longitude),
@@ -792,8 +806,12 @@ namespace Dal
                 new XElement("IsAvailable", station.IsAvailable)
             );
 
+            root.Elements()
+                .Where(x => (string)x.Attribute("Id") == (string)xStation.Parent.Attribute("Id"))
+                .FirstOrDefault()
+                .AddAfterSelf(newStation);
+
             xStation.Parent.Remove();
-            root.Add(newStation);
             root.Save(stationPath);
         }
 
@@ -808,24 +826,31 @@ namespace Dal
 
             if (selectedParcel.Count() == 0)
                 return;
+
             XElement xParcel = selectedParcel.First();
 
-            XElement newParcel = new XElement("Costumer",
+            XElement newParcel = new XElement("Parcel",
                 new XElement("Id", parcel.Id),
+                new XElement("DroneId", parcel.DroneId),
                 new XElement("SenderId", parcel.SenderId),
                 new XElement("TargetId", parcel.TargetId),
                 new XElement("Status", parcel.Status),
                 new XElement("Weight", parcel.Weight),
                 new XElement("Priority", parcel.Priority),
-                new XElement("Requested", parcel.Requested),
-                new XElement("Scheduled", parcel.Scheduled),
-                new XElement("PickedUp", parcel.PickedUp),
-                new XElement("Delivered", parcel.Delivered),
+                new XElement("Requested", parcel.Requested == null ? default(DateTime) : parcel.Requested),
+                new XElement("Scheduled", parcel.Scheduled == null ? default(DateTime) : parcel.Scheduled),
+                new XElement("PickedUp", parcel.PickedUp == null ? default(DateTime) : parcel.PickedUp),
+                new XElement("Delivered", parcel.Delivered == null ? default(DateTime) : parcel.Delivered),
                 new XElement("IsAvailable", parcel.IsAvailable)
             );
 
+            root.Elements()
+                .Where(x => (string)x.Attribute("Id") == (string)xParcel.Parent.Attribute("Id"))
+                .FirstOrDefault()
+                .AddAfterSelf(newParcel);
+
             xParcel.Parent.Remove();
-            root.Add(newParcel);
+
             root.Save(parcelPath);
         }
     }

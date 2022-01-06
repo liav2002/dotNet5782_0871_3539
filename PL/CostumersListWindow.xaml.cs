@@ -43,6 +43,8 @@ namespace PL
 
             BlockCostumerButton.Visibility = Visibility.Collapsed;
 
+            SetManagerButton.Visibility = Visibility.Collapsed;
+
             SetListViewForeground();
         }
 
@@ -140,18 +142,55 @@ namespace PL
         {
             try
             {
+                BO.CostumerListBL selectedCostumer = (BO.CostumerListBL)CostumersListView.SelectedItem;
+
                 if (CostumersListView.SelectedItem != null)
                 {
                     if (BlockCostumerButton.Content.ToString() == "Block")
                     {
-                        this.iBL.RemoveCostumer(((BO.CostumerListBL) CostumersListView.SelectedItem).Id);
+                        this.iBL.RemoveCostumer(selectedCostumer.Id);
                         CostumersListView.ItemsSource = this.iBL.GetCostumerList();
                         SetListViewForeground();
                     }
 
                     else if (BlockCostumerButton.Content.ToString() == "Unblock")
                     {
-                        this.iBL.RestoreCostumer(((BO.CostumerListBL) CostumersListView.SelectedItem).Id);
+                        this.iBL.RestoreCostumer(selectedCostumer.Id);
+                        CostumersListView.ItemsSource = this.iBL.GetCostumerList();
+                        SetListViewForeground();
+                    }
+                }
+
+                else
+                {
+                    errorMessage.Text = "You need to select costumer first.";
+                }
+            }
+
+            catch (Exception ex)
+            {
+                errorMessage.Text = ex.Message;
+            }
+        }
+
+        private void SetManagerButtonOnClick(object o, EventArgs e)
+        {
+            try
+            {
+                BO.CostumerListBL selectedCostumer = (BO.CostumerListBL)CostumersListView.SelectedItem;
+
+                if (CostumersListView.SelectedItem != null)
+                {
+                    if (SetManagerButton.Content.ToString() == "Set As Manager")
+                    {
+                        this.iBL.SetAsManager(selectedCostumer.Id);
+                        CostumersListView.ItemsSource = this.iBL.GetCostumerList();
+                        SetListViewForeground();
+                    }
+
+                    else if (SetManagerButton.Content.ToString() == "Non-Managment")
+                    {
+                        this.iBL.NonManagement(selectedCostumer.Id);
                         CostumersListView.ItemsSource = this.iBL.GetCostumerList();
                         SetListViewForeground();
                     }
@@ -171,13 +210,25 @@ namespace PL
 
         private void CostumerSelected(object o, EventArgs e)
         {
+            BO.CostumerListBL selectedCostumer = (BO.CostumerListBL)CostumersListView.SelectedItem;
+
             if (CostumersListView.SelectedItem != null)
             {
                 BO.CostumerBL costumer =
-                    this.iBL.GetCostumerById(((BO.CostumerListBL) CostumersListView.SelectedItem).Id);
+                    this.iBL.GetCostumerById(selectedCostumer.Id);
 
-                BlockCostumerButton.Visibility = Visibility.Visible;
+                if(costumer.Id != this.iBL.GetLoggedUser().Id)
+                {
+                    BlockCostumerButton.Visibility = Visibility.Visible;
+                    SetManagerButton.Visibility = Visibility.Visible;
+                }
 
+                else
+                {
+                    return;
+                }
+
+                
                 if (costumer.IsAvaliable)
                 {
                     BlockCostumerButton.Content = "Block";
@@ -187,11 +238,22 @@ namespace PL
                 {
                     BlockCostumerButton.Content = "Unblock";
                 }
+
+                if(costumer.IsManager)
+                {
+                    SetManagerButton.Content = "Non-Managment";
+                }
+
+                else
+                {
+                    SetManagerButton.Content = "Set As Manager";
+                }
             }
 
             else
             {
                 BlockCostumerButton.Visibility = Visibility.Collapsed;
+                SetManagerButton.Visibility = Visibility.Collapsed;
             }
         }
 

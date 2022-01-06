@@ -23,17 +23,6 @@
     <IsManager>true</IsManager>
   </Costumer>
   <Costumer>
-    <Id>124</Id>
-    <Name>liav</Name>
-    <Phone>0587654321</Phone>
-    <Longitude>35.141</Longitude>
-    <Latitude>31.805</Latitude>
-    <IsAvailable>true</IsAvailable>
-    <Email>liav@gmail.com</Email>
-    <Password>Aa123456</Password>
-    <IsManager>true</IsManager>
-  </Costumer>
-  <Costumer>
     <Id>1224</Id>
     <Name>test</Name>
     <Phone>0501234567</Phone>
@@ -65,5 +54,16 @@
     <Email>name@domain.tld</Email>
     <Password>Aa123456</Password>
     <IsManager>false</IsManager>
+  </Costumer>
+  <Costumer>
+    <Name>liav</Name>
+    <Phone>0524295007</Phone>
+    <Email>halkadar@g.jct.ac.il</Email>
+    <IsManager>True</IsManager>
+    <Password>Aa123456</Password>
+    <Id>212830871</Id>
+    <Longitude>35.141</Longitude>
+    <Latitude>31.805</Latitude>
+    <IsAvailable>true</IsAvailable>
   </Costumer>
 </CostumerXml>

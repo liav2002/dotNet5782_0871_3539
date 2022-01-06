@@ -37,6 +37,12 @@ namespace BO
         {
             this._costumer.IsAvaliable = availability;
         }
+
+        public void SetMangementStatus(bool isManager)
+        {
+            this._costumer.IsManger = isManager;
+        }
+
         public int Id => _costumer.Id;
 
         public string Name => _costumer.Name;

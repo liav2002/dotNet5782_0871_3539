@@ -27,7 +27,10 @@ namespace BO
             _sendNotDelivered = 0;
             _recieved = 0;
             _parcelsAwait = 0;
-            foreach (DO.Parcel parcel in idalObj.GetParcelsList())
+
+            IEnumerable<DO.Parcel> parcels = idalObj.GetParcelsList();
+
+            foreach (DO.Parcel parcel in parcels)
             {
                 if (parcel.SenderId == costumer.Id)
                 {
@@ -39,7 +42,7 @@ namespace BO
 
                 else if (parcel.TargetId == costumer.Id)
                 {
-                    if (parcel.Delivered != null)
+                    if (parcel.Delivered != null && parcel.Delivered != default(DateTime))
                         _recieved++;
                     else
                         _parcelsAwait++;

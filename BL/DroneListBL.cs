@@ -22,7 +22,7 @@ namespace BO
             _parcelId = -1;
 
             foreach (var parcel in idalObj.GetParcelsList())
-                if (parcel.DroneId == drone.Id)
+                if (parcel.DroneId == drone.Id && (parcel.Delivered == default(DateTime) || parcel.Delivered == null))
                 {
                     _parcelId = parcel.Id;
                 }

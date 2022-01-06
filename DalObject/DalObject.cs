@@ -6,7 +6,7 @@ using DalApi;
 
 namespace Dal
 {
-    internal sealed class DalObject : DalApi.IDal
+    sealed class DalObject : DalApi.IDal
     {
         //singeltone design pattern
 
@@ -260,6 +260,11 @@ namespace Dal
         public IEnumerable<DO.Drone> GetDroneList(Func<DO.Drone, bool> filter = null)
         {
             return filter == null ? DataSource.drones : DataSource.drones.Where(filter);
+        }
+
+        public DO.DalTypes type()
+        {
+            return DO.DalTypes.DalObj;
         }
 
         public void UpdateDrone(DO.Drone drone)

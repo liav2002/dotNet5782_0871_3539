@@ -16,6 +16,7 @@ namespace BO
             DalApi.IDal idalObj = DalFactory.GetDal();
 
             _parcel = (parcelId != 0) ? new TransferParcelBL(idalObj.GetParcelById(parcelId)) : null;
+
             if (_parcel != null && _parcel.IsDelivered)
             {
                 _parcel = null;

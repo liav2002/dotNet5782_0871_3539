@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <StationXml>
-    <Station>
-        <Id>12</Id>
-        <Name>12</Name>
-        <Longitude>35.181</Longitude>
-        <Latitude>31.665</Latitude>
-        <ChargeSlots>3</ChargeSlots>
-        <IsAvailable>true</IsAvailable>
-    </Station>
+  <Costumer>
+    <Id>12</Id>
+    <Name>12</Name>
+    <Longitude>35.181</Longitude>
+    <Latitude>31.665</Latitude>
+    <ChargeSlots>3</ChargeSlots>
+    <IsAvailable>true</IsAvailable>
+  </Costumer>
 </StationXml>

@@ -33,6 +33,7 @@ namespace DalApi
         public IEnumerable<DO.Costumer> GetCostumerList(Func<DO.Costumer, bool> filter = null);
         public IEnumerable<DO.Parcel> GetParcelsList(Func<DO.Parcel, bool> filter = null);
         public IEnumerable<DO.Drone> GetDroneList(Func<DO.Drone, bool> filter = null);
+        public DO.DalTypes type();
 
         // updates:
 
