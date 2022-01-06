@@ -4,10 +4,10 @@
     <Id>1212121</Id>
     <Model>12121</Model>
     <MaxWeight>Light</MaxWeight>
-    <Status>Shipping</Status>
-    <Battery>96.59463827047978</Battery>
-    <Longitude>35.191</Longitude>
-    <Latitude>31.765</Latitude>
+    <Status>Available</Status>
+    <Battery>100</Battery>
+    <Longitude>35.181</Longitude>
+    <Latitude>31.665</Latitude>
     <IsAvailable>true</IsAvailable>
   </Drone>
   <Drone>

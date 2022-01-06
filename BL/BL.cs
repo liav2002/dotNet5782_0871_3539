@@ -936,13 +936,13 @@ namespace BO
             DO.Drone drone = this._idalObj.GetDroneById(droneId);
             DO.Costumer sender = this._idalObj.GetCostumerById(parcel.SenderId);
 
-            if (parcel.Scheduled == null)
+            if (parcel.Status == ParcelStatuses.Created)
             {
                 throw new Exception("ERROR: The parcel (id: " + parcel.Id +
                                     ") is not Assign (not supposed to happen check [AssignParcelToDrone] method)");
             }
 
-            if (parcel.PickedUp != null)
+            if (parcel.Status == ParcelStatuses.PickedUp)
             {
                 throw new ParcelIsAlreadyPickedUp(parcel.Id);
             }
@@ -1099,15 +1099,14 @@ namespace BO
             if (drone.Status != DroneStatuses.Shipping) throw new DroneNotShipping(droneId);
             DO.Parcel parcel = _idalObj.GetParcelByDroneId(droneId);
 
-
-            if (parcel.PickedUp == null)
-            {
-                throw new ParcelNotPickedUp(parcel.Id);
-            }
-
-            if (parcel.Delivered != null)
+            if (parcel.Status == ParcelStatuses.Delivered)
             {
                 throw new ParcelIsAlreadyDelivered(parcel.Id);
+            }
+
+            if (parcel.Status != ParcelStatuses.PickedUp)
+            {
+                throw new ParcelNotPickedUp(parcel.Id);
             }
 
             //update parcel's details
@@ -1145,6 +1144,9 @@ namespace BO
             double sD = target.Location.Distance(station.Location) * DataSource.Config.avilablePPK;
             drone.Location = station.Location;
             drone.Battery -= (fD + sD);
+
+            _idalObj.UpdateDrone(drone);
+            _idalObj.UpdateParcel(parcel);
         }
 
         /*
@@ -1216,6 +1218,9 @@ namespace BO
 
                 drone.Status = DO.DroneStatuses.Maintenance;
             }
+
+            _idalObj.UpdateDrone(drone);
+            _idalObj.UpdateStation(station);
         }
 
         /*

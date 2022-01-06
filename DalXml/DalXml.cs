@@ -190,6 +190,9 @@ namespace Dal
             {
                 drone.Battery = newBattery;
             }
+
+            UpdateDrone(drone);
+            UpdateStation(station);
         }
 
         /*
