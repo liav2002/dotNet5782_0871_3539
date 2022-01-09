@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BlApi;
+using System.ComponentModel;
+using System.Diagnostics;
 
 namespace PL
 {
@@ -24,6 +26,8 @@ namespace PL
         private BlApi.IBL iBL;
         private BO.DroneBL drone;
         private int stationId;
+
+        private BackgroundWorker worker;
 
         public DroneWindow() //add drone
         {
@@ -68,8 +72,29 @@ namespace PL
             AddDrone.Visibility = Visibility.Hidden;
             UpdateDrone.Visibility = Visibility.Visible;
 
-            PlayButton.Visibility = App.IsDroneSimulate(drone.Id) ? Visibility.Collapsed : Visibility.Visible;
-            StopButton.Visibility = !App.IsDroneSimulate(drone.Id) ? Visibility.Collapsed : Visibility.Visible;
+            if(App.IsDroneSimulate(drone.Id))
+            {
+                PlayButton.Visibility = Visibility.Collapsed;
+                StopButton.Visibility = Visibility.Visible;
+
+                UpdateButton.Visibility = Visibility.Collapsed;
+                FirstButton.Visibility = Visibility.Collapsed;
+                SecondButton.Visibility = Visibility.Collapsed;
+
+                worker = App.GetWorker(drone);
+            }
+
+            else
+            {
+                PlayButton.Visibility = Visibility.Visible;
+                StopButton.Visibility = Visibility.Collapsed;
+
+                UpdateButton.Visibility = Visibility.Visible;
+                FirstButton.Visibility = Visibility.Visible;
+                SecondButton.Visibility = Visibility.Visible;
+
+                worker = null;
+            }
 
             DroneLabel.Content = this.drone;
 
@@ -119,7 +144,16 @@ namespace PL
         {
             try
             {
-                iBL.StartSimulator(drone);
+                //create worker
+                worker = new BackgroundWorker();
+                worker.DoWork += Worker_DoWork;
+                worker.ProgressChanged += Worker_ProgressChanged;
+                worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+                worker.WorkerReportsProgress = true;
+                worker.WorkerSupportsCancellation = true;
+
+                //save worker and changed buttons vissibilities
+                App.AddWorker(drone, worker);
                 PlayButton.Visibility = Visibility.Collapsed;
                 StopButton.Visibility = Visibility.Visible;
 
@@ -138,7 +172,7 @@ namespace PL
         {
             try
             {
-                iBL.StopSimulator(drone);
+                App.StopWorker(drone);
                 PlayButton.Visibility = Visibility.Visible;
                 StopButton.Visibility = Visibility.Collapsed;
 
@@ -318,5 +352,20 @@ namespace PL
                 }
             }
         }
+
+        private void Worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+
+        }
+
+        private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+
+        }
+
+        private void Worker_RunWorkerCompleted(object o, RunWorkerCompletedEventArgs e)
+        {
+
+        }
     }
-}
+}   

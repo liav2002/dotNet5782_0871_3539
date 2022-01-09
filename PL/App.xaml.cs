@@ -46,6 +46,11 @@ namespace PL
             _process.Add(drone.Id, worker);
         }
 
+        public static BackgroundWorker GetWorker(BO.DroneBL drone)
+        {
+            return _process[drone.Id];
+        }
+
         void Application_Startup(object sender, StartupEventArgs e)
         {
             windows = new Stack<Pair>();
