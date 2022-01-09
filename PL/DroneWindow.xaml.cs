@@ -68,6 +68,9 @@ namespace PL
             AddDrone.Visibility = Visibility.Hidden;
             UpdateDrone.Visibility = Visibility.Visible;
 
+            PlayButton.Visibility = App.IsDroneSimulate(drone.Id) ? Visibility.Collapsed : Visibility.Visible;
+            StopButton.Visibility = !App.IsDroneSimulate(drone.Id) ? Visibility.Collapsed : Visibility.Visible;
+
             DroneLabel.Content = this.drone;
 
             if (!iBL.GetLoggedUser().IsManager)
@@ -77,7 +80,7 @@ namespace PL
 
             if (drone.Status == DO.DroneStatuses.Available)
             {
-                if(iBL.GetLoggedUser().IsManager)
+                if (iBL.GetLoggedUser().IsManager)
                 {
                     FirstButton.Content = "Send to charge";
                     SecondButton.Content = "Send to delivery";
@@ -109,6 +112,45 @@ namespace PL
             {
                 FirstButton.Content = "Collect delivery";
                 SecondButton.Content = "Deliver parcel";
+            }
+        }
+
+        private void PlayOnClick(object o, EventArgs e)
+        {
+            try
+            {
+                iBL.StartSimulator(drone);
+                PlayButton.Visibility = Visibility.Collapsed;
+                StopButton.Visibility = Visibility.Visible;
+
+                UpdateButton.Visibility = Visibility.Collapsed;
+                FirstButton.Visibility = Visibility.Collapsed;
+                SecondButton.Visibility = Visibility.Collapsed;
+                MessageBox.Show("Simulator has been starting", "System Message");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void StopOnClick(object o, EventArgs e)
+        {
+            try
+            {
+                iBL.StopSimulator(drone);
+                PlayButton.Visibility = Visibility.Visible;
+                StopButton.Visibility = Visibility.Collapsed;
+
+                UpdateButton.Visibility = Visibility.Visible;
+                FirstButton.Visibility = Visibility.Visible;
+                SecondButton.Visibility = Visibility.Visible;
+
+                MessageBox.Show("Simulator has been stopped", "System Message");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -254,7 +296,7 @@ namespace PL
                     DroneLabel.Content = iBL.GetDroneById(drone.Id);
                     MessageBox.Show("Parcel delivered successfuly.", "SYSTEM");
 
-                    if(iBL.GetLoggedUser().IsManager)
+                    if (iBL.GetLoggedUser().IsManager)
                     {
                         FirstButton.Visibility = Visibility.Visible;
                         SecondButton.Visibility = Visibility.Visible;
@@ -264,7 +306,7 @@ namespace PL
                     {
                         App.PrevWindow();
                     }
-                    
+
                     FirstButton.Content = "Send to charge";
                     SecondButton.Content = "Send to delivery";
                 }

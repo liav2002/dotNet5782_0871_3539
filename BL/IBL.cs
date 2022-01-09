@@ -32,6 +32,9 @@ namespace BlApi
         public void SignIn(string username, string password);
         public void SignOut();
 
+        public void StartSimulator(BO.DroneBL drone);
+        public void StopSimulator(BO.DroneBL drone);
+
         public List<DO.Parcel> GetWaitingParcels();
 
         //getters

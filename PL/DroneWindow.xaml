@@ -16,7 +16,7 @@
                 <ImageBrush ImageSource="Graphics/backButton.png" ></ImageBrush>
             </Button.Background>
         </Button>
-        
+
         <Grid x:Name="AddDrone" Visibility="Hidden">
             <TextBox x:Name="DroneID" HorizontalAlignment="Left" Margin="210,120,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" Height="38" TextAlignment="Left" FontSize="20"/>
             <TextBox x:Name="DroneModel" HorizontalAlignment="Left" Margin="210,170,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" Height="38" FontSize="20"/>
@@ -59,7 +59,20 @@
 
             <Label Content="DRONE INFORMATION" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" Width="350" Height="50" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" FontWeight="Bold"/>
 
-            <Image HorizontalAlignment="Left" Height="120" Width="200" Margin="604,106,0,0" VerticalAlignment="Top" Source="Graphics/drone.png"/>
+            <Image HorizontalAlignment="Left" Height="120" Width="200" Margin="519,102,0,0" VerticalAlignment="Top" Source="Graphics/drone.png"/>
+            <Button x:Name="PlayButton" Visibility="Hidden" HorizontalAlignment="Left" Margin="740,102,0,0" VerticalAlignment="Top" Height="100
+                    " Width="100" Foreground="Black" FontSize="23" FontWeight="Bold" Click="PlayOnClick" BorderBrush="Transparent">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/play.png" ></ImageBrush>
+                </Button.Background>
+            </Button>        
+            <Button x:Name="StopButton"  HorizontalAlignment="Left" Margin="740,102,0,0" VerticalAlignment="Top" Height="100
+                    " Width="100" Foreground="Black" FontSize="23" FontWeight="Bold" Click="StopOnClick" BorderBrush="Transparent">
+                <Button.Background>
+                    <ImageBrush ImageSource="Graphics/stop.png" ></ImageBrush>
+                </Button.Background>
+            </Button>
+
         </Grid>
     </Grid>
 </Window>

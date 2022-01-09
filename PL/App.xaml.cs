@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Collections;
+using System.ComponentModel;
 
 namespace PL
 {
@@ -18,6 +19,7 @@ namespace PL
         public Window win;
         public Action func;
 
+
         public Pair(Window w, Action f)
         {
             win = w;
@@ -27,6 +29,23 @@ namespace PL
 
     public partial class App : Application
     {
+        public static bool IsDroneSimulate(int droneId)
+        {
+            return _process.Keys.ToList().Contains(droneId);
+        }
+
+        public static void StopWorker(BO.DroneBL drone)
+        {
+            BackgroundWorker worker = _process[drone.Id];
+            worker.Dispose();
+            _process.Remove(drone.Id);
+        }
+
+        public static void AddWorker(BO.DroneBL drone, BackgroundWorker worker)
+        {
+            _process.Add(drone.Id, worker);
+        }
+
         void Application_Startup(object sender, StartupEventArgs e)
         {
             windows = new Stack<Pair>();
@@ -34,7 +53,7 @@ namespace PL
         }
 
         public static void NextWindow(Window nextWindow, Action onPop = null)
-        // the onPop parameter: when the nextWindow is pop the onPop will called
+            // the onPop parameter: when the nextWindow is pop the onPop will called
         {
             if (windows.Count != 0)
             {
@@ -59,7 +78,7 @@ namespace PL
             current.win.Hide();
 
             prevWindow.Show();
-            if(current.func != null) 
+            if (current.func != null)
                 current.func();
         }
 
@@ -74,5 +93,6 @@ namespace PL
         }
 
         private static Stack<Pair> windows;
+        private static Dictionary<int, BackgroundWorker> _process = new Dictionary<int, BackgroundWorker>();
     }
 }

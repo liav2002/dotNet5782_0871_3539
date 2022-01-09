@@ -177,12 +177,6 @@ namespace BO
         }
     }
 
-    public class UsernameNotFound : Exception
-    {
-        public UsernameNotFound(string username) : base("ERROR: The username (" + username + ") cannot be found.\n")
-        {
-        }
-    }
 
     public class FailedSignIn : Exception
     {
@@ -194,6 +188,18 @@ namespace BO
     public class UserBlocked : Exception
     {
         public UserBlocked() : base("Sorry, you're blocked by managment.\n")
+        {
+        }
+    }
+    public class StartSimulateException : Exception
+    {
+        public StartSimulateException() : base("ERROR: Simulator already running")
+        {
+        }
+    }    
+    public class StopSimulateException : Exception
+    {
+        public StopSimulateException() : base("ERROR: Simulator is not running")
         {
         }
     }

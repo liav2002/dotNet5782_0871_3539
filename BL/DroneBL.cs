@@ -11,6 +11,7 @@ namespace BO
     {
         private DO.Drone _drone;
         private TransferParcelBL _parcel;
+
         public DroneBL(int droneId, int parcelId)
         {
             DalApi.IDal idalObj = DalFactory.GetDal();

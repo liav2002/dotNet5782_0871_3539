@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
 using DalApi;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
@@ -55,6 +56,7 @@ namespace Dal
        	*Parameters: station's id, station's name, station's location, charge's slots.
        	*Return: None.
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(int id, string name, DO.Location location, int chargeSlots)
         {
             XElement stations = XmlTools.LoadListFromXMLElement(stationPath);
@@ -68,6 +70,7 @@ namespace Dal
        	*Parameters: drone's details.	
        	*Return: None.
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(int id, string model, DO.WeightCategories maxWeight, double battery)
         {
             XElement drones = XmlTools.LoadListFromXMLElement(dronePath);
@@ -81,6 +84,7 @@ namespace Dal
         *Parameters: costumer's details.
         *Return: None.
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCostumer(int id, string name, string phone, DO.Location location, string email, string password)
         {
             XElement costumers = XmlTools.LoadListFromXMLElement(costumerPath);
@@ -94,6 +98,7 @@ namespace Dal
         *Parameters: parcel's detatils.
         *Return: None.
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(int id, int senderId, int targetId, int weight, int priority, DateTime? requested,
             int droneId, DateTime? scheduled, DateTime? pickedUp, DateTime? delivered)
         {
@@ -124,6 +129,7 @@ namespace Dal
         *Parameters: a drone, a station
         *Return: None.
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDroneToCharge(int droneId, int stationId)
         {
             try
@@ -147,6 +153,7 @@ namespace Dal
         *Parameters: a drone.
         *Return: None.
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneRelease(int droneId, double hours)
         {
             DO.DroneCharge dc;
@@ -200,6 +207,7 @@ namespace Dal
         *Parameters: drone's id.
         *Return: true - if the drone is chraging, false - else.
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsDroneCharge(int droneId)
         {
             XElement dronesCharge = XmlTools.LoadListFromXMLElement(droneChargePath);
@@ -232,6 +240,7 @@ namespace Dal
         *Parameters: costumer's id.
         *Return: None.
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void SignIn(int costumerId)
         {
             loggedCostumer = GetCostumerById(costumerId);
@@ -242,6 +251,7 @@ namespace Dal
         *Parameters: None.
         *Return: None.
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void SignOut()
         {
             loggedCostumer = null;
@@ -256,6 +266,7 @@ namespace Dal
         *Parameters: None.
         *Return: curren logged user (type: DO.Costumer).
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DO.Costumer GetLoggedUser()
         {
             return loggedCostumer;
@@ -266,6 +277,7 @@ namespace Dal
         *Parameters: parcel's id.
         *Return: parcel (type: DO.Parcel).
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DO.Parcel GetParcelById(int id)
         {
             XElement parcels = XmlTools.LoadListFromXMLElement(parcelPath);
@@ -307,6 +319,7 @@ namespace Dal
         *Parameters: costumer's id.
         *Return: costumrt (type: DO.Costumer).
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DO.Costumer GetCostumerById(int id)
         {
             XElement costumers = XmlTools.LoadListFromXMLElement(costumerPath);
@@ -342,6 +355,7 @@ namespace Dal
         *Parameters: station's id.
         *Return: station (type: DO.Station).
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DO.Station GetStationById(int id)
         {
             XElement stations = XmlTools.LoadListFromXMLElement(stationPath);
@@ -374,6 +388,7 @@ namespace Dal
         *Parameters: drone's id.
         *Return: drone (type: DO.Drone).
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DO.Drone GetDroneById(int id)
         {
             XElement drones = XmlTools.LoadListFromXMLElement(dronePath);
@@ -410,6 +425,7 @@ namespace Dal
         *Parameters: drone's id.
         *Return: parcel (type: DO.Parcel).
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DO.Parcel GetParcelByDroneId(int droneId)
         {
             XElement parcels = XmlTools.LoadListFromXMLElement(parcelPath);
@@ -451,6 +467,7 @@ namespace Dal
         *Parameters: drone's id.
         *Return: drone (type: DO.DroneCharge).
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DO.DroneCharge GetDroneChargeByDroneId(int id)
         {
             XElement dronesCharge = XmlTools.LoadListFromXMLElement(droneChargePath);
@@ -481,6 +498,7 @@ namespace Dal
         *Parameters: filtering function.
         *Return: list of drones in charge (type: IEnumrable<DO.DroneCharge>).
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DO.DroneCharge> GetDroneChargeList(Func<DO.DroneCharge, bool> filter = null)
         {
             try
@@ -510,6 +528,7 @@ namespace Dal
         *Parameters: filtering function.
         *Return: list of stations (type: IEnumrable<DO.Station>).
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DO.Station> GetStationsList(Func<DO.Station, bool> filter = null)
         {
             try
@@ -542,6 +561,7 @@ namespace Dal
         *Parameters: filtering function.
         *Return: list of costumers (type: IEnumrable<DO.Costumer>).
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DO.Costumer> GetCostumerList(Func<DO.Costumer, bool> filter = null)
         {
             try
@@ -577,6 +597,7 @@ namespace Dal
         *Parameters: filtering function.
         *Return: list of parcels (type: IEnumrable<DO.Parcel>).
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DO.Parcel> GetParcelsList(Func<DO.Parcel, bool> filter = null)
         {
             try
@@ -617,6 +638,7 @@ namespace Dal
         *Parameters: filtering function.
         *Return: list of drones (type: IEnumrable<DO.Drone>).
         */
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DO.Drone> GetDroneList(Func<DO.Drone, bool> filter = null)
         {
             try
@@ -742,7 +764,7 @@ namespace Dal
             );
 
             root.Elements()
-                .Where(x => (string)x.Attribute("Id") == (string)xDrone.Parent.Attribute("Id"))
+                .Where(x => (string) x.Attribute("Id") == (string) xDrone.Parent.Attribute("Id"))
                 .FirstOrDefault()
                 .AddAfterSelf(newDrone);
 
@@ -778,7 +800,7 @@ namespace Dal
             );
 
             root.Elements()
-                .Where(x => (string)x.Attribute("Id") == (string)xCostumer.Parent.Attribute("Id"))
+                .Where(x => (string) x.Attribute("Id") == (string) xCostumer.Parent.Attribute("Id"))
                 .FirstOrDefault()
                 .AddAfterSelf(newCostumer);
 
@@ -810,7 +832,7 @@ namespace Dal
             );
 
             root.Elements()
-                .Where(x => (string)x.Attribute("Id") == (string)xStation.Parent.Attribute("Id"))
+                .Where(x => (string) x.Attribute("Id") == (string) xStation.Parent.Attribute("Id"))
                 .FirstOrDefault()
                 .AddAfterSelf(newStation);
 
@@ -848,7 +870,7 @@ namespace Dal
             );
 
             root.Elements()
-                .Where(x => (string)x.Attribute("Id") == (string)xParcel.Parent.Attribute("Id"))
+                .Where(x => (string) x.Attribute("Id") == (string) xParcel.Parent.Attribute("Id"))
                 .FirstOrDefault()
                 .AddAfterSelf(newParcel);
 

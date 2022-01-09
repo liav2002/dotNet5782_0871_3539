@@ -27,6 +27,9 @@ namespace BO
 
         private double _chargeRate = Dal.DataSource.Config.chargeRatePH; // to all the drones
 
+        private Dictionary<int, string> _process = new Dictionary<int, string>();
+
+
         private double _lightPPK = Dal.DataSource.Config.lightPPK;
         private double _mediumPPK = Dal.DataSource.Config.mediumPPK;
         private double _heavyPPK = Dal.DataSource.Config.heavyPPK;
@@ -538,7 +541,8 @@ namespace BO
         {
             this._idalObj = DalFactory.GetDal();
 
-            if (this._idalObj.type() == DalTypes.DalObj) // handle all drones, init their values (location, battery, etc): 
+            if (this._idalObj.type() ==
+                DalTypes.DalObj) // handle all drones, init their values (location, battery, etc): 
             {
                 IEnumerable<DO.Drone> drones = _idalObj.GetDroneList();
 
@@ -556,7 +560,7 @@ namespace BO
 
                     else
                     {
-                        this._waitingParcels.Enqueue(parcel, (int)parcel.Priority);
+                        this._waitingParcels.Enqueue(parcel, (int) parcel.Priority);
                     }
                 }
 
@@ -613,7 +617,7 @@ namespace BO
 
             DO.Station dalStation = _idalObj.GetStationById(stationId);
             station.SetAvailability(false); //for dalObject mode. (without database).
-            dalStation.IsAvailable = false; 
+            dalStation.IsAvailable = false;
             _idalObj.UpdateStation(dalStation);
         }
 
@@ -876,7 +880,7 @@ namespace BO
 
             parcel.SetAvailability(true); //for dalObject mode. (without database).
 
-            DO.Parcel dalParcel = _idalObj.GetParcelById(parcelId); 
+            DO.Parcel dalParcel = _idalObj.GetParcelById(parcelId);
             dalParcel.IsAvailable = true;
             _idalObj.UpdateParcel(dalParcel);
         }
@@ -1275,6 +1279,25 @@ namespace BO
             this._idalObj.SignOut();
         }
 
+
+        public void StartSimulator(BO.DroneBL drone)
+        {
+            if (!_process.Keys.ToList().Contains(drone.Id))
+            {
+                _process.Add(drone.Id, drone.Model);
+            }
+            else throw new StartSimulateException();
+        }
+
+        public void StopSimulator(BO.DroneBL drone)
+        {
+            if (_process.Keys.ToList().Contains(drone.Id))
+            {
+                _process.Remove(drone.Id);
+            }
+            else throw new StopSimulateException();
+        }
+
         //getters:
         public BO.CostumerBL GetLoggedUser()
         {
@@ -1458,7 +1481,7 @@ namespace BO
                 }
             }
 
-            throw new BO.UsernameNotFound(name);
+            throw new BO.FailedSignIn();
         }
     }
 }
