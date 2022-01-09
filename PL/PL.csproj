@@ -21,8 +21,10 @@
     <None Remove="Graphics\logo.png" />
     <None Remove="Graphics\manager.png" />
     <None Remove="Graphics\parcel.png" />
+    <None Remove="Graphics\play.png" />
     <None Remove="Graphics\profilePhoto.png" />
     <None Remove="Graphics\station.png" />
+    <None Remove="Graphics\stop.png" />
     <None Remove="Graphics\SystemLogo.png" />
   </ItemGroup>
 
@@ -50,12 +52,14 @@
     <Resource Include="Graphics\logo.png" />
     <Resource Include="Graphics\manager.png" />
     <Resource Include="Graphics\parcel.png" />
+    <Resource Include="Graphics\play.png" />
     <Resource Include="Graphics\profilePhoto.png" />
     <Resource Include="Graphics\station.png" />
     <None Remove="Graphics\parcelImage.png" />
     <Resource Include="Graphics\parcelImage.png" />
     <None Remove="Graphics\icon.jpg" />
     <Resource Include="Graphics\icon.jpg" />
+    <Resource Include="Graphics\stop.png" />
   </ItemGroup>
 
 </Project>
