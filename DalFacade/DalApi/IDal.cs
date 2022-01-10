@@ -15,6 +15,7 @@ namespace DalApi
             int droneId, DateTime? scheduled, DateTime? pickedUp, DateTime? delivered);
 
         public void AddDroneToCharge(int droneId, int stationId);
+        public void DroneCharging(int droneId, double hours);
         public void DroneRelease(int droneId, double hours);
         public bool IsDroneCharge(int droneId);
         public void SignIn(int costumerId);

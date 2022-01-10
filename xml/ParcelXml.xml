@@ -1,14 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ParcelXml>
   <Parcel>
+    <Id>1</Id>
+    <DroneId>10</DroneId>
+    <SenderId>212830871</SenderId>
+    <TargetId>316429992</TargetId>
+    <Status>Delivered</Status>
+    <Weight>Light</Weight>
+    <Priority>Emergency</Priority>
+    <Requested>2022-01-10T17:56:03.2393702+02:00</Requested>
+    <Scheduled>2022-01-10T18:14:21.1397876+02:00</Scheduled>
+    <PickedUp>2022-01-10T18:21:52.2719803+02:00</PickedUp>
+    <Delivered>2022-01-10T18:22:05.9457235+02:00</Delivered>
+    <IsAvailable>true</IsAvailable>
+  </Parcel>
+  <Parcel>
     <Id>2</Id>
     <DroneId>0</DroneId>
     <SenderId>212830871</SenderId>
-    <TargetId>12345</TargetId>
+    <TargetId>123</TargetId>
     <Status>Created</Status>
-    <Weight>Heavy</Weight>
-    <Priority>Emergency</Priority>
-    <Requested>2022-01-06T14:09:24.0613348+02:00</Requested>
+    <Weight>Light</Weight>
+    <Priority>Regular</Priority>
+    <Requested>2022-01-10T17:56:22.1201238+02:00</Requested>
     <Scheduled>0001-01-01T00:00:00</Scheduled>
     <PickedUp>0001-01-01T00:00:00</PickedUp>
     <Delivered>0001-01-01T00:00:00</Delivered>
@@ -16,27 +30,13 @@
   </Parcel>
   <Parcel>
     <Id>3</Id>
-    <DroneId>1212121</DroneId>
-    <SenderId>212830871</SenderId>
-    <TargetId>123</TargetId>
-    <Status>Delivered</Status>
-    <Weight>Light</Weight>
-    <Priority>Fast</Priority>
-    <Requested>2022-01-06T16:01:18.9732274+02:00</Requested>
-    <Scheduled>2022-01-06T16:02:02.7127575+02:00</Scheduled>
-    <PickedUp>2022-01-06T16:22:01.6323279+02:00</PickedUp>
-    <Delivered>2022-01-06T16:27:47.4927952+02:00</Delivered>
-    <IsAvailable>true</IsAvailable>
-  </Parcel>
-  <Parcel>
-    <Id>1</Id>
     <DroneId>0</DroneId>
     <SenderId>123</SenderId>
-    <TargetId>123456789</TargetId>
+    <TargetId>1224</TargetId>
     <Status>Created</Status>
-    <Weight>Medium</Weight>
+    <Weight>Light</Weight>
     <Priority>Regular</Priority>
-    <Requested>2022-01-05T15:39:10.6669749+02:00</Requested>
+    <Requested>2022-01-10T18:13:54.5496834+02:00</Requested>
     <Scheduled>0001-01-01T00:00:00</Scheduled>
     <PickedUp>0001-01-01T00:00:00</PickedUp>
     <Delivered>0001-01-01T00:00:00</Delivered>

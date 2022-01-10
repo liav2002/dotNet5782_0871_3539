@@ -1,11 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <StationXml>
   <Station>
-    <Id>12</Id>
-    <Name>12</Name>
-    <Longitude>35.181</Longitude>
-    <Latitude>31.665</Latitude>
-    <ChargeSlots>3</ChargeSlots>
+    <Id>10</Id>
+    <Name>Netanya</Name>
+    <Longitude>27.2046</Longitude>
+    <Latitude>77.4977</Latitude>
+    <ChargeSlots>4</ChargeSlots>
+    <IsAvailable>true</IsAvailable>
+  </Station>
+  <Station>
+    <Id>30</Id>
+    <Name>JCT</Name>
+    <Longitude>31.765205680639497</Longitude>
+    <Latitude>35.192080459930004</Latitude>
+    <ChargeSlots>6</ChargeSlots>
+    <IsAvailable>true</IsAvailable>
+  </Station>
+  <Station>
+    <Id>20</Id>
+    <Name>The Hebrew University</Name>
+    <Longitude>31.79490401787984</Longitude>
+    <Latitude>35.242302082271706</Latitude>
+    <ChargeSlots>7</ChargeSlots>
     <IsAvailable>true</IsAvailable>
   </Station>
 </StationXml>

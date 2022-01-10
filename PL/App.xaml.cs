@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Collections;
 using System.ComponentModel;
+using BlApi;
 
 namespace PL
 {
@@ -29,28 +30,6 @@ namespace PL
 
     public partial class App : Application
     {
-        public static bool IsDroneSimulate(int droneId)
-        {
-            return _process.Keys.ToList().Contains(droneId);
-        }
-
-        public static void StopWorker(BO.DroneBL drone)
-        {
-            BackgroundWorker worker = _process[drone.Id];
-            worker.Dispose();
-            _process.Remove(drone.Id);
-        }
-
-        public static void AddWorker(BO.DroneBL drone, BackgroundWorker worker)
-        {
-            _process.Add(drone.Id, worker);
-        }
-
-        public static BackgroundWorker GetWorker(BO.DroneBL drone)
-        {
-            return _process[drone.Id];
-        }
-
         void Application_Startup(object sender, StartupEventArgs e)
         {
             windows = new Stack<Pair>();
@@ -98,6 +77,5 @@ namespace PL
         }
 
         private static Stack<Pair> windows;
-        private static Dictionary<int, BackgroundWorker> _process = new Dictionary<int, BackgroundWorker>();
     }
 }

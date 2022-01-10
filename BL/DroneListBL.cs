@@ -45,7 +45,7 @@ namespace BO
         public override string ToString()
         {
             string strToPrint = $"Id: {Id}, Model: {Model}.\n" +
-                                $"Weight: {Weight}, Battery: {Battery}, Status: {Status}, Location: {Location}\n";
+                                $"Weight: {Weight}, Battery: {String.Format("{0:F3}", Battery)}, Status: {Status}, Location: {Location}\n";
 
             if (ParcelId != -1)
             {

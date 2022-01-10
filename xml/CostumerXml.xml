@@ -1,26 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <CostumerXml>
   <Costumer>
-    <Id>123456789</Id>
-    <Name>User2022</Name>
-    <Phone>0521111111</Phone>
-    <Longitude>35.191</Longitude>
-    <Latitude>31.765</Latitude>
-    <IsAvailable>true</IsAvailable>
-    <Email>name@domain.tld</Email>
-    <Password>Aa123456</Password>
-    <IsManager>false</IsManager>
-  </Costumer>
-  <Costumer>
     <Id>123</Id>
     <Name>eyal</Name>
     <Phone>0584312212</Phone>
-    <Longitude>35.131</Longitude>
-    <Latitude>31.705</Latitude>
+    <Longitude>35.19208529258993</Longitude>
+    <Latitude>31.76513829931426</Latitude>
     <IsAvailable>true</IsAvailable>
     <Email>seckbach@gmail.com</Email>
     <Password>Aa123456</Password>
     <IsManager>true</IsManager>
+  </Costumer>
+  <Costumer>
+    <Id>316429992</Id>
+    <Name>Hen100</Name>
+    <Phone>0527588575</Phone>
+    <Longitude>32.29396880548096</Longitude>
+    <Latitude>34.85884661033327</Latitude>
+    <IsAvailable>true</IsAvailable>
+    <Email>henmail5135@gmail.com</Email>
+    <Password>1234</Password>
+    <IsManager>false</IsManager>
   </Costumer>
   <Costumer>
     <Id>1224</Id>
@@ -34,36 +34,36 @@
     <IsManager>true</IsManager>
   </Costumer>
   <Costumer>
-    <Id>1234567891</Id>
-    <Name>User20221</Name>
-    <Phone>0521111111</Phone>
-    <Longitude>35.191</Longitude>
-    <Latitude>31.765</Latitude>
-    <IsAvailable>true</IsAvailable>
-    <Email>name@domain.tld</Email>
-    <Password>Aa123456</Password>
-    <IsManager>false</IsManager>
-  </Costumer>
-  <Costumer>
-    <Id>12345</Id>
-    <Name>User20221212</Name>
-    <Phone>0521111111</Phone>
-    <Longitude>35.191</Longitude>
-    <Latitude>31.765</Latitude>
-    <IsAvailable>true</IsAvailable>
-    <Email>name@domain.tld</Email>
-    <Password>Aa123456</Password>
-    <IsManager>false</IsManager>
-  </Costumer>
-  <Costumer>
     <Name>liav</Name>
     <Phone>0524295007</Phone>
     <Email>halkadar@g.jct.ac.il</Email>
     <IsManager>True</IsManager>
     <Password>Aa123456</Password>
     <Id>212830871</Id>
-    <Longitude>35.141</Longitude>
-    <Latitude>31.805</Latitude>
+    <Longitude>34.85065271756373</Longitude>
+    <Latitude>32.32808028469979</Latitude>
     <IsAvailable>true</IsAvailable>
+  </Costumer>
+  <Costumer>
+    <Id>154862574</Id>
+    <Name>Yaniv21</Name>
+    <Phone>0525891447</Phone>
+    <Longitude>31.788310485025168</Longitude>
+    <Latitude>35.202948621962754</Latitude>
+    <IsAvailable>true</IsAvailable>
+    <Email>yaniv@g.jct.ac.il</Email>
+    <Password>1234</Password>
+    <IsManager>false</IsManager>
+  </Costumer>
+  <Costumer>
+    <Id>123456789</Id>
+    <Name>Lavie222</Name>
+    <Phone>0521111111</Phone>
+    <Longitude>31.764052799049686</Longitude>
+    <Latitude>35.18882372649619</Latitude>
+    <IsAvailable>true</IsAvailable>
+    <Email>lavie@gmail.com</Email>
+    <Password>1234</Password>
+    <IsManager>false</IsManager>
   </Costumer>
 </CostumerXml>

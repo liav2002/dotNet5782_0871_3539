@@ -24,7 +24,7 @@ namespace BO
 
             foreach (var drone in idalObj.GetDroneList())
             {
-                if (drone.Location == this.Location)
+                if (String.Format("{0:F3}", drone.Location) == String.Format("{0:F3}", this.Location))
                 {
                     _dronesInStation.Add(new DroneChargeBL(drone, idalObj.IsDroneCharge(drone.Id)));
                 }

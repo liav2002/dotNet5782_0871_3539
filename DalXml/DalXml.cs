@@ -202,6 +202,32 @@ namespace Dal
             UpdateStation(station);
         }
 
+        public void DroneCharging(int droneId, double hours)
+        {
+            DO.Drone drone;
+            DO.DroneCharge dc;
+
+            drone = GetDroneById(droneId);
+            dc = GetDroneChargeByDroneId(droneId);
+
+            //change drone's battery
+            double newBattery = drone.Battery + hours * DataSource.Config.chargeRatePH;
+            dc.StartTime = DateTime.Now;
+
+            if (newBattery > 100)
+            {
+                drone.Battery = 100;
+            }
+
+            else
+            {
+                drone.Battery = newBattery;
+            }
+
+            UpdateDrone(drone);
+            UpdateDroneCharge(dc);
+        }
+
         /*
         *Description: The function pulls a drone from the appropriate table in the database and checks if it is charging. 
         *Parameters: drone's id.
@@ -224,7 +250,7 @@ namespace Dal
                     StartTime = DateTime.Parse(drone.Element("StartTime").Value)
                 }).FirstOrDefault();
 
-            if (dc.DroneId != 0)
+            if (dc != null)
             {
                 return true;
             }
@@ -771,6 +797,34 @@ namespace Dal
             xDrone.Parent.Remove();
 
             root.Save(dronePath);
+        }
+
+        public void UpdateDroneCharge(DO.DroneCharge dc)
+        {
+            XElement root = XmlTools.LoadListFromXMLElement(droneChargePath);
+            IEnumerable<XElement> selectedDrone = from obj in root.Descendants("DroneId")
+                                                  where obj.Value != null
+                                                        && obj.Value == dc.DroneId.ToString()
+                                                  select obj;
+
+            if (selectedDrone.Count() == 0)
+                return;
+
+            XElement xDrone = selectedDrone.First();
+            XElement newDrone = new XElement("DroneCharge",
+                new XElement("DroneId", dc.DroneId),
+                new XElement("StationId", dc.StationId),
+                new XElement("StartTime", dc.StartTime)
+            );
+
+            root.Elements()
+                .Where(x => (string)x.Attribute("DroneId") == (string)xDrone.Parent.Attribute("DroneId"))
+                .FirstOrDefault()
+                .AddAfterSelf(newDrone);
+
+            xDrone.Parent.Remove();
+
+            root.Save(droneChargePath);
         }
 
 

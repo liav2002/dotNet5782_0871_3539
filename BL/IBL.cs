@@ -25,6 +25,7 @@ namespace BlApi
         public void ParcelCollection(int droneId);
         public void ParcelDelivered(int droneId);
         public void SendDroneToCharge(int droneId, int stationId = -1);
+        public void DroneCharging(int droneId);
         public void DroneRelease(int droneId);
         public void UpdateDroneName(int droneId, string name);
         public void UpdateStation(int stationId, string name, int chargeSlots);
@@ -33,7 +34,6 @@ namespace BlApi
         public void SignOut();
 
         public void StartSimulator(BO.DroneBL drone);
-        public void StopSimulator(BO.DroneBL drone);
 
         public List<DO.Parcel> GetWaitingParcels();
 

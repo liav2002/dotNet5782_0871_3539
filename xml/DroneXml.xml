@@ -1,33 +1,103 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DroneXml>
   <Drone>
-    <Id>1212121</Id>
-    <Model>12121</Model>
-    <MaxWeight>Light</MaxWeight>
+    <Id>1</Id>
+    <Model>Model-X</Model>
+    <MaxWeight>Heavy</MaxWeight>
     <Status>Available</Status>
-    <Battery>100</Battery>
-    <Longitude>35.181</Longitude>
-    <Latitude>31.665</Latitude>
+    <Battery>86.44550814798669</Battery>
+    <Longitude>31.79490401787984</Longitude>
+    <Latitude>35.242302082271706</Latitude>
     <IsAvailable>true</IsAvailable>
   </Drone>
   <Drone>
-    <Id>1234567</Id>
-    <Longitude>35.191</Longitude>
-    <Latitude>31.765</Latitude>
-    <Model>Model-A</Model>
-    <Battery>25.889189832542833</Battery>
-    <IsAvailable>true</IsAvailable>
+    <Id>7</Id>
+    <Model>Model-X</Model>
+    <MaxWeight>Light</MaxWeight>
     <Status>Available</Status>
+    <Battery>68.90194189426764</Battery>
+    <Longitude>27.2046</Longitude>
+    <Latitude>77.4977</Latitude>
+    <IsAvailable>true</IsAvailable>
+  </Drone>
+  <Drone>
+    <Id>8</Id>
+    <Model>Modelx-X</Model>
+    <MaxWeight>Light</MaxWeight>
+    <Status>Available</Status>
+    <Battery>74.51503646016656</Battery>
+    <Longitude>31.765205680639497</Longitude>
+    <Latitude>35.192080459930004</Latitude>
+    <IsAvailable>true</IsAvailable>
+  </Drone>
+  <Drone>
+    <Id>9</Id>
+    <Model>Model-X</Model>
     <MaxWeight>Medium</MaxWeight>
+    <Status>Available</Status>
+    <Battery>75.10396277845304</Battery>
+    <Longitude>31.765205680639497</Longitude>
+    <Latitude>35.192080459930004</Latitude>
+    <IsAvailable>true</IsAvailable>
   </Drone>
   <Drone>
-    <Id>132</Id>
-    <Longitude>35.191</Longitude>
-    <Latitude>31.765</Latitude>
-    <Model>Model-Q11</Model>
-    <Battery>94.66834622491449</Battery>
-    <IsAvailable>true</IsAvailable>
+    <Id>10</Id>
+    <Model>Model-X</Model>
+    <MaxWeight>Heavy</MaxWeight>
     <Status>Available</Status>
+    <Battery>64.20809941172949</Battery>
+    <Longitude>31.765205680639497</Longitude>
+    <Latitude>35.192080459930004</Latitude>
+    <IsAvailable>true</IsAvailable>
+  </Drone>
+  <Drone>
+    <Id>5</Id>
+    <Model>Model-X</Model>
+    <MaxWeight>Medium</MaxWeight>
+    <Status>Available</Status>
+    <Battery>41.10615059007959</Battery>
+    <Longitude>27.2046</Longitude>
+    <Latitude>77.4977</Latitude>
+    <IsAvailable>true</IsAvailable>
+  </Drone>
+  <Drone>
+    <Id>6</Id>
+    <Model>Model-X</Model>
     <MaxWeight>Light</MaxWeight>
+    <Status>Maintenance</Status>
+    <Battery>25.467823019934734</Battery>
+    <Longitude>27.2046</Longitude>
+    <Latitude>77.4977</Latitude>
+    <IsAvailable>true</IsAvailable>
+  </Drone>
+  <Drone>
+    <Id>4</Id>
+    <Model>Model-X</Model>
+    <MaxWeight>Light</MaxWeight>
+    <Status>Maintenance</Status>
+    <Battery>30.68755761286596</Battery>
+    <Longitude>31.79490401787984</Longitude>
+    <Latitude>35.242302082271706</Latitude>
+    <IsAvailable>true</IsAvailable>
+  </Drone>
+  <Drone>
+    <Id>3</Id>
+    <Model>Modelx-X</Model>
+    <MaxWeight>Medium</MaxWeight>
+    <Status>Maintenance</Status>
+    <Battery>38.2062690603576</Battery>
+    <Longitude>31.79490401787984</Longitude>
+    <Latitude>35.242302082271706</Latitude>
+    <IsAvailable>true</IsAvailable>
+  </Drone>
+  <Drone>
+    <Id>2</Id>
+    <Model>Modelx-X</Model>
+    <MaxWeight>Heavy</MaxWeight>
+    <Status>Maintenance</Status>
+    <Battery>26.755652123482736</Battery>
+    <Longitude>31.79490401787984</Longitude>
+    <Latitude>35.242302082271706</Latitude>
+    <IsAvailable>true</IsAvailable>
   </Drone>
 </DroneXml>

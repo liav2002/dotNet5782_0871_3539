@@ -93,6 +93,10 @@ namespace Dal
             DataSource.droneCharge.Add(dc);
         }
 
+        public void DroneCharging(int droneId, double hours)
+        {
+        }
+
         /*
         *Description: release drone from station. 
         *Parameters: a drone.

@@ -135,7 +135,7 @@ namespace PL
             }
 
             //handle name
-            if (StationID.Text == "")
+            if (StationName.Text == "")
             {
                 NameError.Text = "Name is missing.";
                 tryToAdd = false;
@@ -184,7 +184,7 @@ namespace PL
             {
                 if (tryToAdd)
                 {
-                    this.iBL.AddStation(id, StationID.Text, longitude, lattitude, chargeSlots);
+                    this.iBL.AddStation(id, StationName.Text, longitude, lattitude, chargeSlots);
                     MessageBox.Show("Station added successfully.", "SYSTEM");
                     App.PrevWindow();
                 }

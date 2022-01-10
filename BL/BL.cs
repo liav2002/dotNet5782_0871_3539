@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dal;
 using DO;
-
+using System.Threading;
 
 namespace BO
 {
@@ -26,8 +26,6 @@ namespace BO
         private DalApi.IDal _idalObj;
 
         private double _chargeRate = Dal.DataSource.Config.chargeRatePH; // to all the drones
-
-        private Dictionary<int, string> _process = new Dictionary<int, string>();
 
 
         private double _lightPPK = Dal.DataSource.Config.lightPPK;
@@ -235,6 +233,9 @@ namespace BO
         {
             //first create a priority queue with all the parcels with highest priority
             PriorityQueue<DO.Parcel> parcelsAccordingWeight = new PriorityQueue<DO.Parcel>();
+            PriorityQueue<DO.Parcel> saveParcels = new PriorityQueue<DO.Parcel>(); // in case we call the function not in the first time,
+                                                                                   // we want to search parcel with the next highest prioriry,
+                                                                                   // so, I save the real highest prioirty in different queue.
             DO.Drone drone = this._idalObj.GetDroneById(droneId);
             DO.Parcel parcelForAssign = this._waitingParcels.Dequeue();
             DO.Priorities priority = parcelForAssign.Priority - lessPriority;
@@ -242,6 +243,10 @@ namespace BO
             if (priority == parcelForAssign.Priority)
             {
                 parcelsAccordingWeight.Enqueue(parcelForAssign, (int) parcelForAssign.Weight);
+            }
+            else if(priority < parcelForAssign.Priority)
+            {
+                saveParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Weight);
             }
             else
             {
@@ -260,7 +265,10 @@ namespace BO
                     {
                         parcelsAccordingWeight.Enqueue(parcelForAssign, (int) parcelForAssign.Weight);
                     }
-
+                    else if (priority < parcelForAssign.Priority)
+                    {
+                        saveParcels.Enqueue(parcelForAssign, (int)parcelForAssign.Weight);
+                    }
                     else
                     {
                         search = false;
@@ -304,13 +312,25 @@ namespace BO
 
             if (parcelsAccordingWeight.Count == 0)
             {
-                if (lessPriority >= 0 && lessPriority <= 2)
+                if (lessPriority >= 0 && lessPriority < 2)
                 {
+                    for (int i = 0; i < saveParcels.Count; ++i)
+                    {
+                        DO.Parcel savedParcel = saveParcels.Dequeue();
+                        _waitingParcels.Enqueue(savedParcel, (int)savedParcel.Priority);
+                    }
+
                     return findSuitableParcel(drone.Id, lessPriority + 1);
                 }
 
                 else
                 {
+                    for (int i = 0; i < saveParcels.Count; ++i)
+                    {
+                        DO.Parcel savedParcel = saveParcels.Dequeue();
+                        _waitingParcels.Enqueue(savedParcel, (int)savedParcel.Priority);
+                    }
+
                     throw new BO.NoSuitableParcelForDrone(drone.Id);
                 }
             }
@@ -376,6 +396,12 @@ namespace BO
                         this._waitingParcels.Enqueue(parcel, (int) parcel.Priority);
                     }
                 }
+            }
+
+            for (int i = 0; i < saveParcels.Count; ++i)
+            {
+                DO.Parcel savedParcel = saveParcels.Dequeue();
+                _waitingParcels.Enqueue(savedParcel, (int)savedParcel.Priority);
             }
 
             return parcelForAssign;
@@ -567,6 +593,16 @@ namespace BO
                 foreach (var drone in drones)
                 {
                     SetDroneDetails(drone);
+                }
+            }
+
+            else if(this._idalObj.type() == DalTypes.DalXml)
+            {
+                IEnumerable<DO.Parcel> waitParcelsList = _idalObj.GetParcelsList(parcel => parcel.Status == ParcelStatuses.Created);
+
+                foreach(var parcel in waitParcelsList)
+                {
+                    _waitingParcels.Enqueue(parcel, (int)parcel.Priority);
                 }
             }
         }
@@ -899,12 +935,12 @@ namespace BO
                 throw new BO.NegetiveValue("Drone's id");
             }
 
-            if (GetDroneById(droneId).IsAvaliable == false)
+            var drone = this._idalObj.GetDroneById(droneId);
+
+            if (drone.IsAvaliable == false)
             {
                 throw new BO.NoAvailable("drone");
             }
-
-            var drone = this._idalObj.GetDroneById(droneId);
 
             if (drone.Status != DO.DroneStatuses.Available)
             {
@@ -976,15 +1012,6 @@ namespace BO
             }
 
             DO.Costumer costumer = this._idalObj.GetCostumerById(costumerId);
-            //if (costumer.Name == name)
-            //{
-            //    throw new BO.NotNewValue("Costumer Name", name);
-            //}
-
-            //if (costumer.Phone == phoneNumber)
-            //{
-            //    throw new BO.NotNewValue("Costumer phone", phoneNumber);
-            //}
 
             if (name != "")
             {
@@ -1025,16 +1052,6 @@ namespace BO
 
             DO.Station station = this._idalObj.GetStationById(stationId);
 
-            //if (station.Name == name)
-            //{
-            //    throw new BO.NotNewValue("Station name", name);
-            //}
-
-            //if (station.ChargeSlots == chargeSlots)
-            //{
-            //    throw new BO.NotNewValue("Station charge slots", chargeSlots.ToString());
-            //}
-
             if (name != "")
             {
                 station.Name = name;
@@ -1072,11 +1089,6 @@ namespace BO
             }
 
             DO.Drone drone = this._idalObj.GetDroneById(droneId);
-
-            //if (drone.Model == name)
-            //{
-            //    throw new BO.NotNewValue("Drone model", name);
-            //}
 
             if (name != "")
             {
@@ -1170,12 +1182,13 @@ namespace BO
                 throw new BO.NegetiveValue("Station's id");
             }
 
-            if (GetDroneById(droneId).IsAvaliable == false)
+            DO.Drone drone = this._idalObj.GetDroneById(droneId);
+
+            if (drone.IsAvaliable == false)
             {
                 throw new BO.NoAvailable("drone");
             }
 
-            DO.Drone drone = this._idalObj.GetDroneById(droneId);
             if (drone.Status != DO.DroneStatuses.Available)
             {
                 throw new BO.DroneNotAvliable(droneId);
@@ -1189,9 +1202,10 @@ namespace BO
                 double distance = drone.Location.Distance(station.Location);
                 double minBattery = distance * Dal.DataSource.Config.avilablePPK;
 
-                if (minBattery > drone.Battery)
+                if (minBattery > drone.Battery) // the drone 
                 {
-                    throw new BO.DroneNotEnoughBattery(droneId);
+                    //throw new BO.DroneNotEnoughBattery(droneId);
+                    drone.Battery = minBattery + 1;
                 }
 
                 drone.Battery -= minBattery;
@@ -1205,7 +1219,7 @@ namespace BO
                 this._idalObj.AddDroneToCharge(droneId, station.Id);
             }
 
-            else
+            else // only when we add new drone. we add him to particular station.
             {
                 station = this._idalObj.GetStationById(stationId);
 
@@ -1225,6 +1239,33 @@ namespace BO
 
             _idalObj.UpdateDrone(drone);
             _idalObj.UpdateStation(station);
+        }
+
+        /*
+        *Description: Chargine the drone in the simulator.
+        *Parameters: drone's id.
+        *Return: None.
+        */
+        public void DroneCharging(int droneId)
+        {
+            if (0 > droneId)
+            {
+                throw new BO.NegetiveValue("Drone's id");
+            }
+
+            DO.Drone drone = this._idalObj.GetDroneById(droneId);
+
+            if (drone.Status != DO.DroneStatuses.Maintenance)
+            {
+                throw new BO.DroneNotInMaintenance(droneId);
+            }
+
+            DO.DroneCharge dc = this._idalObj.GetDroneChargeByDroneId(droneId);
+
+            TimeSpan time = DateTime.Now.Subtract(dc.StartTime);
+            double hours = time.TotalHours;
+
+            this._idalObj.DroneCharging(drone.Id, hours);
         }
 
         /*
@@ -1282,20 +1323,78 @@ namespace BO
 
         public void StartSimulator(BO.DroneBL drone)
         {
-            if (!_process.Keys.ToList().Contains(drone.Id))
+            switch (drone.Status)
             {
-                _process.Add(drone.Id, drone.Model);
-            }
-            else throw new StartSimulateException();
-        }
+                case DroneStatuses.Available:
+                    {
+                        try
+                        {
+                            AssignParcelToDrone(drone.Id);
+                        }
+                        catch (Exception ex)
+                        { 
+                            if(ex is BO.DroneNotEnoughBattery)
+                            {
+                                //Thread.Sleep((int)((drone.Location.Distance(station.Location) / DataSource.Config.droneSpeedKMPH)) * 60 * 60 * 1000); //wait for the drone for arriving the station.  --> to much time, it's simulator not real time
+                                Thread.Sleep(10000);
+                                SendDroneToCharge(drone.Id);
+                            }
+                            else
+                            {
+                                throw new Exception(ex.Message);
+                            }
+                        }
 
-        public void StopSimulator(BO.DroneBL drone)
-        {
-            if (_process.Keys.ToList().Contains(drone.Id))
-            {
-                _process.Remove(drone.Id);
+                        break;
+                    }
+
+                case DroneStatuses.Maintenance:
+                    {
+                        try
+                        {
+                            if(drone.Battery == 100)
+                            {
+                                DroneRelease(drone.Id);
+                            }
+
+                            else
+                            {
+                                DroneCharging(drone.Id);
+                            }
+                        }
+                        catch(Exception) { }
+
+                        break;
+                    }
+
+                case DroneStatuses.Shipping:
+                    {
+                        try
+                        {
+                            if (!drone.Parcel.IsOnTheWay && !drone.Parcel.IsDelivered)
+                            {
+                                //Thread.Sleep((int)((drone.Location.Distance(sender.Location) / DataSource.Config.droneSpeedKMPH)) * 60 * 60 * 1000); //wait for the drone for arriving the sender person. --> to much time, it's simulator not real time
+                                Thread.Sleep(10000);
+                                ParcelCollection(drone.Id);
+                            }
+
+                            else if(drone.Parcel.IsOnTheWay)
+                            {
+                                //Thread.Sleep((int)((drone.Location.Distance(target.Location) / DataSource.Config.droneSpeedKMPH)) * 60 * 60 * 1000); //wait for the drone for arriving the target.  --> to much time, it's simulator not real time
+                                Thread.Sleep(10000);
+
+                                //Thread.Sleep((int)((target.Location.Distance(station.Location) / DataSource.Config.droneSpeedKMPH)) * 60 * 60 * 1000); //wait for the drone for arriving the station (end point).  --> to much time, it's simulator not real time
+                                Thread.Sleep(5000);
+
+                                ParcelDelivered(drone.Id);
+                            }
+                        }
+                        catch (Exception) { }
+
+                        break;
+                    }
             }
-            else throw new StopSimulateException();
+
         }
 
         //getters:

@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using BlApi;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Threading;
 
 namespace PL
 {
@@ -28,11 +29,12 @@ namespace PL
         private int stationId;
 
         private BackgroundWorker worker;
+        private bool _shouldStop;
+        private int _secondsToSleep;
 
         public DroneWindow() //add drone
         {
             InitializeComponent();
-            ReturnButton.Click += delegate { App.PrevWindow(); };
             this.Closing += App.Window_Closing;
 
             this.iBL = BlFactory.GetBl();
@@ -47,7 +49,6 @@ namespace PL
         public DroneWindow(object item, int stationId = 0) //update drone (and alsop drone details)
         {
             InitializeComponent();
-            ReturnButton.Click += delegate { App.PrevWindow(); };
             this.Closing += App.Window_Closing;
 
             this.iBL = BlFactory.GetBl();
@@ -72,31 +73,19 @@ namespace PL
             AddDrone.Visibility = Visibility.Hidden;
             UpdateDrone.Visibility = Visibility.Visible;
 
-            if(App.IsDroneSimulate(drone.Id))
-            {
-                PlayButton.Visibility = Visibility.Collapsed;
-                StopButton.Visibility = Visibility.Visible;
+            PlayButton.Visibility = Visibility.Visible;
+            StopButton.Visibility = Visibility.Collapsed;
 
-                UpdateButton.Visibility = Visibility.Collapsed;
-                FirstButton.Visibility = Visibility.Collapsed;
-                SecondButton.Visibility = Visibility.Collapsed;
+            UpdateButton.Visibility = Visibility.Visible;
+            FirstButton.Visibility = Visibility.Visible;
+            SecondButton.Visibility = Visibility.Visible;
 
-                worker = App.GetWorker(drone);
-            }
+            _shouldStop = true;
+            worker = null;
+            _secondsToSleep = 3;
 
-            else
-            {
-                PlayButton.Visibility = Visibility.Visible;
-                StopButton.Visibility = Visibility.Collapsed;
-
-                UpdateButton.Visibility = Visibility.Visible;
-                FirstButton.Visibility = Visibility.Visible;
-                SecondButton.Visibility = Visibility.Visible;
-
-                worker = null;
-            }
-
-            DroneLabel.Content = this.drone;
+            //drone detatils:
+            updateDroeDetailsPL();
 
             if (!iBL.GetLoggedUser().IsManager)
             {
@@ -138,6 +127,96 @@ namespace PL
                 FirstButton.Content = "Collect delivery";
                 SecondButton.Content = "Deliver parcel";
             }
+
+            TimerToStopSimulator.Visibility = Visibility.Collapsed;
+        }
+
+        private void updateDroeDetailsPL()
+        {
+            //set drone's id
+            DroneIDView.Text = "ID: " + drone.Id;
+
+            //set drone's model
+            DroneModelView.Text = "Model: " + drone.Model;
+
+            //set drone's battery
+            DroneBatteryView.Text = "Battery: ";
+            if (drone.Battery <= 20)
+            {
+                DroneBatteryView.Inlines.Add(new Run(String.Format("{0:F3}", drone.Battery) + " %") { Foreground = Brushes.Red });
+            }
+            else if(drone.Battery > 20 && drone.Battery <= 50)
+            {
+                DroneBatteryView.Inlines.Add(new Run(String.Format("{0:F3}", drone.Battery) + " %") { Foreground = Brushes.Yellow });
+            }
+            else
+            {
+                DroneBatteryView.Inlines.Add(new Run(String.Format("{0:F3}", drone.Battery) + " %") { Foreground = Brushes.Green });
+            }
+
+            //set drone's weight
+            DroneWeightView.Text = "Max Weight: ";
+            if(drone.Weight == DO.WeightCategories.Heavy)
+            {
+                DroneWeightView.Inlines.Add(new Run(Enum.GetName(drone.Weight)) { Foreground = Brushes.Red });
+            }
+            else if(drone.Weight == DO.WeightCategories.Medium)
+            {
+                DroneWeightView.Inlines.Add(new Run(Enum.GetName(drone.Weight)) { Foreground = Brushes.Yellow });
+            }
+            else
+            {
+                DroneWeightView.Inlines.Add(new Run(Enum.GetName(drone.Weight)) { Foreground = Brushes.Green });
+            }
+
+            //set drone's location
+            DroneLocationView.Text = $"Location: {drone.Location.Longitude}° N, {drone.Location.Latitude}° E";
+
+            //set drone's status
+            DroneStatusView.Text = "Status: ";
+            if(drone.Status == DO.DroneStatuses.Shipping)
+            {
+                DroneStatusView.Inlines.Add(new Run(Enum.GetName(drone.Status)) { Foreground = Brushes.Red });
+            }
+            else if(drone.Status == DO.DroneStatuses.Maintenance)
+            {
+                DroneStatusView.Inlines.Add(new Run(Enum.GetName(drone.Status)) { Foreground = Brushes.Yellow });
+            }
+            else
+            {
+                DroneStatusView.Inlines.Add(new Run(Enum.GetName(drone.Status)) { Foreground = Brushes.Green });
+            }
+
+            //set drone's parcel
+            if (drone.Parcel == null)
+            {
+                ParcelInDroneView.Text = "Parcel: None";
+            }
+            else
+            {
+                ParcelInDroneView.Text = "Parcel: " + drone.Parcel;
+            }
+        }
+
+        private void ReturnOnClick(object o, EventArgs e)
+        {
+            if(UpdateDrone.Visibility == Visibility.Visible)
+            {
+                if(!_shouldStop)
+                {
+                    MessageBox.Show("You need to stop the simulator first.", "Alert");
+                }
+
+                else
+                {
+                    App.PrevWindow();
+                }
+            }
+
+            else
+            {
+                App.PrevWindow();
+            }
         }
 
         private void PlayOnClick(object o, EventArgs e)
@@ -145,15 +224,16 @@ namespace PL
             try
             {
                 //create worker
+                _shouldStop = false;
                 worker = new BackgroundWorker();
                 worker.DoWork += Worker_DoWork;
                 worker.ProgressChanged += Worker_ProgressChanged;
                 worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
                 worker.WorkerReportsProgress = true;
                 worker.WorkerSupportsCancellation = true;
+                worker.RunWorkerAsync();
 
                 //save worker and changed buttons vissibilities
-                App.AddWorker(drone, worker);
                 PlayButton.Visibility = Visibility.Collapsed;
                 StopButton.Visibility = Visibility.Visible;
 
@@ -172,15 +252,7 @@ namespace PL
         {
             try
             {
-                App.StopWorker(drone);
-                PlayButton.Visibility = Visibility.Visible;
-                StopButton.Visibility = Visibility.Collapsed;
-
-                UpdateButton.Visibility = Visibility.Visible;
-                FirstButton.Visibility = Visibility.Visible;
-                SecondButton.Visibility = Visibility.Visible;
-
-                MessageBox.Show("Simulator has been stopped", "System Message");
+                _shouldStop = true;
             }
             catch (Exception ex)
             {
@@ -277,7 +349,8 @@ namespace PL
                 MessageBox.Show("The parcel has been collected", "SYSTEM");
             }
 
-            DroneLabel.Content = iBL.GetDroneById(drone.Id);
+            this.drone = iBL.GetDroneById(drone.Id);
+            updateDroeDetailsPL();
         }
 
         private void UpdateOnClick(object sender, EventArgs e)
@@ -294,7 +367,8 @@ namespace PL
                 droneModel = Microsoft.VisualBasic.Interaction.InputBox("Enter value: ", "Drone's model", drone.Model);
 
                 iBL.UpdateDroneName(drone.Id, droneModel);
-                DroneLabel.Content = iBL.GetDroneById(drone.Id);
+                this.drone =  iBL.GetDroneById(drone.Id);
+                updateDroeDetailsPL();
             }
         }
 
@@ -319,7 +393,8 @@ namespace PL
                 FirstButton.Content = "Collect delivery";
                 SecondButton.Content = "Deliver parcel";
 
-                DroneLabel.Content = iBL.GetDroneById(drone.Id);
+                this.drone = iBL.GetDroneById(drone.Id);
+                updateDroeDetailsPL();
             }
 
             else //Deliver parcel
@@ -327,7 +402,9 @@ namespace PL
                 try
                 {
                     iBL.ParcelDelivered(drone.Id);
-                    DroneLabel.Content = iBL.GetDroneById(drone.Id);
+                    this.drone = iBL.GetDroneById(drone.Id);
+                    updateDroeDetailsPL();
+
                     MessageBox.Show("Parcel delivered successfuly.", "SYSTEM");
 
                     if (iBL.GetLoggedUser().IsManager)
@@ -355,17 +432,76 @@ namespace PL
 
         private void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
+            try { Thread.Sleep(3000); } catch (Exception) { } // 3 sec sleep
+           
+            while(!_shouldStop)
+            {
+                try
+                {
+                    this.iBL.StartSimulator(drone);
 
+                    if(drone.Status != DO.DroneStatuses.Available)
+                    {
+                        _secondsToSleep = 3;
+                    }
+                }
+                catch(Exception ex)
+                {
+                    if(ex.Message == "ERROR: there is no suitable parcel for drone(id: " +
+                                                            drone.Id + ").\n")
+                    {
+                        _secondsToSleep += 3;
+                    }
+                }
+                
+                worker.ReportProgress(1);
+                for(int i = 0; i < _secondsToSleep && !_shouldStop; ++i)
+                {
+                    try { Thread.Sleep(1000); } catch (Exception) { } // 1 sec sleep
+                }
+            }
+
+            worker.ReportProgress(95);
+            for(int p = 96; p <= 100; ++p) // 5 sec delay
+            {
+                Thread.Sleep(1000);
+                worker.ReportProgress(p);
+            }
         }
 
         private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            if(e.ProgressPercentage == 1)
+            {
+                this.drone = iBL.GetDroneById(drone.Id);
+                updateDroeDetailsPL();
+            }
 
+            else
+            {
+                TimerToStopSimulator.Visibility = Visibility.Visible;
+                TimerToStopSimulator.Text = "Stop in: " + (100 - e.ProgressPercentage);
+            }
         }
 
         private void Worker_RunWorkerCompleted(object o, RunWorkerCompletedEventArgs e)
         {
+            if (e.Error != null)
+            {
+                MessageBox.Show(e.Error.Message);
+            }
 
+            TimerToStopSimulator.Visibility = Visibility.Collapsed;
+            worker.CancelAsync();
+
+            PlayButton.Visibility = Visibility.Visible;
+            StopButton.Visibility = Visibility.Collapsed;
+
+            UpdateButton.Visibility = Visibility.Visible;
+            FirstButton.Visibility = Visibility.Visible;
+            SecondButton.Visibility = Visibility.Visible;
+
+            MessageBox.Show("Simulator has been stopped", "System Message");
         }
     }
 }   

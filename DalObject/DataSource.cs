@@ -38,6 +38,7 @@ namespace Dal
             public static double heavyPPK = 0.0025; // for drone who carried a heavy weight.
 
             public static double chargeRatePH = 66.66; // drone charging rate per hour.
+            public static double droneSpeedKMPH = 35; // drone speed km per hours.
         }
 
         internal static void Initialize()

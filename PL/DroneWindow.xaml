@@ -11,7 +11,7 @@
     </Window.Background>
 
     <Grid x:Name="MainGrid">
-        <Button x:Name="ReturnButton" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Width="50" Margin="20,20,0,0" BorderBrush="Transparent">
+        <Button x:Name="ReturnButton" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Width="50" Margin="20,20,0,0" BorderBrush="Transparent" Click="ReturnOnClick">
             <Button.Background>
                 <ImageBrush ImageSource="Graphics/backButton.png" ></ImageBrush>
             </Button.Background>
@@ -37,7 +37,54 @@
         </Grid>
 
         <Grid x:Name="UpdateDrone" Visibility="Visible">
-            <Label x:Name="DroneLabel" Content="" HorizontalAlignment="Left" Margin="32,0,0,0" VerticalAlignment="Center" Height="300" Width="450" VerticalContentAlignment="Top" Foreground="White" FontSize="15"/>
+            <TextBlock x:Name="DroneIDView" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="6,94,0,0"
+                           VerticalAlignment="Top" TextAlignment="Center" Height="84" Width="150" Foreground="Black"
+                           FontWeight="Bold" Background="CornflowerBlue" FontSize="20"
+                           RenderTransformOrigin="0.479,-0.341">
+                    <Run /><LineBreak /><Run Text="ID: " />
+            </TextBlock>
+
+            <TextBlock x:Name="DroneModelView" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="160,94,0,0"
+                           VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="265" Foreground="Black"
+                           FontWeight="Bold" Background="LightSteelBlue" FontSize="20"
+                           RenderTransformOrigin="0.479,-0.341">
+                    <Run /><LineBreak /><Run Text="Model: " />
+            </TextBlock>
+
+            <TextBlock x:Name="DroneWeightView" TextWrapping="Wrap" HorizontalAlignment="Left"
+                           Margin="213,184,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="212"
+                           Foreground="Black" FontWeight="Bold" Background="CornflowerBlue" FontSize="20"
+                           RenderTransformOrigin="0.479, -0.341">
+                    <Run /><LineBreak /><Run Text="Max Weight:" />
+            </TextBlock>
+
+            <TextBlock x:Name="DroneBatteryView" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="6,184,0,0"
+                           VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="202" Foreground="Black"
+                           FontWeight="Bold" Background="LightSteelBlue" FontSize="20"
+                           RenderTransformOrigin="0.479,-0.341">
+                    <Run /><LineBreak /><Run Text="Battery: " />
+            </TextBlock>
+
+            <TextBlock x:Name="DroneStatusView" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="321,273,0,0"
+                           VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="228" Foreground="Black"
+                           FontWeight="Bold" Background="LightSteelBlue" FontSize="20"
+                           RenderTransformOrigin="0.479,-0.341">
+                    <Run /><LineBreak /><Run Text="Status: " />
+            </TextBlock>
+
+            <TextBlock x:Name="DroneLocationView" TextWrapping="Wrap" HorizontalAlignment="Left"
+                           Margin="6,274,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="84" Width="310"
+                           Foreground="Black" FontWeight="Bold" Background="CornflowerBlue" FontSize="20"
+                           RenderTransformOrigin="0.479, -0.341">
+                    <Run /><LineBreak /><Run Text="Location: {X}° N, {Y}° E" />
+            </TextBlock>
+
+            <TextBlock x:Name="ParcelInDroneView" TextWrapping="Wrap" HorizontalAlignment="Left"
+                           Margin="6,363,0,0" VerticalAlignment="Top" TextAlignment="Center" Height="85" Width="543"
+                           Foreground="Black" FontWeight="Bold" Background="LightSteelBlue" FontSize="20"
+                           RenderTransformOrigin="0.479, -0.341">
+                    <Run /><LineBreak /><Run Text="Parcel: None." />
+            </TextBlock>
 
             <Button x:Name="UpdateButton" Content="Update" HorizontalAlignment="Left" Margin="570,230,0,0" VerticalAlignment="Top" Height="60" Width="260" Foreground="Black" FontSize="23" FontWeight="Bold" Click="UpdateOnClick" BorderBrush="Transparent">
                 <Button.Background>
@@ -59,20 +106,24 @@
 
             <Label Content="DRONE INFORMATION" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" Width="350" Height="50" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" FontWeight="Bold"/>
 
-            <Image HorizontalAlignment="Left" Height="120" Width="200" Margin="519,102,0,0" VerticalAlignment="Top" Source="Graphics/drone.png"/>
-            
-            <Button x:Name="PlayButton" Visibility="Hidden" HorizontalAlignment="Left" Margin="740,102,0,0" VerticalAlignment="Top" Height="100
+            <Image HorizontalAlignment="Left" Height="120" Width="200" Margin="450,102,0,0" VerticalAlignment="Top" Source="Graphics/drone.png"/>
+
+            <Button x:Name="PlayButton" Visibility="Hidden" HorizontalAlignment="Left" Margin="690,94,0,0" VerticalAlignment="Top" Height="100
                     " Width="100" Foreground="Black" FontSize="23" FontWeight="Bold" Click="PlayOnClick" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/play.png" ></ImageBrush>
                 </Button.Background>
-            </Button>        
-            <Button x:Name="StopButton"  HorizontalAlignment="Left" Margin="740,102,0,0" VerticalAlignment="Top" Height="100
-                    " Width="100" Foreground="Black" FontSize="23" FontWeight="Bold" Click="StopOnClick" BorderBrush="Transparent">
+            </Button>
+            <Button x:Name="StopButton"  HorizontalAlignment="Left" Margin="690,94,0,0" VerticalAlignment="Top" Height="100                     " Width="100" Foreground="Black" FontSize="23" FontWeight="Bold" Click="StopOnClick" BorderBrush="Transparent">
                 <Button.Background>
                     <ImageBrush ImageSource="Graphics/stop.png" ></ImageBrush>
                 </Button.Background>
             </Button>
+            <TextBlock x:Name="TimerToStopSimulator" Visibility="Visible" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="665,192,0,0"
+                           VerticalAlignment="Top" TextAlignment="Center" Height="32" Width="150" Foreground="White"
+                           FontWeight="Bold" Background="Transparent" FontSize="20"
+                           RenderTransformOrigin="0.479,-0.341" Text="Stop in: 5">
+            </TextBlock>
 
         </Grid>
     </Grid>
