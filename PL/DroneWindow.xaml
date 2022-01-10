@@ -125,6 +125,10 @@
                            RenderTransformOrigin="0.479,-0.341" Text="Stop in: 5">
             </TextBlock>
 
+            <ScrollViewer x:Name="Scroller" VerticalScrollBarVisibility="visible" Margin="554,230,0,86" Background="Transparent" HorizontalScrollBarVisibility="disabled">
+                <TextBlock x:Name="SimulatorLogger" Visibility="visible" TextWrapping="wrap"  Foreground="black"
+                           FontWeight="extrabold" Background="Transparent" FontSize="20" Text="                Logger:" Width ="276" Height="218"/>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </Window>

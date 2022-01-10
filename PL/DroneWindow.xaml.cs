@@ -31,6 +31,8 @@ namespace PL
         private BackgroundWorker worker;
         private bool _shouldStop;
         private int _secondsToSleep;
+        private string _stringToLogger;
+        private int _loggerCounter;
 
         public DroneWindow() //add drone
         {
@@ -42,8 +44,15 @@ namespace PL
             UpdateDrone.Visibility = Visibility.Hidden;
             DroneWeight.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
             DroneStation.ItemsSource = this.iBL.GetStationsList(station => true);
+            
+            //unnecessary variables
             this.drone = null;
             stationId = 0;
+            _shouldStop = true;
+            _secondsToSleep = 0;
+            _stringToLogger = "";
+            _loggerCounter = 0;
+            worker = null;
         }
 
         public DroneWindow(object item, int stationId = 0) //update drone (and alsop drone details)
@@ -83,6 +92,8 @@ namespace PL
             _shouldStop = true;
             worker = null;
             _secondsToSleep = 3;
+            _stringToLogger = "";
+            _loggerCounter = 0;
 
             //drone detatils:
             updateDroeDetailsPL();
@@ -90,6 +101,7 @@ namespace PL
             if (!iBL.GetLoggedUser().IsManager)
             {
                 UpdateButton.Visibility = Visibility.Hidden;
+                PlayButton.Visibility = Visibility.Hidden;
             }
 
             if (drone.Status == DO.DroneStatuses.Available)
@@ -129,6 +141,8 @@ namespace PL
             }
 
             TimerToStopSimulator.Visibility = Visibility.Collapsed;
+            SimulatorLogger.Visibility = Visibility.Collapsed;
+            Scroller.Visibility = Visibility.Collapsed;
         }
 
         private void updateDroeDetailsPL()
@@ -170,7 +184,7 @@ namespace PL
             }
 
             //set drone's location
-            DroneLocationView.Text = $"Location: {drone.Location.Longitude}° N, {drone.Location.Latitude}° E";
+            DroneLocationView.Text = $"Location: {String.Format("{0:F3}", drone.Location.Longitude)}° N, {String.Format("{0:F3}", drone.Location.Latitude)}° E";
 
             //set drone's status
             DroneStatusView.Text = "Status: ";
@@ -233,14 +247,19 @@ namespace PL
                 worker.WorkerSupportsCancellation = true;
                 worker.RunWorkerAsync();
 
-                //save worker and changed buttons vissibilities
+                //changed buttons vissibilities
                 PlayButton.Visibility = Visibility.Collapsed;
                 StopButton.Visibility = Visibility.Visible;
 
                 UpdateButton.Visibility = Visibility.Collapsed;
                 FirstButton.Visibility = Visibility.Collapsed;
                 SecondButton.Visibility = Visibility.Collapsed;
+                SimulatorLogger.Visibility = Visibility.Visible;
+                Scroller.Visibility = Visibility.Visible;
+
                 MessageBox.Show("Simulator has been starting", "System Message");
+                SimulatorLogger.Inlines.Add(new Run("\nSYS_LOG: Simulator has been starting\n") { Foreground = Brushes.Green, FontWeight = FontWeights.Normal, FontSize = 12 });
+                _loggerCounter++;
             }
             catch (Exception ex)
             {
@@ -252,6 +271,8 @@ namespace PL
         {
             try
             {
+                SimulatorLogger.Inlines.Add(new Run("SYS_LOG: Request to stop the simulator was received\n") { Foreground = Brushes.Green, FontWeight = FontWeights.Normal, FontSize = 12 });
+                _loggerCounter++;
                 _shouldStop = true;
             }
             catch (Exception ex)
@@ -438,23 +459,30 @@ namespace PL
             {
                 try
                 {
-                    this.iBL.StartSimulator(drone);
-
-                    if(drone.Status != DO.DroneStatuses.Available)
+                    if (drone.Status != DO.DroneStatuses.Available)
                     {
                         _secondsToSleep = 3;
                     }
+
+                    this.iBL.StartSimulator(drone);
                 }
+
                 catch(Exception ex)
                 {
-                    if(ex.Message == "ERROR: there is no suitable parcel for drone(id: " +
-                                                            drone.Id + ").\n")
+                    _stringToLogger = ex.Message;
+
+                    if (ex.Message.Contains("ERROR"))
                     {
                         _secondsToSleep += 3;
+                        worker.ReportProgress(1);
+                    }
+
+                    else 
+                    {
+                        worker.ReportProgress(2);
                     }
                 }
                 
-                worker.ReportProgress(1);
                 for(int i = 0; i < _secondsToSleep && !_shouldStop; ++i)
                 {
                     try { Thread.Sleep(1000); } catch (Exception) { } // 1 sec sleep
@@ -473,14 +501,27 @@ namespace PL
         {
             if(e.ProgressPercentage == 1)
             {
+                SimulatorLogger.Inlines.Add(new Run(_stringToLogger) { Foreground = Brushes.Red, FontWeight = FontWeights.Normal, FontSize = 12 });
+                _loggerCounter++;
+            }
+            
+            else if(e.ProgressPercentage == 2)
+            {
                 this.drone = iBL.GetDroneById(drone.Id);
                 updateDroeDetailsPL();
+                SimulatorLogger.Inlines.Add(new Run(_stringToLogger) { Foreground = Brushes.Green, FontWeight = FontWeights.Normal, FontSize = 12 });
+                _loggerCounter++;
             }
-
+            
             else
             {
                 TimerToStopSimulator.Visibility = Visibility.Visible;
                 TimerToStopSimulator.Text = "Stop in: " + (100 - e.ProgressPercentage);
+            }
+
+            if(_loggerCounter > 10)
+            {
+                SimulatorLogger.Height += 10;
             }
         }
 
@@ -492,6 +533,8 @@ namespace PL
             }
 
             TimerToStopSimulator.Visibility = Visibility.Collapsed;
+            SimulatorLogger.Visibility = Visibility.Collapsed;
+            Scroller.Visibility = Visibility.Collapsed;
             worker.CancelAsync();
 
             PlayButton.Visibility = Visibility.Visible;

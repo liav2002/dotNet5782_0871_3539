@@ -1330,14 +1330,16 @@ namespace BO
                         try
                         {
                             AssignParcelToDrone(drone.Id);
+                            throw new Exception("SYS_LOG: parcel succesfully assigned.\n");
                         }
                         catch (Exception ex)
                         { 
                             if(ex is BO.DroneNotEnoughBattery)
                             {
                                 //Thread.Sleep((int)((drone.Location.Distance(station.Location) / DataSource.Config.droneSpeedKMPH)) * 60 * 60 * 1000); //wait for the drone for arriving the station.  --> to much time, it's simulator not real time
-                                Thread.Sleep(10000);
+                                Thread.Sleep(2000);
                                 SendDroneToCharge(drone.Id);
+                                throw new Exception("SYS_LOG: drone succesfully connected for charging.\n");
                             }
                             else
                             {
@@ -1350,46 +1352,41 @@ namespace BO
 
                 case DroneStatuses.Maintenance:
                     {
-                        try
+                        if (drone.Battery == 100)
                         {
-                            if(drone.Battery == 100)
-                            {
-                                DroneRelease(drone.Id);
-                            }
-
-                            else
-                            {
-                                DroneCharging(drone.Id);
-                            }
+                            DroneRelease(drone.Id);
+                            throw new Exception("SYS_LOG: drone succesfully released from charge.\n");
                         }
-                        catch(Exception) { }
+
+                        else
+                        {
+                            DroneCharging(drone.Id);
+                        }
 
                         break;
                     }
 
                 case DroneStatuses.Shipping:
                     {
-                        try
+                        if (!drone.Parcel.IsOnTheWay && !drone.Parcel.IsDelivered)
                         {
-                            if (!drone.Parcel.IsOnTheWay && !drone.Parcel.IsDelivered)
-                            {
-                                //Thread.Sleep((int)((drone.Location.Distance(sender.Location) / DataSource.Config.droneSpeedKMPH)) * 60 * 60 * 1000); //wait for the drone for arriving the sender person. --> to much time, it's simulator not real time
-                                Thread.Sleep(10000);
-                                ParcelCollection(drone.Id);
-                            }
-
-                            else if(drone.Parcel.IsOnTheWay)
-                            {
-                                //Thread.Sleep((int)((drone.Location.Distance(target.Location) / DataSource.Config.droneSpeedKMPH)) * 60 * 60 * 1000); //wait for the drone for arriving the target.  --> to much time, it's simulator not real time
-                                Thread.Sleep(10000);
-
-                                //Thread.Sleep((int)((target.Location.Distance(station.Location) / DataSource.Config.droneSpeedKMPH)) * 60 * 60 * 1000); //wait for the drone for arriving the station (end point).  --> to much time, it's simulator not real time
-                                Thread.Sleep(5000);
-
-                                ParcelDelivered(drone.Id);
-                            }
+                            //Thread.Sleep((int)((drone.Location.Distance(sender.Location) / DataSource.Config.droneSpeedKMPH)) * 60 * 60 * 1000); //wait for the drone for arriving the sender person. --> to much time, it's simulator not real time
+                            Thread.Sleep(2000);
+                            ParcelCollection(drone.Id);
+                            throw new Exception("SYS_LOG: parcel succesfully collected.\n");
                         }
-                        catch (Exception) { }
+
+                        else if (drone.Parcel.IsOnTheWay)
+                        {
+                            //Thread.Sleep((int)((drone.Location.Distance(target.Location) / DataSource.Config.droneSpeedKMPH)) * 60 * 60 * 1000); //wait for the drone for arriving the target.  --> to much time, it's simulator not real time
+                            Thread.Sleep(2000);
+
+                            //Thread.Sleep((int)((target.Location.Distance(station.Location) / DataSource.Config.droneSpeedKMPH)) * 60 * 60 * 1000); //wait for the drone for arriving the station (end point).  --> to much time, it's simulator not real time
+                            Thread.Sleep(1000);
+
+                            ParcelDelivered(drone.Id);
+                            throw new Exception("SYS_LOG: parcel succesfully delivered.\n");
+                        }
 
                         break;
                     }
