@@ -32,12 +32,12 @@ namespace Dal
 
         public class Config
         {
-            public static double avilablePPK = 0.0005; // PPK - Power consumption Per Kilometer. for avilble drone.
-            public static double lightPPK = 0.0015; // for drone who carried a light weight.
-            public static double mediumPPK = 0.002; // for drone who carried a medium weight.
-            public static double heavyPPK = 0.0025; // for drone who carried a heavy weight.
+            public static double avilablePPK = 0.005; // PPK - Power consumption Per Kilometer. for avilble drone.
+            public static double lightPPK = 0.015; // for drone who carried a light weight.
+            public static double mediumPPK = 0.02; // for drone who carried a medium weight.
+            public static double heavyPPK = 0.025; // for drone who carried a heavy weight.
 
-            public static double chargeRatePH = 66.66; // drone charging rate per hour.
+            public static double chargeRatePH = 4000; // drone charging rate per hour.
             public static double droneSpeedKMPH = 35; // drone speed km per hours.
         }
 

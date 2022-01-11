@@ -86,6 +86,8 @@ namespace PL
             StopButton.Visibility = Visibility.Collapsed;
 
             UpdateButton.Visibility = Visibility.Visible;
+
+            //buttons for doing actions
             FirstButton.Visibility = Visibility.Visible;
             SecondButton.Visibility = Visibility.Visible;
 
@@ -96,6 +98,7 @@ namespace PL
             _loggerCounter = 0;
 
             //drone detatils:
+
             updateDroeDetailsPL();
 
             if (!iBL.GetLoggedUser().IsManager)
@@ -245,6 +248,12 @@ namespace PL
                 worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
                 worker.WorkerReportsProgress = true;
                 worker.WorkerSupportsCancellation = true;
+
+                if (drone.Status == DO.DroneStatuses.Maintenance) // update starting charge time to now, for the simulator
+                {
+                    this.iBL.SetDroneStartTimeOfCharge(drone.Id);
+                }
+
                 worker.RunWorkerAsync();
 
                 //changed buttons vissibilities
@@ -465,6 +474,7 @@ namespace PL
                     }
 
                     this.iBL.StartSimulator(drone);
+                    worker.ReportProgress(3); //report for charging, the only case without SYS_LOG
                 }
 
                 catch(Exception ex)
@@ -508,9 +518,49 @@ namespace PL
             else if(e.ProgressPercentage == 2)
             {
                 this.drone = iBL.GetDroneById(drone.Id);
+
+                switch(drone.Status)
+                {
+                    case DO.DroneStatuses.Available:
+                        {
+                            FirstButton.Content = "Send to charge";
+                            SecondButton.Content = "Send to delivery";
+                            break;
+                        }
+
+                    case DO.DroneStatuses.Maintenance:
+                        {
+                            FirstButton.Content = "Release from charge";
+                            SecondButton.Content = "";
+                            break;
+                        }
+
+                    case DO.DroneStatuses.Shipping:
+                        {
+                            if(drone.Parcel.IsOnTheWay)
+                            {
+                                FirstButton.Content = "Collect delivery";
+                                SecondButton.Content = "Deliver parcel";
+                            }
+                            else
+                            {
+                                FirstButton.Content = "";
+                                SecondButton.Content = "Deliver parcel";
+                            }
+                            
+                            break;
+                        }
+                }
+
                 updateDroeDetailsPL();
                 SimulatorLogger.Inlines.Add(new Run(_stringToLogger) { Foreground = Brushes.Green, FontWeight = FontWeights.Normal, FontSize = 12 });
                 _loggerCounter++;
+            }
+
+            else if(e.ProgressPercentage == 3)
+            {
+                this.drone = iBL.GetDroneById(drone.Id);
+                updateDroeDetailsPL();
             }
             
             else
@@ -519,9 +569,9 @@ namespace PL
                 TimerToStopSimulator.Text = "Stop in: " + (100 - e.ProgressPercentage);
             }
 
-            if(_loggerCounter > 10)
+            if(_loggerCounter > 8 && (e.ProgressPercentage == 1 || e.ProgressPercentage == 2))
             {
-                SimulatorLogger.Height += 10;
+                SimulatorLogger.Height += 15;
             }
         }
 
@@ -532,6 +582,7 @@ namespace PL
                 MessageBox.Show(e.Error.Message);
             }
 
+            //simulator stuffs
             TimerToStopSimulator.Visibility = Visibility.Collapsed;
             SimulatorLogger.Visibility = Visibility.Collapsed;
             Scroller.Visibility = Visibility.Collapsed;
@@ -540,9 +591,11 @@ namespace PL
             PlayButton.Visibility = Visibility.Visible;
             StopButton.Visibility = Visibility.Collapsed;
 
+            //drone windows button
             UpdateButton.Visibility = Visibility.Visible;
-            FirstButton.Visibility = Visibility.Visible;
-            SecondButton.Visibility = Visibility.Visible;
+
+            FirstButton.Visibility = (FirstButton.Content == "") ? Visibility.Collapsed : Visibility.Visible;
+            SecondButton.Visibility = (SecondButton.Content == "") ? Visibility.Collapsed : Visibility.Visible;
 
             MessageBox.Show("Simulator has been stopped", "System Message");
         }

@@ -34,7 +34,7 @@ namespace BlApi
         public void SignOut();
 
         public void StartSimulator(BO.DroneBL drone);
-
+        public void SetDroneStartTimeOfCharge(int droneId);
         public List<DO.Parcel> GetWaitingParcels();
 
         //getters

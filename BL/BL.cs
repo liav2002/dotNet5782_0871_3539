@@ -470,7 +470,16 @@ namespace BO
 
                 if (drone.Battery - batteryConsumption <= 0)
                 {
-                    throw new DroneNotEnoughBattery(droneId);
+                    if(drone.Battery != 100)
+                    {
+                        throw new DroneNotEnoughBattery(droneId);
+                    }
+
+                    else
+                    {
+                        throw new Exception("ERROR: the distance to long for the drone.\n");
+                    }
+                    
                 }
             }
 
@@ -1346,8 +1355,6 @@ namespace BO
                                 throw new Exception(ex.Message);
                             }
                         }
-
-                        break;
                     }
 
                 case DroneStatuses.Maintenance:
@@ -1388,10 +1395,23 @@ namespace BO
                             throw new Exception("SYS_LOG: parcel succesfully delivered.\n");
                         }
 
-                        break;
+                        else
+                        {
+                            DO.Drone droneDal = this._idalObj.GetDroneById(drone.Id);
+                            droneDal.Status = DroneStatuses.Available;
+                            this._idalObj.UpdateDrone(droneDal);
+                            throw new Exception("ERROR: drone was in status: Shipping althrogh he was avilable.\n");
+                        }
                     }
             }
 
+        }
+
+        public void SetDroneStartTimeOfCharge(int droneId)
+        {
+            DO.DroneCharge dc = this._idalObj.GetDroneChargeByDroneId(droneId);
+            dc.StartTime = DateTime.Now;
+            this._idalObj.UpdateDroneCharge(dc);
         }
 
         //getters:

@@ -292,23 +292,28 @@ namespace Dal
         {
             return DO.DalTypes.DalObj;
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(DO.Drone drone)
         {
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void UpdateDroneCharge(DO.DroneCharge dc)
+        {
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCostumer(DO.Costumer costumer)
         {
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(DO.Station station)
         {
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcel(DO.Parcel parcel)
         {
         }

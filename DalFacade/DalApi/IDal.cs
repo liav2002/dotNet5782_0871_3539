@@ -39,6 +39,7 @@ namespace DalApi
         // updates:
 
         public void UpdateDrone(DO.Drone drone);
+        public void UpdateDroneCharge(DO.DroneCharge dc);
         public void UpdateCostumer(DO.Costumer costumer);
         public void UpdateStation(DO.Station station);
         public void UpdateParcel(DO.Parcel parcel);

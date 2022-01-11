@@ -766,6 +766,7 @@ namespace Dal
                 new XElement("IsManager", costumer.IsManger));
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(DO.Drone drone)
         {
             XElement root = XmlTools.LoadListFromXMLElement(dronePath);
@@ -799,6 +800,7 @@ namespace Dal
             root.Save(dronePath);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDroneCharge(DO.DroneCharge dc)
         {
             XElement root = XmlTools.LoadListFromXMLElement(droneChargePath);
@@ -827,7 +829,7 @@ namespace Dal
             root.Save(droneChargePath);
         }
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCostumer(DO.Costumer costumer)
         {
             XElement root = XmlTools.LoadListFromXMLElement(costumerPath);
@@ -863,6 +865,7 @@ namespace Dal
             root.Save(costumerPath);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(DO.Station station)
         {
             XElement root = XmlTools.LoadListFromXMLElement(stationPath);
@@ -894,6 +897,7 @@ namespace Dal
             root.Save(stationPath);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcel(DO.Parcel parcel)
         {
             XElement root = XmlTools.LoadListFromXMLElement(parcelPath);
