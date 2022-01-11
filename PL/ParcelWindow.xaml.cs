@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using BlApi;
 
@@ -23,7 +24,8 @@ namespace PL
 
             ParcelPriority.ItemsSource = Enum.GetValues(typeof(DO.Priorities));
             ParcelWeight.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
-            Target.ItemsSource = iBL.GetCostumerList(costumer => costumer.Id != iBL.GetLoggedUser().Id);
+            Target.ItemsSource = iBL.GetCostumerList(costumer => costumer.Id != iBL.GetLoggedUser().Id)
+                .Select(costumer => ("Id: " + costumer.Id + " " + "Name: " + costumer.Name + ""));
 
             ParcelDetails.Visibility = Visibility.Hidden;
             AddParcel.Visibility = Visibility.Visible;
@@ -31,7 +33,7 @@ namespace PL
             _parcel = null;
         }
 
-        public ParcelWindow(object item) // parcel deatils
+        public ParcelWindow(object item) // parcel details
         {
             InitializeComponent();
             ReturnButton.Click += delegate { App.PrevWindow(); };
@@ -44,6 +46,7 @@ namespace PL
             genericParcel = item;
             InitializedUpdate();
         }
+
         private void InitializedUpdate()
         {
             this.iBL = BlFactory.GetBl();
@@ -51,19 +54,19 @@ namespace PL
             if (genericParcel is BO.ParcelListBL)
             {
                 BO.ParcelListBL parcelList = null;
-                parcelList = (BO.ParcelListBL)genericParcel;
+                parcelList = (BO.ParcelListBL) genericParcel;
                 this._parcel = this.iBL.GetParcelById(parcelList.Id);
             }
 
             else if (genericParcel is BO.ParcelBL)
             {
-                this._parcel = (BO.ParcelBL)genericParcel;
+                this._parcel = (BO.ParcelBL) genericParcel;
             }
 
-            else if(genericParcel is BO.ParcelAtCostumer)
+            else if (genericParcel is BO.ParcelAtCostumer)
             {
                 BO.ParcelAtCostumer parcelAtCostumer = null;
-                parcelAtCostumer = (BO.ParcelAtCostumer)genericParcel;
+                parcelAtCostumer = (BO.ParcelAtCostumer) genericParcel;
                 this._parcel = this.iBL.GetParcelById(parcelAtCostumer.Id);
             }
 
@@ -102,7 +105,6 @@ namespace PL
                     }
                 }
             } // end of if
-            
         }
 
         private void AddOnClick(object o, EventArgs e)
@@ -133,7 +135,6 @@ namespace PL
 
         private void TargetOnClick(object sender, RoutedEventArgs e)
         {
-            
             CostumerWindow nextWindow = new CostumerWindow(iBL.GetCostumerById(_parcel.Receiver.Id));
             App.NextWindow(nextWindow);
         }
