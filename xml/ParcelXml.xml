@@ -140,4 +140,18 @@
     <Delivered>0001-01-01T00:00:00</Delivered>
     <IsAvailable>true</IsAvailable>
   </Parcel>
+  <Parcel>
+    <Id>11</Id>
+    <DroneId>0</DroneId>
+    <SenderId>316429992</SenderId>
+    <TargetId>123456789</TargetId>
+    <Status>Created</Status>
+    <Weight>Medium</Weight>
+    <Priority>Regular</Priority>
+    <Requested>2022-01-12T17:24:24.5581736+02:00</Requested>
+    <Scheduled>0001-01-01T00:00:00</Scheduled>
+    <PickedUp>0001-01-01T00:00:00</PickedUp>
+    <Delivered>0001-01-01T00:00:00</Delivered>
+    <IsAvailable>true</IsAvailable>
+  </Parcel>
 </ParcelXml>
