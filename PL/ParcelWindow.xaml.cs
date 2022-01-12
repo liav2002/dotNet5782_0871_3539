@@ -24,9 +24,7 @@ namespace PL
 
             ParcelPriority.ItemsSource = Enum.GetValues(typeof(DO.Priorities));
             ParcelWeight.ItemsSource = Enum.GetValues(typeof(DO.WeightCategories));
-            Target.ItemsSource = iBL.GetCostumerList(costumer => costumer.Id != iBL.GetLoggedUser().Id)
-                .Select(costumer => ("Id: " + costumer.Id + " " + "Name: " + costumer.Name + ""));
-
+            Target.ItemsSource = iBL.GetCostumerList(costumer => costumer.Id != iBL.GetLoggedUser().Id);
             ParcelDetails.Visibility = Visibility.Hidden;
             AddParcel.Visibility = Visibility.Visible;
 
